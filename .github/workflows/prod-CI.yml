@@ -1,0 +1,37 @@
+name: NONSOOLMATE PROD CI
+
+on:
+  pull_request:
+    branches: [ "prod" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04 
+    env:
+      working-directory: nonsoolmateServer
+
+    steps: 
+    - name: checkout
+      uses: actions/checkout@v3
+
+    - name: Set up JDK 17
+      uses: actions/setup-java@v2
+      with:
+        distribution: 'temurin'
+        java-version: '17'
+
+    - name: resources 폴더 내 파일 생성
+      run: | 
+        mkdir -p src/main/resources
+        echo "${{ secrets.PROD_APPLICATION }}" > src/main/resources/application.yaml
+        mkdir -p src/main/resources/key
+        echo "${{ secrets.CLOUDFRONT_PRIVATE_KEY }}" > src/main/resources/key/cloudfront-private-key.pem
+      working-directory: ${{ env.working-directory }}
+
+    - name: build
+      run: |
+        chmod +x gradlew
+        ./gradlew build -x test
+      working-directory: ${{ env.working-directory }}
+      shell: bash
+
