@@ -5,57 +5,13 @@ on:
     branches: [ "dev" ]
 
 jobs:
-  deploy-ci:
+  deploy-cd:
     runs-on: ubuntu-22.04
-    env:
-      working-directory: nonsoolmateServer
-
-    steps: 
-    - name: 체크아웃
-      uses: actions/checkout@v3
-
-    - name: Set up JDK 17
-      uses: actions/setup-java@v2
-      with:
-        distribution: 'temurin'
-        java-version: '17'
-
-    - name: resources 폴더 내 파일 생성
-      run: | 
-        mkdir -p src/main/resources
-        echo "${{ secrets.DEV_APPLICATION }}" > src/main/resources/application.yaml
-        mkdir -p src/main/resources/key
-        echo "${{ secrets.CLOUDFRONT_PRIVATE_KEY }}" > src/main/resources/key/cloudfront-private-key.pem
-        ls src/main/resources/key
-      working-directory: ${{ env.working-directory }}
-
-    - name: 빌드
+    steps:
+    - name: 설정 파일 생성
       run: |
-        chmod +x gradlew
-        ./gradlew build -x test
-      working-directory: ${{ env.working-directory }}
-      shell: bash
-
-    - name: docker build 가능하도록 환경 설정
-      uses: docker/setup-buildx-action@v2
-
-    - name: docker hub에 로그인
-      uses: docker/login-action@v1
-      with:
-        username: ${{ secrets.DOCKERHUB_LOGIN_USERNAME }}
-        password: ${{ secrets.DOCKERHUB_LOGIN_ACCESSTOKEN }}
-
-    - name: docker image 빌드 및 푸시
-      run: |
-        docker build --platform linux/amd64 -t nonsoolmate/nonsoolmate-server .
-        docker push nonsoolmate/nonsoolmate-server
-      working-directory: ${{ env.working-directory }}
-
-  deploy-cd:      
-    needs: deploy-ci
-    runs-on: ubuntu-20.04
-
-    steps:    
+        echo "${{ secrets.APPLICATION_YML }}" > application.yml
+        echo "${{ secrets.CLOUDFRONT_PRIVATE_KEY }}" > cloudfront-private-key.pem
     - name: 도커 컨테이너 실행
       uses: appleboy/ssh-action@master
       with:
@@ -63,6 +19,14 @@ jobs:
         username: ${{ secrets.DEV_SERVER_USER }}
         key: ${{ secrets.DEV_SERVER_KEY }}
         script: |
-          cd ~
+          mkdir -p ~/nonsoolmate-server/nonsoolmateServer/src/main/resources
+          scp application.yml ${{ secrets.REMOTE_SSH_USERNAME }}@${{ secrets.REMOTE_SSH_HOST }}:~/nonsoolmate-server/nonsoolmateServer/src/main/resources/application.yml
+          mkdir -p ~/nonsoolmate-server/nonsoolmateServer/src/main/resources/key
+          scp cloudfront-private-key.pem ${{ secrets.REMOTE_SSH_USERNAME }}@${{ secrets.REMOTE_SSH_HOST }}:~/nonsoolmate-server/nonsoolmateServer/src/main/resources/key/cloudfront-private-key.pem
+          cd ~/nonsoolmate-server
+          git pull origin dev
+          cd ~/nonsoolmate-server/nonsoolmateServer
+          ./gradlew clean build --exclude-task test
+          cd ~/app/nonstop
           ./deploy.sh
 
