@@ -18,6 +18,7 @@ jobs:
         host: ${{ secrets.DEV_SERVER_IP }}
         username: ${{ secrets.DEV_SERVER_USER }}
         key: ${{ secrets.DEV_SERVER_KEY }}
+        port: ${{ secrets.SSH_PORT }}
         script: |
           mkdir -p ~/nonsoolmate-server/nonsoolmateServer/src/main/resources
           scp application.yml ${{ secrets.REMOTE_SSH_USERNAME }}@${{ secrets.REMOTE_SSH_HOST }}:~/nonsoolmate-server/nonsoolmateServer/src/main/resources/application.yml
