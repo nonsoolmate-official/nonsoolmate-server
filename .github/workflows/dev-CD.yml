@@ -10,9 +10,9 @@ jobs:
     steps:
     - name: 설정 파일 생성
       run: |
-        echo "${{ secrets.APPLICATION_YML }}" > application.yml
+        echo "${{ secrets.DEV_APPLICATION }}" > application.yml
         echo "${{ secrets.CLOUDFRONT_PRIVATE_KEY }}" > cloudfront-private-key.pem
-    - name: 도커 컨테이너 실행
+    - name: dev 서버 무중단 배포
       uses: appleboy/ssh-action@master
       with:
         host: ${{ secrets.DEV_SERVER_IP }}
