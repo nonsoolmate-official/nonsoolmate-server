@@ -31,5 +31,4 @@ jobs:
           ./gradlew clean build --exclude-task test
           cd ~/app/nonstop
           ./deploy.sh
-          exit 0
 
