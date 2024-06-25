@@ -1,9 +1,11 @@
+## 📓 NONSOOLMATE
+> WEB LINK: www.nonsoolmate.com
+
 <br>
 <img width="1728" alt="논술메이트_서비스설명" src="https://github.com/nonsoolmate/NONSOOLMATE-SERVER/assets/100754581/d67cc993-2aa6-4998-821a-8e1dd8d6fbb2">
 <br>
 
-
-## 📓 Backend Developer
+## 📒 Backend Developer
 <div align="center">
 	<table>
   <th>김성은 @sung-silver</th>
@@ -18,7 +20,8 @@
 <th> 역할</th>
 <tr>
 <td>
-- 소셜 로그인<br>
+- CI/CD 구축<br>
+- 네이버 로그인<br>
 - 마이페이지: 대학별 시험 리스트 조회<br>
 - 마이페이지: 닉네임<br>
 - 시험 보기: 첨삭권 사용<br>
@@ -41,6 +44,21 @@
 
 <br>
 <br>
+
+## 🔑 Key Features
+<img src="https://github.com/nonsoolmate/NONSOOLMATE-SERVER/assets/81363864/7438ad67-592c-4dd9-b0ee-66f79586e47b"> | <img src="https://github.com/nonsoolmate/NONSOOLMATE-SERVER/assets/81363864/84bb366d-3690-42d3-a512-e46670e1f83d"> | <img src="https://github.com/nonsoolmate/NONSOOLMATE-SERVER/assets/81363864/3fcbb9c1-05b6-4882-8fb3-1b9dbb50225c"> |
+:---------:|:----------:|:----------:|
+로그인 | 대학선택 | 메인|
+
+<img src="https://github.com/nonsoolmate/NONSOOLMATE-SERVER/assets/81363864/24ab57d5-59d4-47de-b308-41a3108c86d2">|<img src="https://github.com/nonsoolmate/NONSOOLMATE-SERVER/assets/81363864/ac900361-c6cb-4944-9c58-7a7eab0329ea">|<img src="https://github.com/nonsoolmate/NONSOOLMATE-SERVER/assets/81363864/f6fbf8e9-8ae4-4a5a-bef8-4a2c19d285c6">|
+:---------:|:----------:|:---------:|
+시험지 조회 | 시험지 제출 | 제출 완료 후 |
+
+<img src="https://github.com/nonsoolmate/NONSOOLMATE-SERVER/assets/81363864/cd8971b7-7e0d-4b04-8bc4-772077d8ce8a">|<img src="https://github.com/nonsoolmate/NONSOOLMATE-SERVER/assets/81363864/13511fb2-8936-4436-ba6e-3f2b50a68d65">|
+:---------:|:----------:|
+문제/해제 | 첨삭/해제 |
+
+<br><br>
 
 ## 💻 Development Tech
 ![Java](https://img.shields.io/badge/java-%23ED8B00.svg?style=for-the-badge&logo=openjdk&logoColor=white) <img src="https://img.shields.io/badge/mysql-4479A1?style=for-the-badge&logo=mysql&logoColor=white">
@@ -129,7 +147,7 @@
 
 ## 🔐 Nonsoolmate Server's Rule
 
-## 1. 👻 Commit Convention
+### 1. 👻 Commit Convention
 
 - ex) [FEAT] 목표 대학 리스트 조회 API 개발
 - ex) [FIX] 내가 작성하지 않은 리뷰 볼 수 있는 버그 해결
@@ -150,7 +168,7 @@
 ```
 <br>
 
-## 2. 🐤 Branch Strategy
+### 2. 🐤 Branch Strategy
 
 - `prd branch` : 배포 단위 branch (운영 서버 사용 용도 → 웹잼 이후 사용)
 - `dev branch` : 주요 개발 branch, main merge 전 거치는 branch
@@ -181,7 +199,7 @@ main
     - private → 성은 → Git Merge 방법 공유 참고하기! : [Git Merge 방법 공유](https://www.notion.so/Git-Merge-ec472be87bb84df8b81e8951bc7bf4e6?pvs=21)
 <br>
 
-## 3. 👀 Code Convention
+### 3. 👀 Code Convention
 
 - 아래 3가지는 기억해주세요
  - else 지양하기
