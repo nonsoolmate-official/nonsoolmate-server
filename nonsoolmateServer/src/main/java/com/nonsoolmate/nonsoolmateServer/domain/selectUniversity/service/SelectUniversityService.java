@@ -1,7 +1,6 @@
 package com.nonsoolmate.nonsoolmateServer.domain.selectUniversity.service;
 
 import com.nonsoolmate.nonsoolmateServer.domain.member.entity.Member;
-import com.nonsoolmate.nonsoolmateServer.domain.selectUniversity.controller.dto.request.SelectUniversityRequestDTO;
 import com.nonsoolmate.nonsoolmateServer.domain.selectUniversity.controller.dto.response.SelectUniversityExamResponseDTO;
 import com.nonsoolmate.nonsoolmateServer.domain.selectUniversity.controller.dto.response.SelectUniversityExamsResponseDTO;
 import com.nonsoolmate.nonsoolmateServer.domain.selectUniversity.controller.dto.response.SelectUniversityResponseDTO;
@@ -15,9 +14,7 @@ import com.nonsoolmate.nonsoolmateServer.domain.university.repository.University
 import com.nonsoolmate.nonsoolmateServer.domain.universityExamRecord.entity.UniversityExamRecord;
 import com.nonsoolmate.nonsoolmateServer.domain.universityExamRecord.repository.UniversityExamRecordRepository;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -99,52 +96,17 @@ public class SelectUniversityService {
     @Transactional
     public SelectUniversityUpdateResponseDTO patchSelectUniversities(
             Member member,
-            List<SelectUniversityRequestDTO> request) {
+            List<Long> selectedUniversityIds) {
 
-        List<Long> prevUniversityIds = selectUniversityRepository.findAllByMember(member).stream()
-                .map(univ -> univ.getUniversity().getUniversityId())
+        selectUniversityRepository.deleteAllByMember(member);
+
+        List<University> universities = universityRepository.findAllByUniversityIdIn(selectedUniversityIds);
+        List<SelectUniversity> selectUniversities = universities.stream()
+                .map(university -> new SelectUniversity(member, university))
                 .toList();
-        List<Long> curUniversityIds = request.stream().map(req -> req.universityId()).toList();
 
-        Map<Long, University> universityMap = addSelectUniversity(member, curUniversityIds);
-        deleteSelectUniversity(member, prevUniversityIds, universityMap);
+        selectUniversityRepository.saveAll(selectUniversities);
 
         return SelectUniversityUpdateResponseDTO.of(true);
-    }
-
-    private void deleteSelectUniversity(Member member, List<Long> prevUniversityIds,
-                                        Map<Long, University> universityMap) {
-
-        prevUniversityIds.stream()
-                .filter(prevUniversityId -> !universityMap.containsKey(prevUniversityId))
-                .forEach(prevUniversityId -> {
-                    University foundUniversity = universityRepository.findByUniversityIdOrElseThrowException(
-                            prevUniversityId);
-                    selectUniversityRepository.deleteByMemberAndUniversity(member, foundUniversity);
-                });
-    }
-
-    private Map<Long, University> addSelectUniversity(Member member, List<Long> curUniversityIds) {
-
-        Map<Long, University> universityMap = new HashMap<>();
-
-        curUniversityIds.stream().forEach(curUniversityId -> {
-            University foundUniversity = universityRepository.findByUniversityIdOrElseThrowException(
-                    curUniversityId);
-            universityMap.put(curUniversityId, foundUniversity);
-
-            SelectUniversity curSelectedUniversity = selectUniversityRepository.findByMemberAndUniversity(member,
-                    foundUniversity).orElse(null);
-
-            if (curSelectedUniversity == null) {
-                selectUniversityRepository.save(SelectUniversity
-                        .builder()
-                        .member(member)
-                        .university(foundUniversity)
-                        .build());
-            }
-        });
-
-        return universityMap;
     }
 }
