@@ -30,6 +30,9 @@ public class UniversityExam {
     private String universityExamName;
 
     @NotNull
+    private String universityExamFileName;
+
+    @NotNull
     private String universityExamAnswerFileName;
 
     @NotNull
