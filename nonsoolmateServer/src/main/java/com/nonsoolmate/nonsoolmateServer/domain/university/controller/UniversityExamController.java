@@ -2,6 +2,7 @@ package com.nonsoolmate.nonsoolmateServer.domain.university.controller;
 
 import static com.nonsoolmate.nonsoolmateServer.domain.university.exception.UniversityExamSuccessType.GET_UNIVERSITY_EXAM_IMAGE_AND_ANSWER_SUCCESS;
 
+import com.nonsoolmate.nonsoolmateServer.domain.university.controller.dto.response.UniversityExamFileResponseDTO;
 import com.nonsoolmate.nonsoolmateServer.domain.university.controller.dto.response.UniversityExamImageAndAnswerResponseDTO;
 import com.nonsoolmate.nonsoolmateServer.domain.university.controller.dto.response.UniversityExamImageResponseDTO;
 import com.nonsoolmate.nonsoolmateServer.domain.university.controller.dto.response.UniversityExamInfoResponseDTO;
@@ -31,6 +32,14 @@ public class UniversityExamController implements UniversityApi{
             @PathVariable("id") final Long universityExamId) {
         return ResponseEntity.ok().body(SuccessResponse.of(UniversityExamSuccessType.GET_UNIVERSITY_EXAM_SUCCESS,
                 universityExamService.getUniversityExam(universityExamId)));
+    }
+
+    @Override
+    @GetMapping("{id}")
+    public ResponseEntity<SuccessResponse<UniversityExamFileResponseDTO>> getUniversityExamFile(
+            @PathVariable("id") final Long id) {
+        return ResponseEntity.ok().body(SuccessResponse.of(UniversityExamSuccessType.GET_UNIVERSITY_EXAM_FILE_SUCCESS,
+                universityExamService.getUniversityExamFile(id)));
     }
 
     @Override
