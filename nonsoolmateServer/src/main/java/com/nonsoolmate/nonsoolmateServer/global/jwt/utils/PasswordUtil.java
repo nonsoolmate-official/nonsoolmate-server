@@ -23,7 +23,7 @@ public class PasswordUtil {
 
             password.append(charSet[index]);
         }
-        System.out.println(password);
+//        System.out.println(password);
         return password.toString();
         //StringBuffer를 String으로 변환해서 return 하려면 toString()을 사용하면 된다.
     }
