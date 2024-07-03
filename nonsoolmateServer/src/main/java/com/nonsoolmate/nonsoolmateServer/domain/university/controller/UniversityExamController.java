@@ -35,7 +35,7 @@ public class UniversityExamController implements UniversityApi{
     }
 
     @Override
-    @GetMapping("{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<SuccessResponse<UniversityExamFileResponseDTO>> getUniversityExamFile(
             @PathVariable("id") final Long id) {
         return ResponseEntity.ok().body(SuccessResponse.of(UniversityExamSuccessType.GET_UNIVERSITY_EXAM_FILE_SUCCESS,
