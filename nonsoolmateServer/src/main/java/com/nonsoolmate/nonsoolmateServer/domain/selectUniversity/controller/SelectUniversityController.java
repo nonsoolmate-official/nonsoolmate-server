@@ -52,7 +52,11 @@ public class SelectUniversityController implements SelectUniversityApi {
             @AuthUser Member member,
             @RequestBody @Valid final List<SelectUniversityRequestDTO> request) {
 
+        List<Long> selectedUniversityIds = request.stream()
+                .map(SelectUniversityRequestDTO::universityId)
+                .toList();
+
         return ResponseEntity.ok().body(SuccessResponse.of(PATCH_SELECT_UNIVERSITIES_SUCCESS,
-                selectUniversityService.patchSelectUniversities(member, request)));
+                selectUniversityService.patchSelectUniversities(member, selectedUniversityIds)));
     }
 }
