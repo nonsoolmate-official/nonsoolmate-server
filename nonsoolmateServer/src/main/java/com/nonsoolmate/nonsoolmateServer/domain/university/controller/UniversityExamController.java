@@ -45,7 +45,7 @@ public class UniversityExamController implements UniversityApi{
     @Override
     @GetMapping("{id}/image")
     public ResponseEntity<SuccessResponse<Page<UniversityExamImageResponseDTO>>> getUniversityExamImages(
-            @PathVariable("id") final Long id, @RequestParam(defaultValue = "0") final int page, final Pageable pageable) {
+            @PathVariable("id") final Long id, @RequestParam(value="page", defaultValue = "0") final int page, final Pageable pageable) {
         PageRequest pageRequest = PageRequest.of(page, 1);
         Page<UniversityExamImageResponseDTO> images = universityExamService.getUniversityExamImages(id, pageRequest);
         return ResponseEntity.ok()
