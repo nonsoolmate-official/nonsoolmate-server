@@ -25,10 +25,11 @@ public class ExecutionLoggingAop {
     public Object logExecutionTrace(ProceedingJoinPoint pjp) throws Throwable {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
         RequestMethod httpMethod = RequestMethod.valueOf(request.getMethod());
-
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        Long userId = 0L;
-        if (!authentication.getPrincipal().equals("anonymousUser")) {
+        Long userId = null;
+
+        boolean isNonsoolmateUser = !authentication.getPrincipal().equals("anonymousUser");
+        if (isNonsoolmateUser) {
             CustomAuthUser customAuthUser = (CustomAuthUser) authentication.getPrincipal();
             userId = customAuthUser.getMember().getMemberId();
         }
@@ -37,11 +38,12 @@ public class ExecutionLoggingAop {
         String methodName = pjp.getSignature().getName();
         String task = className + "." + methodName;
 
-        log.info("[Call Method] " + httpMethod.toString() + ": " + task + " | Request userId=" + userId.toString());
+        log.info("[Call Method] " + httpMethod.toString() + ": " + task + " | Request userId=" + userId);
 
         Object[] paramArgs = pjp.getArgs();
         String loggingMessage = "";
         int cnt = 1;
+
         for (Object object : paramArgs) {
             if (Objects.nonNull(object)) {
                 String paramName = "[param" + cnt +"] " + object.getClass().getSimpleName();
@@ -68,6 +70,7 @@ public class ExecutionLoggingAop {
 
         // 해당 클래스 처리 후의 시간
         sw.stop();
+
         long executionTime = sw.getTotalTimeMillis();
 
         log.info("[ExecutionTime] " + task + " --> " + executionTime + " (ms)");
