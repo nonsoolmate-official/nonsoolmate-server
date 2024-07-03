@@ -1,5 +1,6 @@
 package com.nonsoolmate.nonsoolmateServer.domain.university.controller;
 
+import com.nonsoolmate.nonsoolmateServer.domain.university.controller.dto.response.UniversityExamFileResponseDTO;
 import com.nonsoolmate.nonsoolmateServer.domain.university.controller.dto.response.UniversityExamImageAndAnswerResponseDTO;
 import com.nonsoolmate.nonsoolmateServer.domain.university.controller.dto.response.UniversityExamImageResponseDTO;
 import com.nonsoolmate.nonsoolmateServer.domain.university.controller.dto.response.UniversityExamInfoResponseDTO;
@@ -30,6 +31,16 @@ public interface UniversityApi {
     @Operation(summary = "시험 보기: 시험 이름 & 제한 시간", description = "시험 응시 화면의 이름 및 제한 시간을 조회합니다.")
     ResponseEntity<SuccessResponse<UniversityExamInfoResponseDTO>> getUniversityExam(
             @Parameter(description = "해당 대학교 시험 Id (examId)", required = true) @PathVariable("id") Long universityExamId);
+
+    @ApiResponses(
+            value = {
+                    @ApiResponse(responseCode = "200", description = "대학 시험지 조회에 성공했습니다"),
+                    @ApiResponse(responseCode = "400", description = "존재하지 않는 대학 시험입니다.", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
+            }
+    )
+    @Operation(summary = "시험 보기: 문제지 [PDF]", description = "시험 응시 화면의 문제지를 조회합니다.")
+    ResponseEntity<SuccessResponse<UniversityExamFileResponseDTO>> getUniversityExamFile(
+            @Parameter(description = "해당 대학교 시험 Id (examId)", required = true) @PathVariable("id") Long id);
 
     @ApiResponses(
             value = {
