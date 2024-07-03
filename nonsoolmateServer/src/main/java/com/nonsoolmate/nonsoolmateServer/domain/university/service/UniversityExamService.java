@@ -1,8 +1,6 @@
 package com.nonsoolmate.nonsoolmateServer.domain.university.service;
 
-import static com.nonsoolmate.nonsoolmateServer.external.aws.FolderName.EXAM_ANSWER_FOLDER_NAME;
-import static com.nonsoolmate.nonsoolmateServer.external.aws.FolderName.EXAM_IMAGE_FOLDER_NAME;
-
+import com.nonsoolmate.nonsoolmateServer.domain.university.controller.dto.response.UniversityExamFileResponseDTO;
 import com.nonsoolmate.nonsoolmateServer.domain.university.controller.dto.response.UniversityExamImageAndAnswerResponseDTO;
 import com.nonsoolmate.nonsoolmateServer.domain.university.controller.dto.response.UniversityExamImageResponseDTO;
 import com.nonsoolmate.nonsoolmateServer.domain.university.controller.dto.response.UniversityExamInfoResponseDTO;
@@ -21,6 +19,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.nonsoolmate.nonsoolmateServer.domain.university.repository.UniversityExamRepository;
 
+import static com.nonsoolmate.nonsoolmateServer.external.aws.FolderName.*;
+
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
@@ -38,6 +38,14 @@ public class UniversityExamService {
         return UniversityExamInfoResponseDTO.of(universityExam.getUniversityExamId(),
                 universityExamName,
                 universityExam.getUniversityExamTimeLimit());
+    }
+
+    public UniversityExamFileResponseDTO getUniversityExamFile(final Long id) {
+        UniversityExam universityExam = universityExamRepository.findByUniversityExamId(id)
+                .orElseThrow(() -> new UniversityExamException(
+                        UniversityExamExceptionType.INVALID_UNIVERSITY_EXAM));
+        return UniversityExamFileResponseDTO.of(cloudFrontService.createPreSignedGetUrl(EXAM_FILE_FOLDER_NAME,
+                universityExam.getUniversityExamFileName()));
     }
 
     public Page<UniversityExamImageResponseDTO> getUniversityExamImages(final Long id, final Pageable pageable) {
