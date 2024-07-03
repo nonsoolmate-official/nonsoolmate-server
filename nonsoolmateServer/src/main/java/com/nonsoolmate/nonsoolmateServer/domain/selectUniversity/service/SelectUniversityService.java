@@ -98,7 +98,7 @@ public class SelectUniversityService {
             Member member,
             List<Long> selectedUniversityIds) {
 
-        selectUniversityRepository.deleteAllByMember(member);
+        selectUniversityRepository.deleteAllByMemberId(member.getMemberId());
 
         List<University> universities = universityRepository.findAllByUniversityIdIn(selectedUniversityIds);
         List<SelectUniversity> selectUniversities = universities.stream()
