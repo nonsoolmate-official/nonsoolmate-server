@@ -30,7 +30,7 @@ public class UniversityExamService {
     private final CloudFrontService cloudFrontService;
 
 
-    public UniversityExamInfoResponseDTO getUniversityExam(final Long universityExamId) {
+    public UniversityExamInfoResponseDTO getUniversityExamInfo(final Long universityExamId) {
         UniversityExam universityExam = universityExamRepository.findByUniversityExamId(universityExamId)
                 .orElseThrow(() -> new UniversityExamException(
                         UniversityExamExceptionType.INVALID_UNIVERSITY_EXAM));

@@ -28,10 +28,10 @@ public class UniversityExamController implements UniversityApi{
 
     @Override
     @GetMapping("/{id}/info")
-    public ResponseEntity<SuccessResponse<UniversityExamInfoResponseDTO>> getUniversityExam(
+    public ResponseEntity<SuccessResponse<UniversityExamInfoResponseDTO>> getUniversityExamInfo(
             @PathVariable("id") final Long universityExamId) {
         return ResponseEntity.ok().body(SuccessResponse.of(UniversityExamSuccessType.GET_UNIVERSITY_EXAM_SUCCESS,
-                universityExamService.getUniversityExam(universityExamId)));
+                universityExamService.getUniversityExamInfo(universityExamId)));
     }
 
     @Override
