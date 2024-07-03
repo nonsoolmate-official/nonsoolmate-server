@@ -29,7 +29,7 @@ public interface UniversityApi {
             }
     )
     @Operation(summary = "시험 보기: 시험 이름 & 제한 시간", description = "시험 응시 화면의 이름 및 제한 시간을 조회합니다.")
-    ResponseEntity<SuccessResponse<UniversityExamInfoResponseDTO>> getUniversityExam(
+    ResponseEntity<SuccessResponse<UniversityExamInfoResponseDTO>> getUniversityExamInfo(
             @Parameter(description = "해당 대학교 시험 Id (examId)", required = true) @PathVariable("id") Long universityExamId);
 
     @ApiResponses(
