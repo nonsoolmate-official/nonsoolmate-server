@@ -34,7 +34,7 @@ public interface UniversityApi {
 
     @ApiResponses(
             value = {
-                    @ApiResponse(responseCode = "200", description = "대학 시험지 조회에 성공했습니다"),
+                    @ApiResponse(responseCode = "200", description = "대학 시험 파일 조회에 성공했습니다"),
                     @ApiResponse(responseCode = "400", description = "존재하지 않는 대학 시험입니다.", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
             }
     )
@@ -62,5 +62,15 @@ public interface UniversityApi {
     )
     @Operation(summary= "해제: 문제이미지_해제PDF", description = "시험 문제 이미지 및 해제 PDF를 조회합니다.")
     ResponseEntity<SuccessResponse<UniversityExamImageAndAnswerResponseDTO>> getUniversityExamImageAndAnswer(
+            @PathVariable("id") Long universityExamId);
+
+    @ApiResponses(
+            value = {
+                    @ApiResponse(responseCode = "201", description = "대학 시험 문제 및 해제 PDF 조회에 성공했습니다"),
+                    @ApiResponse(responseCode = "400", description = "존재하지 않는 대학 시험입니다.", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
+            }
+    )
+    @Operation(summary= "해제: 문제PDF_해제PDF", description = "시험 문제 및 해제 PDF를 조회합니다.")
+    ResponseEntity<SuccessResponse<UniversityExamImageAndAnswerResponseDTO>> getUniversityExamAndAnswer(
             @PathVariable("id") Long universityExamId);
 }
