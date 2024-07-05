@@ -59,6 +59,7 @@ public class UniversityExamController implements UniversityApi{
                 universityExamService.getUniversityExamImageAndAnswer(universityExamId)));
     }
 
+    // TODO: 이미지 조회에서 PDF 조회로 변경되면 mapping 경로 변경
     @Override
     @GetMapping("/v2/{id}/answer")
     public ResponseEntity<SuccessResponse<UniversityExamAndAnswerResponseDTO>> getUniversityExamAndAnswer(
