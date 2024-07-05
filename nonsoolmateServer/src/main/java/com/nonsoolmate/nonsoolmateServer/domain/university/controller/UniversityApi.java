@@ -1,9 +1,6 @@
 package com.nonsoolmate.nonsoolmateServer.domain.university.controller;
 
-import com.nonsoolmate.nonsoolmateServer.domain.university.controller.dto.response.UniversityExamFileResponseDTO;
-import com.nonsoolmate.nonsoolmateServer.domain.university.controller.dto.response.UniversityExamImageAndAnswerResponseDTO;
-import com.nonsoolmate.nonsoolmateServer.domain.university.controller.dto.response.UniversityExamImageResponseDTO;
-import com.nonsoolmate.nonsoolmateServer.domain.university.controller.dto.response.UniversityExamInfoResponseDTO;
+import com.nonsoolmate.nonsoolmateServer.domain.university.controller.dto.response.*;
 import com.nonsoolmate.nonsoolmateServer.global.response.ErrorResponse;
 import com.nonsoolmate.nonsoolmateServer.global.response.SuccessResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -71,6 +68,6 @@ public interface UniversityApi {
             }
     )
     @Operation(summary= "해제: 문제PDF_해제PDF", description = "시험 문제 및 해제 PDF를 조회합니다.")
-    ResponseEntity<SuccessResponse<UniversityExamImageAndAnswerResponseDTO>> getUniversityExamAndAnswer(
+    ResponseEntity<SuccessResponse<UniversityExamAndAnswerResponseDTO>> getUniversityExamAndAnswer(
             @PathVariable("id") Long universityExamId);
 }
