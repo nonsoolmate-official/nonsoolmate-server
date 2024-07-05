@@ -1,11 +1,9 @@
 package com.nonsoolmate.nonsoolmateServer.domain.university.controller;
 
+import static com.nonsoolmate.nonsoolmateServer.domain.university.exception.UniversityExamSuccessType.GET_UNIVERSITY_EXAM_AND_ANSWER_SUCCESS;
 import static com.nonsoolmate.nonsoolmateServer.domain.university.exception.UniversityExamSuccessType.GET_UNIVERSITY_EXAM_IMAGE_AND_ANSWER_SUCCESS;
 
-import com.nonsoolmate.nonsoolmateServer.domain.university.controller.dto.response.UniversityExamFileResponseDTO;
-import com.nonsoolmate.nonsoolmateServer.domain.university.controller.dto.response.UniversityExamImageAndAnswerResponseDTO;
-import com.nonsoolmate.nonsoolmateServer.domain.university.controller.dto.response.UniversityExamImageResponseDTO;
-import com.nonsoolmate.nonsoolmateServer.domain.university.controller.dto.response.UniversityExamInfoResponseDTO;
+import com.nonsoolmate.nonsoolmateServer.domain.university.controller.dto.response.*;
 import com.nonsoolmate.nonsoolmateServer.domain.university.exception.UniversityExamSuccessType;
 import com.nonsoolmate.nonsoolmateServer.domain.university.service.UniversityExamService;
 import com.nonsoolmate.nonsoolmateServer.global.response.SuccessResponse;
@@ -59,5 +57,14 @@ public class UniversityExamController implements UniversityApi{
     ) {
         return ResponseEntity.ok().body(SuccessResponse.of(GET_UNIVERSITY_EXAM_IMAGE_AND_ANSWER_SUCCESS,
                 universityExamService.getUniversityExamImageAndAnswer(universityExamId)));
+    }
+
+    @Override
+    @GetMapping("/v2/{id}/answer")
+    public ResponseEntity<SuccessResponse<UniversityExamAndAnswerResponseDTO>> getUniversityExamAndAnswer(
+            @PathVariable("id") Long universityExamId
+    ) {
+        return ResponseEntity.ok().body(SuccessResponse.of(GET_UNIVERSITY_EXAM_AND_ANSWER_SUCCESS,
+                universityExamService.getUniversityExamAndAnswer(universityExamId)));
     }
 }
