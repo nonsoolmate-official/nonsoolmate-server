@@ -1,9 +1,6 @@
 package com.nonsoolmate.nonsoolmateServer.domain.university.service;
 
-import com.nonsoolmate.nonsoolmateServer.domain.university.controller.dto.response.UniversityExamFileResponseDTO;
-import com.nonsoolmate.nonsoolmateServer.domain.university.controller.dto.response.UniversityExamImageAndAnswerResponseDTO;
-import com.nonsoolmate.nonsoolmateServer.domain.university.controller.dto.response.UniversityExamImageResponseDTO;
-import com.nonsoolmate.nonsoolmateServer.domain.university.controller.dto.response.UniversityExamInfoResponseDTO;
+import com.nonsoolmate.nonsoolmateServer.domain.university.controller.dto.response.*;
 import com.nonsoolmate.nonsoolmateServer.domain.university.entity.UniversityExam;
 import com.nonsoolmate.nonsoolmateServer.domain.university.entity.UniversityExamImage;
 import com.nonsoolmate.nonsoolmateServer.domain.university.exception.UniversityExamException;
@@ -82,6 +79,15 @@ public class UniversityExamService {
         return UniversityExamImageAndAnswerResponseDTO.of(
                 universityExam.getUniversityExamFullName()
                 , examImageUrls, examAnswerUrl);
+    }
+
+    public UniversityExamAndAnswerResponseDTO getUniversityExamAndAnswer(final long universityExamId){
+        UniversityExam universityExam = universityExamRepository.findByUniversityExamId(universityExamId)
+                .orElseThrow(() -> new UniversityExamException(
+                        UniversityExamExceptionType.INVALID_UNIVERSITY_EXAM));
+        String universityExamUrl = cloudFrontService.createPreSignedGetUrl(EXAM_FILE_FOLDER_NAME, universityExam.getUniversityExamFileName());
+        String universityAnswerUrl = cloudFrontService.createPreSignedGetUrl(EXAM_ANSWER_FOLDER_NAME, universityExam.getUniversityExamAnswerFileName());
+        return UniversityExamAndAnswerResponseDTO.of(universityExam.getUniversityExamFullName(), universityExamUrl, universityAnswerUrl);
     }
 
 }
