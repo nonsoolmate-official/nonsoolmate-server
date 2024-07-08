@@ -31,10 +31,10 @@ public class UniversityExamService {
         Exam exam = universityExamRepository.findByUniversityExamId(universityExamId)
                 .orElseThrow(() -> new UniversityExamException(
                         UniversityExamExceptionType.INVALID_UNIVERSITY_EXAM));
-        String universityExamName = exam.getUniversityExamFullName();
-        return UniversityExamInfoResponseDTO.of(exam.getUniversityExamId(),
+        String universityExamName = exam.getExamFullName();
+        return UniversityExamInfoResponseDTO.of(exam.getExamId(),
                 universityExamName,
-                exam.getUniversityExamTimeLimit());
+                exam.getexamTimeLimit());
     }
 
     public UniversityExamFileResponseDTO getUniversityExamFile(final Long id) {
@@ -42,7 +42,7 @@ public class UniversityExamService {
                 .orElseThrow(() -> new UniversityExamException(
                         UniversityExamExceptionType.INVALID_UNIVERSITY_EXAM));
         return UniversityExamFileResponseDTO.of(cloudFrontService.createPreSignedGetUrl(EXAM_FILE_FOLDER_NAME,
-                exam.getUniversityExamFileName()));
+                exam.getExamFileName()));
     }
 
     public Page<UniversityExamImageResponseDTO> getUniversityExamImages(final Long id, final Pageable pageable) {
@@ -63,7 +63,7 @@ public class UniversityExamService {
                         UniversityExamExceptionType.INVALID_UNIVERSITY_EXAM));
 
         String examAnswerUrl = cloudFrontService.createPreSignedGetUrl(EXAM_ANSWER_FOLDER_NAME,
-                exam.getUniversityExamAnswerFileName());
+                exam.getExamAnswerFileName());
         List<UniversityExamImageResponseDTO> examImageUrls = new ArrayList<>();
 
         List<UniversityExamImage> UniversityExamImages = universityExamImageRepository.findAllByUniversityExamOrderByPageAsc(
@@ -77,7 +77,7 @@ public class UniversityExamService {
         });
 
         return UniversityExamImageAndAnswerResponseDTO.of(
-                exam.getUniversityExamFullName()
+                exam.getExamFullName()
                 , examImageUrls, examAnswerUrl);
     }
 
@@ -85,9 +85,9 @@ public class UniversityExamService {
         Exam exam = universityExamRepository.findByUniversityExamId(universityExamId)
                 .orElseThrow(() -> new UniversityExamException(
                         UniversityExamExceptionType.INVALID_UNIVERSITY_EXAM));
-        String universityExamUrl = cloudFrontService.createPreSignedGetUrl(EXAM_FILE_FOLDER_NAME, exam.getUniversityExamFileName());
-        String universityAnswerUrl = cloudFrontService.createPreSignedGetUrl(EXAM_ANSWER_FOLDER_NAME, exam.getUniversityExamAnswerFileName());
-        return UniversityExamAndAnswerResponseDTO.of(exam.getUniversityExamFullName(), universityExamUrl, universityAnswerUrl);
+        String universityExamUrl = cloudFrontService.createPreSignedGetUrl(EXAM_FILE_FOLDER_NAME, exam.getExamFileName());
+        String universityAnswerUrl = cloudFrontService.createPreSignedGetUrl(EXAM_ANSWER_FOLDER_NAME, exam.getExamAnswerFileName());
+        return UniversityExamAndAnswerResponseDTO.of(exam.getExamFullName(), universityExamUrl, universityAnswerUrl);
     }
 
 }

@@ -19,32 +19,32 @@ import lombok.NoArgsConstructor;
 public class Exam {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long universityExamId;
+    private Long examId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "university_id")
     private University university;
 
     @NotNull
-    private String universityExamName;
+    private String examName;
 
     @NotNull
-    private String universityExamFileName;
+    private String examFileName;
 
     @NotNull
-    private String universityExamAnswerFileName;
+    private String examAnswerFileName;
 
     @NotNull
-    private int universityExamYear;
+    private int examYear;
 
     @NotNull
-    private int universityExamTimeLimit;
+    private int examTimeLimit;
 
-    public String getUniversityExamFullName(){
-        return this.getUniversity().getUniversityName() + " - " + this.getUniversityExamYear() + " " + this.getUniversityExamName();
+    public String getExamFullName(){
+        return this.getUniversity().getUniversityName() + " - " + this.getExamYear() + " " + this.getExamName();
     }
 
-    public String getUniversityExamListName(){
-        return this.getUniversityExamYear() + " " + this.getUniversityExamName();
+    public String getExamListName(){
+        return this.getExamYear() + " " + this.getExamName();
     }
 }
