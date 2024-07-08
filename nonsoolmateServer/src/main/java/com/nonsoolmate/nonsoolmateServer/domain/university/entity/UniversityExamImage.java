@@ -9,7 +9,6 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -23,7 +22,7 @@ public class UniversityExamImage {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "university_exam_id")
-    private UniversityExam universityExam;
+    private Exam exam;
 
     @NotNull
     private String universityExamImageFileName;

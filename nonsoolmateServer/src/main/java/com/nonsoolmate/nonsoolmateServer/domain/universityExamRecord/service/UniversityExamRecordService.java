@@ -7,7 +7,7 @@ import static com.nonsoolmate.nonsoolmateServer.external.aws.FolderName.*;
 import com.nonsoolmate.nonsoolmateServer.domain.member.entity.Member;
 import com.nonsoolmate.nonsoolmateServer.domain.member.exception.MemberException;
 import com.nonsoolmate.nonsoolmateServer.domain.member.repository.MemberRepository;
-import com.nonsoolmate.nonsoolmateServer.domain.university.entity.UniversityExam;
+import com.nonsoolmate.nonsoolmateServer.domain.university.entity.Exam;
 import com.nonsoolmate.nonsoolmateServer.domain.university.exception.UniversityExamException;
 import com.nonsoolmate.nonsoolmateServer.domain.university.repository.UniversityExamRepository;
 import com.nonsoolmate.nonsoolmateServer.domain.universityExamRecord.controller.dto.response.UniversityExamRecordIdResponse;
@@ -37,23 +37,23 @@ public class UniversityExamRecordService {
 
     public UniversityExamRecordResponseDTO getUniversityExamRecord(Long universityExamId, Member member) {
 
-        UniversityExam universityExam = getUniversityExam(universityExamId);
-        UniversityExamRecord universityExamRecord = getUniversityExamByUniversityExamAndMember(universityExam, member);
+        Exam exam = getUniversityExam(universityExamId);
+        UniversityExamRecord universityExamRecord = getUniversityExamByUniversityExamAndMember(exam, member);
 
         validateCorrection(universityExamRecord);
 
         String answerUrl = cloudFrontService.createPreSignedGetUrl(EXAM_ANSWER_FOLDER_NAME,
-                universityExam.getUniversityExamAnswerFileName());
+                exam.getUniversityExamAnswerFileName());
         String resultUrl = cloudFrontService.createPreSignedGetUrl(EXAM_RESULT_FOLDER_NAME,
                 universityExamRecord.getExamRecordResultFileName());
 
-        return UniversityExamRecordResponseDTO.of(universityExam.getUniversityExamFullName(), answerUrl, resultUrl);
+        return UniversityExamRecordResponseDTO.of(exam.getUniversityExamFullName(), answerUrl, resultUrl);
     }
 
     public UniversityExamRecordResultResponseDTO getUniversityExamRecordResult(Long universityExamId, Member member) {
 
-        UniversityExam universityExam = getUniversityExam(universityExamId);
-        UniversityExamRecord universityExamRecord = getUniversityExamByUniversityExamAndMember(universityExam, member);
+        Exam exam = getUniversityExam(universityExamId);
+        UniversityExamRecord universityExamRecord = getUniversityExamByUniversityExamAndMember(exam, member);
 
         validateCorrection(universityExamRecord);
 
@@ -72,11 +72,11 @@ public class UniversityExamRecordService {
     @Transactional
     public UniversityExamRecordIdResponse createUniversityExamRecord(
             final CreateUniversityExamRequestDTO request, final Member member) {
-        final UniversityExam universityExam = getUniversityExam(request.universityExamId());
-        validateUniversityExam(universityExam, member);
+        final Exam exam = getUniversityExam(request.universityExamId());
+        validateUniversityExam(exam, member);
         try {
             final String fileName = s3Service.validateURL(EXAM_SHEET_FOLDER_NAME, request.memberSheetFileName());
-            final UniversityExamRecord universityexamRecord = createUniversityExamRecord(universityExam, member,
+            final UniversityExamRecord universityexamRecord = createUniversityExamRecord(exam, member,
                     request.memberTakeTimeExam(),
                     fileName);
             final UniversityExamRecord saveUniversityUniversityExamRecord = universityExamRecordRepository.save(
@@ -91,8 +91,9 @@ public class UniversityExamRecordService {
         }
     }
 
-    private void validateUniversityExam(final UniversityExam universityExam, final Member member){
-        final UniversityExamRecord existUniversityExamRecord = universityExamRecordRepository.findByUniversityExamAndMember(universityExam, member).orElse(null);
+    private void validateUniversityExam(final Exam exam, final Member member){
+        final UniversityExamRecord existUniversityExamRecord = universityExamRecordRepository.findByUniversityExamAndMember(
+            exam, member).orElse(null);
         if (existUniversityExamRecord != null) {
             throw new UniversityExamRecordException(ALREADY_CREATE_EXAM_RECORD);
         }
@@ -107,10 +108,10 @@ public class UniversityExamRecordService {
         }
     }
 
-    private UniversityExamRecord createUniversityExamRecord(final UniversityExam universityExam, final Member member,
+    private UniversityExamRecord createUniversityExamRecord(final Exam exam, final Member member,
                                                             final int takeTimeExam, final String sheetFileName) {
         return UniversityExamRecord.builder()
-                .universityExam(universityExam)
+                .universityExam(exam)
                 .examResultStatus(ExamResultStatus.ONGOING)
                 .member(member)
                 .timeTakeExam(takeTimeExam)
@@ -118,14 +119,14 @@ public class UniversityExamRecordService {
                 .build();
     }
 
-    private UniversityExam getUniversityExam(final Long universityExamId) {
+    private Exam getUniversityExam(final Long universityExamId) {
         return universityExamRepository.findByUniversityExamId(universityExamId)
                 .orElseThrow(() -> new UniversityExamException(INVALID_UNIVERSITY_EXAM));
     }
 
-    private UniversityExamRecord getUniversityExamByUniversityExamAndMember(final UniversityExam universityExam,
+    private UniversityExamRecord getUniversityExamByUniversityExamAndMember(final Exam exam,
                                                                             final Member member) {
         return universityExamRecordRepository.findByUniversityExamAndMemberOrElseThrowException(
-                universityExam, member);
+            exam, member);
     }
 }
