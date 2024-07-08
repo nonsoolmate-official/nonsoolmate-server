@@ -2,7 +2,7 @@ package com.nonsoolmate.nonsoolmateServer.domain.universityExamRecord.entity;
 
 import com.nonsoolmate.nonsoolmateServer.domain.universityExamRecord.entity.enums.ExamResultStatus;
 import com.nonsoolmate.nonsoolmateServer.domain.member.entity.Member;
-import com.nonsoolmate.nonsoolmateServer.domain.university.entity.UniversityExam;
+import com.nonsoolmate.nonsoolmateServer.domain.university.entity.Exam;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -13,7 +13,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.NotNull;
-import java.sql.Time;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -29,7 +28,7 @@ public class UniversityExamRecord {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "university_exam_id")
-    private UniversityExam universityExam;
+    private Exam exam;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
@@ -48,9 +47,9 @@ public class UniversityExamRecord {
     private String examRecordResultFileName;  // 첨삭
 
     @Builder
-    public UniversityExamRecord(final UniversityExam universityExam, final Member member, final ExamResultStatus examResultStatus,
+    public UniversityExamRecord(final Exam exam, final Member member, final ExamResultStatus examResultStatus,
                                 final int timeTakeExam, final String examRecordSheetFileName) {
-        this.universityExam = universityExam;
+        this.exam = exam;
         this.member = member;
         this.examResultStatus = examResultStatus;
         this.timeTakeExam = timeTakeExam;
