@@ -43,8 +43,6 @@ spring:
   sql:
     init:
       mode: always
-      data-locations: classpath:init/data.sql # 더미데이터 파일 연결
-      schema-locations: classpath:init/schema.sql # 스키마 파일 연결
 
   datasource:
     driver-class-name: org.h2.Driver
