@@ -1,6 +1,10 @@
 package com.nonsoolmate.nonsoolmateServer.domain.university.service;
 
-import com.nonsoolmate.nonsoolmateServer.domain.university.controller.dto.response.*;
+import com.nonsoolmate.nonsoolmateServer.domain.university.controller.dto.response.UniversityExamAndAnswerResponseDTO;
+import com.nonsoolmate.nonsoolmateServer.domain.university.controller.dto.response.UniversityExamFileResponseDTO;
+import com.nonsoolmate.nonsoolmateServer.domain.university.controller.dto.response.UniversityExamImageAndAnswerResponseDTO;
+import com.nonsoolmate.nonsoolmateServer.domain.university.controller.dto.response.UniversityExamImageResponseDTO;
+import com.nonsoolmate.nonsoolmateServer.domain.university.controller.dto.response.UniversityExamInfoResponseDTO;
 import com.nonsoolmate.nonsoolmateServer.domain.university.entity.Exam;
 import com.nonsoolmate.nonsoolmateServer.domain.university.entity.ExamImage;
 import com.nonsoolmate.nonsoolmateServer.domain.university.exception.UniversityExamException;
@@ -21,7 +25,7 @@ import static com.nonsoolmate.nonsoolmateServer.external.aws.FolderName.*;
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
-public class UniversityExamService {
+public class ExamService {
     private final ExamRepository examRepository;
     private final ExamImageRepository examImageRepository;
     private final CloudFrontService cloudFrontService;
@@ -81,13 +85,15 @@ public class UniversityExamService {
                 , examImageUrls, examAnswerUrl);
     }
 
-    public UniversityExamAndAnswerResponseDTO getUniversityExamAndAnswer(final long universityExamId){
+    public UniversityExamAndAnswerResponseDTO getUniversityExamAndAnswer(final Long universityExamId){
         Exam exam = examRepository.findByExamId(universityExamId)
                 .orElseThrow(() -> new UniversityExamException(
                         UniversityExamExceptionType.INVALID_UNIVERSITY_EXAM));
         String universityExamUrl = cloudFrontService.createPreSignedGetUrl(EXAM_FILE_FOLDER_NAME, exam.getExamFileName());
         String universityAnswerUrl = cloudFrontService.createPreSignedGetUrl(EXAM_ANSWER_FOLDER_NAME, exam.getExamAnswerFileName());
-        return UniversityExamAndAnswerResponseDTO.of(exam.getExamFullName(), universityExamUrl, universityAnswerUrl);
+        return UniversityExamAndAnswerResponseDTO.of(
+            exam.getExamFullName(),
+            universityExamUrl, universityAnswerUrl);
     }
 
 }

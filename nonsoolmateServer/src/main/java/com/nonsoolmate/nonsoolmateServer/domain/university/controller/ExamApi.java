@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 
 @Tag(name = "UniversityExam", description = "대학 시험 정보와 관련된 API")
-public interface UniversityApi {
+public interface ExamApi {
     @ApiResponses(
             value = {
                     @ApiResponse(responseCode = "200", description = "대학 시험 정보 조회에 성공했습니다"),

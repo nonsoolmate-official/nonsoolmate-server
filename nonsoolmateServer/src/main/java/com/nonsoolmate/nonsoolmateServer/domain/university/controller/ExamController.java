@@ -5,7 +5,7 @@ import static com.nonsoolmate.nonsoolmateServer.domain.university.exception.Univ
 
 import com.nonsoolmate.nonsoolmateServer.domain.university.controller.dto.response.*;
 import com.nonsoolmate.nonsoolmateServer.domain.university.exception.UniversityExamSuccessType;
-import com.nonsoolmate.nonsoolmateServer.domain.university.service.UniversityExamService;
+import com.nonsoolmate.nonsoolmateServer.domain.university.service.ExamService;
 import com.nonsoolmate.nonsoolmateServer.global.response.SuccessResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -21,15 +21,15 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/university/exam")
 @RequiredArgsConstructor
-public class UniversityExamController implements UniversityApi{
-    private final UniversityExamService universityExamService;
+public class ExamController implements ExamApi{
+    private final ExamService examService;
 
     @Override
     @GetMapping("/{id}/info")
     public ResponseEntity<SuccessResponse<UniversityExamInfoResponseDTO>> getUniversityExamInfo(
             @PathVariable("id") final Long universityExamId) {
         return ResponseEntity.ok().body(SuccessResponse.of(UniversityExamSuccessType.GET_UNIVERSITY_EXAM_SUCCESS,
-                universityExamService.getUniversityExamInfo(universityExamId)));
+                examService.getUniversityExamInfo(universityExamId)));
     }
 
     @Override
@@ -37,7 +37,7 @@ public class UniversityExamController implements UniversityApi{
     public ResponseEntity<SuccessResponse<UniversityExamFileResponseDTO>> getUniversityExamFile(
             @PathVariable("id") final Long id) {
         return ResponseEntity.ok().body(SuccessResponse.of(UniversityExamSuccessType.GET_UNIVERSITY_EXAM_FILE_SUCCESS,
-                universityExamService.getUniversityExamFile(id)));
+                examService.getUniversityExamFile(id)));
     }
 
     @Override
@@ -45,7 +45,7 @@ public class UniversityExamController implements UniversityApi{
     public ResponseEntity<SuccessResponse<Page<UniversityExamImageResponseDTO>>> getUniversityExamImages(
             @PathVariable("id") final Long id, @RequestParam(value="page", defaultValue = "0") final int page, final Pageable pageable) {
         PageRequest pageRequest = PageRequest.of(page, 1);
-        Page<UniversityExamImageResponseDTO> images = universityExamService.getUniversityExamImages(id, pageRequest);
+        Page<UniversityExamImageResponseDTO> images = examService.getUniversityExamImages(id, pageRequest);
         return ResponseEntity.ok()
                 .body(SuccessResponse.of(UniversityExamSuccessType.GET_UNIVERSITY_EXAM_IMAGE_SUCCESS, images));
     }
@@ -56,16 +56,16 @@ public class UniversityExamController implements UniversityApi{
             @PathVariable("id") Long universityExamId
     ) {
         return ResponseEntity.ok().body(SuccessResponse.of(GET_UNIVERSITY_EXAM_IMAGE_AND_ANSWER_SUCCESS,
-                universityExamService.getUniversityExamImageAndAnswer(universityExamId)));
+                examService.getUniversityExamImageAndAnswer(universityExamId)));
     }
 
     // TODO: 이미지 조회에서 PDF 조회로 변경되면 mapping 경로 변경
     @Override
     @GetMapping("/v2/{id}/answer")
     public ResponseEntity<SuccessResponse<UniversityExamAndAnswerResponseDTO>> getUniversityExamAndAnswer(
-            @PathVariable("id") Long universityExamId
+            @PathVariable("id") Long examId
     ) {
-        return ResponseEntity.ok().body(SuccessResponse.of(GET_UNIVERSITY_EXAM_AND_ANSWER_SUCCESS,
-                universityExamService.getUniversityExamAndAnswer(universityExamId)));
+        return ResponseEntity.ok().body(SuccessResponse.of(GET_UNIVERSITY_EXAM_IMAGE_AND_ANSWER_SUCCESS,
+            examService.getUniversityExamAndAnswer(examId)));
     }
 }
