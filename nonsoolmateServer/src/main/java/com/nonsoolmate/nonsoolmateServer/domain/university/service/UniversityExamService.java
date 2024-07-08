@@ -2,7 +2,7 @@ package com.nonsoolmate.nonsoolmateServer.domain.university.service;
 
 import com.nonsoolmate.nonsoolmateServer.domain.university.controller.dto.response.*;
 import com.nonsoolmate.nonsoolmateServer.domain.university.entity.Exam;
-import com.nonsoolmate.nonsoolmateServer.domain.university.entity.UniversityExamImage;
+import com.nonsoolmate.nonsoolmateServer.domain.university.entity.ExamImage;
 import com.nonsoolmate.nonsoolmateServer.domain.university.exception.UniversityExamException;
 import com.nonsoolmate.nonsoolmateServer.domain.university.exception.UniversityExamExceptionType;
 import com.nonsoolmate.nonsoolmateServer.domain.university.repository.UniversityExamImageRepository;
@@ -49,12 +49,12 @@ public class UniversityExamService {
         Exam exam = universityExamRepository.findByUniversityExamId(id)
                 .orElseThrow(() -> new UniversityExamException(
                         UniversityExamExceptionType.INVALID_UNIVERSITY_EXAM));
-        Page<UniversityExamImage> universityExamImages = universityExamImageRepository.findAllByUniversityExamOrderByPageAsc(
+        Page<ExamImage> universityExamImages = universityExamImageRepository.findAllByUniversityExamOrderByPageAsc(
 			exam,
                 pageable);
         return universityExamImages.map(image ->
                 UniversityExamImageResponseDTO.of(cloudFrontService.createPreSignedGetUrl(EXAM_IMAGE_FOLDER_NAME,
-                        image.getUniversityExamImageFileName())));
+                        image.getexamImageFileName())));
     }
 
     public UniversityExamImageAndAnswerResponseDTO getUniversityExamImageAndAnswer(Long universityExamId) {
@@ -66,12 +66,12 @@ public class UniversityExamService {
                 exam.getExamAnswerFileName());
         List<UniversityExamImageResponseDTO> examImageUrls = new ArrayList<>();
 
-        List<UniversityExamImage> UniversityExamImages = universityExamImageRepository.findAllByUniversityExamOrderByPageAsc(
+        List<ExamImage> examImages = universityExamImageRepository.findAllByUniversityExamOrderByPageAsc(
 			exam);
 
-        UniversityExamImages.stream().forEach(universityExamImage -> {
+        examImages.stream().forEach(examImage -> {
             String preSignedGetUrl = cloudFrontService.createPreSignedGetUrl(EXAM_IMAGE_FOLDER_NAME,
-                    universityExamImage.getUniversityExamImageFileName());
+                    examImage.getexamImageFileName());
             examImageUrls.add(
                     UniversityExamImageResponseDTO.of(preSignedGetUrl));
         });
