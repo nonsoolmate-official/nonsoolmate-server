@@ -53,7 +53,7 @@ public class ExamService {
         Exam exam = examRepository.findByExamId(id)
                 .orElseThrow(() -> new ExamException(
                         ExamExceptionType.INVALID_EXAM));
-        Page<ExamImage> universityExamImages = examImageRepository.findAllByExamOrderByExamImageIdAscOrderByPageAsc(
+        Page<ExamImage> universityExamImages = examImageRepository.findAllByExamOrderByExamImageIdAscPageAsc(
 			exam,
                 pageable);
         return universityExamImages.map(image ->
