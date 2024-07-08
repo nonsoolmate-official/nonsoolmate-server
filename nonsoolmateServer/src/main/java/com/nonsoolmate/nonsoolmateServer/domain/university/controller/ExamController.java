@@ -32,9 +32,9 @@ public class ExamController implements ExamApi {
 	@Override
 	@GetMapping("/{id}/info")
 	public ResponseEntity<SuccessResponse<ExamInfoResponseDTO>> getExamInfo(
-		@PathVariable("id") final Long universityExamId) {
+		@PathVariable("id") final Long examId) {
 		return ResponseEntity.ok().body(SuccessResponse.of(ExamSuccessType.GET_EXAM_SUCCESS,
-			examService.getExamInfo(universityExamId)));
+			examService.getExamInfo(examId)));
 	}
 
 	@Override
@@ -59,10 +59,10 @@ public class ExamController implements ExamApi {
 	@Override
 	@GetMapping("{id}/answer")
 	public ResponseEntity<SuccessResponse<ExamImageAndAnswerResponseDTO>> getExamImageAndAnswer(
-		@PathVariable("id") Long universityExamId
+		@PathVariable("id") Long examId
 	) {
 		return ResponseEntity.ok().body(SuccessResponse.of(GET_EXAM_IMAGE_AND_ANSWER_SUCCESS,
-			examService.getExamImageAndAnswer(universityExamId)));
+			examService.getExamImageAndAnswer(examId)));
 	}
 
 	// TODO: 이미지 조회에서 PDF 조회로 변경되면 mapping 경로 변경
