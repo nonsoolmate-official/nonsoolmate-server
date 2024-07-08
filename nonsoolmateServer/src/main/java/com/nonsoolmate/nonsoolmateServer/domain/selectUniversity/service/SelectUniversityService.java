@@ -12,7 +12,7 @@ import com.nonsoolmate.nonsoolmateServer.domain.university.entity.Exam;
 import com.nonsoolmate.nonsoolmateServer.domain.university.repository.ExamRepository;
 import com.nonsoolmate.nonsoolmateServer.domain.university.repository.UniversityRepository;
 import com.nonsoolmate.nonsoolmateServer.domain.examRecord.entity.ExamRecord;
-import com.nonsoolmate.nonsoolmateServer.domain.examRecord.repository.UniversityExamRecordRepository;
+import com.nonsoolmate.nonsoolmateServer.domain.examRecord.repository.ExamRecordRepository;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -26,7 +26,7 @@ public class SelectUniversityService {
     private final SelectUniversityRepository selectUniversityRepository;
     private final UniversityRepository universityRepository;
     private final ExamRepository examRepository;
-    private final UniversityExamRecordRepository universityExamRecordRepository;
+    private final ExamRecordRepository examRecordRepository;
     private static final String BEFORE_EXAM = "시험 응시 전";
 
 
@@ -82,7 +82,7 @@ public class SelectUniversityService {
         ExamRecord examRecord;
         List<SelectUniversityExamResponseDTO> selectUniversityExamResponseDTOS = new ArrayList<>();
         for (Exam exam : exams) {
-            examRecord = universityExamRecordRepository.findByUniversityExamAndMember(exam, member)
+            examRecord = examRecordRepository.findByExamAndMember(exam, member)
                     .orElse(null);
             String status =
                     examRecord == null ? BEFORE_EXAM : examRecord.getExamResultStatus().getStatus();
