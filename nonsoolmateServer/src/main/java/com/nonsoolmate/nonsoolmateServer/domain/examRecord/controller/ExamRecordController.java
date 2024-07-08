@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.nonsoolmate.nonsoolmateServer.domain.examRecord.controller.dto.request.CreateUniversityExamRequestDTO;
+import com.nonsoolmate.nonsoolmateServer.domain.examRecord.controller.dto.request.CreateExamRecordRequestDTO;
 import com.nonsoolmate.nonsoolmateServer.domain.examRecord.controller.dto.response.ExamRecordIdResponse;
 import com.nonsoolmate.nonsoolmateServer.domain.examRecord.controller.dto.response.ExamRecordResponseDTO;
 import com.nonsoolmate.nonsoolmateServer.domain.examRecord.controller.dto.response.ExamRecordResultResponseDTO;
@@ -38,17 +38,17 @@ public class ExamRecordController implements ExamRecordApi {
 	@Override
 	@GetMapping("/{id}")
 	public ResponseEntity<SuccessResponse<ExamRecordResponseDTO>> getExamRecord(
-		@PathVariable("id") Long universityExamId, @AuthUser Member member) {
+		@PathVariable("id") Long examId, @AuthUser Member member) {
 		return ResponseEntity.ok().body(SuccessResponse.of(GET_EXAM_RECORD_SUCCESS,
-			examRecordService.getExamRecord(universityExamId, member)));
+			examRecordService.getExamRecord(examId, member)));
 	}
 
 	@Override
 	@GetMapping("/result/{id}")
 	public ResponseEntity<SuccessResponse<ExamRecordResultResponseDTO>> getExamRecordResult(
-		@PathVariable("id") Long universityExamId, @AuthUser Member member) {
+		@PathVariable("id") Long examId, @AuthUser Member member) {
 		return ResponseEntity.ok().body(SuccessResponse.of(GET_EXAM_RECORD_RESULT_SUCCESS,
-			examRecordService.getExamRecordResult(universityExamId, member)));
+			examRecordService.getExamRecordResult(examId, member)));
 	}
 
 	@Override
@@ -64,11 +64,11 @@ public class ExamRecordController implements ExamRecordApi {
 	@Override
 	@PostMapping("/sheet")
 	public ResponseEntity<SuccessResponse<ExamRecordIdResponse>> createExamRecord(
-		@Valid @RequestBody final CreateUniversityExamRequestDTO createUniversityExamRequestDTO,
+		@Valid @RequestBody final CreateExamRecordRequestDTO createExamRecordRequestDTO,
 		@AuthUser final Member member) {
 		return ResponseEntity.status(HttpStatus.CREATED).body(SuccessResponse.of(
 			ExamRecordSuccessType.CREATE_EXAM_RECORD_SUCCESS,
 			examRecordService.createExamRecord(
-				createUniversityExamRequestDTO, member)));
+				createExamRecordRequestDTO, member)));
 	}
 }

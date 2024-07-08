@@ -32,7 +32,7 @@ public interface ExamApi {
 	)
 	@Operation(summary = "시험 보기: 시험 이름 & 제한 시간", description = "시험 응시 화면의 이름 및 제한 시간을 조회합니다.")
 	ResponseEntity<SuccessResponse<ExamInfoResponseDTO>> getExamInfo(
-		@Parameter(description = "해당 대학교 시험 Id (examId)", required = true) @PathVariable("id") Long universityExamId);
+		@Parameter(description = "해당 대학교 시험 Id (examId)", required = true) @PathVariable("id") Long examId);
 
 	@ApiResponses(
 		value = {
@@ -64,7 +64,7 @@ public interface ExamApi {
 	)
 	@Operation(summary = "해제: 문제이미지_해제PDF", description = "시험 문제 이미지 및 해제 PDF를 조회합니다.")
 	ResponseEntity<SuccessResponse<ExamImageAndAnswerResponseDTO>> getExamImageAndAnswer(
-		@PathVariable("id") Long universityExamId);
+		@PathVariable("id") Long examId);
 
 	@ApiResponses(
 		value = {
@@ -74,5 +74,5 @@ public interface ExamApi {
 	)
 	@Operation(summary = "해제: 문제PDF_해제PDF", description = "시험 문제 및 해제 PDF를 조회합니다.")
 	ResponseEntity<SuccessResponse<ExamAndAnswerResponseDTO>> getExamAndAnswer(
-		@PathVariable("id") Long universityExamId);
+		@PathVariable("id") Long examId);
 }

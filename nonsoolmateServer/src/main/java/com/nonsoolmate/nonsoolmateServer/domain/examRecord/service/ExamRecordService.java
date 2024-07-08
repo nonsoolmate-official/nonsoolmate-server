@@ -7,7 +7,7 @@ import static com.nonsoolmate.nonsoolmateServer.external.aws.FolderName.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.nonsoolmate.nonsoolmateServer.domain.examRecord.controller.dto.request.CreateUniversityExamRequestDTO;
+import com.nonsoolmate.nonsoolmateServer.domain.examRecord.controller.dto.request.CreateExamRecordRequestDTO;
 import com.nonsoolmate.nonsoolmateServer.domain.examRecord.controller.dto.response.ExamRecordIdResponse;
 import com.nonsoolmate.nonsoolmateServer.domain.examRecord.controller.dto.response.ExamRecordResponseDTO;
 import com.nonsoolmate.nonsoolmateServer.domain.examRecord.controller.dto.response.ExamRecordResultResponseDTO;
@@ -37,9 +37,9 @@ public class ExamRecordService {
 	private final S3Service s3Service;
 	private final MemberRepository memberRepository;
 
-	public ExamRecordResponseDTO getExamRecord(Long universityExamId, Member member) {
+	public ExamRecordResponseDTO getExamRecord(Long examId, Member member) {
 
-		Exam exam = getExam(universityExamId);
+		Exam exam = getExam(examId);
 		ExamRecord examRecord = getExamByExamAndMember(exam, member);
 
 		validateCorrection(examRecord);
@@ -52,9 +52,9 @@ public class ExamRecordService {
 		return ExamRecordResponseDTO.of(exam.getExamFullName(), answerUrl, resultUrl);
 	}
 
-	public ExamRecordResultResponseDTO getExamRecordResult(Long universityExamId, Member member) {
+	public ExamRecordResultResponseDTO getExamRecordResult(Long examId, Member member) {
 
-		Exam exam = getExam(universityExamId);
+		Exam exam = getExam(examId);
 		ExamRecord examRecord = getExamByExamAndMember(exam, member);
 
 		validateCorrection(examRecord);
@@ -73,8 +73,8 @@ public class ExamRecordService {
 
 	@Transactional
 	public ExamRecordIdResponse createExamRecord(
-		final CreateUniversityExamRequestDTO request, final Member member) {
-		final Exam exam = getExam(request.universityExamId());
+		final CreateExamRecordRequestDTO request, final Member member) {
+		final Exam exam = getExam(request.examId());
 		validateExam(exam, member);
 		try {
 			final String fileName = s3Service.validateURL(EXAM_SHEET_FOLDER_NAME, request.memberSheetFileName());
@@ -121,8 +121,8 @@ public class ExamRecordService {
 			.build();
 	}
 
-	private Exam getExam(final Long universityExamId) {
-		return examRepository.findByExamId(universityExamId)
+	private Exam getExam(final Long examId) {
+		return examRepository.findByExamId(examId)
 			.orElseThrow(() -> new ExamException(INVALID_EXAM));
 	}
 

@@ -33,8 +33,8 @@ public class ExamService {
 	private final ExamImageRepository examImageRepository;
 	private final CloudFrontService cloudFrontService;
 
-	public ExamInfoResponseDTO getExamInfo(final Long universityExamId) {
-		Exam exam = examRepository.findByExamId(universityExamId)
+	public ExamInfoResponseDTO getExamInfo(final Long examId) {
+		Exam exam = examRepository.findByExamId(examId)
 			.orElseThrow(() -> new ExamException(
 				ExamExceptionType.INVALID_EXAM));
 		String examName = exam.getExamFullName();
@@ -64,8 +64,8 @@ public class ExamService {
 	}
 
 	@SuppressWarnings("checkstyle:RegexpSinglelineJava")
-	public ExamImageAndAnswerResponseDTO getExamImageAndAnswer(Long universityExamId) {
-		Exam exam = examRepository.findByExamId(universityExamId)
+	public ExamImageAndAnswerResponseDTO getExamImageAndAnswer(Long examId) {
+		Exam exam = examRepository.findByExamId(examId)
 			.orElseThrow(() -> new ExamException(
 				ExamExceptionType.INVALID_EXAM));
 
@@ -88,8 +88,8 @@ public class ExamService {
 			, examImageUrls, examAnswerUrl);
 	}
 
-	public ExamAndAnswerResponseDTO getExamAndAnswer(final Long universityExamId) {
-		Exam exam = examRepository.findByExamId(universityExamId)
+	public ExamAndAnswerResponseDTO getExamAndAnswer(final Long examId) {
+		Exam exam = examRepository.findByExamId(examId)
 			.orElseThrow(() -> new ExamException(ExamExceptionType.INVALID_EXAM));
 		String examUrl = cloudFrontService.createPreSignedGetUrl(EXAM_FILE_FOLDER_NAME, exam.getExamFileName());
 		String universityAnswerUrl = cloudFrontService.createPreSignedGetUrl(EXAM_ANSWER_FOLDER_NAME,

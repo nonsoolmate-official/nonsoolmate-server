@@ -4,7 +4,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import com.nonsoolmate.nonsoolmateServer.domain.examRecord.controller.dto.request.CreateUniversityExamRequestDTO;
+import com.nonsoolmate.nonsoolmateServer.domain.examRecord.controller.dto.request.CreateExamRecordRequestDTO;
 import com.nonsoolmate.nonsoolmateServer.domain.examRecord.controller.dto.response.ExamRecordIdResponse;
 import com.nonsoolmate.nonsoolmateServer.domain.examRecord.controller.dto.response.ExamRecordResponseDTO;
 import com.nonsoolmate.nonsoolmateServer.domain.examRecord.controller.dto.response.ExamRecordResultResponseDTO;
@@ -35,7 +35,7 @@ public interface ExamRecordApi {
 	)
 	@Operation(summary = "첨삭: 첨삭 PDF_해제PDF", description = "첨삭 pdf 및 해제 pdf를 조회합니다.")
 	ResponseEntity<SuccessResponse<ExamRecordResponseDTO>> getExamRecord(
-		@Parameter(description = "해당 대학교 시험 Id (examId)", required = true) @PathVariable("id") Long universityExamId,
+		@Parameter(description = "해당 대학교 시험 Id (examId)", required = true) @PathVariable("id") Long examId,
 		@AuthUser Member member);
 
 	@ApiResponses(
@@ -47,7 +47,7 @@ public interface ExamRecordApi {
 	)
 	@Operation(summary = "첨삭: 첨삭 PDF 저장", description = "첨삭 pdf를 조회합니다.")
 	ResponseEntity<SuccessResponse<ExamRecordResultResponseDTO>> getExamRecordResult(
-		@Parameter(description = "해당 대학교 시험 Id (examId)", required = true) @PathVariable("id") Long universityExamId,
+		@Parameter(description = "해당 대학교 시험 Id (examId)", required = true) @PathVariable("id") Long examId,
 		@AuthUser Member member);
 
 	@ApiResponses(
@@ -67,6 +67,6 @@ public interface ExamRecordApi {
 	)
 	@Operation(summary = "시험보기: [3] 답안지 업로드 후 시험 기록 API", description = "답안지(시험응시기록) 업로드 후 서버에 기록하기 위해 호출합니다.")
 	ResponseEntity<SuccessResponse<ExamRecordIdResponse>> createExamRecord(
-		@Valid @RequestBody CreateUniversityExamRequestDTO createUniversityExamRequestDTO,
+		@Valid @RequestBody CreateExamRecordRequestDTO createExamRecordRequestDTO,
 		@AuthUser Member member);
 }
