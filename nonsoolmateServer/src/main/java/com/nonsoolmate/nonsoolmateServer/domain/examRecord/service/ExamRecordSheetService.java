@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
-public class UniversityExamRecordSheetService {
+public class ExamRecordSheetService {
     private final CloudFrontService cloudFrontService;
 
     public PreSignedUrlVO getExamRecordSheetPreSignedUrl() {

@@ -11,7 +11,7 @@ import com.nonsoolmate.nonsoolmateServer.domain.examRecord.controller.dto.respon
 import com.nonsoolmate.nonsoolmateServer.domain.examRecord.controller.dto.request.CreateUniversityExamRequestDTO;
 import com.nonsoolmate.nonsoolmateServer.domain.examRecord.exception.ExamRecordSuccessType;
 import com.nonsoolmate.nonsoolmateServer.domain.examRecord.service.ExamRecordService;
-import com.nonsoolmate.nonsoolmateServer.domain.examRecord.service.UniversityExamRecordSheetService;
+import com.nonsoolmate.nonsoolmateServer.domain.examRecord.service.ExamRecordSheetService;
 import com.nonsoolmate.nonsoolmateServer.external.aws.service.vo.PreSignedUrlVO;
 import com.nonsoolmate.nonsoolmateServer.global.response.SuccessResponse;
 import com.nonsoolmate.nonsoolmateServer.global.security.AuthUser;
@@ -32,7 +32,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class ExamRecordController implements ExamRecordApi {
 
     private final ExamRecordService examRecordService;
-    private final UniversityExamRecordSheetService universityExamRecordSheetService;
+    private final ExamRecordSheetService examRecordSheetService;
 
     @Override
     @GetMapping("/{id}")
@@ -53,7 +53,7 @@ public class ExamRecordController implements ExamRecordApi {
     @Override
     @GetMapping("/sheet/presigned")
     public ResponseEntity<SuccessResponse<UniversityExamSheetPreSignedUrlResponseDTO>> getExamSheetPreSignedUrl() {
-        PreSignedUrlVO universityExamRecordSheetPreSignedUrlVO = universityExamRecordSheetService.getExamRecordSheetPreSignedUrl();
+        PreSignedUrlVO universityExamRecordSheetPreSignedUrlVO = examRecordSheetService.getExamRecordSheetPreSignedUrl();
         return ResponseEntity.ok().body(SuccessResponse.of(
                 ExamRecordSuccessType.GET_EXAM_RECORD_SHEET_PRESIGNED_SUCCESS,
                 UniversityExamSheetPreSignedUrlResponseDTO.of(universityExamRecordSheetPreSignedUrlVO.getFileName(),
