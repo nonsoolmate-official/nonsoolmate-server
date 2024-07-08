@@ -11,7 +11,9 @@ jobs:
     steps:
     - name: 설정 파일 생성
       run: |
+        mkdir -p src/main/resources
         echo "${{ secrets.SECRET_PROPERTIES }}" > src/main/resources/application-secret.properties
+        mkdir -p src/main/resources/key
         echo "${{ secrets.CLOUDFRONT_PRIVATE_KEY }}" > cloudfront-private-key.pem
     - name: dev 서버 무중단 배포
       uses: appleboy/ssh-action@master
