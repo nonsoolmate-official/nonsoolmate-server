@@ -28,7 +28,7 @@ jobs:
           cd ~/nonsoolmate-server
           git pull origin dev
           cd ~/nonsoolmate-server/nonsoolmateServer
-          ./gradlew clean build --exclude-task test
+          ./gradlew clean build
           cd ~/app/nonstop
           ./deploy.sh
 
