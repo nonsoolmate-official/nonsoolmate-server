@@ -1,6 +1,6 @@
 package com.nonsoolmate.nonsoolmateServer.domain.examRecord.repository;
 
-import static com.nonsoolmate.nonsoolmateServer.domain.examRecord.exception.UniversityExamRecordExceptionType.NOT_FOUND_UNIVERSITY_EXAM_RECORD;
+import static com.nonsoolmate.nonsoolmateServer.domain.examRecord.exception.ExamRecordExceptionType.NOT_FOUND_UNIVERSITY_EXAM_RECORD;
 
 import com.nonsoolmate.nonsoolmateServer.domain.member.entity.Member;
 import com.nonsoolmate.nonsoolmateServer.domain.university.entity.Exam;

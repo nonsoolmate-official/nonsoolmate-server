@@ -1,7 +1,7 @@
 package com.nonsoolmate.nonsoolmateServer.domain.examRecord.controller;
 
-import static com.nonsoolmate.nonsoolmateServer.domain.examRecord.exception.UniversityExamRecordSuccessType.GET_UNIVERSITY_EXAM_RECORD_RESULT_SUCCESS;
-import static com.nonsoolmate.nonsoolmateServer.domain.examRecord.exception.UniversityExamRecordSuccessType.GET_UNIVERSITY_EXAM_RECORD_SUCCESS;
+import static com.nonsoolmate.nonsoolmateServer.domain.examRecord.exception.ExamRecordSuccessType.GET_EXAM_RECORD_RESULT_SUCCESS;
+import static com.nonsoolmate.nonsoolmateServer.domain.examRecord.exception.ExamRecordSuccessType.GET_EXAM_RECORD_SUCCESS;
 
 import com.nonsoolmate.nonsoolmateServer.domain.examRecord.controller.dto.response.UniversityExamRecordIdResponse;
 import com.nonsoolmate.nonsoolmateServer.domain.member.entity.Member;
@@ -9,7 +9,7 @@ import com.nonsoolmate.nonsoolmateServer.domain.examRecord.controller.dto.respon
 import com.nonsoolmate.nonsoolmateServer.domain.examRecord.controller.dto.response.UniversityExamRecordResponseDTO;
 import com.nonsoolmate.nonsoolmateServer.domain.examRecord.controller.dto.response.UniversityExamRecordResultResponseDTO;
 import com.nonsoolmate.nonsoolmateServer.domain.examRecord.controller.dto.request.CreateUniversityExamRequestDTO;
-import com.nonsoolmate.nonsoolmateServer.domain.examRecord.exception.UniversityExamRecordSuccessType;
+import com.nonsoolmate.nonsoolmateServer.domain.examRecord.exception.ExamRecordSuccessType;
 import com.nonsoolmate.nonsoolmateServer.domain.examRecord.service.UniversityExamRecordService;
 import com.nonsoolmate.nonsoolmateServer.domain.examRecord.service.UniversityExamRecordSheetService;
 import com.nonsoolmate.nonsoolmateServer.external.aws.service.vo.PreSignedUrlVO;
@@ -38,7 +38,7 @@ public class ExamRecordController implements ExamRecordApi {
     @GetMapping("/{id}")
     public ResponseEntity<SuccessResponse<UniversityExamRecordResponseDTO>> getExamRecord(
             @PathVariable("id") Long universityExamId, @AuthUser Member member) {
-        return ResponseEntity.ok().body(SuccessResponse.of(GET_UNIVERSITY_EXAM_RECORD_SUCCESS,
+        return ResponseEntity.ok().body(SuccessResponse.of(GET_EXAM_RECORD_SUCCESS,
                 universityExamRecordService.getExamRecord(universityExamId, member)));
     }
 
@@ -46,7 +46,7 @@ public class ExamRecordController implements ExamRecordApi {
     @GetMapping("/result/{id}")
     public ResponseEntity<SuccessResponse<UniversityExamRecordResultResponseDTO>> getExamRecordResult(
             @PathVariable("id") Long universityExamId, @AuthUser Member member) {
-        return ResponseEntity.ok().body(SuccessResponse.of(GET_UNIVERSITY_EXAM_RECORD_RESULT_SUCCESS,
+        return ResponseEntity.ok().body(SuccessResponse.of(GET_EXAM_RECORD_RESULT_SUCCESS,
                 universityExamRecordService.getExamRecordResult(universityExamId, member)));
     }
 
@@ -55,7 +55,7 @@ public class ExamRecordController implements ExamRecordApi {
     public ResponseEntity<SuccessResponse<UniversityExamSheetPreSignedUrlResponseDTO>> getExamSheetPreSignedUrl() {
         PreSignedUrlVO universityExamRecordSheetPreSignedUrlVO = universityExamRecordSheetService.getExamRecordSheetPreSignedUrl();
         return ResponseEntity.ok().body(SuccessResponse.of(
-                UniversityExamRecordSuccessType.GET_UNIVERSITY_EXAM_RECORD_SHEET_PRESIGNED_SUCCESS,
+                ExamRecordSuccessType.GET_EXAM_RECORD_SHEET_PRESIGNED_SUCCESS,
                 UniversityExamSheetPreSignedUrlResponseDTO.of(universityExamRecordSheetPreSignedUrlVO.getFileName(),
                         universityExamRecordSheetPreSignedUrlVO.getUrl())));
     }
@@ -66,7 +66,7 @@ public class ExamRecordController implements ExamRecordApi {
             @Valid @RequestBody final CreateUniversityExamRequestDTO createUniversityExamRequestDTO,
             @AuthUser final Member member) {
         return ResponseEntity.status(HttpStatus.CREATED).body(SuccessResponse.of(
-                UniversityExamRecordSuccessType.CREATE_UNIVERSITY_EXAM_RECORD_SUCCESS,
+                ExamRecordSuccessType.CREATE_EXAM_RECORD_SUCCESS,
                 universityExamRecordService.createExamRecord(
                         createUniversityExamRequestDTO, member)));
     }
