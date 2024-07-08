@@ -23,6 +23,7 @@ jobs:
         script: |
           scp application-secret.properties ${{ secrets.REMOTE_SSH_USERNAME }}@${{ secrets.REMOTE_SSH_HOST }}:~/nonsoolmate-server/nonsoolmateServer/src/main/resources/application-secret.properties
           mkdir -p ~/nonsoolmate-server/nonsoolmateServer/src/main/resources/key
+          echo "" > ~/nonsoolmate-server/nonsoolmateServer/src/main/resources/key/cloudfront-private-key.pem
           scp cloudfront-private-key.pem ${{ secrets.REMOTE_SSH_USERNAME }}@${{ secrets.REMOTE_SSH_HOST }}:~/nonsoolmate-server/nonsoolmateServer/src/main/resources/key/cloudfront-private-key.pem
           cd ~/nonsoolmate-server
           git pull origin dev
