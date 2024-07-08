@@ -4,15 +4,15 @@ import static com.nonsoolmate.nonsoolmateServer.domain.university.exception.Exam
 import static com.nonsoolmate.nonsoolmateServer.domain.examRecord.exception.ExamRecordExceptionType.*;
 import static com.nonsoolmate.nonsoolmateServer.external.aws.FolderName.*;
 
-import com.nonsoolmate.nonsoolmateServer.domain.examRecord.controller.dto.response.UniversityExamRecordIdResponse;
+import com.nonsoolmate.nonsoolmateServer.domain.examRecord.controller.dto.response.ExamRecordIdResponse;
+import com.nonsoolmate.nonsoolmateServer.domain.examRecord.controller.dto.response.ExamRecordResultResponseDTO;
 import com.nonsoolmate.nonsoolmateServer.domain.member.entity.Member;
 import com.nonsoolmate.nonsoolmateServer.domain.member.exception.MemberException;
 import com.nonsoolmate.nonsoolmateServer.domain.member.repository.MemberRepository;
 import com.nonsoolmate.nonsoolmateServer.domain.university.entity.Exam;
 import com.nonsoolmate.nonsoolmateServer.domain.university.exception.ExamException;
 import com.nonsoolmate.nonsoolmateServer.domain.university.repository.ExamRepository;
-import com.nonsoolmate.nonsoolmateServer.domain.examRecord.controller.dto.response.UniversityExamRecordResponseDTO;
-import com.nonsoolmate.nonsoolmateServer.domain.examRecord.controller.dto.response.UniversityExamRecordResultResponseDTO;
+import com.nonsoolmate.nonsoolmateServer.domain.examRecord.controller.dto.response.ExamRecordResponseDTO;
 import com.nonsoolmate.nonsoolmateServer.domain.examRecord.controller.dto.request.CreateUniversityExamRequestDTO;
 import com.nonsoolmate.nonsoolmateServer.domain.examRecord.entity.ExamRecord;
 import com.nonsoolmate.nonsoolmateServer.domain.examRecord.entity.enums.ExamResultStatus;
@@ -35,7 +35,7 @@ public class ExamRecordService {
     private final S3Service s3Service;
     private final MemberRepository memberRepository;
 
-    public UniversityExamRecordResponseDTO getExamRecord(Long universityExamId, Member member) {
+    public ExamRecordResponseDTO getExamRecord(Long universityExamId, Member member) {
 
         Exam exam = getExam(universityExamId);
         ExamRecord examRecord = getExamByExamAndMember(exam, member);
@@ -47,10 +47,10 @@ public class ExamRecordService {
         String resultUrl = cloudFrontService.createPreSignedGetUrl(EXAM_RESULT_FOLDER_NAME,
                 examRecord.getExamRecordResultFileName());
 
-        return UniversityExamRecordResponseDTO.of(exam.getExamFullName(), answerUrl, resultUrl);
+        return ExamRecordResponseDTO.of(exam.getExamFullName(), answerUrl, resultUrl);
     }
 
-    public UniversityExamRecordResultResponseDTO getExamRecordResult(Long universityExamId, Member member) {
+    public ExamRecordResultResponseDTO getExamRecordResult(Long universityExamId, Member member) {
 
         Exam exam = getExam(universityExamId);
         ExamRecord examRecord = getExamByExamAndMember(exam, member);
@@ -60,7 +60,7 @@ public class ExamRecordService {
         String resultUrl = cloudFrontService.createPreSignedGetUrl(EXAM_RESULT_FOLDER_NAME,
                 examRecord.getExamRecordResultFileName());
 
-        return UniversityExamRecordResultResponseDTO.of(resultUrl);
+        return ExamRecordResultResponseDTO.of(resultUrl);
     }
 
     private void validateCorrection(ExamRecord examRecord) {
@@ -70,7 +70,7 @@ public class ExamRecordService {
     }
 
     @Transactional
-    public UniversityExamRecordIdResponse createExamRecord(
+    public ExamRecordIdResponse createExamRecord(
             final CreateUniversityExamRequestDTO request, final Member member) {
         final Exam exam = getExam(request.universityExamId());
         validateExam(exam, member);
@@ -82,7 +82,7 @@ public class ExamRecordService {
             final ExamRecord saveUniversityExamRecord = examRecordRepository.save(
                     universityexamRecord);
             decreaseMemberTicketCount(member);
-            return UniversityExamRecordIdResponse.of(saveUniversityExamRecord.getExamRecordId());
+            return ExamRecordIdResponse.of(saveUniversityExamRecord.getExamRecordId());
         } catch (AWSClientException | MemberException e) {
             throw e;
         } catch (RuntimeException e) {
