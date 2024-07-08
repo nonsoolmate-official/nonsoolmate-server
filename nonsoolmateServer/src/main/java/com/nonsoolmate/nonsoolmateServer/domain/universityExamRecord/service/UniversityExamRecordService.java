@@ -9,7 +9,7 @@ import com.nonsoolmate.nonsoolmateServer.domain.member.exception.MemberException
 import com.nonsoolmate.nonsoolmateServer.domain.member.repository.MemberRepository;
 import com.nonsoolmate.nonsoolmateServer.domain.university.entity.Exam;
 import com.nonsoolmate.nonsoolmateServer.domain.university.exception.UniversityExamException;
-import com.nonsoolmate.nonsoolmateServer.domain.university.repository.UniversityExamRepository;
+import com.nonsoolmate.nonsoolmateServer.domain.university.repository.ExamRepository;
 import com.nonsoolmate.nonsoolmateServer.domain.universityExamRecord.controller.dto.response.UniversityExamRecordIdResponse;
 import com.nonsoolmate.nonsoolmateServer.domain.universityExamRecord.controller.dto.response.UniversityExamRecordResponseDTO;
 import com.nonsoolmate.nonsoolmateServer.domain.universityExamRecord.controller.dto.response.UniversityExamRecordResultResponseDTO;
@@ -30,7 +30,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class UniversityExamRecordService {
     private final UniversityExamRecordRepository universityExamRecordRepository;
-    private final UniversityExamRepository universityExamRepository;
+    private final ExamRepository examRepository;
     private final CloudFrontService cloudFrontService;
     private final S3Service s3Service;
     private final MemberRepository memberRepository;
@@ -120,7 +120,7 @@ public class UniversityExamRecordService {
     }
 
     private Exam getUniversityExam(final Long universityExamId) {
-        return universityExamRepository.findByUniversityExamId(universityExamId)
+        return examRepository.findByExamId(universityExamId)
                 .orElseThrow(() -> new UniversityExamException(INVALID_UNIVERSITY_EXAM));
     }
 

@@ -14,7 +14,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import com.nonsoolmate.nonsoolmateServer.domain.university.repository.UniversityExamRepository;
+import com.nonsoolmate.nonsoolmateServer.domain.university.repository.ExamRepository;
 
 import static com.nonsoolmate.nonsoolmateServer.external.aws.FolderName.*;
 
@@ -22,13 +22,13 @@ import static com.nonsoolmate.nonsoolmateServer.external.aws.FolderName.*;
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class UniversityExamService {
-    private final UniversityExamRepository universityExamRepository;
+    private final ExamRepository examRepository;
     private final ExamImageRepository examImageRepository;
     private final CloudFrontService cloudFrontService;
 
 
     public UniversityExamInfoResponseDTO getUniversityExamInfo(final Long universityExamId) {
-        Exam exam = universityExamRepository.findByUniversityExamId(universityExamId)
+        Exam exam = examRepository.findByExamId(universityExamId)
                 .orElseThrow(() -> new UniversityExamException(
                         UniversityExamExceptionType.INVALID_UNIVERSITY_EXAM));
         String universityExamName = exam.getExamFullName();
@@ -38,7 +38,7 @@ public class UniversityExamService {
     }
 
     public UniversityExamFileResponseDTO getUniversityExamFile(final Long id) {
-        Exam exam = universityExamRepository.findByUniversityExamId(id)
+        Exam exam = examRepository.findByExamId(id)
                 .orElseThrow(() -> new UniversityExamException(
                         UniversityExamExceptionType.INVALID_UNIVERSITY_EXAM));
         return UniversityExamFileResponseDTO.of(cloudFrontService.createPreSignedGetUrl(EXAM_FILE_FOLDER_NAME,
@@ -46,7 +46,7 @@ public class UniversityExamService {
     }
 
     public Page<UniversityExamImageResponseDTO> getUniversityExamImages(final Long id, final Pageable pageable) {
-        Exam exam = universityExamRepository.findByUniversityExamId(id)
+        Exam exam = examRepository.findByExamId(id)
                 .orElseThrow(() -> new UniversityExamException(
                         UniversityExamExceptionType.INVALID_UNIVERSITY_EXAM));
         Page<ExamImage> universityExamImages = examImageRepository.findAllByExamOrderByExamImageIdAscOrderByPageAsc(
@@ -58,7 +58,7 @@ public class UniversityExamService {
     }
 
     public UniversityExamImageAndAnswerResponseDTO getUniversityExamImageAndAnswer(Long universityExamId) {
-        Exam exam = universityExamRepository.findByUniversityExamId(universityExamId)
+        Exam exam = examRepository.findByExamId(universityExamId)
                 .orElseThrow(() -> new UniversityExamException(
                         UniversityExamExceptionType.INVALID_UNIVERSITY_EXAM));
 
@@ -82,7 +82,7 @@ public class UniversityExamService {
     }
 
     public UniversityExamAndAnswerResponseDTO getUniversityExamAndAnswer(final long universityExamId){
-        Exam exam = universityExamRepository.findByUniversityExamId(universityExamId)
+        Exam exam = examRepository.findByExamId(universityExamId)
                 .orElseThrow(() -> new UniversityExamException(
                         UniversityExamExceptionType.INVALID_UNIVERSITY_EXAM));
         String universityExamUrl = cloudFrontService.createPreSignedGetUrl(EXAM_FILE_FOLDER_NAME, exam.getExamFileName());

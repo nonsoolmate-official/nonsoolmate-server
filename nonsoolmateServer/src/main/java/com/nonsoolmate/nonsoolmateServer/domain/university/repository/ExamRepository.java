@@ -6,8 +6,8 @@ import java.util.List;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface UniversityExamRepository extends JpaRepository<Exam, Long> {
-    Optional<Exam> findByUniversityExamId(Long universityId);
+public interface ExamRepository extends JpaRepository<Exam, Long> {
+    Optional<Exam> findByExamId(Long universityId);
 
-    List<Exam> findAllByUniversityOrderByUniversityExamYearDesc(University university);
+    List<Exam> findAllByUniversityOrderByExamYearDesc(University university);
 }
