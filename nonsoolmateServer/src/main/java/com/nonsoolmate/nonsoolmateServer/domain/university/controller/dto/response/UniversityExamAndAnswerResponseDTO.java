@@ -2,8 +2,6 @@ package com.nonsoolmate.nonsoolmateServer.domain.university.controller.dto.respo
 
 import io.swagger.v3.oas.annotations.media.Schema;
 
-import java.util.List;
-
 @Schema(name = "UniversityExamAndAnswerResponseDTO", description = "대학시험 문제PDF_해제PDF 조회 응답 DTO")
 public record UniversityExamAndAnswerResponseDTO(
         @Schema(description = "시험 이름(대학 + 시험 년도 + 시험 이름)", example = "2023 중앙대학교 경영경제 1") String universityExamName,
