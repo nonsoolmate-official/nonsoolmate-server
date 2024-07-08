@@ -111,7 +111,7 @@ public class UniversityExamRecordService {
     private UniversityExamRecord createUniversityExamRecord(final Exam exam, final Member member,
                                                             final int takeTimeExam, final String sheetFileName) {
         return UniversityExamRecord.builder()
-                .universityExam(exam)
+                .exam(exam)
                 .examResultStatus(ExamResultStatus.ONGOING)
                 .member(member)
                 .timeTakeExam(takeTimeExam)
