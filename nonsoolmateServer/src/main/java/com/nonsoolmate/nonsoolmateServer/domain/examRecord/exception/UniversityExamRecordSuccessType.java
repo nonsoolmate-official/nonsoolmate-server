@@ -1,4 +1,4 @@
-package com.nonsoolmate.nonsoolmateServer.domain.universityExamRecord.exception;
+package com.nonsoolmate.nonsoolmateServer.domain.examRecord.exception;
 
 import com.nonsoolmate.nonsoolmateServer.global.error.exception.SuccessType;
 import lombok.AccessLevel;

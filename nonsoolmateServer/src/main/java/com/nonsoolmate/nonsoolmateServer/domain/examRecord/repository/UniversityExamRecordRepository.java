@@ -1,11 +1,11 @@
-package com.nonsoolmate.nonsoolmateServer.domain.universityExamRecord.repository;
+package com.nonsoolmate.nonsoolmateServer.domain.examRecord.repository;
 
-import static com.nonsoolmate.nonsoolmateServer.domain.universityExamRecord.exception.UniversityExamRecordExceptionType.NOT_FOUND_UNIVERSITY_EXAM_RECORD;
+import static com.nonsoolmate.nonsoolmateServer.domain.examRecord.exception.UniversityExamRecordExceptionType.NOT_FOUND_UNIVERSITY_EXAM_RECORD;
 
 import com.nonsoolmate.nonsoolmateServer.domain.member.entity.Member;
 import com.nonsoolmate.nonsoolmateServer.domain.university.entity.Exam;
 import com.nonsoolmate.nonsoolmateServer.domain.university.exception.UniversityExamException;
-import com.nonsoolmate.nonsoolmateServer.domain.universityExamRecord.entity.UniversityExamRecord;
+import com.nonsoolmate.nonsoolmateServer.domain.examRecord.entity.UniversityExamRecord;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 

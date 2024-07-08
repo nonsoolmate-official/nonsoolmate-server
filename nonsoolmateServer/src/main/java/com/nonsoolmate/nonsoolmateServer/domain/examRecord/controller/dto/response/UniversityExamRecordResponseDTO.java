@@ -1,4 +1,4 @@
-package com.nonsoolmate.nonsoolmateServer.domain.universityExamRecord.controller.dto.response;
+package com.nonsoolmate.nonsoolmateServer.domain.examRecord.controller.dto.response;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 
