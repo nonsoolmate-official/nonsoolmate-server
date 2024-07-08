@@ -1,10 +1,10 @@
 package com.nonsoolmate.nonsoolmateServer.domain.university.service;
 
-import com.nonsoolmate.nonsoolmateServer.domain.university.controller.dto.response.UniversityExamAndAnswerResponseDTO;
-import com.nonsoolmate.nonsoolmateServer.domain.university.controller.dto.response.UniversityExamFileResponseDTO;
-import com.nonsoolmate.nonsoolmateServer.domain.university.controller.dto.response.UniversityExamImageAndAnswerResponseDTO;
-import com.nonsoolmate.nonsoolmateServer.domain.university.controller.dto.response.UniversityExamImageResponseDTO;
-import com.nonsoolmate.nonsoolmateServer.domain.university.controller.dto.response.UniversityExamInfoResponseDTO;
+import com.nonsoolmate.nonsoolmateServer.domain.university.controller.dto.response.ExamAndAnswerResponseDTO;
+import com.nonsoolmate.nonsoolmateServer.domain.university.controller.dto.response.ExamUrlResponseDTO;
+import com.nonsoolmate.nonsoolmateServer.domain.university.controller.dto.response.ExamImageAndAnswerResponseDTO;
+import com.nonsoolmate.nonsoolmateServer.domain.university.controller.dto.response.ExamImageResponseDTO;
+import com.nonsoolmate.nonsoolmateServer.domain.university.controller.dto.response.ExamInfoResponseDTO;
 import com.nonsoolmate.nonsoolmateServer.domain.university.entity.Exam;
 import com.nonsoolmate.nonsoolmateServer.domain.university.entity.ExamImage;
 import com.nonsoolmate.nonsoolmateServer.domain.university.exception.UniversityExamException;
@@ -31,25 +31,25 @@ public class ExamService {
     private final CloudFrontService cloudFrontService;
 
 
-    public UniversityExamInfoResponseDTO getUniversityExamInfo(final Long universityExamId) {
+    public ExamInfoResponseDTO getUniversityExamInfo(final Long universityExamId) {
         Exam exam = examRepository.findByExamId(universityExamId)
                 .orElseThrow(() -> new UniversityExamException(
                         UniversityExamExceptionType.INVALID_UNIVERSITY_EXAM));
-        String universityExamName = exam.getExamFullName();
-        return UniversityExamInfoResponseDTO.of(exam.getExamId(),
-                universityExamName,
+        String examName = exam.getExamFullName();
+        return ExamInfoResponseDTO.of(exam.getExamId(),
+                examName,
                 exam.getExamTimeLimit());
     }
 
-    public UniversityExamFileResponseDTO getUniversityExamFile(final Long id) {
+    public ExamUrlResponseDTO getUniversityExamFile(final Long id) {
         Exam exam = examRepository.findByExamId(id)
                 .orElseThrow(() -> new UniversityExamException(
                         UniversityExamExceptionType.INVALID_UNIVERSITY_EXAM));
-        return UniversityExamFileResponseDTO.of(cloudFrontService.createPreSignedGetUrl(EXAM_FILE_FOLDER_NAME,
+        return ExamUrlResponseDTO.of(cloudFrontService.createPreSignedGetUrl(EXAM_FILE_FOLDER_NAME,
                 exam.getExamFileName()));
     }
 
-    public Page<UniversityExamImageResponseDTO> getUniversityExamImages(final Long id, final Pageable pageable) {
+    public Page<ExamImageResponseDTO> getUniversityExamImages(final Long id, final Pageable pageable) {
         Exam exam = examRepository.findByExamId(id)
                 .orElseThrow(() -> new UniversityExamException(
                         UniversityExamExceptionType.INVALID_UNIVERSITY_EXAM));
@@ -57,18 +57,18 @@ public class ExamService {
 			exam,
                 pageable);
         return universityExamImages.map(image ->
-                UniversityExamImageResponseDTO.of(cloudFrontService.createPreSignedGetUrl(EXAM_IMAGE_FOLDER_NAME,
+                ExamImageResponseDTO.of(cloudFrontService.createPreSignedGetUrl(EXAM_IMAGE_FOLDER_NAME,
                         image.getExamImageFileName())));
     }
 
-    public UniversityExamImageAndAnswerResponseDTO getUniversityExamImageAndAnswer(Long universityExamId) {
+    public ExamImageAndAnswerResponseDTO getUniversityExamImageAndAnswer(Long universityExamId) {
         Exam exam = examRepository.findByExamId(universityExamId)
                 .orElseThrow(() -> new UniversityExamException(
                         UniversityExamExceptionType.INVALID_UNIVERSITY_EXAM));
 
         String examAnswerUrl = cloudFrontService.createPreSignedGetUrl(EXAM_ANSWER_FOLDER_NAME,
                 exam.getExamAnswerFileName());
-        List<UniversityExamImageResponseDTO> examImageUrls = new ArrayList<>();
+        List<ExamImageResponseDTO> examImageUrls = new ArrayList<>();
 
         List<ExamImage> examImages = examImageRepository.findAllByExamOrderByExamImageIdAsc(
 			exam);
@@ -77,23 +77,23 @@ public class ExamService {
             String preSignedGetUrl = cloudFrontService.createPreSignedGetUrl(EXAM_IMAGE_FOLDER_NAME,
                     examImage.getExamImageFileName());
             examImageUrls.add(
-                    UniversityExamImageResponseDTO.of(preSignedGetUrl));
+                    ExamImageResponseDTO.of(preSignedGetUrl));
         });
 
-        return UniversityExamImageAndAnswerResponseDTO.of(
+        return ExamImageAndAnswerResponseDTO.of(
                 exam.getExamFullName()
                 , examImageUrls, examAnswerUrl);
     }
 
-    public UniversityExamAndAnswerResponseDTO getUniversityExamAndAnswer(final Long universityExamId){
+    public ExamAndAnswerResponseDTO getUniversityExamAndAnswer(final Long universityExamId){
         Exam exam = examRepository.findByExamId(universityExamId)
                 .orElseThrow(() -> new UniversityExamException(
                         UniversityExamExceptionType.INVALID_UNIVERSITY_EXAM));
-        String universityExamUrl = cloudFrontService.createPreSignedGetUrl(EXAM_FILE_FOLDER_NAME, exam.getExamFileName());
+        String examUrl = cloudFrontService.createPreSignedGetUrl(EXAM_FILE_FOLDER_NAME, exam.getExamFileName());
         String universityAnswerUrl = cloudFrontService.createPreSignedGetUrl(EXAM_ANSWER_FOLDER_NAME, exam.getExamAnswerFileName());
-        return UniversityExamAndAnswerResponseDTO.of(
+        return ExamAndAnswerResponseDTO.of(
             exam.getExamFullName(),
-            universityExamUrl, universityAnswerUrl);
+            examUrl, universityAnswerUrl);
     }
 
 }
