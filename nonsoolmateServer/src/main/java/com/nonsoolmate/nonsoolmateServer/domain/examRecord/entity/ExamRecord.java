@@ -21,13 +21,13 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class UniversityExamRecord {
+public class ExamRecord {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long universityExamRecordId;
+    private Long examRecordId;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "university_exam_id")
+    @JoinColumn(name = "exam_id")
     private Exam exam;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -47,7 +47,7 @@ public class UniversityExamRecord {
     private String examRecordResultFileName;  // 첨삭
 
     @Builder
-    public UniversityExamRecord(final Exam exam, final Member member, final ExamResultStatus examResultStatus,
+    public ExamRecord(final Exam exam, final Member member, final ExamResultStatus examResultStatus,
                                 final int timeTakeExam, final String examRecordSheetFileName) {
         this.exam = exam;
         this.member = member;

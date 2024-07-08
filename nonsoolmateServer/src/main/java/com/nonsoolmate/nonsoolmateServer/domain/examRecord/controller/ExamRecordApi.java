@@ -1,8 +1,8 @@
 package com.nonsoolmate.nonsoolmateServer.domain.examRecord.controller;
 
+import com.nonsoolmate.nonsoolmateServer.domain.examRecord.controller.dto.response.UniversityExamRecordIdResponse;
 import com.nonsoolmate.nonsoolmateServer.domain.member.entity.Member;
 import com.nonsoolmate.nonsoolmateServer.domain.examRecord.controller.dto.request.CreateUniversityExamRequestDTO;
-import com.nonsoolmate.nonsoolmateServer.domain.examRecord.controller.dto.response.UniversityExamRecordIdResponse;
 import com.nonsoolmate.nonsoolmateServer.domain.examRecord.controller.dto.response.UniversityExamRecordResponseDTO;
 import com.nonsoolmate.nonsoolmateServer.domain.examRecord.controller.dto.response.UniversityExamRecordResultResponseDTO;
 import com.nonsoolmate.nonsoolmateServer.domain.examRecord.controller.dto.response.UniversityExamSheetPreSignedUrlResponseDTO;
@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 
 @Tag(name = "UniversityExamRecord", description = "시험 응시 기록과 관련된 API")
-public interface UniversityExamRecordApi {
+public interface ExamRecordApi {
 
     @ApiResponses(
             value = {
@@ -33,7 +33,7 @@ public interface UniversityExamRecordApi {
             }
     )
     @Operation(summary = "첨삭: 첨삭 PDF_해제PDF", description = "첨삭 pdf 및 해제 pdf를 조회합니다.")
-    ResponseEntity<SuccessResponse<UniversityExamRecordResponseDTO>> getUniversityExamRecord(
+    ResponseEntity<SuccessResponse<UniversityExamRecordResponseDTO>> getExamRecord(
             @Parameter(description = "해당 대학교 시험 Id (examId)", required = true) @PathVariable("id") Long universityExamId,
             @AuthUser Member member);
 
@@ -46,7 +46,7 @@ public interface UniversityExamRecordApi {
             }
     )
     @Operation(summary = "첨삭: 첨삭 PDF 저장", description = "첨삭 pdf를 조회합니다.")
-    ResponseEntity<SuccessResponse<UniversityExamRecordResultResponseDTO>> getUniversityExamRecordResult(
+    ResponseEntity<SuccessResponse<UniversityExamRecordResultResponseDTO>> getExamRecordResult(
             @Parameter(description = "해당 대학교 시험 Id (examId)", required = true) @PathVariable("id") Long universityExamId,
             @AuthUser Member member);
 
@@ -56,7 +56,7 @@ public interface UniversityExamRecordApi {
             }
     )
     @Operation(summary = "시험 보기: [1] 답안지 업로드 PresignedUrl 조회 API", description = "답안지(시험응시기록) 업로드를 위한 PresignedUrl를 조회합니다.")
-    ResponseEntity<SuccessResponse<UniversityExamSheetPreSignedUrlResponseDTO>> getUniversityExamSheetPreSignedUrl();
+    ResponseEntity<SuccessResponse<UniversityExamSheetPreSignedUrlResponseDTO>> getExamSheetPreSignedUrl();
 
     @ApiResponses(
             value = {
@@ -66,7 +66,7 @@ public interface UniversityExamRecordApi {
             }
     )
     @Operation(summary = "시험보기: [3] 답안지 업로드 후 시험 기록 API", description = "답안지(시험응시기록) 업로드 후 서버에 기록하기 위해 호출합니다.")
-    ResponseEntity<SuccessResponse<UniversityExamRecordIdResponse>> createUniversityExamRecord(
+    ResponseEntity<SuccessResponse<UniversityExamRecordIdResponse>> createExamRecord(
             @Valid @RequestBody CreateUniversityExamRequestDTO createUniversityExamRequestDTO,
             @AuthUser Member member);
 }

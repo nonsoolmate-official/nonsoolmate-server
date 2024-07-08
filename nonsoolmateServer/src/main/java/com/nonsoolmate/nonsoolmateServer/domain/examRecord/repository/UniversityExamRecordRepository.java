@@ -5,14 +5,14 @@ import static com.nonsoolmate.nonsoolmateServer.domain.examRecord.exception.Univ
 import com.nonsoolmate.nonsoolmateServer.domain.member.entity.Member;
 import com.nonsoolmate.nonsoolmateServer.domain.university.entity.Exam;
 import com.nonsoolmate.nonsoolmateServer.domain.university.exception.UniversityExamException;
-import com.nonsoolmate.nonsoolmateServer.domain.examRecord.entity.UniversityExamRecord;
+import com.nonsoolmate.nonsoolmateServer.domain.examRecord.entity.ExamRecord;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface UniversityExamRecordRepository extends JpaRepository<UniversityExamRecord, Long> {
-    Optional<UniversityExamRecord> findByUniversityExamAndMember(Exam university, Member member);
+public interface UniversityExamRecordRepository extends JpaRepository<ExamRecord, Long> {
+    Optional<ExamRecord> findByUniversityExamAndMember(Exam university, Member member);
 
-    default UniversityExamRecord findByUniversityExamAndMemberOrElseThrowException(Exam university,
+    default ExamRecord findByUniversityExamAndMemberOrElseThrowException(Exam university,
                                                                                    Member member) {
         return findByUniversityExamAndMember(university, member).orElseThrow(
                 () -> new UniversityExamException(NOT_FOUND_UNIVERSITY_EXAM_RECORD));
