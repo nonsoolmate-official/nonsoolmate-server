@@ -11,7 +11,7 @@ import com.nonsoolmate.nonsoolmateServer.domain.university.entity.University;
 import com.nonsoolmate.nonsoolmateServer.domain.university.entity.Exam;
 import com.nonsoolmate.nonsoolmateServer.domain.university.repository.ExamRepository;
 import com.nonsoolmate.nonsoolmateServer.domain.university.repository.UniversityRepository;
-import com.nonsoolmate.nonsoolmateServer.domain.examRecord.entity.UniversityExamRecord;
+import com.nonsoolmate.nonsoolmateServer.domain.examRecord.entity.ExamRecord;
 import com.nonsoolmate.nonsoolmateServer.domain.examRecord.repository.UniversityExamRecordRepository;
 import java.util.ArrayList;
 import java.util.List;
@@ -79,13 +79,13 @@ public class SelectUniversityService {
 
     private List<SelectUniversityExamResponseDTO> getSelectUniversityExamResponseDTOS(
             final List<Exam> exams, final Member member) {
-        UniversityExamRecord universityExamRecord;
+        ExamRecord examRecord;
         List<SelectUniversityExamResponseDTO> selectUniversityExamResponseDTOS = new ArrayList<>();
         for (Exam exam : exams) {
-            universityExamRecord = universityExamRecordRepository.findByUniversityExamAndMember(exam, member)
+            examRecord = universityExamRecordRepository.findByUniversityExamAndMember(exam, member)
                     .orElse(null);
             String status =
-                    universityExamRecord == null ? BEFORE_EXAM : universityExamRecord.getExamResultStatus().getStatus();
+                    examRecord == null ? BEFORE_EXAM : examRecord.getExamResultStatus().getStatus();
             selectUniversityExamResponseDTOS.add(
                     SelectUniversityExamResponseDTO.of(exam.getExamId(),
                             exam.getExamListName(), exam.getExamTimeLimit(),

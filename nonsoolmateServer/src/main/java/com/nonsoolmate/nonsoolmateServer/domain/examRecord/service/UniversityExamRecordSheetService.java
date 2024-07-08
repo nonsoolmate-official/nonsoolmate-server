@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class UniversityExamRecordSheetService {
     private final CloudFrontService cloudFrontService;
 
-    public PreSignedUrlVO getUniversityExamRecordSheetPreSignedUrl() {
+    public PreSignedUrlVO getExamRecordSheetPreSignedUrl() {
         return cloudFrontService.createPreSignedPutUrl(EXAM_SHEET_FOLDER_NAME);
     }
 
