@@ -28,7 +28,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
-public class UniversityExamRecordService {
+public class ExamRecordService {
     private final ExamRecordRepository examRecordRepository;
     private final ExamRepository examRepository;
     private final CloudFrontService cloudFrontService;
@@ -37,8 +37,8 @@ public class UniversityExamRecordService {
 
     public UniversityExamRecordResponseDTO getExamRecord(Long universityExamId, Member member) {
 
-        Exam exam = getUniversityExam(universityExamId);
-        ExamRecord examRecord = getUniversityExamByUniversityExamAndMember(exam, member);
+        Exam exam = getExam(universityExamId);
+        ExamRecord examRecord = getExamByExamAndMember(exam, member);
 
         validateCorrection(examRecord);
 
@@ -52,8 +52,8 @@ public class UniversityExamRecordService {
 
     public UniversityExamRecordResultResponseDTO getExamRecordResult(Long universityExamId, Member member) {
 
-        Exam exam = getUniversityExam(universityExamId);
-        ExamRecord examRecord = getUniversityExamByUniversityExamAndMember(exam, member);
+        Exam exam = getExam(universityExamId);
+        ExamRecord examRecord = getExamByExamAndMember(exam, member);
 
         validateCorrection(examRecord);
 
@@ -72,8 +72,8 @@ public class UniversityExamRecordService {
     @Transactional
     public UniversityExamRecordIdResponse createExamRecord(
             final CreateUniversityExamRequestDTO request, final Member member) {
-        final Exam exam = getUniversityExam(request.universityExamId());
-        validateUniversityExam(exam, member);
+        final Exam exam = getExam(request.universityExamId());
+        validateExam(exam, member);
         try {
             final String fileName = s3Service.validateURL(EXAM_SHEET_FOLDER_NAME, request.memberSheetFileName());
             final ExamRecord universityexamRecord = createExamRecord(exam, member,
@@ -91,7 +91,7 @@ public class UniversityExamRecordService {
         }
     }
 
-    private void validateUniversityExam(final Exam exam, final Member member){
+    private void validateExam(final Exam exam, final Member member){
         final ExamRecord existExamRecord = examRecordRepository.findByExamAndMember(
             exam, member).orElse(null);
         if (existExamRecord != null) {
@@ -119,13 +119,12 @@ public class UniversityExamRecordService {
                 .build();
     }
 
-    private Exam getUniversityExam(final Long universityExamId) {
+    private Exam getExam(final Long universityExamId) {
         return examRepository.findByExamId(universityExamId)
                 .orElseThrow(() -> new ExamException(INVALID_EXAM));
     }
 
-    private ExamRecord getUniversityExamByUniversityExamAndMember(final Exam exam,
-                                                                            final Member member) {
+    private ExamRecord getExamByExamAndMember(final Exam exam, final Member member) {
         return examRecordRepository.findByExamAndMemberOrElseThrowException(
             exam, member);
     }

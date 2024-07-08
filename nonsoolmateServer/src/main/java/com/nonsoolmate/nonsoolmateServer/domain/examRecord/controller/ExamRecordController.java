@@ -10,7 +10,7 @@ import com.nonsoolmate.nonsoolmateServer.domain.examRecord.controller.dto.respon
 import com.nonsoolmate.nonsoolmateServer.domain.examRecord.controller.dto.response.UniversityExamRecordResultResponseDTO;
 import com.nonsoolmate.nonsoolmateServer.domain.examRecord.controller.dto.request.CreateUniversityExamRequestDTO;
 import com.nonsoolmate.nonsoolmateServer.domain.examRecord.exception.ExamRecordSuccessType;
-import com.nonsoolmate.nonsoolmateServer.domain.examRecord.service.UniversityExamRecordService;
+import com.nonsoolmate.nonsoolmateServer.domain.examRecord.service.ExamRecordService;
 import com.nonsoolmate.nonsoolmateServer.domain.examRecord.service.UniversityExamRecordSheetService;
 import com.nonsoolmate.nonsoolmateServer.external.aws.service.vo.PreSignedUrlVO;
 import com.nonsoolmate.nonsoolmateServer.global.response.SuccessResponse;
@@ -31,7 +31,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class ExamRecordController implements ExamRecordApi {
 
-    private final UniversityExamRecordService universityExamRecordService;
+    private final ExamRecordService examRecordService;
     private final UniversityExamRecordSheetService universityExamRecordSheetService;
 
     @Override
@@ -39,7 +39,7 @@ public class ExamRecordController implements ExamRecordApi {
     public ResponseEntity<SuccessResponse<UniversityExamRecordResponseDTO>> getExamRecord(
             @PathVariable("id") Long universityExamId, @AuthUser Member member) {
         return ResponseEntity.ok().body(SuccessResponse.of(GET_EXAM_RECORD_SUCCESS,
-                universityExamRecordService.getExamRecord(universityExamId, member)));
+                examRecordService.getExamRecord(universityExamId, member)));
     }
 
     @Override
@@ -47,7 +47,7 @@ public class ExamRecordController implements ExamRecordApi {
     public ResponseEntity<SuccessResponse<UniversityExamRecordResultResponseDTO>> getExamRecordResult(
             @PathVariable("id") Long universityExamId, @AuthUser Member member) {
         return ResponseEntity.ok().body(SuccessResponse.of(GET_EXAM_RECORD_RESULT_SUCCESS,
-                universityExamRecordService.getExamRecordResult(universityExamId, member)));
+                examRecordService.getExamRecordResult(universityExamId, member)));
     }
 
     @Override
@@ -67,7 +67,7 @@ public class ExamRecordController implements ExamRecordApi {
             @AuthUser final Member member) {
         return ResponseEntity.status(HttpStatus.CREATED).body(SuccessResponse.of(
                 ExamRecordSuccessType.CREATE_EXAM_RECORD_SUCCESS,
-                universityExamRecordService.createExamRecord(
+                examRecordService.createExamRecord(
                         createUniversityExamRequestDTO, member)));
     }
 }
