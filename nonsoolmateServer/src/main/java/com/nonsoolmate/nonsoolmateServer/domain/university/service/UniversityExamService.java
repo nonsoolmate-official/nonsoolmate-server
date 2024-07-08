@@ -34,7 +34,7 @@ public class UniversityExamService {
         String universityExamName = exam.getExamFullName();
         return UniversityExamInfoResponseDTO.of(exam.getExamId(),
                 universityExamName,
-                exam.getexamTimeLimit());
+                exam.getExamTimeLimit());
     }
 
     public UniversityExamFileResponseDTO getUniversityExamFile(final Long id) {
@@ -54,7 +54,7 @@ public class UniversityExamService {
                 pageable);
         return universityExamImages.map(image ->
                 UniversityExamImageResponseDTO.of(cloudFrontService.createPreSignedGetUrl(EXAM_IMAGE_FOLDER_NAME,
-                        image.getexamImageFileName())));
+                        image.getExamImageFileName())));
     }
 
     public UniversityExamImageAndAnswerResponseDTO getUniversityExamImageAndAnswer(Long universityExamId) {
