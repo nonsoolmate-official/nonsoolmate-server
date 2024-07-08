@@ -1,6 +1,6 @@
-package com.nonsoolmate.nonsoolmateServer.domain.universityExamRecord.entity;
+package com.nonsoolmate.nonsoolmateServer.domain.examRecord.entity;
 
-import com.nonsoolmate.nonsoolmateServer.domain.universityExamRecord.entity.enums.ExamResultStatus;
+import com.nonsoolmate.nonsoolmateServer.domain.examRecord.entity.enums.ExamResultStatus;
 import com.nonsoolmate.nonsoolmateServer.domain.member.entity.Member;
 import com.nonsoolmate.nonsoolmateServer.domain.university.entity.Exam;
 import jakarta.persistence.Entity;

@@ -1,4 +1,4 @@
-package com.nonsoolmate.nonsoolmateServer.domain.universityExamRecord.entity.enums;
+package com.nonsoolmate.nonsoolmateServer.domain.examRecord.entity.enums;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
