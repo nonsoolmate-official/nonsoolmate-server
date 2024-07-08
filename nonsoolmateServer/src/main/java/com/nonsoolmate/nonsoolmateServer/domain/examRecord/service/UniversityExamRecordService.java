@@ -1,7 +1,7 @@
 package com.nonsoolmate.nonsoolmateServer.domain.examRecord.service;
 
 import static com.nonsoolmate.nonsoolmateServer.domain.university.exception.ExamExceptionType.INVALID_EXAM;
-import static com.nonsoolmate.nonsoolmateServer.domain.examRecord.exception.UniversityExamRecordExceptionType.*;
+import static com.nonsoolmate.nonsoolmateServer.domain.examRecord.exception.ExamRecordExceptionType.*;
 import static com.nonsoolmate.nonsoolmateServer.external.aws.FolderName.*;
 
 import com.nonsoolmate.nonsoolmateServer.domain.examRecord.controller.dto.response.UniversityExamRecordIdResponse;
@@ -16,7 +16,7 @@ import com.nonsoolmate.nonsoolmateServer.domain.examRecord.controller.dto.respon
 import com.nonsoolmate.nonsoolmateServer.domain.examRecord.controller.dto.request.CreateUniversityExamRequestDTO;
 import com.nonsoolmate.nonsoolmateServer.domain.examRecord.entity.ExamRecord;
 import com.nonsoolmate.nonsoolmateServer.domain.examRecord.entity.enums.ExamResultStatus;
-import com.nonsoolmate.nonsoolmateServer.domain.examRecord.exception.UniversityExamRecordException;
+import com.nonsoolmate.nonsoolmateServer.domain.examRecord.exception.ExamRecordException;
 import com.nonsoolmate.nonsoolmateServer.domain.examRecord.repository.UniversityExamRecordRepository;
 import com.nonsoolmate.nonsoolmateServer.external.aws.error.AWSClientException;
 import com.nonsoolmate.nonsoolmateServer.external.aws.service.CloudFrontService;
@@ -65,7 +65,7 @@ public class UniversityExamRecordService {
 
     private void validateCorrection(ExamRecord examRecord) {
         if(examRecord.getExamRecordResultFileName() == null){
-            throw new UniversityExamRecordException(INVALID_EXAM_RECORD_RESULT_FILE_NAME);
+            throw new ExamRecordException(INVALID_EXAM_RECORD_RESULT_FILE_NAME);
         }
     }
 
@@ -87,7 +87,7 @@ public class UniversityExamRecordService {
             throw e;
         } catch (RuntimeException e) {
             s3Service.deleteFile(EXAM_SHEET_FOLDER_NAME, request.memberSheetFileName());
-            throw new UniversityExamRecordException(CREATE_UNIVERSITY_EXAM_RECORD_FAIL);
+            throw new ExamRecordException(CREATE_EXAM_RECORD_FAIL);
         }
     }
 
@@ -95,7 +95,7 @@ public class UniversityExamRecordService {
         final ExamRecord existExamRecord = universityExamRecordRepository.findByUniversityExamAndMember(
             exam, member).orElse(null);
         if (existExamRecord != null) {
-            throw new UniversityExamRecordException(ALREADY_CREATE_EXAM_RECORD);
+            throw new ExamRecordException(ALREADY_CREATE_EXAM_RECORD);
         }
     }
 
