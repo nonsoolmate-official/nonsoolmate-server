@@ -3,11 +3,11 @@ package com.nonsoolmate.nonsoolmateServer.domain.examRecord.controller;
 import static com.nonsoolmate.nonsoolmateServer.domain.examRecord.exception.ExamRecordSuccessType.GET_EXAM_RECORD_RESULT_SUCCESS;
 import static com.nonsoolmate.nonsoolmateServer.domain.examRecord.exception.ExamRecordSuccessType.GET_EXAM_RECORD_SUCCESS;
 
-import com.nonsoolmate.nonsoolmateServer.domain.examRecord.controller.dto.response.UniversityExamRecordIdResponse;
+import com.nonsoolmate.nonsoolmateServer.domain.examRecord.controller.dto.response.ExamRecordIdResponse;
+import com.nonsoolmate.nonsoolmateServer.domain.examRecord.controller.dto.response.ExamSheetPreSignedUrlResponseDTO;
 import com.nonsoolmate.nonsoolmateServer.domain.member.entity.Member;
-import com.nonsoolmate.nonsoolmateServer.domain.examRecord.controller.dto.response.UniversityExamSheetPreSignedUrlResponseDTO;
-import com.nonsoolmate.nonsoolmateServer.domain.examRecord.controller.dto.response.UniversityExamRecordResponseDTO;
-import com.nonsoolmate.nonsoolmateServer.domain.examRecord.controller.dto.response.UniversityExamRecordResultResponseDTO;
+import com.nonsoolmate.nonsoolmateServer.domain.examRecord.controller.dto.response.ExamRecordResponseDTO;
+import com.nonsoolmate.nonsoolmateServer.domain.examRecord.controller.dto.response.ExamRecordResultResponseDTO;
 import com.nonsoolmate.nonsoolmateServer.domain.examRecord.controller.dto.request.CreateUniversityExamRequestDTO;
 import com.nonsoolmate.nonsoolmateServer.domain.examRecord.exception.ExamRecordSuccessType;
 import com.nonsoolmate.nonsoolmateServer.domain.examRecord.service.ExamRecordService;
@@ -36,7 +36,7 @@ public class ExamRecordController implements ExamRecordApi {
 
     @Override
     @GetMapping("/{id}")
-    public ResponseEntity<SuccessResponse<UniversityExamRecordResponseDTO>> getExamRecord(
+    public ResponseEntity<SuccessResponse<ExamRecordResponseDTO>> getExamRecord(
             @PathVariable("id") Long universityExamId, @AuthUser Member member) {
         return ResponseEntity.ok().body(SuccessResponse.of(GET_EXAM_RECORD_SUCCESS,
                 examRecordService.getExamRecord(universityExamId, member)));
@@ -44,7 +44,7 @@ public class ExamRecordController implements ExamRecordApi {
 
     @Override
     @GetMapping("/result/{id}")
-    public ResponseEntity<SuccessResponse<UniversityExamRecordResultResponseDTO>> getExamRecordResult(
+    public ResponseEntity<SuccessResponse<ExamRecordResultResponseDTO>> getExamRecordResult(
             @PathVariable("id") Long universityExamId, @AuthUser Member member) {
         return ResponseEntity.ok().body(SuccessResponse.of(GET_EXAM_RECORD_RESULT_SUCCESS,
                 examRecordService.getExamRecordResult(universityExamId, member)));
@@ -52,17 +52,17 @@ public class ExamRecordController implements ExamRecordApi {
 
     @Override
     @GetMapping("/sheet/presigned")
-    public ResponseEntity<SuccessResponse<UniversityExamSheetPreSignedUrlResponseDTO>> getExamSheetPreSignedUrl() {
+    public ResponseEntity<SuccessResponse<ExamSheetPreSignedUrlResponseDTO>> getExamSheetPreSignedUrl() {
         PreSignedUrlVO universityExamRecordSheetPreSignedUrlVO = examRecordSheetService.getExamRecordSheetPreSignedUrl();
         return ResponseEntity.ok().body(SuccessResponse.of(
                 ExamRecordSuccessType.GET_EXAM_RECORD_SHEET_PRESIGNED_SUCCESS,
-                UniversityExamSheetPreSignedUrlResponseDTO.of(universityExamRecordSheetPreSignedUrlVO.getFileName(),
+                ExamSheetPreSignedUrlResponseDTO.of(universityExamRecordSheetPreSignedUrlVO.getFileName(),
                         universityExamRecordSheetPreSignedUrlVO.getUrl())));
     }
 
     @Override
     @PostMapping("/sheet")
-    public ResponseEntity<SuccessResponse<UniversityExamRecordIdResponse>> createExamRecord(
+    public ResponseEntity<SuccessResponse<ExamRecordIdResponse>> createExamRecord(
             @Valid @RequestBody final CreateUniversityExamRequestDTO createUniversityExamRequestDTO,
             @AuthUser final Member member) {
         return ResponseEntity.status(HttpStatus.CREATED).body(SuccessResponse.of(
