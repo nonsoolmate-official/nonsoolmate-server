@@ -12,39 +12,38 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Exam {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long examId;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long examId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "university_id")
-    private University university;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "university_id")
+	private University university;
 
-    @NotNull
-    private String examName;
+	@NotNull
+	private String examName;
 
-    @NotNull
-    private String examFileName;
+	@NotNull
+	private String examFileName;
 
-    @NotNull
-    private String examAnswerFileName;
+	@NotNull
+	private String examAnswerFileName;
 
-    @NotNull
-    private int examYear;
+	@NotNull
+	private int examYear;
 
-    @NotNull
-    private int examTimeLimit;
+	@NotNull
+	private int examTimeLimit;
 
-    public String getExamFullName(){
-        return this.getUniversity().getUniversityName() + " - " + this.getExamYear() + " " + this.getExamName();
-    }
+	public String getExamFullName() {
+		return this.getUniversity().getUniversityName() + " - " + this.getExamYear() + " " + this.getExamName();
+	}
 
-    public String getExamListName(){
-        return this.getExamYear() + " " + this.getExamName();
-    }
+	public String getExamListName() {
+		return this.getExamYear() + " " + this.getExamName();
+	}
 }
