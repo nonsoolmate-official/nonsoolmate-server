@@ -15,17 +15,17 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class UniversityExamImage {
+public class ExamImage {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long universityExamImageId;
+    private Long examImageId;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "university_exam_id")
+    @JoinColumn(name = "exam_id")
     private Exam exam;
 
     @NotNull
-    private String universityExamImageFileName;
+    private String examImageFileName;
     
     private int page;
 }
