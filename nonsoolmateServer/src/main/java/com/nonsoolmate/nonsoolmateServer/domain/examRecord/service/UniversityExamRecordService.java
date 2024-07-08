@@ -17,7 +17,7 @@ import com.nonsoolmate.nonsoolmateServer.domain.examRecord.controller.dto.reques
 import com.nonsoolmate.nonsoolmateServer.domain.examRecord.entity.ExamRecord;
 import com.nonsoolmate.nonsoolmateServer.domain.examRecord.entity.enums.ExamResultStatus;
 import com.nonsoolmate.nonsoolmateServer.domain.examRecord.exception.ExamRecordException;
-import com.nonsoolmate.nonsoolmateServer.domain.examRecord.repository.UniversityExamRecordRepository;
+import com.nonsoolmate.nonsoolmateServer.domain.examRecord.repository.ExamRecordRepository;
 import com.nonsoolmate.nonsoolmateServer.external.aws.error.AWSClientException;
 import com.nonsoolmate.nonsoolmateServer.external.aws.service.CloudFrontService;
 import com.nonsoolmate.nonsoolmateServer.external.aws.service.S3Service;
@@ -29,7 +29,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class UniversityExamRecordService {
-    private final UniversityExamRecordRepository universityExamRecordRepository;
+    private final ExamRecordRepository examRecordRepository;
     private final ExamRepository examRepository;
     private final CloudFrontService cloudFrontService;
     private final S3Service s3Service;
@@ -79,7 +79,7 @@ public class UniversityExamRecordService {
             final ExamRecord universityexamRecord = createExamRecord(exam, member,
                     request.memberTakeTimeExam(),
                     fileName);
-            final ExamRecord saveUniversityExamRecord = universityExamRecordRepository.save(
+            final ExamRecord saveUniversityExamRecord = examRecordRepository.save(
                     universityexamRecord);
             decreaseMemberTicketCount(member);
             return UniversityExamRecordIdResponse.of(saveUniversityExamRecord.getExamRecordId());
@@ -92,7 +92,7 @@ public class UniversityExamRecordService {
     }
 
     private void validateUniversityExam(final Exam exam, final Member member){
-        final ExamRecord existExamRecord = universityExamRecordRepository.findByUniversityExamAndMember(
+        final ExamRecord existExamRecord = examRecordRepository.findByExamAndMember(
             exam, member).orElse(null);
         if (existExamRecord != null) {
             throw new ExamRecordException(ALREADY_CREATE_EXAM_RECORD);
@@ -126,7 +126,7 @@ public class UniversityExamRecordService {
 
     private ExamRecord getUniversityExamByUniversityExamAndMember(final Exam exam,
                                                                             final Member member) {
-        return universityExamRecordRepository.findByUniversityExamAndMemberOrElseThrowException(
+        return examRecordRepository.findByExamAndMemberOrElseThrowException(
             exam, member);
     }
 }
