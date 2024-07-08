@@ -43,11 +43,11 @@ public class UniversityExamRecordService {
         validateCorrection(universityExamRecord);
 
         String answerUrl = cloudFrontService.createPreSignedGetUrl(EXAM_ANSWER_FOLDER_NAME,
-                exam.getUniversityExamAnswerFileName());
+                exam.getExamAnswerFileName());
         String resultUrl = cloudFrontService.createPreSignedGetUrl(EXAM_RESULT_FOLDER_NAME,
                 universityExamRecord.getExamRecordResultFileName());
 
-        return UniversityExamRecordResponseDTO.of(exam.getUniversityExamFullName(), answerUrl, resultUrl);
+        return UniversityExamRecordResponseDTO.of(exam.getExamFullName(), answerUrl, resultUrl);
     }
 
     public UniversityExamRecordResultResponseDTO getUniversityExamRecordResult(Long universityExamId, Member member) {
