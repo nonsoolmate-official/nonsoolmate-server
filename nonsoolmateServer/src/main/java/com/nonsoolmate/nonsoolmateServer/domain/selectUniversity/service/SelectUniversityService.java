@@ -27,7 +27,7 @@ public class SelectUniversityService {
     private final UniversityRepository universityRepository;
     private final UniversityExamRepository universityExamRepository;
     private final UniversityExamRecordRepository universityExamRecordRepository;
-    private final static String BEFORE_EXAM = "시험 응시 전";
+    private static final String BEFORE_EXAM = "시험 응시 전";
 
 
     public List<SelectUniversityResponseDTO> getSelectUniversities(Member member) {
