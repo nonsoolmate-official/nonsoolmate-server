@@ -4,8 +4,8 @@ import com.nonsoolmate.nonsoolmateServer.global.error.exception.ClientException;
 import com.nonsoolmate.nonsoolmateServer.global.error.exception.ExceptionType;
 
 public class ExamRecordException extends ClientException {
-    public ExamRecordException(
-            ExceptionType exceptionType) {
-        super(exceptionType);
-    }
+	public ExamRecordException(
+		ExceptionType exceptionType) {
+		super(exceptionType);
+	}
 }

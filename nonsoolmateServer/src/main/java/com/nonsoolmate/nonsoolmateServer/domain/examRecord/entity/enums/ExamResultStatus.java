@@ -6,7 +6,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Getter
 public enum ExamResultStatus {
-    ONGOING("첨삭 진행 중"), FINISH("첨삭 완료");
+	ONGOING("첨삭 진행 중"), FINISH("첨삭 완료");
 
-    private final String status;
+	private final String status;
 }

@@ -16,16 +16,16 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ExamImage {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long examImageId;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long examImageId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "exam_id")
-    private Exam exam;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "exam_id")
+	private Exam exam;
 
-    @NotNull
-    private String examImageFileName;
-    
-    private int page;
+	@NotNull
+	private String examImageFileName;
+
+	private int page;
 }
