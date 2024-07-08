@@ -1,6 +1,6 @@
 package com.nonsoolmate.nonsoolmateServer.domain.examRecord.service;
 
-import static com.nonsoolmate.nonsoolmateServer.domain.university.exception.UniversityExamExceptionType.INVALID_UNIVERSITY_EXAM;
+import static com.nonsoolmate.nonsoolmateServer.domain.university.exception.ExamExceptionType.INVALID_EXAM;
 import static com.nonsoolmate.nonsoolmateServer.domain.examRecord.exception.UniversityExamRecordExceptionType.*;
 import static com.nonsoolmate.nonsoolmateServer.external.aws.FolderName.*;
 
@@ -9,7 +9,7 @@ import com.nonsoolmate.nonsoolmateServer.domain.member.entity.Member;
 import com.nonsoolmate.nonsoolmateServer.domain.member.exception.MemberException;
 import com.nonsoolmate.nonsoolmateServer.domain.member.repository.MemberRepository;
 import com.nonsoolmate.nonsoolmateServer.domain.university.entity.Exam;
-import com.nonsoolmate.nonsoolmateServer.domain.university.exception.UniversityExamException;
+import com.nonsoolmate.nonsoolmateServer.domain.university.exception.ExamException;
 import com.nonsoolmate.nonsoolmateServer.domain.university.repository.ExamRepository;
 import com.nonsoolmate.nonsoolmateServer.domain.examRecord.controller.dto.response.UniversityExamRecordResponseDTO;
 import com.nonsoolmate.nonsoolmateServer.domain.examRecord.controller.dto.response.UniversityExamRecordResultResponseDTO;
@@ -65,7 +65,7 @@ public class UniversityExamRecordService {
 
     private void validateCorrection(ExamRecord examRecord) {
         if(examRecord.getExamRecordResultFileName() == null){
-            throw new UniversityExamRecordException(INVALID_UNIVERSITY_EXAM_RECORD_RESULT_FILE_NAME);
+            throw new UniversityExamRecordException(INVALID_EXAM_RECORD_RESULT_FILE_NAME);
         }
     }
 
@@ -121,7 +121,7 @@ public class UniversityExamRecordService {
 
     private Exam getUniversityExam(final Long universityExamId) {
         return examRepository.findByExamId(universityExamId)
-                .orElseThrow(() -> new UniversityExamException(INVALID_UNIVERSITY_EXAM));
+                .orElseThrow(() -> new ExamException(INVALID_EXAM));
     }
 
     private ExamRecord getUniversityExamByUniversityExamAndMember(final Exam exam,

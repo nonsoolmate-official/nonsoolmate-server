@@ -6,13 +6,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
-public enum UniversityExamExceptionType implements ExceptionType {
+public enum ExamExceptionType implements ExceptionType {
 
     /**
      * 404 Not Found
      */
-    INVALID_UNIVERSITY_EXAM(HttpStatus.BAD_REQUEST, "존재하지 않는 대학 시험입니다."),
-    NOT_FOUND_UNIVERSITY_EXAM_IMAGE(HttpStatus.NOT_FOUND, "존재하지 않는 대학 시험 이미지 입니다.");
+    INVALID_EXAM(HttpStatus.BAD_REQUEST, "존재하지 않는 대학 시험입니다."),
+    NOT_FOUND_EXAM_IMAGE(HttpStatus.NOT_FOUND, "존재하지 않는 대학 시험 이미지 입니다.");
 
     private final HttpStatus status;
     private final String message;
