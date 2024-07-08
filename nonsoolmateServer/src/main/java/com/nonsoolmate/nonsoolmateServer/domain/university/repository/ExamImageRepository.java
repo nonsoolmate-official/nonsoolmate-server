@@ -9,7 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ExamImageRepository extends JpaRepository<ExamImage, Long> {
-    Page<ExamImage> findAllByExamOrderByExamImageIdAscOrderByPageAsc(Exam exam, Pageable pageable);
+    Page<ExamImage> findAllByExamOrderByExamImageIdAscPageAsc(Exam exam, Pageable pageable);
 
     List<ExamImage> findAllByExamOrderByExamImageIdAsc(Exam exam);
 
