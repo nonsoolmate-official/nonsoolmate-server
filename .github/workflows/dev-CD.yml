@@ -15,8 +15,8 @@ jobs:
         echo "${{ secrets.CLOUDFRONT_PRIVATE_KEY }}" > cloudfront-private-key.pem
         echo "${{ secrets.DEV_SERVER_KEY }}" > dev_server_key.pem
         chmod 600 dev_server_key.pem
-        scp -i dev_server_key.pem application-secret.properties ${{ secrets.DEV_SERVER_USER }}@${{ secrets.DEV_SERVER_IP }}:~/nonsoolmate-server/nonsoolmateServer/src/main/resources/application-secret.properties
-        scp -i dev_server_key.pem cloudfront-private-key.pem ${{ secrets.DEV_SERVER_USER }}@${{ secrets.DEV_SERVER_IP }}:~/nonsoolmate-server/nonsoolmateServer/src/main/resources/key/cloudfront-private-key.pem
+        scp -i dev_server_key.pem application-secret.properties ${{ secrets.DEV_SERVER_USER }}@${{ secrets.DEV_SERVER_HOSTNAME }}:~/nonsoolmate-server/nonsoolmateServer/src/main/resources/application-secret.properties
+        scp -i dev_server_key.pem cloudfront-private-key.pem ${{ secrets.DEV_SERVER_USER }}@${{ secrets.DEV_SERVER_HOSTNAME }}:~/nonsoolmate-server/nonsoolmateServer/src/main/resources/key/cloudfront-private-key.pem
 
     - name: dev 서버 무중단 배포
       uses: appleboy/ssh-action@master
