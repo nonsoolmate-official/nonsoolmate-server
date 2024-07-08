@@ -12,9 +12,12 @@ jobs:
     - name: 설정 파일 생성
       run: |
         echo "${{ secrets.SECRET_PROPERTIES }}" > application-secret.properties
-        scp application-secret.properties ${{ secrets.REMOTE_SSH_USERNAME }}@${{ secrets.REMOTE_SSH_HOST }}:~/nonsoolmate-server/nonsoolmateServer/src/main/resources/application-secret.properties
         echo "${{ secrets.CLOUDFRONT_PRIVATE_KEY }}" > cloudfront-private-key.pem
-        scp cloudfront-private-key.pem ${{ secrets.REMOTE_SSH_USERNAME }}@${{ secrets.REMOTE_SSH_HOST }}:~/nonsoolmate-server/nonsoolmateServer/src/main/resources/key/cloudfront-private-key.pem
+        echo "${{ secrets.DEV_SERVER_KEY }}" > dev_server_key.pem
+        chmod 600 dev_server_key.pem
+        scp -i dev_server_key.pem application-secret.properties ${{ secrets.REMOTE_SSH_USERNAME }}@${{ secrets.REMOTE_SSH_HOST }}:~/nonsoolmate-server/nonsoolmateServer/src/main/resources/application-secret.properties
+        scp -i dev_server_key.pem cloudfront-private-key.pem ${{ secrets.REMOTE_SSH_USERNAME }}@${{ secrets.REMOTE_SSH_HOST }}:~/nonsoolmate-server/nonsoolmateServer/src/main/resources/key/cloudfront-private-key.pem
+
     - name: dev 서버 무중단 배포
       uses: appleboy/ssh-action@master
       with:
@@ -29,4 +32,3 @@ jobs:
           ./gradlew clean build
           cd ~/app/nonstop
           ./deploy.sh
-
