@@ -9,7 +9,7 @@ import com.nonsoolmate.nonsoolmateServer.domain.selectUniversity.entity.SelectUn
 import com.nonsoolmate.nonsoolmateServer.domain.selectUniversity.repository.SelectUniversityRepository;
 import com.nonsoolmate.nonsoolmateServer.domain.university.entity.University;
 import com.nonsoolmate.nonsoolmateServer.domain.university.entity.Exam;
-import com.nonsoolmate.nonsoolmateServer.domain.university.repository.UniversityExamRepository;
+import com.nonsoolmate.nonsoolmateServer.domain.university.repository.ExamRepository;
 import com.nonsoolmate.nonsoolmateServer.domain.university.repository.UniversityRepository;
 import com.nonsoolmate.nonsoolmateServer.domain.universityExamRecord.entity.UniversityExamRecord;
 import com.nonsoolmate.nonsoolmateServer.domain.universityExamRecord.repository.UniversityExamRecordRepository;
@@ -25,7 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class SelectUniversityService {
     private final SelectUniversityRepository selectUniversityRepository;
     private final UniversityRepository universityRepository;
-    private final UniversityExamRepository universityExamRepository;
+    private final ExamRepository examRepository;
     private final UniversityExamRecordRepository universityExamRecordRepository;
     private static final String BEFORE_EXAM = "시험 응시 전";
 
@@ -66,7 +66,7 @@ public class SelectUniversityService {
     private SelectUniversityExamsResponseDTO getSelectUniversityExamsResponseDTO(final SelectUniversity selectUniversity,
                                                                                  final Member member) {
 
-        final List<Exam> exams = universityExamRepository.findAllByUniversityOrderByUniversityExamYearDesc(
+        final List<Exam> exams = examRepository.findAllByUniversityOrderByExamYearDesc(
                 selectUniversity.getUniversity());
 
         final List<SelectUniversityExamResponseDTO> selectUniversityExamResponseDTOS = getSelectUniversityExamResponseDTOS(
