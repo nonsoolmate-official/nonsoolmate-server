@@ -7,8 +7,8 @@ import com.nonsoolmate.nonsoolmateServer.domain.university.controller.dto.respon
 import com.nonsoolmate.nonsoolmateServer.domain.university.controller.dto.response.ExamInfoResponseDTO;
 import com.nonsoolmate.nonsoolmateServer.domain.university.entity.Exam;
 import com.nonsoolmate.nonsoolmateServer.domain.university.entity.ExamImage;
-import com.nonsoolmate.nonsoolmateServer.domain.university.exception.UniversityExamException;
-import com.nonsoolmate.nonsoolmateServer.domain.university.exception.UniversityExamExceptionType;
+import com.nonsoolmate.nonsoolmateServer.domain.university.exception.ExamException;
+import com.nonsoolmate.nonsoolmateServer.domain.university.exception.ExamExceptionType;
 import com.nonsoolmate.nonsoolmateServer.domain.university.repository.ExamImageRepository;
 import com.nonsoolmate.nonsoolmateServer.external.aws.service.CloudFrontService;
 import java.util.ArrayList;
@@ -33,8 +33,8 @@ public class ExamService {
 
     public ExamInfoResponseDTO getExamInfo(final Long universityExamId) {
         Exam exam = examRepository.findByExamId(universityExamId)
-                .orElseThrow(() -> new UniversityExamException(
-                        UniversityExamExceptionType.INVALID_UNIVERSITY_EXAM));
+                .orElseThrow(() -> new ExamException(
+                        ExamExceptionType.INVALID_EXAM));
         String examName = exam.getExamFullName();
         return ExamInfoResponseDTO.of(exam.getExamId(),
                 examName,
@@ -43,16 +43,16 @@ public class ExamService {
 
     public ExamUrlResponseDTO getExamFile(final Long id) {
         Exam exam = examRepository.findByExamId(id)
-                .orElseThrow(() -> new UniversityExamException(
-                        UniversityExamExceptionType.INVALID_UNIVERSITY_EXAM));
+                .orElseThrow(() -> new ExamException(
+                        ExamExceptionType.INVALID_EXAM));
         return ExamUrlResponseDTO.of(cloudFrontService.createPreSignedGetUrl(EXAM_FILE_FOLDER_NAME,
                 exam.getExamFileName()));
     }
 
     public Page<ExamImageResponseDTO> getExamImages(final Long id, final Pageable pageable) {
         Exam exam = examRepository.findByExamId(id)
-                .orElseThrow(() -> new UniversityExamException(
-                        UniversityExamExceptionType.INVALID_UNIVERSITY_EXAM));
+                .orElseThrow(() -> new ExamException(
+                        ExamExceptionType.INVALID_EXAM));
         Page<ExamImage> universityExamImages = examImageRepository.findAllByExamOrderByExamImageIdAscOrderByPageAsc(
 			exam,
                 pageable);
@@ -63,8 +63,8 @@ public class ExamService {
 
     public ExamImageAndAnswerResponseDTO getExamImageAndAnswer(Long universityExamId) {
         Exam exam = examRepository.findByExamId(universityExamId)
-                .orElseThrow(() -> new UniversityExamException(
-                        UniversityExamExceptionType.INVALID_UNIVERSITY_EXAM));
+                .orElseThrow(() -> new ExamException(
+                        ExamExceptionType.INVALID_EXAM));
 
         String examAnswerUrl = cloudFrontService.createPreSignedGetUrl(EXAM_ANSWER_FOLDER_NAME,
                 exam.getExamAnswerFileName());
@@ -87,8 +87,8 @@ public class ExamService {
 
     public ExamAndAnswerResponseDTO getExamAndAnswer(final Long universityExamId){
         Exam exam = examRepository.findByExamId(universityExamId)
-                .orElseThrow(() -> new UniversityExamException(
-                        UniversityExamExceptionType.INVALID_UNIVERSITY_EXAM));
+                .orElseThrow(() -> new ExamException(
+                        ExamExceptionType.INVALID_EXAM));
         String examUrl = cloudFrontService.createPreSignedGetUrl(EXAM_FILE_FOLDER_NAME, exam.getExamFileName());
         String universityAnswerUrl = cloudFrontService.createPreSignedGetUrl(EXAM_ANSWER_FOLDER_NAME, exam.getExamAnswerFileName());
         return ExamAndAnswerResponseDTO.of(

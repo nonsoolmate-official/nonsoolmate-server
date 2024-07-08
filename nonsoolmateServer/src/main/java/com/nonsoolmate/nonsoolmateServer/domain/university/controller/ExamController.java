@@ -1,9 +1,9 @@
 package com.nonsoolmate.nonsoolmateServer.domain.university.controller;
 
-import static com.nonsoolmate.nonsoolmateServer.domain.university.exception.UniversityExamSuccessType.GET_UNIVERSITY_EXAM_IMAGE_AND_ANSWER_SUCCESS;
+import static com.nonsoolmate.nonsoolmateServer.domain.university.exception.ExamSuccessType.GET_EXAM_IMAGE_AND_ANSWER_SUCCESS;
 
 import com.nonsoolmate.nonsoolmateServer.domain.university.controller.dto.response.*;
-import com.nonsoolmate.nonsoolmateServer.domain.university.exception.UniversityExamSuccessType;
+import com.nonsoolmate.nonsoolmateServer.domain.university.exception.ExamSuccessType;
 import com.nonsoolmate.nonsoolmateServer.domain.university.service.ExamService;
 import com.nonsoolmate.nonsoolmateServer.global.response.SuccessResponse;
 import lombok.RequiredArgsConstructor;
@@ -27,7 +27,7 @@ public class ExamController implements ExamApi{
     @GetMapping("/{id}/info")
     public ResponseEntity<SuccessResponse<ExamInfoResponseDTO>> getExamInfo(
             @PathVariable("id") final Long universityExamId) {
-        return ResponseEntity.ok().body(SuccessResponse.of(UniversityExamSuccessType.GET_UNIVERSITY_EXAM_SUCCESS,
+        return ResponseEntity.ok().body(SuccessResponse.of(ExamSuccessType.GET_EXAM_SUCCESS,
                 examService.getExamInfo(universityExamId)));
     }
 
@@ -35,7 +35,7 @@ public class ExamController implements ExamApi{
     @GetMapping("/{id}")
     public ResponseEntity<SuccessResponse<ExamUrlResponseDTO>> getExamFile(
             @PathVariable("id") final Long id) {
-        return ResponseEntity.ok().body(SuccessResponse.of(UniversityExamSuccessType.GET_UNIVERSITY_EXAM_FILE_SUCCESS,
+        return ResponseEntity.ok().body(SuccessResponse.of(ExamSuccessType.GET_EXAM_FILE_SUCCESS,
                 examService.getExamFile(id)));
     }
 
@@ -46,7 +46,7 @@ public class ExamController implements ExamApi{
         PageRequest pageRequest = PageRequest.of(page, 1);
         Page<ExamImageResponseDTO> images = examService.getExamImages(id, pageRequest);
         return ResponseEntity.ok()
-                .body(SuccessResponse.of(UniversityExamSuccessType.GET_UNIVERSITY_EXAM_IMAGE_SUCCESS, images));
+                .body(SuccessResponse.of(ExamSuccessType.GET_EXAM_IMAGE_SUCCESS, images));
     }
 
     @Override
@@ -54,7 +54,7 @@ public class ExamController implements ExamApi{
     public ResponseEntity<SuccessResponse<ExamImageAndAnswerResponseDTO>> getExamImageAndAnswer(
             @PathVariable("id") Long universityExamId
     ) {
-        return ResponseEntity.ok().body(SuccessResponse.of(GET_UNIVERSITY_EXAM_IMAGE_AND_ANSWER_SUCCESS,
+        return ResponseEntity.ok().body(SuccessResponse.of(GET_EXAM_IMAGE_AND_ANSWER_SUCCESS,
                 examService.getExamImageAndAnswer(universityExamId)));
     }
 
@@ -64,7 +64,7 @@ public class ExamController implements ExamApi{
     public ResponseEntity<SuccessResponse<ExamAndAnswerResponseDTO>> getExamAndAnswer(
             @PathVariable("id") Long examId
     ) {
-        return ResponseEntity.ok().body(SuccessResponse.of(GET_UNIVERSITY_EXAM_IMAGE_AND_ANSWER_SUCCESS,
+        return ResponseEntity.ok().body(SuccessResponse.of(GET_EXAM_IMAGE_AND_ANSWER_SUCCESS,
             examService.getExamAndAnswer(examId)));
     }
 }
