@@ -11,7 +11,7 @@ jobs:
     steps:
     - name: 설정 파일 생성
       run: |
-        echo "${{ secrets.DEV_APPLICATION }}" > application.yml
+        echo "${{ secrets.SECRET_PROPERTIES }}" > src/main/resources/application-secret.properties
         echo "${{ secrets.CLOUDFRONT_PRIVATE_KEY }}" > cloudfront-private-key.pem
     - name: dev 서버 무중단 배포
       uses: appleboy/ssh-action@master
@@ -22,7 +22,7 @@ jobs:
         port: ${{ secrets.SSH_PORT }}
         script: |
           mkdir -p ~/nonsoolmate-server/nonsoolmateServer/src/main/resources
-          scp application.yml ${{ secrets.REMOTE_SSH_USERNAME }}@${{ secrets.REMOTE_SSH_HOST }}:~/nonsoolmate-server/nonsoolmateServer/src/main/resources/application.yml
+          scp application-secret.properties ${{ secrets.REMOTE_SSH_USERNAME }}@${{ secrets.REMOTE_SSH_HOST }}:~/nonsoolmate-server/nonsoolmateServer/src/main/resources/application-secret.properties
           mkdir -p ~/nonsoolmate-server/nonsoolmateServer/src/main/resources/key
           scp cloudfront-private-key.pem ${{ secrets.REMOTE_SSH_USERNAME }}@${{ secrets.REMOTE_SSH_HOST }}:~/nonsoolmate-server/nonsoolmateServer/src/main/resources/key/cloudfront-private-key.pem
           cd ~/nonsoolmate-server

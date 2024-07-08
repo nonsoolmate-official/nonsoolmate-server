@@ -23,7 +23,7 @@ jobs:
     - name: resources 폴더 내 파일 생성
       run: | 
         mkdir -p src/main/resources
-        echo "${{ secrets.PROD_APPLICATION }}" > src/main/resources/application.yaml
+        echo "${{ secrets.SECRET_PROPERTIES }}" > src/main/resources/application-secret.properties
         mkdir -p src/main/resources/key
         echo "${{ secrets.CLOUDFRONT_PRIVATE_KEY }}" > src/main/resources/key/cloudfront-private-key.pem
       working-directory: ${{ env.working-directory }}

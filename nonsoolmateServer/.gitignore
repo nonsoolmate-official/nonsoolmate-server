@@ -38,7 +38,8 @@ out/
 .vscode/
 
 ## setting file
-*.yml
+
 *.yaml
 *.sql
 *.pem
+*.properties
