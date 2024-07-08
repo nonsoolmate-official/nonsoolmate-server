@@ -24,9 +24,9 @@ spring:
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: ${DEV_DB_URL}
-    username: ${DEV_DB_HOST}
-    password: ${DEV_DB_PASSWORD}
+    url: ${PROD_DB_URL}
+    username: ${PROD_DB_HOST}
+    password: ${PROD_DB_PASSWORD}
   jpa:
     show-sql: true
     hibernate:
@@ -51,13 +51,13 @@ aws-property:
 
 
 jwt:
-  secretKey:  ${DEV_JWT_SECRET_KEY}
+  secretKey:  ${PROD_JWT_SECRET_KEY}
   access:
-    expiration: ${DEV_JWT_ACCESS_TOKEN_EXPIRE_TIME}
-    header: ${DEV_JWT_ACCESS_TOKEN_HEADER}
+    expiration: ${JWT_ACCESS_TOKEN_EXPIRE_TIME}
+    header: ${JWT_ACCESS_TOKEN_HEADER}
   refresh:
-    expiration: ${DEV_JWT_REFRESH_TOKEN_EXPIRE_TIME}
-    header: ${DEV_JWT_REFRESH_TOKEN_HEADER}
+    expiration: ${JWT_REFRESH_TOKEN_EXPIRE_TIME}
+    header: ${JWT_REFRESH_TOKEN_HEADER}
 
 management:
   endpoints:
