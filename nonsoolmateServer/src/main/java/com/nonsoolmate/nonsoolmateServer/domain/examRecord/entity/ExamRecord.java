@@ -39,7 +39,6 @@ public class ExamRecord {
 	@NotNull
 	private ExamResultStatus examResultStatus;
 
-	@NotNull
 	private int timeTakeExam;
 
 	@NotNull
