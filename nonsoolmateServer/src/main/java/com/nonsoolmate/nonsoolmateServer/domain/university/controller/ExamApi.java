@@ -26,7 +26,7 @@ public interface ExamApi {
             }
     )
     @Operation(summary = "시험 보기: 시험 이름 & 제한 시간", description = "시험 응시 화면의 이름 및 제한 시간을 조회합니다.")
-    ResponseEntity<SuccessResponse<ExamInfoResponseDTO>> getUniversityExamInfo(
+    ResponseEntity<SuccessResponse<ExamInfoResponseDTO>> getExamInfo(
             @Parameter(description = "해당 대학교 시험 Id (examId)", required = true) @PathVariable("id") Long universityExamId);
 
     @ApiResponses(
@@ -36,7 +36,7 @@ public interface ExamApi {
             }
     )
     @Operation(summary = "시험 보기: 문제지 [PDF]", description = "시험 응시 화면의 문제지를 조회합니다.")
-    ResponseEntity<SuccessResponse<ExamUrlResponseDTO>> getUniversityExamFile(
+    ResponseEntity<SuccessResponse<ExamUrlResponseDTO>> getExamFile(
             @Parameter(description = "해당 대학교 시험 Id (examId)", required = true) @PathVariable("id") Long id);
 
     @ApiResponses(
@@ -46,7 +46,7 @@ public interface ExamApi {
             }
     )
     @Operation(summary = "시험 보기: 문제지 [페이지네이션]", description = "시험 응시 화면의 문제지를 조회합니다.")
-    ResponseEntity<SuccessResponse<Page<ExamImageResponseDTO>>> getUniversityExamImages(
+    ResponseEntity<SuccessResponse<Page<ExamImageResponseDTO>>> getExamImages(
             @Parameter(description = "해당 대학교 시험 Id (examId)", required = true) @PathVariable("id") Long id,
             @Parameter(description = "문제 이미지 페이지 번호 -1") @RequestParam(defaultValue = "0") int page,
             Pageable pageable);
@@ -58,7 +58,7 @@ public interface ExamApi {
             }
     )
     @Operation(summary= "해제: 문제이미지_해제PDF", description = "시험 문제 이미지 및 해제 PDF를 조회합니다.")
-    ResponseEntity<SuccessResponse<ExamImageAndAnswerResponseDTO>> getUniversityExamImageAndAnswer(
+    ResponseEntity<SuccessResponse<ExamImageAndAnswerResponseDTO>> getExamImageAndAnswer(
             @PathVariable("id") Long universityExamId);
 
     @ApiResponses(
@@ -68,6 +68,6 @@ public interface ExamApi {
             }
     )
     @Operation(summary= "해제: 문제PDF_해제PDF", description = "시험 문제 및 해제 PDF를 조회합니다.")
-    ResponseEntity<SuccessResponse<ExamAndAnswerResponseDTO>> getUniversityExamAndAnswer(
+    ResponseEntity<SuccessResponse<ExamAndAnswerResponseDTO>> getExamAndAnswer(
             @PathVariable("id") Long universityExamId);
 }

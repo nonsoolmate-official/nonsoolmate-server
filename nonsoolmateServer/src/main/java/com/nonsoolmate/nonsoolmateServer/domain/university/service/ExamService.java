@@ -31,7 +31,7 @@ public class ExamService {
     private final CloudFrontService cloudFrontService;
 
 
-    public ExamInfoResponseDTO getUniversityExamInfo(final Long universityExamId) {
+    public ExamInfoResponseDTO getExamInfo(final Long universityExamId) {
         Exam exam = examRepository.findByExamId(universityExamId)
                 .orElseThrow(() -> new UniversityExamException(
                         UniversityExamExceptionType.INVALID_UNIVERSITY_EXAM));
@@ -41,7 +41,7 @@ public class ExamService {
                 exam.getExamTimeLimit());
     }
 
-    public ExamUrlResponseDTO getUniversityExamFile(final Long id) {
+    public ExamUrlResponseDTO getExamFile(final Long id) {
         Exam exam = examRepository.findByExamId(id)
                 .orElseThrow(() -> new UniversityExamException(
                         UniversityExamExceptionType.INVALID_UNIVERSITY_EXAM));
@@ -49,7 +49,7 @@ public class ExamService {
                 exam.getExamFileName()));
     }
 
-    public Page<ExamImageResponseDTO> getUniversityExamImages(final Long id, final Pageable pageable) {
+    public Page<ExamImageResponseDTO> getExamImages(final Long id, final Pageable pageable) {
         Exam exam = examRepository.findByExamId(id)
                 .orElseThrow(() -> new UniversityExamException(
                         UniversityExamExceptionType.INVALID_UNIVERSITY_EXAM));
@@ -61,7 +61,7 @@ public class ExamService {
                         image.getExamImageFileName())));
     }
 
-    public ExamImageAndAnswerResponseDTO getUniversityExamImageAndAnswer(Long universityExamId) {
+    public ExamImageAndAnswerResponseDTO getExamImageAndAnswer(Long universityExamId) {
         Exam exam = examRepository.findByExamId(universityExamId)
                 .orElseThrow(() -> new UniversityExamException(
                         UniversityExamExceptionType.INVALID_UNIVERSITY_EXAM));
@@ -85,7 +85,7 @@ public class ExamService {
                 , examImageUrls, examAnswerUrl);
     }
 
-    public ExamAndAnswerResponseDTO getUniversityExamAndAnswer(final Long universityExamId){
+    public ExamAndAnswerResponseDTO getExamAndAnswer(final Long universityExamId){
         Exam exam = examRepository.findByExamId(universityExamId)
                 .orElseThrow(() -> new UniversityExamException(
                         UniversityExamExceptionType.INVALID_UNIVERSITY_EXAM));

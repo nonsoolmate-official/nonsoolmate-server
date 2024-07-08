@@ -25,46 +25,46 @@ public class ExamController implements ExamApi{
 
     @Override
     @GetMapping("/{id}/info")
-    public ResponseEntity<SuccessResponse<ExamInfoResponseDTO>> getUniversityExamInfo(
+    public ResponseEntity<SuccessResponse<ExamInfoResponseDTO>> getExamInfo(
             @PathVariable("id") final Long universityExamId) {
         return ResponseEntity.ok().body(SuccessResponse.of(UniversityExamSuccessType.GET_UNIVERSITY_EXAM_SUCCESS,
-                examService.getUniversityExamInfo(universityExamId)));
+                examService.getExamInfo(universityExamId)));
     }
 
     @Override
     @GetMapping("/{id}")
-    public ResponseEntity<SuccessResponse<ExamUrlResponseDTO>> getUniversityExamFile(
+    public ResponseEntity<SuccessResponse<ExamUrlResponseDTO>> getExamFile(
             @PathVariable("id") final Long id) {
         return ResponseEntity.ok().body(SuccessResponse.of(UniversityExamSuccessType.GET_UNIVERSITY_EXAM_FILE_SUCCESS,
-                examService.getUniversityExamFile(id)));
+                examService.getExamFile(id)));
     }
 
     @Override
     @GetMapping("{id}/image")
-    public ResponseEntity<SuccessResponse<Page<ExamImageResponseDTO>>> getUniversityExamImages(
+    public ResponseEntity<SuccessResponse<Page<ExamImageResponseDTO>>> getExamImages(
             @PathVariable("id") final Long id, @RequestParam(value="page", defaultValue = "0") final int page, final Pageable pageable) {
         PageRequest pageRequest = PageRequest.of(page, 1);
-        Page<ExamImageResponseDTO> images = examService.getUniversityExamImages(id, pageRequest);
+        Page<ExamImageResponseDTO> images = examService.getExamImages(id, pageRequest);
         return ResponseEntity.ok()
                 .body(SuccessResponse.of(UniversityExamSuccessType.GET_UNIVERSITY_EXAM_IMAGE_SUCCESS, images));
     }
 
     @Override
     @GetMapping("{id}/answer")
-    public ResponseEntity<SuccessResponse<ExamImageAndAnswerResponseDTO>> getUniversityExamImageAndAnswer(
+    public ResponseEntity<SuccessResponse<ExamImageAndAnswerResponseDTO>> getExamImageAndAnswer(
             @PathVariable("id") Long universityExamId
     ) {
         return ResponseEntity.ok().body(SuccessResponse.of(GET_UNIVERSITY_EXAM_IMAGE_AND_ANSWER_SUCCESS,
-                examService.getUniversityExamImageAndAnswer(universityExamId)));
+                examService.getExamImageAndAnswer(universityExamId)));
     }
 
     // TODO: 이미지 조회에서 PDF 조회로 변경되면 mapping 경로 변경
     @Override
     @GetMapping("/v2/{id}/answer")
-    public ResponseEntity<SuccessResponse<ExamAndAnswerResponseDTO>> getUniversityExamAndAnswer(
+    public ResponseEntity<SuccessResponse<ExamAndAnswerResponseDTO>> getExamAndAnswer(
             @PathVariable("id") Long examId
     ) {
         return ResponseEntity.ok().body(SuccessResponse.of(GET_UNIVERSITY_EXAM_IMAGE_AND_ANSWER_SUCCESS,
-            examService.getUniversityExamAndAnswer(examId)));
+            examService.getExamAndAnswer(examId)));
     }
 }
