@@ -19,7 +19,7 @@ public class MemberAuthService implements UserDetailsService {
 
 	@Override
 	public UserDetails loadUserByUsername(String memberId) throws UsernameNotFoundException {
-		Member member = memberRepository.findByMemberIdOrElseThrowException(Long.parseLong(memberId));
+		Member member = memberRepository.findByMemberIdOrElseThrow(Long.parseLong(memberId));
 
 		String password = PasswordUtil.generateRandomPassword();
 
