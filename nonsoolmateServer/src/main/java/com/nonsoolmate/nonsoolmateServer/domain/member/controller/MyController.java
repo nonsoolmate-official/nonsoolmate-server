@@ -1,11 +1,14 @@
 package com.nonsoolmate.nonsoolmateServer.domain.member.controller;
 
+import static com.nonsoolmate.nonsoolmateServer.domain.member.exception.MemberSuccessType.*;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.nonsoolmate.nonsoolmateServer.domain.member.controller.dto.response.NameResponseDTO;
+import com.nonsoolmate.nonsoolmateServer.domain.member.controller.dto.response.ProfileResponseDTO;
 import com.nonsoolmate.nonsoolmateServer.domain.member.controller.dto.response.TicketResponseDTO;
 import com.nonsoolmate.nonsoolmateServer.domain.member.entity.Member;
 import com.nonsoolmate.nonsoolmateServer.domain.member.exception.MemberSuccessType;
@@ -35,5 +38,13 @@ public class MyController implements MemberApi {
 		return ResponseEntity.ok()
 			.body(SuccessResponse.of(MemberSuccessType.GET_MEMBER_TICKET_SUCCESS,
 				memberService.getTicket(member)));
+	}
+
+	@Override
+	@GetMapping("/profile")
+	public ResponseEntity<SuccessResponse<ProfileResponseDTO>> getProfile(@AuthUser final Member member) {
+		ProfileResponseDTO responseDTO = memberService.getProfile(member);
+
+		return ResponseEntity.ok().body(SuccessResponse.of(GET_MEMBER_PROFILE_SUCCESS, responseDTO));
 	}
 }
