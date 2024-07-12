@@ -13,13 +13,13 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class University {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long universityId;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long universityId;
 
-    @NotNull
-    private String universityName;
+	@NotNull
+	private String universityName;
 
-    @NotNull
-    private String universityCollege;
+	@NotNull
+	private String universityCollege;
 }
