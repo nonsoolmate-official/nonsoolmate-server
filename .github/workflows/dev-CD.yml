@@ -9,12 +9,20 @@ jobs:
     runs-on: ubuntu-22.04
     timeout-minutes: 5
     steps:
-    - name: 설정 파일 생성
+    - name: 설정 파일 생성 및 키 권한 설정
       run: |
         echo "${{ secrets.SECRET_PROPERTIES }}" > application-secret.properties
         echo "${{ secrets.CLOUDFRONT_PRIVATE_KEY }}" > cloudfront-private-key.pem
         echo "${{ secrets.DEV_SERVER_KEY }}" > dev_server_key.pem
         chmod 400 dev_server_key.pem
+
+    - name: add known_hosts
+      run: |
+        mkdir -p ~/.ssh
+        ssh-keyscan -t rsa ${{ secrets.DEV_SERVER_IP }} >> ~/.ssh/known_hosts
+
+    - name: dev 서버로 설정 파일 전송
+      run: |
         scp -i dev_server_key.pem application-secret.properties ${{ secrets.DEV_SERVER_USER }}@${{ secrets.DEV_SERVER_HOSTNAME }}:~/nonsoolmate-server/nonsoolmateServer/src/main/resources/application-secret.properties
         scp -i dev_server_key.pem cloudfront-private-key.pem ${{ secrets.DEV_SERVER_USER }}@${{ secrets.DEV_SERVER_HOSTNAME }}:~/nonsoolmate-server/nonsoolmateServer/src/main/resources/key/cloudfront-private-key.pem
 
