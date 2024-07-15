@@ -41,13 +41,13 @@ spring:
 
 
 aws-property:
-  access-key: ${DEV_AWS_ACCESS_KEY}
-  secret-key: ${DEV_AWS_SECRET_KEY}
-  aws-region: ${DEV_AWS_REGION}
-  s3-bucket-name: ${DEV_AWS_BUCKET_NAME}
-  distribution-domain: ${DEV_AWS_DISTRIBUTION_DOMAIN}
-  private-key-file-path: ${DEV_AWS_PRIVATE_KEY_FILE_PATH}
-  key-pair-id: ${DEV_AWS_KEY_PAIR_ID}
+  access-key: ${PROD_AWS_ACCESS_KEY}
+  secret-key: ${PROD_AWS_SECRET_KEY}
+  aws-region: ${PROD_AWS_REGION}
+  s3-bucket-name: ${PROD_AWS_BUCKET_NAME}
+  distribution-domain: ${PROD_AWS_DISTRIBUTION_DOMAIN}
+  private-key-file-path: ${PROD_AWS_PRIVATE_KEY_FILE_PATH}
+  key-pair-id: ${PROD_AWS_KEY_PAIR_ID}
 
 
 jwt:
