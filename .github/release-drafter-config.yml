@@ -7,13 +7,18 @@ categories:
     labels: ['🔨 fix']
   - title: '🐬 코드를 개선했어요'
     labels:
+      - '🧼 refactor'
+      - '🎫 test'
+  - title: '⚙️ 프로젝트를 개선했어요'
+    labels:
       - '🪄 setting'
       - '📋 docs'
       - '⚒️ infra'
       - '📝 chore'
-      - '🧼 refactor'
-      - '🎫 test'
+  - title: '🚀 배포'
+    labels:
       - '🚀 deploy'
+
 change-template: '- $TITLE #$NUMBER @$AUTHOR '
 template: |
   ## 이번 버전의 변경사항은 아래와 같아요
