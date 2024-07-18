@@ -2,10 +2,10 @@ spring:
   config:
     import: application-secret.properties
   web:
-    domain :
-      server : ${SERVER_DOMAIN}
-      client : ${CLIENT_DOMAIN}
-      client-local : ${CLIENT_DOMAIN_LOCAL}
+    domain:
+      server: ${SERVER_DOMAIN}
+      client: ${CLIENT_DOMAIN}
+      client-local: ${CLIENT_DOMAIN_LOCAL}
     resources:
       add-mappings: false
 
@@ -13,14 +13,14 @@ spring:
     oauth2:
       client:
         naver:
-          client-id: ${DEV_OAUTH2_NAVER_ID}
-          client-secret: ${DEV_OAUTH2_NAVER_SECRET}
-          redirect-uri: ${DEV_OAUTH2_NAVER_REDIRECT_URL}
-          state: ${DEV_OAUTH2_NAVER_STATE}
-          user-info-uri: ${DEV_OAUTH2_NAVER_USER_INFO_URL}
+          client-id: ${PROD_OAUTH2_NAVER_ID}
+          client-secret: ${PROD_OAUTH2_NAVER_SECRET}
+          redirect-uri: ${OAUTH2_NAVER_REDIRECT_URL}
+          state: ${OAUTH2_NAVER_STATE}
+          user-info-uri: ${OAUTH2_NAVER_USER_INFO_URL}
           token-uri:
-            host: ${DEV_OAUTH2_NAVER_TOKEN_URI_HOST}
-            path: ${DEV_OAUTH2_NAVER_TOKEN_URI_PATH}
+            host: ${OAUTH2_NAVER_TOKEN_URI_HOST}
+            path: ${OAUTH2_NAVER_TOKEN_URI_PATH}
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -51,7 +51,7 @@ aws-property:
 
 
 jwt:
-  secretKey:  ${PROD_JWT_SECRET_KEY}
+  secretKey: ${PROD_JWT_SECRET_KEY}
   access:
     expiration: ${JWT_ACCESS_TOKEN_EXPIRE_TIME}
     header: ${JWT_ACCESS_TOKEN_HEADER}
