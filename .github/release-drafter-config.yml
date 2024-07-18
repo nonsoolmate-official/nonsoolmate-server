@@ -7,9 +7,11 @@ categories:
     labels: ['🔨 fix']
   - title: '🐬 코드를 개선했어요'
     labels:
-      - '📋 docs'
-      - '🧼 refactor'
       - '🪄 setting'
+      - '📋 docs'
+      - '⚒️ infra'
+      - '📝 chore'
+      - '🧼 refactor'
       - '🎫 test'
       - '🚀 deploy'
 change-template: '- $TITLE #$NUMBER @$AUTHOR '
