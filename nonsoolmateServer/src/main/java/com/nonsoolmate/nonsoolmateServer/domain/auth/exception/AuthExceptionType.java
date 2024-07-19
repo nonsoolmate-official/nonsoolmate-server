@@ -17,6 +17,7 @@ public enum AuthExceptionType implements ExceptionType {
 	INVALID_PLATFORM_TYPE(HttpStatus.BAD_REQUEST, "올바르지 않은 플랫폼 유형입니다."),
 	INVALID_ACCESS_TOKEN(HttpStatus.BAD_REQUEST, "서비스에서 발급되지 않은 액세스 토큰입니다."),
 	INVALID_REFRESH_TOKEN(HttpStatus.BAD_REQUEST, "서비스에서 발급되지 않거나 이미 사용된 리프레시 토큰입니다."),
+	INVALID_REQUEST_LOGIN(HttpStatus.BAD_REQUEST, "올바르지 않은 로그인 요청입니다"),
 
 	/**
 	 * 401 Unauthorized
