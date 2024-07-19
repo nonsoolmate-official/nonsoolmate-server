@@ -47,14 +47,20 @@ public class SecurityConfig {
 		"/h2-console/**",
 	};
 
-	@Value("${spring.web.domain.server}")
-	private String serverDomain;
+	@Value("${spring.web.origin.server}")
+	private String serverOrigin;
 
-	@Value("${spring.web.domain.client}")
-	private String clientDomain;
+	@Value("${spring.web.origin.server-test}")
+	private String serverTestOrigin;
 
-	@Value("${spring.web.domain.client-local}")
-	private String clientLocalDomain;
+	@Value("${spring.web.origin.client}")
+	private String clientOrigin;
+
+	@Value("${spring.web.origin.client-test}")
+	private String clientTestOrigin;
+
+	@Value("${spring.web.origin.client-local}")
+	private String clientLocalOrigin;
 
 	private final JwtAuthenticationFilter jwtAuthenticationFilter;
 	private final JwtExceptionFilter jwtExceptionFilter;
@@ -65,8 +71,9 @@ public class SecurityConfig {
 			@Override
 			public void addCorsMappings(CorsRegistry registry) {
 				registry.addMapping("/**")
-					.allowedOrigins(serverDomain, clientDomain, clientLocalDomain)
-					.allowedOriginPatterns(serverDomain, clientDomain, clientLocalDomain)
+					.allowedOrigins(serverOrigin, serverTestOrigin, clientOrigin, clientTestOrigin, clientLocalOrigin)
+					.allowedOriginPatterns(serverOrigin, serverTestOrigin, clientOrigin, clientTestOrigin,
+						clientLocalOrigin)
 					.allowedHeaders("*")
 					.allowedMethods(
 						HttpMethod.GET.name(),
