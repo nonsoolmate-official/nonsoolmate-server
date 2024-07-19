@@ -1,7 +1,5 @@
 package com.nonsoolmate.nonsoolmateServer.domain.auth.service;
 
-import org.springframework.transaction.annotation.Transactional;
-
 import com.nonsoolmate.nonsoolmateServer.domain.auth.controller.dto.request.MemberRequestDTO;
 import com.nonsoolmate.nonsoolmateServer.domain.auth.service.vo.MemberSignUpVO;
 import com.nonsoolmate.nonsoolmateServer.domain.member.entity.Member;
@@ -24,7 +22,6 @@ public abstract class AuthService {
 			.gender(gender).phoneNumber(phoneNumber).build();
 	}
 
-	@Transactional
 	public abstract MemberSignUpVO saveMemberOrLogin(final String platformType, final MemberRequestDTO request);
 
 	protected Member getMember(final PlatformType platformType, final String email) {
