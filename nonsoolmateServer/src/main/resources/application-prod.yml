@@ -34,6 +34,7 @@ spring:
     properties:
       hibernate:
         format_sql: true
+    open-in-view: false
   data:
     redis:
       host: redis
