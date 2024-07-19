@@ -13,7 +13,7 @@ import com.nonsoolmate.nonsoolmateServer.domain.member.entity.enums.PlatformType
 public interface MemberRepository extends JpaRepository<Member, Long> {
 	Optional<Member> findByEmail(String email);
 
-	Optional<Member> findByPlatformTypeAndEmail(PlatformType platformType, String email);
+	Optional<Member> findByPlatformTypeAndPlatformId(PlatformType platformType, String platformId);
 
 	Optional<Member> findByMemberId(Long memberId);
 
