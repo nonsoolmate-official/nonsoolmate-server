@@ -17,6 +17,7 @@ public class NaverMemberVO {
 	@Getter
 	@JsonIgnoreProperties(ignoreUnknown = true)
 	public static class Response {
+		private String id;
 		private String gender;
 		private String email;
 		private String mobile;
