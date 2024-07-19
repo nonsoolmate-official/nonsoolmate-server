@@ -2,10 +2,12 @@ spring:
   config:
     import: application-secret.properties
   web:
-    domain:
-      server: ${SERVER_DOMAIN}
-      client: ${CLIENT_DOMAIN}
-      client-local: ${CLIENT_DOMAIN_LOCAL}
+    origin:
+      server: ${SERVER_ORIGIN}
+      server-test: ${SERVER_TEST_ORIGIN}
+      client: ${CLIENT_ORIGIN}
+      client-test: ${CLIENT_TEST_ORIGIN}
+      client-local: ${CLIENT_LOCAL_ORIGIN}
     resources:
       add-mappings: false
 
