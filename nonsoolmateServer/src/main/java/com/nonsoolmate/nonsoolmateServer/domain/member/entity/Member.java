@@ -39,6 +39,9 @@ public class Member {
 	@NotNull
 	private PlatformType platformType;
 
+	@NotNull
+	private String platformId;
+
 	@Enumerated(EnumType.STRING)
 	@NotNull
 	private Role role;
