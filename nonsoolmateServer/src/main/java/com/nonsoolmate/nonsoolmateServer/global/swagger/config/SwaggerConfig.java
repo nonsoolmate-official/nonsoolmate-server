@@ -21,6 +21,7 @@ import io.swagger.v3.oas.annotations.servers.Server;
 	},
 	servers = {
 		@Server(url = "http://localhost:8080", description = "local server"),
+		@Server(url = "https://dev.api.nonsoolmate.com", description = "dev server"),
 		@Server(url = "https://api.nonsoolmate.com", description = "prd server")
 	})
 @SecuritySchemes({
