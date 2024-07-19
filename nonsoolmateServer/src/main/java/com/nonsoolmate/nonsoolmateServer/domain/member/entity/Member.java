@@ -15,6 +15,8 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -22,6 +24,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
+@Table(
+	uniqueConstraints = {
+		@UniqueConstraint(name = "UK_PLATFORM_TYPE_PLATFORM_ID", columnNames = {"platformType", "platformId"})
+	}
+)
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Member {
