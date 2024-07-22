@@ -32,12 +32,13 @@ spring:
     password:
   jpa:
     hibernate:
-      ddl-auto: none
+      ddl-auto: create
     properties:
       hibernate:
         format_sql: true
         show_sql: true
     open-in-view: false
+    defer-datasource-initialization: true
   data:
     redis:
       host: localhost
@@ -47,11 +48,6 @@ spring:
     console:
       enabled: true
       path: /h2-console
-  sql:
-    init:
-      mode: always
-      data-locations: classpath:init/data.sql # 더미데이터 파일 연결
-      schema-locations: classpath:init/schema.sql # 스키마 파일 연결
 
 aws-property:
   access-key: ${DEV_AWS_ACCESS_KEY}
