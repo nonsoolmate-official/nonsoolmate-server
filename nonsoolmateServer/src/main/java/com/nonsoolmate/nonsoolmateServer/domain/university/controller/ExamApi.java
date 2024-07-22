@@ -46,28 +46,6 @@ public interface ExamApi {
 
 	@ApiResponses(
 		value = {
-			@ApiResponse(responseCode = "200", description = "대학 시험 이미지 조회에 성공했습니다"),
-			@ApiResponse(responseCode = "400", description = "존재하지 않는 대학 시험입니다.", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
-		}
-	)
-	@Operation(summary = "시험 보기: 문제지 [페이지네이션]", description = "시험 응시 화면의 문제지를 조회합니다.")
-	ResponseEntity<SuccessResponse<Page<ExamImageResponseDTO>>> getExamImages(
-		@Parameter(description = "해당 대학교 시험 Id (examId)", required = true) @PathVariable("id") Long id,
-		@Parameter(description = "문제 이미지 페이지 번호 -1") @RequestParam(defaultValue = "0") int page,
-		Pageable pageable);
-
-	@ApiResponses(
-		value = {
-			@ApiResponse(responseCode = "201", description = "대학 시험 이미지 및 해제 PDF 조회에 성공했습니다"),
-			@ApiResponse(responseCode = "400", description = "존재하지 않는 대학 시험입니다.", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
-		}
-	)
-	@Operation(summary = "해제: 문제이미지_해제PDF", description = "시험 문제 이미지 및 해제 PDF를 조회합니다.")
-	ResponseEntity<SuccessResponse<ExamImageAndAnswerResponseDTO>> getExamImageAndAnswer(
-		@PathVariable("id") Long examId);
-
-	@ApiResponses(
-		value = {
 			@ApiResponse(responseCode = "201", description = "대학 시험 문제 및 해제 PDF 조회에 성공했습니다"),
 			@ApiResponse(responseCode = "400", description = "존재하지 않는 대학 시험입니다.", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
 		}
