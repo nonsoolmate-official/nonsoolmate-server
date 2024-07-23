@@ -55,4 +55,8 @@ public class ExamRecord {
 		this.timeTakeExam = timeTakeExam;
 		this.examRecordSheetFileName = examRecordSheetFileName;
 	}
+
+	public void updateRecordResultFileName(String examRecordResultFileName){
+		this.examRecordResultFileName = examRecordResultFileName;
+	}
 }
