@@ -19,6 +19,7 @@ public interface ExamRecordRepository extends JpaRepository<ExamRecord, Long> {
 			() -> new ExamException(NOT_FOUND_UNIVERSITY_EXAM_RECORD));
 	}
 
-	// TODO: 데모데이 이후에 삭제 필요.
+	// TODO : 데모데이 이후 삭제 필요.
 	void deleteAllByMember(Member member);
+	// TODO : 데모데이 이후 삭제 필요.
 }
