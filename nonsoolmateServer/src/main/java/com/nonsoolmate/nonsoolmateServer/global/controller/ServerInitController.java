@@ -18,6 +18,7 @@ public class ServerInitController {
 
 	private final ExamRecordRepository examRecordRepository;
 
+	// TODO : 데모데이 이후 삭제 필요.
 	@GetMapping
 	public ResponseEntity<Void> init(@AuthUser Member member){
 
@@ -25,4 +26,5 @@ public class ServerInitController {
 
 		return ResponseEntity.ok().build();
 	}
+	// TODO : 데모데이 이후 삭제 필요.
 }
