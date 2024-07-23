@@ -20,5 +20,5 @@ public interface ExamRecordRepository extends JpaRepository<ExamRecord, Long> {
 	}
 
 	// TODO: 데모데이 이후에 삭제 필요.
-	void deleteAllByMemberId(Long memberId);
+	void deleteAllByMember(Member member);
 }

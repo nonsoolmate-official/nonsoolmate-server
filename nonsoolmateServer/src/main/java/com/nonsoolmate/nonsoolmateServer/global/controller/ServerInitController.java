@@ -21,7 +21,7 @@ public class ServerInitController {
 	@GetMapping
 	public ResponseEntity<Void> init(@AuthUser Member member){
 
-		examRecordRepository.deleteAllByMemberId(member.getMemberId());
+		examRecordRepository.deleteAllByMember(member);
 
 		return ResponseEntity.ok().build();
 	}
