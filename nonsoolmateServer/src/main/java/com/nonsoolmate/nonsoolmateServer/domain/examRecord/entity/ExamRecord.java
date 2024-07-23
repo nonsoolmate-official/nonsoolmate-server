@@ -58,5 +58,6 @@ public class ExamRecord {
 
 	public void updateRecordResultFileName(String examRecordResultFileName){
 		this.examRecordResultFileName = examRecordResultFileName;
+		this.examResultStatus = ExamResultStatus.FINISH;
 	}
 }
