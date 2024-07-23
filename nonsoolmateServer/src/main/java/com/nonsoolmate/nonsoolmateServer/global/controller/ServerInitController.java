@@ -16,14 +16,13 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/init")
 public class ServerInitController {
 
-	private final ExamRecordRepository examRecordRepository;
+	private final ServerInitService serverInitService;
 
 	// TODO : 데모데이 이후 삭제 필요.
 	@GetMapping
 	public ResponseEntity<Void> init(@AuthUser Member member){
 
-		examRecordRepository.deleteAllByMember(member);
-
+		serverInitService.init(member);
 		return ResponseEntity.ok().build();
 	}
 	// TODO : 데모데이 이후 삭제 필요.
