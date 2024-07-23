@@ -81,6 +81,12 @@ public class ExamRecordService {
 			final ExamRecord universityexamRecord = createExamRecord(exam, member,
 				request.memberTakeTimeExam(),
 				fileName);
+
+			// TODO : 데모데이 이후 삭제 필요.
+			String universityName = exam.getUniversity().getUniversityName();
+			universityexamRecord.updateRecordResultFileName(universityName + "_첨삭.pdf");
+			// TODO : 데모데이 이후 삭제 필요.
+
 			final ExamRecord saveUniversityExamRecord = examRecordRepository.save(
 				universityexamRecord);
 			decreaseMemberTicketCount(member);
@@ -129,5 +135,10 @@ public class ExamRecordService {
 	private ExamRecord getExamByExamAndMember(final Exam exam, final Member member) {
 		return examRecordRepository.findByExamAndMemberOrElseThrowException(
 			exam, member);
+	}
+
+	@Transactional
+	public void promotionUpdateExamRecord(final Exam exam, final Member member){
+
 	}
 }
