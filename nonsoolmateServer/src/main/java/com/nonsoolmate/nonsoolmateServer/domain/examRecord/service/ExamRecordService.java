@@ -12,6 +12,7 @@ import com.nonsoolmate.nonsoolmateServer.domain.examRecord.controller.dto.respon
 import com.nonsoolmate.nonsoolmateServer.domain.examRecord.controller.dto.response.ExamRecordResponseDTO;
 import com.nonsoolmate.nonsoolmateServer.domain.examRecord.controller.dto.response.ExamRecordResultResponseDTO;
 import com.nonsoolmate.nonsoolmateServer.domain.examRecord.entity.ExamRecord;
+import com.nonsoolmate.nonsoolmateServer.domain.examRecord.entity.enums.CorrectionFileName;
 import com.nonsoolmate.nonsoolmateServer.domain.examRecord.entity.enums.ExamResultStatus;
 import com.nonsoolmate.nonsoolmateServer.domain.examRecord.exception.ExamRecordException;
 import com.nonsoolmate.nonsoolmateServer.domain.examRecord.repository.ExamRecordRepository;
@@ -26,10 +27,12 @@ import com.nonsoolmate.nonsoolmateServer.external.aws.service.CloudFrontService;
 import com.nonsoolmate.nonsoolmateServer.external.aws.service.S3Service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
+@Slf4j
 public class ExamRecordService {
 	private final ExamRecordRepository examRecordRepository;
 	private final ExamRepository examRepository;
@@ -81,6 +84,13 @@ public class ExamRecordService {
 			final ExamRecord universityexamRecord = createExamRecord(exam, member,
 				request.memberTakeTimeExam(),
 				fileName);
+
+			// TODO : 데모데이 이후 삭제 필요.
+			String correctionFileName = CorrectionFileName.getCorrectionFileName(
+				exam.getUniversity().getUniversityName());
+			universityexamRecord.updateRecordResultFileName(correctionFileName);
+			// TODO : 데모데이 이후 삭제 필요.
+
 			final ExamRecord saveUniversityExamRecord = examRecordRepository.save(
 				universityexamRecord);
 			decreaseMemberTicketCount(member);
@@ -130,4 +140,5 @@ public class ExamRecordService {
 		return examRecordRepository.findByExamAndMemberOrElseThrowException(
 			exam, member);
 	}
+
 }

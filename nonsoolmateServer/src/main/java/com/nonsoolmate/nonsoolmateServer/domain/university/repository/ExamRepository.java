@@ -9,7 +9,7 @@ import com.nonsoolmate.nonsoolmateServer.domain.university.entity.Exam;
 import com.nonsoolmate.nonsoolmateServer.domain.university.entity.University;
 
 public interface ExamRepository extends JpaRepository<Exam, Long> {
-	Optional<Exam> findByExamId(Long universityId);
+	Optional<Exam> findByExamId(Long examId);
 
 	List<Exam> findAllByUniversityOrderByExamYearDesc(University university);
 }

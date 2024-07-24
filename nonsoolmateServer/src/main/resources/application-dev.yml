@@ -3,10 +3,12 @@ spring:
     import: application-secret.properties
 
   web:
-    domain:
-      server: ${SERVER_DOMAIN}
-      client: ${CLIENT_DOMAIN}
-      client-local: ${CLIENT_DOMAIN_LOCAL}
+    origin:
+      server: ${SERVER_ORIGIN}
+      server-test: ${SERVER_TEST_ORIGIN}
+      client: ${CLIENT_ORIGIN}
+      client-test: ${CLIENT_TEST_ORIGIN}
+      client-local: ${CLIENT_LOCAL_ORIGIN}
     resources:
       add-mappings: false
 
@@ -35,11 +37,11 @@ spring:
     properties:
       hibernate:
         format_sql: true
+    open-in-view: false
   data:
     redis:
-      host: localhost
+      host: redis
       port: 6379
-
 
 aws-property:
   access-key: ${DEV_AWS_ACCESS_KEY}

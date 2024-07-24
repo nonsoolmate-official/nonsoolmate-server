@@ -15,6 +15,8 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -22,6 +24,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
+@Table(
+	uniqueConstraints = {
+		@UniqueConstraint(name = "UK_PLATFORM_TYPE_PLATFORM_ID", columnNames = {"platformType", "platformId"})
+	}
+)
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Member {
@@ -38,6 +45,9 @@ public class Member {
 	@Enumerated(EnumType.STRING)
 	@NotNull
 	private PlatformType platformType;
+
+	@NotNull
+	private String platformId;
 
 	@Enumerated(EnumType.STRING)
 	@NotNull
@@ -58,12 +68,14 @@ public class Member {
 	private LocalDateTime ticketPreviousPublicationTime;
 
 	@Builder
-	public Member(final String email, final String name, final PlatformType platformType, final Role role,
+	public Member(final String email, final String name, final PlatformType platformType, final String platformId,
+		final Role role,
 		final String birthYear,
 		final String gender, final String phoneNumber) {
 		this.email = email;
 		this.name = name;
 		this.platformType = platformType;
+		this.platformId = platformId;
 		this.role = role;
 		this.birthYear = birthYear;
 		this.gender = gender;

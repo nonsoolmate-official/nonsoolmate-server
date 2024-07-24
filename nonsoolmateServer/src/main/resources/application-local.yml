@@ -3,10 +3,12 @@ spring:
     import: application-secret.properties
 
   web:
-    domain:
-      server: ${SERVER_DOMAIN}
-      client: ${CLIENT_DOMAIN}
-      client-local: ${CLIENT_DOMAIN_LOCAL}
+    origin:
+      server: ${SERVER_ORIGIN}
+      server-test: ${SERVER_TEST_ORIGIN}
+      client: ${CLIENT_ORIGIN}
+      client-test: ${CLIENT_TEST_ORIGIN}
+      client-local: ${CLIENT_LOCAL_ORIGIN}
     resources:
       add-mappings: false
 
@@ -23,14 +25,20 @@ spring:
             host: ${OAUTH2_NAVER_TOKEN_URI_HOST}
             path: ${OAUTH2_NAVER_TOKEN_URI_PATH}
 
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:nonsoolmate-local-db;DATABASE_TO_UPPER=FALSE;mode=mysql  # H2 접속 정보 (전부 소문자로 지정)
+    username: sa
+    password:
   jpa:
     hibernate:
-      ddl-auto: none
+      ddl-auto: create
     properties:
       hibernate:
         format_sql: true
         show_sql: true
     open-in-view: false
+    defer-datasource-initialization: true
   data:
     redis:
       host: localhost
@@ -40,17 +48,6 @@ spring:
     console:
       enabled: true
       path: /h2-console
-  sql:
-    init:
-      mode: always
-      data-locations: classpath:init/data.sql # 더미데이터 파일 연결
-      schema-locations: classpath:init/schema.sql # 스키마 파일 연결
-
-  datasource:
-    driver-class-name: org.h2.Driver
-    url: jdbc:h2:mem:nonsoolmate-local-db;DATABASE_TO_UPPER=FALSE;mode=mysql  # H2 접속 정보 (전부 소문자로 지정)
-    username: sa
-    password:
 
 aws-property:
   access-key: ${DEV_AWS_ACCESS_KEY}

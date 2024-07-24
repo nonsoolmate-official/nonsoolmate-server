@@ -1,5 +1,6 @@
 package com.nonsoolmate.nonsoolmateServer.external.oauth.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,21 +35,25 @@ public class NaverAuthService extends AuthService {
 	@Value("${spring.security.oauth2.client.naver.token-uri.path}")
 	private String tokenUriPath;
 
+	@Autowired
 	public NaverAuthService(MemberRepository memberRepository) {
 		super(memberRepository);
 	}
 
 	@Override
+	@Transactional
 	public MemberSignUpVO saveMemberOrLogin(final String authorizationCode, final MemberRequestDTO request) {
 		String accessToken = getAccessToken(authorizationCode, clientId, clientSecret, state).getAccess_token();
 		NaverMemberVO naverMemberInfo = getNaverMemberInfo(accessToken);
 		Member foundMember = getMember(PlatformType.of(request.platformType()),
-			naverMemberInfo.getResponse().getEmail());
+			naverMemberInfo.getResponse().getId());
 
 		if (foundMember != null) {
 			return MemberSignUpVO.of(foundMember, PlatformType.of(request.platformType()), AuthType.LOGIN);
 		}
-		Member savedMember = saveUser(request, naverMemberInfo.getResponse().getEmail(),
+		PlatformType platformType = PlatformType.of(request.platformType());
+		Member savedMember = saveMember(platformType, naverMemberInfo.getResponse().getId(),
+			naverMemberInfo.getResponse().getEmail(),
 			naverMemberInfo.getResponse().getName(),
 			naverMemberInfo.getResponse().getBirthyear(), naverMemberInfo.getResponse().getGender(),
 			naverMemberInfo.getResponse().getMobile());

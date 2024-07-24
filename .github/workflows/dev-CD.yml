@@ -5,38 +5,64 @@ on:
     branches: [ "dev" ]
 
 jobs:
-  deploy-cd:
+  dev-ci:
     runs-on: ubuntu-22.04
-    timeout-minutes: 5
+    env:
+      working-directory: nonsoolmateServer
+
     steps:
-    - name: 설정 파일 생성 및 키 권한 설정
-      run: |
-        echo "${{ secrets.SECRET_PROPERTIES }}" > application-secret.properties
-        echo "${{ secrets.CLOUDFRONT_PRIVATE_KEY }}" > cloudfront-private-key.pem
-        echo "${{ secrets.DEV_SERVER_KEY }}" > dev_server_key.pem
-        chmod 400 dev_server_key.pem
+      - name: 체크아웃
+        uses: actions/checkout@v3
 
-    - name: add known_hosts
-      run: |
-        mkdir -p ~/.ssh
-        ssh-keyscan -t rsa ${{ secrets.DEV_SERVER_IP }} >> ~/.ssh/known_hosts
+      - name: Set up JDK 17
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'temurin'
+          java-version: '17'
 
-    - name: dev 서버로 설정 파일 전송
-      run: |
-        scp -i dev_server_key.pem application-secret.properties ${{ secrets.DEV_SERVER_USER }}@${{ secrets.DEV_SERVER_IP }}:~/nonsoolmate-server/nonsoolmateServer/src/main/resources/application-secret.properties
-        scp -i dev_server_key.pem cloudfront-private-key.pem ${{ secrets.DEV_SERVER_USER }}@${{ secrets.DEV_SERVER_IP }}:~/nonsoolmate-server/nonsoolmateServer/src/main/resources/key/cloudfront-private-key.pem
+      - name: resources 폴더 내 파일 생성
+        run: |
+          mkdir -p src/main/resources
+          echo "${{ secrets.SECRET_PROPERTIES }}" > src/main/resources/application-secret.properties
+          mkdir -p src/main/resources/key
+          echo "${{ secrets.CLOUDFRONT_PRIVATE_KEY }}" > src/main/resources/key/cloudfront-private-key.pem
+          ls src/main/resources/key
+        working-directory: ${{ env.working-directory }}
 
-    - name: dev 서버 무중단 배포
-      uses: appleboy/ssh-action@master
-      with:
-        host: ${{ secrets.DEV_SERVER_IP }}
-        username: ${{ secrets.DEV_SERVER_USER }}
-        key: ${{ secrets.DEV_SERVER_KEY }}
-        port: ${{ secrets.SSH_PORT }}
-        script: |
-          cd ~/nonsoolmate-server
-          git pull origin dev
-          cd ~/nonsoolmate-server/nonsoolmateServer
-          ./gradlew clean build
-          cd ~/app/nonstop
-          ./deploy.sh
+      - name: 빌드
+        run: |
+          chmod +x gradlew
+          ./gradlew build
+        working-directory: ${{ env.working-directory }}
+        shell: bash
+
+      - name: docker build 가능하도록 환경 설정
+        uses: docker/setup-buildx-action@v2
+
+      - name: docker hub에 로그인
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_LOGIN_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_LOGIN_ACCESSTOKEN }}
+
+      - name: docker image 빌드 및 푸시
+        run: |
+          docker build --platform linux/amd64 -t nonsoolmate/nonsoolmate-server --build-arg SPRING_PROFILES_ACTIVE=dev .
+          docker push nonsoolmate/nonsoolmate-server
+        working-directory: ${{ env.working-directory }}
+
+  dev-cd:
+    needs: dev-ci
+    runs-on: ubuntu-20.04
+
+    steps:
+      - name: 도커 컨테이너 실행
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.DEV_SERVER_IP }}
+          username: ${{ secrets.DEV_SERVER_USER }}
+          key: ${{ secrets.DEV_SERVER_KEY }}
+          script: |
+            cd ~
+            ./deploy.sh
+

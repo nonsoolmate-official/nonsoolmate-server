@@ -66,9 +66,11 @@ public class ExamRecordController implements ExamRecordApi {
 	public ResponseEntity<SuccessResponse<ExamRecordIdResponse>> createExamRecord(
 		@Valid @RequestBody final CreateExamRecordRequestDTO createExamRecordRequestDTO,
 		@AuthUser final Member member) {
+		ExamRecordIdResponse examRecord = examRecordService.createExamRecord(
+			createExamRecordRequestDTO, member);
+
 		return ResponseEntity.status(HttpStatus.CREATED).body(SuccessResponse.of(
-			ExamRecordSuccessType.CREATE_EXAM_RECORD_SUCCESS,
-			examRecordService.createExamRecord(
-				createExamRecordRequestDTO, member)));
+			ExamRecordSuccessType.CREATE_EXAM_RECORD_SUCCESS, examRecord
+			));
 	}
 }
