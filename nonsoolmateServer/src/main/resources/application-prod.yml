@@ -72,3 +72,8 @@ management:
 logging:
   discord:
     webhook-uri: ${PROD_DISCORD_WEB_HOOK_URL}
+
+payment:
+  toss:
+    api-secret-key: ${PROD_PAYMENT_API_KEY}
+    widget-secret-key: ${PROD_PAYMENT_WIDGET_KEY}
