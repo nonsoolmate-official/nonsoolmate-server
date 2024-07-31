@@ -21,7 +21,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @RestController
 public class PaymentController {
 	@Value("${payment.toss.widget-secret-key}")
-	String widgetSecretKey;
+	private String widgetSecretKey;
 
 	@RequestMapping(value = "/confirm")
 	public ResponseEntity<JsonNode> confirmPayment(@RequestBody String jsonBody) throws Exception {
