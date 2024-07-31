@@ -76,3 +76,8 @@ management:
   endpoint:
     health:
       enabled: true
+
+payment:
+  toss:
+    api-secret-key: ${DEV_PAYMENT_API_KEY}
+    widget-secret-key: ${DEV_PAYMENT_WIDGET_KEY}
