@@ -18,7 +18,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import lombok.extern.slf4j.Slf4j;
+
 @RestController
+@Slf4j
 public class PaymentController {
 	@Value("${payment.toss.widget-secret-key}")
 	private String widgetSecretKey;
