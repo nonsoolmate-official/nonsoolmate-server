@@ -76,5 +76,5 @@ management:
 
 payment:
   toss:
-    api-secret-key: ${DEV_TOSS_API_KEY}
+    api-secret-key: ${DEV_PAYMENT_API_KEY}
     widget-secret-key: ${DEV_PAYMENT_WIDGET_KEY}
