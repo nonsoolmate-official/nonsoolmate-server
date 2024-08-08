@@ -78,22 +78,12 @@ class MemberRepositoryTest {
 	@Test
 	@DisplayName("동일한 회원에 대한 회원가입 요청이 동시에 오는 경우 무결성 에러가 발생한다")
 	void saveMemberConcurrent() throws InterruptedException {
-		Member duplicateMember = Member.builder()
-			.email("test@example.com")
-			.name("euna")
-			.platformType(PlatformType.NAVER)
-			.role(Role.USER)
-			.platformId("12345")
-			.birthYear("2001")
-			.gender("F")
-			.phoneNumber("010-1234-5678")
-			.build();
 		CountDownLatch latch = new CountDownLatch(2);
 		ExecutorService executor = Executors.newFixedThreadPool(2);
 
 		Callable<Void> task = () -> {
 			try {
-				memberRepository.saveAndFlush(duplicateMember);
+				memberRepository.saveAndFlush(member);
 			} finally {
 				latch.countDown();
 			}
