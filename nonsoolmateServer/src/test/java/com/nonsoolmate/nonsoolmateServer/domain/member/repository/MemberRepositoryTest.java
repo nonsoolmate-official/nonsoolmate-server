@@ -78,10 +78,11 @@ class MemberRepositoryTest {
 	@Test
 	@DisplayName("동일한 회원에 대한 회원가입 요청이 동시에 오는 경우 무결성 에러가 발생한다")
 	void saveMemberConcurrent() throws InterruptedException {
+		// given
 		CountDownLatch latch = new CountDownLatch(2);
 		ExecutorService executor = Executors.newFixedThreadPool(2);
 
-		Callable<Void> task = () -> {
+		Callable<Void> task1 = () -> {
 			try {
 				memberRepository.save(member);
 			} finally {
@@ -90,13 +91,34 @@ class MemberRepositoryTest {
 			return null;
 		};
 
-		Future<Void> future1 = executor.submit(task);
-		Future<Void> future2 = executor.submit(task);
+		Callable<Void> task2 = () -> {
+			try {
+				Member duplicateMember = Member.builder()
+					.email("test@example.com")
+					.name("euna")
+					.platformType(PlatformType.NAVER)
+					.role(Role.USER)
+					.platformId("12345")
+					.birthYear("2001")
+					.gender("F")
+					.phoneNumber("010-1234-5678")
+					.build();
+				memberRepository.save(duplicateMember);
+			} finally {
+				latch.countDown();
+			}
+			return null;
+		};
 
+		Future<Void> future1 = executor.submit(task1);
+		Future<Void> future2 = executor.submit(task2);
+
+		// when
 		latch.await();
 
 		executor.shutdown();
 
+		// then
 		assertThatThrownBy(() -> {
 			try {
 				future1.get();
@@ -105,8 +127,6 @@ class MemberRepositoryTest {
 				throw e.getCause();
 			}
 		}).isInstanceOf(DataIntegrityViolationException.class);
-
-		entityManager.clear();
 
 		assertEquals(1, memberRepository.count());
 	}
