@@ -68,11 +68,11 @@ class MemberRepositoryTest {
 		memberRepository.save(member);
 
 		// when, then
-		assertThatThrownBy(() -> memberRepository.saveAndFlush(duplicateMember))
+		assertThatThrownBy(() -> memberRepository.save(duplicateMember))
 			.isInstanceOf(DataIntegrityViolationException.class);
 		entityManager.clear();
 
-		assertThat(memberRepository.count()).isEqualTo(1);
+		assertEquals(1, memberRepository.count());
 	}
 
 	@Test
@@ -83,7 +83,7 @@ class MemberRepositoryTest {
 
 		Callable<Void> task = () -> {
 			try {
-				memberRepository.saveAndFlush(member);
+				memberRepository.save(member);
 			} finally {
 				latch.countDown();
 			}
