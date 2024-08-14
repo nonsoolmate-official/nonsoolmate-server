@@ -7,10 +7,6 @@ import lombok.AllArgsConstructor;
 
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public enum CommonSuccessType implements SuccessType {
-	// 200 OK
-	GET_SERVER_PROFILE(HttpStatus.OK, "서버 프로필 확인 완료");
-
-	// 201 created
 
 	private final HttpStatus status;
 	private final String message;
