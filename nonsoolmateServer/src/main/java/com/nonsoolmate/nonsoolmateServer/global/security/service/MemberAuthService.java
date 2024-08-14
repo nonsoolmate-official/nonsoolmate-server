@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 
 import com.nonsoolmate.nonsoolmateServer.domain.member.entity.Member;
 import com.nonsoolmate.nonsoolmateServer.domain.member.repository.MemberRepository;
-import com.nonsoolmate.nonsoolmateServer.global.jwt.utils.PasswordUtil;
 import com.nonsoolmate.nonsoolmateServer.global.security.CustomAuthUser;
 
 import lombok.RequiredArgsConstructor;
@@ -20,8 +19,6 @@ public class MemberAuthService implements UserDetailsService {
 	@Override
 	public UserDetails loadUserByUsername(String memberId) throws UsernameNotFoundException {
 		Member member = memberRepository.findByMemberIdOrElseThrow(Long.parseLong(memberId));
-
-		String password = PasswordUtil.generateRandomPassword();
 
 		return new CustomAuthUser(member, member.getRole());
 	}
