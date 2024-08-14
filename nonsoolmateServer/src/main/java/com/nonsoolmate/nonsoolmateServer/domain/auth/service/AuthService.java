@@ -38,7 +38,7 @@ public abstract class AuthService {
 		Member newMember = createSocialMember(email, name, platformType, platformId, birthday, gender,
 			phoneNumber);
 		try {
-			return memberRepository.saveAndFlush(newMember);
+			return memberRepository.save(newMember);
 		} catch (DataIntegrityViolationException e) {
 			throw new AuthException(AuthExceptionType.INVALID_REQUEST_LOGIN);
 		}
