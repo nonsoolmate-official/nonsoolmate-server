@@ -1,5 +1,8 @@
 package com.nonsoolmate.nonsoolmateServer.global.error;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -28,14 +31,18 @@ public class GlobalExceptionHandler {
 
 	@ExceptionHandler({BusinessException.class})
 	protected ResponseEntity<ErrorResponse> handleServerException(BusinessException ex) {
-		log.error("🚨BusinessException occurred: {} 🚨", ex.getMessage());
+		log.error("🚨BusinessException occurred: {} 🚨\n{}",
+			ex.getMessage(),
+			getStackTraceAsString(ex));
 		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
 			.body(ErrorResponse.of(CommonErrorType.INTERNAL_SERVER_ERROR));
 	}
 
 	@ExceptionHandler({Exception.class})
 	protected ResponseEntity<ErrorResponse> handleServerException(Exception ex) {
-		log.error("🚨InternalException occurred: {} 🚨", ex.getMessage());
+		log.error("🚨InternalException occurred: {} 🚨\n{}",
+			ex.getMessage(),
+			getStackTraceAsString(ex));
 		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
 			.body(ErrorResponse.of(CommonErrorType.INTERNAL_SERVER_ERROR));
 	}
@@ -74,5 +81,12 @@ public class GlobalExceptionHandler {
 	public ResponseEntity<ErrorResponse> handleValidationExceptions(HttpMediaTypeNotSupportedException ex) {
 		return ResponseEntity.status(HttpStatus.UNSUPPORTED_MEDIA_TYPE)
 			.body(ErrorResponse.of(CommonErrorType.INVALID_JSON_TYPE, ex.getMessage()));
+	}
+
+	private String getStackTraceAsString(Exception ex) {
+		StringWriter sw = new StringWriter();
+		PrintWriter pw = new PrintWriter(sw);
+		ex.printStackTrace(pw);
+		return sw.toString();
 	}
 }
