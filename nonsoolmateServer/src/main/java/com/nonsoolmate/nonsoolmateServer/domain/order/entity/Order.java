@@ -33,4 +33,8 @@ public class Order {
 		this.orderName = orderName;
 		this.amount = amount;
 	}
+
+	public void updateTransactionDetail(final TransactionDetail transactionDetail) {
+		this.transactionDetail = transactionDetail;
+	}
 }
