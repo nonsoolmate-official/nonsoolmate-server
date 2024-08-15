@@ -2,8 +2,11 @@ package com.nonsoolmate.nonsoolmateServer.domain.payment.entity;
 
 import java.time.LocalDateTime;
 
+import com.nonsoolmate.nonsoolmateServer.domain.order.entity.Order;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 import jakarta.validation.constraints.NotNull;
@@ -26,6 +29,9 @@ public class TransactionDetail {
 
 	@NotNull
 	private String paymentKey;
+
+	@OneToOne(mappedBy = "transactionDetail")
+	private Order order;
 
 	// TODO: customerKey -> memberTable의 memberId를 String으로 변환해서 사용할지 고민
 	// MEMBER <-> BILLING 1:1, MEMBER<->TRANSACTION 1:N으로 관리하는게 어떤지
