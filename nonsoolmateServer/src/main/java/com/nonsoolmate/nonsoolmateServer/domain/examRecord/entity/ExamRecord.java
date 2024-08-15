@@ -55,11 +55,4 @@ public class ExamRecord {
 		this.timeTakeExam = timeTakeExam;
 		this.examRecordSheetFileName = examRecordSheetFileName;
 	}
-
-	// TODO : 데모데이 이후 삭제 필요.
-	public void updateRecordResultFileName(String examRecordResultFileName){
-		this.examRecordResultFileName = examRecordResultFileName;
-		this.examResultStatus = ExamResultStatus.FINISH;
-	}
-	// TODO : 데모데이 이후 삭제 필요.
 }
