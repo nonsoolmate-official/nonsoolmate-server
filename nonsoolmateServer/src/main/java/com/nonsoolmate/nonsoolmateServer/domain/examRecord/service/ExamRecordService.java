@@ -12,7 +12,6 @@ import com.nonsoolmate.nonsoolmateServer.domain.examRecord.controller.dto.respon
 import com.nonsoolmate.nonsoolmateServer.domain.examRecord.controller.dto.response.ExamRecordResponseDTO;
 import com.nonsoolmate.nonsoolmateServer.domain.examRecord.controller.dto.response.ExamRecordResultResponseDTO;
 import com.nonsoolmate.nonsoolmateServer.domain.examRecord.entity.ExamRecord;
-import com.nonsoolmate.nonsoolmateServer.domain.examRecord.entity.enums.CorrectionFileName;
 import com.nonsoolmate.nonsoolmateServer.domain.examRecord.entity.enums.ExamResultStatus;
 import com.nonsoolmate.nonsoolmateServer.domain.examRecord.exception.ExamRecordException;
 import com.nonsoolmate.nonsoolmateServer.domain.examRecord.repository.ExamRecordRepository;
@@ -84,16 +83,11 @@ public class ExamRecordService {
 			final ExamRecord universityexamRecord = createExamRecord(exam, member,
 				request.memberTakeTimeExam(),
 				fileName);
-
-			// TODO : 데모데이 이후 삭제 필요.
-			String correctionFileName = CorrectionFileName.getCorrectionFileName(
-				exam.getUniversity().getUniversityName());
-			universityexamRecord.updateRecordResultFileName(correctionFileName);
-			// TODO : 데모데이 이후 삭제 필요.
-
 			final ExamRecord saveUniversityExamRecord = examRecordRepository.save(
 				universityexamRecord);
+
 			decreaseMemberTicketCount(member);
+			
 			return ExamRecordIdResponse.of(saveUniversityExamRecord.getExamRecordId());
 		} catch (AWSClientException | MemberException e) {
 			throw e;
