@@ -18,7 +18,7 @@ import lombok.NoArgsConstructor;
 )
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class billing {
+public class Billing {
 	@Id
 	private String billingKey;
 	@NotNull
@@ -28,7 +28,7 @@ public class billing {
 	private String lastTransactionKey;
 
 	@Builder
-	public billing(final String billingKey, final String customerKey, final String cardNumber) {
+	public Billing(final String billingKey, final String customerKey, final String cardNumber) {
 		this.billingKey = billingKey;
 		this.customerKey = customerKey;
 		this.cardNumber = cardNumber;
