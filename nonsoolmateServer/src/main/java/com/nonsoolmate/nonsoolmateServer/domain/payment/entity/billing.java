@@ -33,4 +33,8 @@ public class billing {
 		this.customerKey = customerKey;
 		this.cardNumber = cardNumber;
 	}
+
+	public void updateLastTransactionKey(final String lastTransactionKey) {
+		this.lastTransactionKey = lastTransactionKey;
+	}
 }
