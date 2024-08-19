@@ -1,7 +1,6 @@
 package com.nonsoolmate.nonsoolmateServer.domain.member.entity;
 
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 import org.hibernate.validator.constraints.Length;
 
@@ -10,6 +9,7 @@ import com.nonsoolmate.nonsoolmateServer.domain.member.entity.enums.Role;
 import com.nonsoolmate.nonsoolmateServer.domain.member.exception.MemberException;
 import com.nonsoolmate.nonsoolmateServer.domain.member.exception.MemberExceptionType;
 
+import io.hypersistence.utils.hibernate.id.Tsid;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -32,6 +32,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Member {
 	@Id
+	@Tsid
 	private String memberId;
 
 	@NotNull
@@ -71,7 +72,6 @@ public class Member {
 		final Role role,
 		final String birthYear,
 		final String gender, final String phoneNumber) {
-		this.memberId = createMemberId();
 		this.email = email;
 		this.name = name;
 		this.platformType = platformType;
@@ -87,9 +87,5 @@ public class Member {
 			throw new MemberException(MemberExceptionType.MEMBER_USE_TICKET_FAIL);
 		}
 		this.ticketCount -= 1;
-	}
-
-	private String createMemberId() {
-		return UUID.randomUUID().toString().substring(0, 8);
 	}
 }
