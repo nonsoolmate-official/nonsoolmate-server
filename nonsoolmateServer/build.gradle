@@ -79,6 +79,9 @@ dependencies {
     // mac m1 setting
     implementation 'io.netty:netty-resolver-dns-native-macos:4.1.68.Final:osx-aarch_64'
 
+    // tsid
+    implementation 'io.hypersistence:hypersistence-utils-hibernate-63:3.7.6'
+
 }
 
 tasks.named('test') {
