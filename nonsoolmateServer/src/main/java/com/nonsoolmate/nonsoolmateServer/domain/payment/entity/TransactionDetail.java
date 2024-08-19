@@ -36,11 +36,6 @@ public class TransactionDetail {
 	@JoinColumn(name = "order_id")
 	private OrderDetail order;
 
-	// TODO: customerKey -> memberTable의 memberId를 String으로 변환해서 사용할지 고민
-	// MEMBER <-> BILLING 1:1, MEMBER<->TRANSACTION 1:N으로 관리하는게 어떤지
-	@NotNull
-	private String customerKey;
-
 	@NotNull
 	private String receiptUrl;
 
@@ -48,11 +43,10 @@ public class TransactionDetail {
 	LocalDateTime transactionAt;
 
 	@Builder
-	public TransactionDetail(final String transactionKey, final String paymentKey, final String customerKey,
-		final String receiptUrl, final LocalDateTime transactionAt) {
+	public TransactionDetail(final String transactionKey, final String paymentKey, final String receiptUrl,
+		final LocalDateTime transactionAt) {
 		this.transactionKey = transactionKey;
 		this.paymentKey = paymentKey;
-		this.customerKey = customerKey;
 		this.receiptUrl = receiptUrl;
 		this.transactionAt = transactionAt;
 	}
