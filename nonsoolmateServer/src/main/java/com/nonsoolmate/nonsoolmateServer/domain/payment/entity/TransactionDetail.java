@@ -20,7 +20,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(
 	uniqueConstraints = {
-		@UniqueConstraint(name = "UK_TRANSACTION_KEY_CUSTOMER_KEY_KEY", columnNames = {"transactionKey", "customerKey"})
+		@UniqueConstraint(name = "UK_TRANSACTION_KEY_CUSTOMER_KEY_KEY", columnNames = {"transactionKey", "order_id"})
 	}
 )
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -43,10 +43,11 @@ public class TransactionDetail {
 	LocalDateTime transactionAt;
 
 	@Builder
-	public TransactionDetail(final String transactionKey, final String paymentKey, final String receiptUrl,
-		final LocalDateTime transactionAt) {
+	public TransactionDetail(final String transactionKey, final String paymentKey, final OrderDetail order,
+		final String receiptUrl, final LocalDateTime transactionAt) {
 		this.transactionKey = transactionKey;
 		this.paymentKey = paymentKey;
+		this.order = order;
 		this.receiptUrl = receiptUrl;
 		this.transactionAt = transactionAt;
 	}
