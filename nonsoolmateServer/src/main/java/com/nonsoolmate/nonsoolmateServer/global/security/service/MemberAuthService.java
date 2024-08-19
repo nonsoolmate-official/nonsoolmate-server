@@ -18,7 +18,7 @@ public class MemberAuthService implements UserDetailsService {
 
 	@Override
 	public UserDetails loadUserByUsername(String memberId) throws UsernameNotFoundException {
-		Member member = memberRepository.findByMemberIdOrElseThrow(Long.parseLong(memberId));
+		Member member = memberRepository.findByMemberIdOrElseThrow(memberId);
 
 		return new CustomAuthUser(member, member.getRole());
 	}
