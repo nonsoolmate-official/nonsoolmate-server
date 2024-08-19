@@ -1,6 +1,7 @@
 package com.nonsoolmate.nonsoolmateServer.domain.member.entity;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 import org.hibernate.validator.constraints.Length;
 
@@ -12,8 +13,6 @@ import com.nonsoolmate.nonsoolmateServer.domain.member.exception.MemberException
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
@@ -33,8 +32,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Member {
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long memberId;
+	private String memberId;
 
 	@NotNull
 	private String email;
@@ -68,10 +66,12 @@ public class Member {
 	private LocalDateTime ticketPreviousPublicationTime;
 
 	@Builder
-	public Member(final String email, final String name, final PlatformType platformType, final String platformId,
+	public Member(final String email, final String name, final PlatformType platformType,
+		final String platformId,
 		final Role role,
 		final String birthYear,
 		final String gender, final String phoneNumber) {
+		this.memberId = createMemberId();
 		this.email = email;
 		this.name = name;
 		this.platformType = platformType;
@@ -87,5 +87,9 @@ public class Member {
 			throw new MemberException(MemberExceptionType.MEMBER_USE_TICKET_FAIL);
 		}
 		this.ticketCount -= 1;
+	}
+
+	private String createMemberId() {
+		return UUID.randomUUID().toString().substring(0, 8);
 	}
 }
