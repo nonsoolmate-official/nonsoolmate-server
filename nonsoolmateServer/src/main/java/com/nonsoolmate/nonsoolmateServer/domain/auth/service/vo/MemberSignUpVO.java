@@ -8,7 +8,7 @@ import com.nonsoolmate.nonsoolmateServer.external.oauth.service.vo.enums.AuthTyp
 import lombok.Builder;
 
 @Builder
-public record MemberSignUpVO(Long memberId, String email, String name, PlatformType platformType, Role role,
+public record MemberSignUpVO(String memberId, String email, String name, PlatformType platformType, Role role,
 							 String birthYear, String gender, String phoneNumber, AuthType authType) {
 	public static MemberSignUpVO of(Member member, PlatformType platformType, AuthType authtype) {
 		return MemberSignUpVO.builder()
