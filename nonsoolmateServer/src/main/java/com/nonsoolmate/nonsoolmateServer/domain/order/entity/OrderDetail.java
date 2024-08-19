@@ -4,8 +4,6 @@ import com.nonsoolmate.nonsoolmateServer.domain.member.entity.Member;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -20,8 +18,7 @@ import lombok.NoArgsConstructor;
 @Getter
 public class OrderDetail {
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long orderId;
+	private String orderId;
 
 	@NotNull
 	private String orderName;
@@ -35,7 +32,8 @@ public class OrderDetail {
 	private long amount;
 
 	@Builder
-	public OrderDetail(final String orderName, final Member member, final long amount) {
+	public OrderDetail(final String orderId, final String orderName, final Member member, final long amount) {
+		this.orderId = orderId;
 		this.orderName = orderName;
 		this.member = member;
 		this.amount = amount;
