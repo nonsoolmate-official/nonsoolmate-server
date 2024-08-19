@@ -10,7 +10,7 @@ import com.nonsoolmate.nonsoolmateServer.domain.auth.exception.AuthException;
 import com.nonsoolmate.nonsoolmateServer.domain.member.entity.Member;
 import com.nonsoolmate.nonsoolmateServer.domain.member.entity.enums.PlatformType;
 
-public interface MemberRepository extends JpaRepository<Member, Long> {
+public interface MemberRepository extends JpaRepository<Member, String> {
 	Optional<Member> findByEmail(String email);
 
 	Optional<Member> findByPlatformTypeAndPlatformId(PlatformType platformType, String platformId);
