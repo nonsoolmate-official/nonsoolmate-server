@@ -17,7 +17,7 @@ public interface SelectUniversityRepository extends JpaRepository<SelectUniversi
 	@Modifying(clearAutomatically = true)
 	@Transactional
 	@Query("DELETE FROM SelectUniversity s WHERE s.member.memberId = :memberId")
-	void deleteAllByMemberId(Long memberId);
+	void deleteAllByMemberId(String memberId);
 
 	@Query("select su from SelectUniversity su where su.member =:member order by su.university.universityName asc, su.university.universityCollege asc")
 	List<SelectUniversity> findAllByMemberOrderByUniversityNameASCUniversityCollegeAsc(Member member);
