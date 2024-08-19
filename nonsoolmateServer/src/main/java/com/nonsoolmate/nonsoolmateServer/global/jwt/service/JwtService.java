@@ -87,9 +87,7 @@ public class JwtService {
 		if (!foundRefreshToken.getRefreshToken().equals(refreshToken)) {
 			throw new AuthException(INVALID_REFRESH_TOKEN);
 		}
-
-		Integer o = (Integer)tokenClaims.get(MEMBER_ID_CLAIM);
-		Long memberId = o.longValue();
+		String memberId = tokenClaims.get(MEMBER_ID_CLAIM).toString();
 		String email = (String)tokenClaims.get(EMAIL_CLAIM);
 
 		String newAccessToken = jwtTokenProvider.createAccessToken(email, memberId, accessTokenExpirationPeriod);
@@ -121,8 +119,8 @@ public class JwtService {
 	}
 
 	@Transactional
-	public void updateRefreshToken(Long memberId, String newRefreshToken) {
-		RefreshTokenVO refreshTokenVO = redisTokenRepository.findByMemberId(String.valueOf(memberId)).orElse(null);
+	public void updateRefreshToken(String memberId, String newRefreshToken) {
+		RefreshTokenVO refreshTokenVO = redisTokenRepository.findByMemberId(memberId).orElse(null);
 
 		if (refreshTokenVO != null) {
 			refreshTokenVO.updateRefreshToken(newRefreshToken);
