@@ -28,7 +28,7 @@ public class ExecutionLoggingAop {
 		HttpServletRequest request = ((ServletRequestAttributes)RequestContextHolder.currentRequestAttributes()).getRequest();
 		RequestMethod httpMethod = RequestMethod.valueOf(request.getMethod());
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		Long userId = null;
+		String userId = null;
 
 		boolean isNonsoolmateUser = !authentication.getPrincipal().equals("anonymousUser");
 		if (isNonsoolmateUser) {
