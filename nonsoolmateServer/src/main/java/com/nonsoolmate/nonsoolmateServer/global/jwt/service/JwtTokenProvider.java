@@ -34,7 +34,7 @@ public class JwtTokenProvider {
 		this.objectMapper = objectMapper;
 	}
 
-	public String createAccessToken(String email, Long memberId, Long expirationTime) {
+	public String createAccessToken(String email, String memberId, Long expirationTime) {
 		Date now = new Date();
 
 		return Jwts.builder()
@@ -47,7 +47,7 @@ public class JwtTokenProvider {
 			.compact();
 	}
 
-	public String createRefreshToken(Long memberId, Long expirationTime) {
+	public String createRefreshToken(String memberId, Long expirationTime) {
 		Date now = new Date();
 
 		return Jwts.builder()
