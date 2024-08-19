@@ -21,7 +21,7 @@ import lombok.NoArgsConstructor;
 public class OrderDetail {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private String orderId;
+	private Long orderId;
 
 	@NotNull
 	private String orderName;
@@ -35,8 +35,7 @@ public class OrderDetail {
 	private long amount;
 
 	@Builder
-	public OrderDetail(final String orderId, final String orderName, final Member member, final long amount) {
-		this.orderId = orderId;
+	public OrderDetail(final String orderName, final Member member, final long amount) {
 		this.orderName = orderName;
 		this.member = member;
 		this.amount = amount;
