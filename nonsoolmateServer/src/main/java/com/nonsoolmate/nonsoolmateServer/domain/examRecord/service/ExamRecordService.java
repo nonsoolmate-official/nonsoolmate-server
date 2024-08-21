@@ -12,7 +12,7 @@ import com.nonsoolmate.nonsoolmateServer.domain.examRecord.controller.dto.respon
 import com.nonsoolmate.nonsoolmateServer.domain.examRecord.controller.dto.response.ExamRecordResponseDTO;
 import com.nonsoolmate.nonsoolmateServer.domain.examRecord.controller.dto.response.ExamRecordResultResponseDTO;
 import com.nonsoolmate.nonsoolmateServer.domain.examRecord.entity.ExamRecord;
-import com.nonsoolmate.nonsoolmateServer.domain.examRecord.entity.enums.ExamResultStatus;
+import com.nonsoolmate.nonsoolmateServer.domain.examRecord.entity.enums.EditingType;
 import com.nonsoolmate.nonsoolmateServer.domain.examRecord.exception.ExamRecordException;
 import com.nonsoolmate.nonsoolmateServer.domain.examRecord.repository.ExamRecordRepository;
 import com.nonsoolmate.nonsoolmateServer.domain.member.entity.Member;
@@ -87,7 +87,7 @@ public class ExamRecordService {
 				universityexamRecord);
 
 			decreaseMemberTicketCount(member);
-			
+
 			return ExamRecordIdResponse.of(saveUniversityExamRecord.getExamRecordId());
 		} catch (AWSClientException | MemberException e) {
 			throw e;
@@ -118,8 +118,8 @@ public class ExamRecordService {
 		final int takeTimeExam, final String sheetFileName) {
 		return ExamRecord.builder()
 			.exam(exam)
-			.examResultStatus(ExamResultStatus.ONGOING)
 			.member(member)
+			.editingType(EditingType.EDITING)
 			.timeTakeExam(takeTimeExam)
 			.examRecordSheetFileName(sheetFileName)
 			.build();
