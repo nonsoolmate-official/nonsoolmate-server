@@ -1,4 +1,4 @@
-package com.nonsoolmate.nonsoolmateServer.domain.selectUniversity.service;
+package com.nonsoolmate.nonsoolmateServer.domain.selectCollege.service;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,12 +11,12 @@ import org.springframework.transaction.annotation.Transactional;
 import com.nonsoolmate.nonsoolmateServer.domain.examRecord.entity.ExamRecord;
 import com.nonsoolmate.nonsoolmateServer.domain.examRecord.repository.ExamRecordRepository;
 import com.nonsoolmate.nonsoolmateServer.domain.member.entity.Member;
-import com.nonsoolmate.nonsoolmateServer.domain.selectUniversity.controller.dto.response.SelectCollegeExamResponseDTO;
-import com.nonsoolmate.nonsoolmateServer.domain.selectUniversity.controller.dto.response.SelectCollegeExamsResponseDTO;
-import com.nonsoolmate.nonsoolmateServer.domain.selectUniversity.controller.dto.response.SelectCollegeResponseDTO;
-import com.nonsoolmate.nonsoolmateServer.domain.selectUniversity.controller.dto.response.SelectCollegeUpdateResponseDTO;
-import com.nonsoolmate.nonsoolmateServer.domain.selectUniversity.entity.SelectCollege;
-import com.nonsoolmate.nonsoolmateServer.domain.selectUniversity.repository.SelectCollegeRepository;
+import com.nonsoolmate.nonsoolmateServer.domain.selectCollege.controller.dto.response.SelectCollegeExamResponseDTO;
+import com.nonsoolmate.nonsoolmateServer.domain.selectCollege.controller.dto.response.SelectCollegeExamsResponseDTO;
+import com.nonsoolmate.nonsoolmateServer.domain.selectCollege.controller.dto.response.SelectCollegeResponseDTO;
+import com.nonsoolmate.nonsoolmateServer.domain.selectCollege.controller.dto.response.SelectCollegeUpdateResponseDTO;
+import com.nonsoolmate.nonsoolmateServer.domain.selectCollege.entity.SelectCollege;
+import com.nonsoolmate.nonsoolmateServer.domain.selectCollege.repository.SelectCollegeRepository;
 import com.nonsoolmate.nonsoolmateServer.domain.university.entity.College;
 import com.nonsoolmate.nonsoolmateServer.domain.university.entity.Exam;
 import com.nonsoolmate.nonsoolmateServer.domain.university.repository.CollegeRepository;
@@ -28,7 +28,7 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
-public class SelectUniversityService {
+public class SelectCollegeService {
 	private static final String BEFORE_EXAM = "시험 응시 전";
 	private final UniversityRepository universityRepository;
 	private final ExamRepository examRepository;

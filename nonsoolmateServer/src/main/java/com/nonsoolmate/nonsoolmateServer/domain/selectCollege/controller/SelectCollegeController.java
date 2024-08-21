@@ -1,6 +1,6 @@
-package com.nonsoolmate.nonsoolmateServer.domain.selectUniversity.controller;
+package com.nonsoolmate.nonsoolmateServer.domain.selectCollege.controller;
 
-import static com.nonsoolmate.nonsoolmateServer.domain.selectUniversity.exception.SelectUniversitySuccessType.*;
+import static com.nonsoolmate.nonsoolmateServer.domain.selectCollege.exception.SelectCollegeSuccessType.*;
 
 import java.util.List;
 
@@ -12,11 +12,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.nonsoolmate.nonsoolmateServer.domain.member.entity.Member;
-import com.nonsoolmate.nonsoolmateServer.domain.selectUniversity.controller.dto.request.SelectUniversityRequestDTO;
-import com.nonsoolmate.nonsoolmateServer.domain.selectUniversity.controller.dto.response.SelectCollegeExamsResponseDTO;
-import com.nonsoolmate.nonsoolmateServer.domain.selectUniversity.controller.dto.response.SelectCollegeResponseDTO;
-import com.nonsoolmate.nonsoolmateServer.domain.selectUniversity.controller.dto.response.SelectCollegeUpdateResponseDTO;
-import com.nonsoolmate.nonsoolmateServer.domain.selectUniversity.service.SelectUniversityService;
+import com.nonsoolmate.nonsoolmateServer.domain.selectCollege.controller.dto.request.SelectUniversityRequestDTO;
+import com.nonsoolmate.nonsoolmateServer.domain.selectCollege.controller.dto.response.SelectCollegeExamsResponseDTO;
+import com.nonsoolmate.nonsoolmateServer.domain.selectCollege.controller.dto.response.SelectCollegeResponseDTO;
+import com.nonsoolmate.nonsoolmateServer.domain.selectCollege.controller.dto.response.SelectCollegeUpdateResponseDTO;
+import com.nonsoolmate.nonsoolmateServer.domain.selectCollege.service.SelectCollegeService;
 import com.nonsoolmate.nonsoolmateServer.global.response.SuccessResponse;
 import com.nonsoolmate.nonsoolmateServer.global.security.AuthUser;
 
@@ -26,9 +26,9 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/select-university")
-public class SelectUniversityController implements SelectUniversityApi {
+public class SelectCollegeController implements SelectCollegeApi {
 
-	private final SelectUniversityService selectUniversityService;
+	private final SelectCollegeService selectCollegeService;
 
 	@Override
 	@GetMapping
@@ -36,7 +36,7 @@ public class SelectUniversityController implements SelectUniversityApi {
 		@AuthUser Member member) {
 
 		return ResponseEntity.ok().body(SuccessResponse.of(GET_SELECT_UNIVERSITIES_SUCCESS,
-			selectUniversityService.getSelectColleges(member)));
+			selectCollegeService.getSelectColleges(member)));
 	}
 
 	@Override
@@ -44,7 +44,7 @@ public class SelectUniversityController implements SelectUniversityApi {
 	public ResponseEntity<SuccessResponse<List<SelectCollegeExamsResponseDTO>>> getSelectCollegeExams(
 		@AuthUser final Member member) {
 		return ResponseEntity.ok().body(SuccessResponse.of(GET_SELECT_UNIVERSITY_EXAMS_SUCCESS,
-			selectUniversityService.getSelectCollegeExams(member)));
+			selectCollegeService.getSelectCollegeExams(member)));
 	}
 
 	@Override
@@ -58,6 +58,6 @@ public class SelectUniversityController implements SelectUniversityApi {
 			.toList();
 
 		return ResponseEntity.ok().body(SuccessResponse.of(PATCH_SELECT_UNIVERSITIES_SUCCESS,
-			selectUniversityService.patchSelectColleges(member, selectedUniversityIds)));
+			selectCollegeService.patchSelectColleges(member, selectedUniversityIds)));
 	}
 }

@@ -1,4 +1,4 @@
-package com.nonsoolmate.nonsoolmateServer.domain.selectUniversity.repository;
+package com.nonsoolmate.nonsoolmateServer.domain.selectCollege.repository;
 
 import java.util.List;
 import java.util.Optional;
@@ -10,7 +10,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.nonsoolmate.nonsoolmateServer.domain.member.entity.Member;
-import com.nonsoolmate.nonsoolmateServer.domain.selectUniversity.entity.SelectCollege;
+import com.nonsoolmate.nonsoolmateServer.domain.selectCollege.entity.SelectCollege;
 import com.nonsoolmate.nonsoolmateServer.domain.university.entity.University;
 
 public interface SelectCollegeRepository extends JpaRepository<SelectCollege, Long> {

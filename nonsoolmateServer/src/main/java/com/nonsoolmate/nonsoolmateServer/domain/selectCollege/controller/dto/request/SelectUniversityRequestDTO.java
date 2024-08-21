@@ -1,4 +1,4 @@
-package com.nonsoolmate.nonsoolmateServer.domain.selectUniversity.controller.dto.request;
+package com.nonsoolmate.nonsoolmateServer.domain.selectCollege.controller.dto.request;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;

@@ -1,4 +1,4 @@
-package com.nonsoolmate.nonsoolmateServer.domain.selectUniversity.exception;
+package com.nonsoolmate.nonsoolmateServer.domain.selectCollege.exception;
 
 import org.springframework.http.HttpStatus;
 
@@ -8,7 +8,7 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
-public enum SelectUniversityExceptionType implements ExceptionType {
+public enum SelectCollegeExceptionType implements ExceptionType {
 	INVALID_SELECTED_UNIVERSITY(HttpStatus.BAD_REQUEST, "유효한 목표 대학교가 아닙니다");
 
 	private final HttpStatus status;
