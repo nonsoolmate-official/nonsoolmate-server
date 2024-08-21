@@ -1,7 +1,11 @@
 package com.nonsoolmate.nonsoolmateServer.domain.payment.entity;
 
+import com.nonsoolmate.nonsoolmateServer.domain.member.entity.Member;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 import jakarta.validation.constraints.NotNull;
@@ -21,16 +25,21 @@ import lombok.NoArgsConstructor;
 public class Billing {
 	@Id
 	private String billingKey;
+
 	@NotNull
-	private String customerKey;
+	@OneToOne
+	@JoinColumn(name = "member_id")
+	private Member customer;
+
 	@NotNull
 	private String cardNumber;
+
 	private String lastTransactionKey;
 
 	@Builder
-	public Billing(final String billingKey, final String customerKey, final String cardNumber) {
+	public Billing(final String billingKey, final Member customer, final String cardNumber) {
 		this.billingKey = billingKey;
-		this.customerKey = customerKey;
+		this.customer = customer;
 		this.cardNumber = cardNumber;
 	}
 
