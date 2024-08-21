@@ -1,4 +1,4 @@
-package com.nonsoolmate.nonsoolmateServer.domain.selectUniversity.entity;
+package com.nonsoolmate.nonsoolmateServer.domain.selectCollege.entity;
 
 import com.nonsoolmate.nonsoolmateServer.domain.member.entity.Member;
 import com.nonsoolmate.nonsoolmateServer.domain.university.entity.College;
