@@ -21,8 +21,8 @@ public class Exam {
 	private Long examId;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "university_id")
-	private University university;
+	@JoinColumn(name = "college_id")
+	private College college;
 
 	@NotNull
 	private String examName;
@@ -40,7 +40,8 @@ public class Exam {
 	private int examTimeLimit;
 
 	public String getExamFullName() {
-		return this.getUniversity().getUniversityName() + " - " + this.getExamYear() + " " + this.getExamName();
+		return this.getCollege().getUniversity().getUniversityName() + " - " + this.getExamYear() + " "
+			+ this.getExamName();
 	}
 
 	public String getExamListName() {
