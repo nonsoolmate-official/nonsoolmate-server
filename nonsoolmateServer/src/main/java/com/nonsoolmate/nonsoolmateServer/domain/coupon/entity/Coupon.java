@@ -3,7 +3,7 @@ package com.nonsoolmate.nonsoolmateServer.domain.coupon.entity;
 import java.time.LocalDateTime;
 
 import com.nonsoolmate.nonsoolmateServer.domain.common.BaseTimeEntity;
-import com.nonsoolmate.nonsoolmateServer.domain.order.entity.enums.CouponType;
+import com.nonsoolmate.nonsoolmateServer.domain.coupon.entity.enums.CouponType;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
