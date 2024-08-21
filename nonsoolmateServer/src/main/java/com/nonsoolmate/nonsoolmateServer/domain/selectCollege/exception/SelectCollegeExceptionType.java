@@ -9,7 +9,7 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public enum SelectCollegeExceptionType implements ExceptionType {
-	INVALID_SELECTED_UNIVERSITY(HttpStatus.BAD_REQUEST, "유효한 목표 대학교가 아닙니다");
+	INVALID_SELECTED_COLLEGE(HttpStatus.BAD_REQUEST, "유효한 목표 단과 대학이 아닙니다");
 
 	private final HttpStatus status;
 	private final String message;

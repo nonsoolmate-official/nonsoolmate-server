@@ -35,7 +35,7 @@ public class SelectCollegeController implements SelectCollegeApi {
 	public ResponseEntity<SuccessResponse<List<SelectCollegeResponseDTO>>> getSelectColleges(
 		@AuthUser Member member) {
 
-		return ResponseEntity.ok().body(SuccessResponse.of(GET_SELECT_UNIVERSITIES_SUCCESS,
+		return ResponseEntity.ok().body(SuccessResponse.of(GET_SELECT_COLLEGES_SUCCESS,
 			selectCollegeService.getSelectColleges(member)));
 	}
 
@@ -43,7 +43,7 @@ public class SelectCollegeController implements SelectCollegeApi {
 	@GetMapping("/exam")
 	public ResponseEntity<SuccessResponse<List<SelectCollegeExamsResponseDTO>>> getSelectCollegeExams(
 		@AuthUser final Member member) {
-		return ResponseEntity.ok().body(SuccessResponse.of(GET_SELECT_UNIVERSITY_EXAMS_SUCCESS,
+		return ResponseEntity.ok().body(SuccessResponse.of(GET_SELECT_COLLEGE_EXAMS_SUCCESS,
 			selectCollegeService.getSelectCollegeExams(member)));
 	}
 
@@ -57,7 +57,7 @@ public class SelectCollegeController implements SelectCollegeApi {
 			.map(SelectUniversityRequestDTO::universityId)
 			.toList();
 
-		return ResponseEntity.ok().body(SuccessResponse.of(PATCH_SELECT_UNIVERSITIES_SUCCESS,
+		return ResponseEntity.ok().body(SuccessResponse.of(PATCH_SELECT_COLLEGES_SUCCESS,
 			selectCollegeService.patchSelectColleges(member, selectedUniversityIds)));
 	}
 }
