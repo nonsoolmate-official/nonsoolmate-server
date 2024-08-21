@@ -1,4 +1,4 @@
-package com.nonsoolmate.nonsoolmateServer.domain.coupon.entity;
+package com.nonsoolmate.nonsoolmateServer.domain.couponMember.entity;
 
 import com.nonsoolmate.nonsoolmateServer.domain.common.BaseTimeEntity;
 
@@ -15,11 +15,11 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class CouponUser extends BaseTimeEntity {
+public class CouponMember extends BaseTimeEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long couponUserId;
+	private Long couponMemberId;
 
 	@NotNull
 	private Long memberId;
@@ -31,7 +31,7 @@ public class CouponUser extends BaseTimeEntity {
 	private Boolean isUsed;
 
 	@Builder
-	private CouponUser(Long memberId, Long couponId, Boolean isUsed) {
+	private CouponMember(Long memberId, Long couponId, Boolean isUsed) {
 		this.memberId = memberId;
 		this.couponId = couponId;
 		this.isUsed = isUsed;
