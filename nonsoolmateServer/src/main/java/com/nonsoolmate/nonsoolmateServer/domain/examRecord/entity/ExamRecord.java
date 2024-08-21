@@ -1,5 +1,6 @@
 package com.nonsoolmate.nonsoolmateServer.domain.examRecord.entity;
 
+import com.nonsoolmate.nonsoolmateServer.domain.examRecord.entity.enums.EditingType;
 import com.nonsoolmate.nonsoolmateServer.domain.examRecord.entity.enums.ExamResultStatus;
 import com.nonsoolmate.nonsoolmateServer.domain.member.entity.Member;
 import com.nonsoolmate.nonsoolmateServer.domain.university.entity.Exam;
@@ -13,6 +14,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -22,6 +25,11 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Table(
+	uniqueConstraints = {
+		@UniqueConstraint(name = "UK_EXAM_MEMBER_EDITING_TYPE", columnNames = {"exam_id", "member_id", "editing_type"})
+	}
+)
 public class ExamRecord {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -39,19 +47,24 @@ public class ExamRecord {
 	@NotNull
 	private ExamResultStatus examResultStatus;
 
+	@Enumerated(EnumType.STRING)
+	@NotNull
+	private EditingType editingType;
+
 	private int timeTakeExam;
 
 	@NotNull
-	private String examRecordSheetFileName;  // 내 답안
+	private String examRecordSheetFileName;
 
-	private String examRecordResultFileName;  // 첨삭
+	private String examRecordResultFileName;
 
 	@Builder
-	public ExamRecord(final Exam exam, final Member member, final ExamResultStatus examResultStatus,
+	public ExamRecord(final Exam exam, final Member member, final EditingType editingType,
 		final int timeTakeExam, final String examRecordSheetFileName) {
 		this.exam = exam;
 		this.member = member;
-		this.examResultStatus = examResultStatus;
+		this.examResultStatus = ExamResultStatus.ONGOING;
+		this.editingType = editingType;
 		this.timeTakeExam = timeTakeExam;
 		this.examRecordSheetFileName = examRecordSheetFileName;
 	}
