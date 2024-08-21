@@ -28,7 +28,7 @@ public class Billing {
 
 	@NotNull
 	@OneToOne
-	@JoinColumn(name = "member_id")
+	@JoinColumn(name = "customerKey")
 	private Member customer;
 
 	@NotNull
