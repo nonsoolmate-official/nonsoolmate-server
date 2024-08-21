@@ -37,7 +37,7 @@ public class SelectCollegeService {
 	private final CollegeRepository collegeRepository;
 
 	public List<SelectCollegeResponseDTO> getSelectColleges(Member member) {
-		List<College> colleges = collegeRepository.findAllByOrderByUniversityNameAscCollegeNameAsc();
+		List<College> colleges = collegeRepository.findAllOrderByUniversityNameAscCollegeNameAsc();
 
 		Set<Long> selectedUniversityIds = selectCollegeRepository.findUniversityIdsByMember(member);
 

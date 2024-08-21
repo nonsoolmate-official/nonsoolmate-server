@@ -9,7 +9,7 @@ import com.nonsoolmate.nonsoolmateServer.domain.university.entity.College;
 
 public interface CollegeRepository extends JpaRepository<College, Long> {
 	@Query("select c from College c order by c.university.universityName asc, c.collegeName asc")
-	List<College> findAllByOrderByUniversityNameAscCollegeNameAsc();
+	List<College> findAllOrderByUniversityNameAscCollegeNameAsc();
 
 	List<College> findAllByCollegeIdIn(List<Long> collegeIds);
 }
