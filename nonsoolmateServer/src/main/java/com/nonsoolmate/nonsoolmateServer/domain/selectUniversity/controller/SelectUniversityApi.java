@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import com.nonsoolmate.nonsoolmateServer.domain.member.entity.Member;
 import com.nonsoolmate.nonsoolmateServer.domain.selectUniversity.controller.dto.request.SelectUniversityRequestDTO;
+import com.nonsoolmate.nonsoolmateServer.domain.selectUniversity.controller.dto.response.SelectCollegeResponseDTO;
 import com.nonsoolmate.nonsoolmateServer.domain.selectUniversity.controller.dto.response.SelectUniversityExamsResponseDTO;
-import com.nonsoolmate.nonsoolmateServer.domain.selectUniversity.controller.dto.response.SelectUniversityResponseDTO;
 import com.nonsoolmate.nonsoolmateServer.domain.selectUniversity.controller.dto.response.SelectUniversityUpdateResponseDTO;
 import com.nonsoolmate.nonsoolmateServer.global.response.ErrorResponse;
 import com.nonsoolmate.nonsoolmateServer.global.response.SuccessResponse;
@@ -26,8 +26,8 @@ import jakarta.validation.Valid;
 public interface SelectUniversityApi {
 
 	@ApiResponses(value = {@ApiResponse(responseCode = "200", description = "목표 대학 조회에 성공하였습니다."),})
-	@Operation(summary = "목표대학 설정: 리스트 조회", description = "내 목표 대학 리스트를 조회합니다.")
-	ResponseEntity<SuccessResponse<List<SelectUniversityResponseDTO>>> getSelectUniversities(@AuthUser Member member);
+	@Operation(summary = "목표대학 설정: 리스트 조회", description = "내 목표 단과 대학 리스트를 조회합니다.")
+	ResponseEntity<SuccessResponse<List<SelectCollegeResponseDTO>>> getSelectColleges(@AuthUser Member member);
 
 	@ApiResponses(value = {@ApiResponse(responseCode = "200", description = "목표 대학 시험 리스트 조회에 성공하였습니다."),})
 	@Operation(summary = "마이 페이지: 대학별 시험 리스트 조회", description = "내 목표 대학들의 시험 리스트를 조회합니다.")

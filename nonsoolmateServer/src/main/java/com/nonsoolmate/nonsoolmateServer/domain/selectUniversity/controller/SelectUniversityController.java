@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.nonsoolmate.nonsoolmateServer.domain.member.entity.Member;
 import com.nonsoolmate.nonsoolmateServer.domain.selectUniversity.controller.dto.request.SelectUniversityRequestDTO;
+import com.nonsoolmate.nonsoolmateServer.domain.selectUniversity.controller.dto.response.SelectCollegeResponseDTO;
 import com.nonsoolmate.nonsoolmateServer.domain.selectUniversity.controller.dto.response.SelectUniversityExamsResponseDTO;
-import com.nonsoolmate.nonsoolmateServer.domain.selectUniversity.controller.dto.response.SelectUniversityResponseDTO;
 import com.nonsoolmate.nonsoolmateServer.domain.selectUniversity.controller.dto.response.SelectUniversityUpdateResponseDTO;
 import com.nonsoolmate.nonsoolmateServer.domain.selectUniversity.service.SelectUniversityService;
 import com.nonsoolmate.nonsoolmateServer.global.response.SuccessResponse;
@@ -32,11 +32,11 @@ public class SelectUniversityController implements SelectUniversityApi {
 
 	@Override
 	@GetMapping
-	public ResponseEntity<SuccessResponse<List<SelectUniversityResponseDTO>>> getSelectUniversities(
+	public ResponseEntity<SuccessResponse<List<SelectCollegeResponseDTO>>> getSelectColleges(
 		@AuthUser Member member) {
 
 		return ResponseEntity.ok().body(SuccessResponse.of(GET_SELECT_UNIVERSITIES_SUCCESS,
-			selectUniversityService.getSelectUniversities(member)));
+			selectUniversityService.getSelectColleges(member)));
 	}
 
 	@Override

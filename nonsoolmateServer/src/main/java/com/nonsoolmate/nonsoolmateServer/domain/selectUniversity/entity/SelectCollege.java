@@ -1,7 +1,7 @@
 package com.nonsoolmate.nonsoolmateServer.domain.selectUniversity.entity;
 
 import com.nonsoolmate.nonsoolmateServer.domain.member.entity.Member;
-import com.nonsoolmate.nonsoolmateServer.domain.university.entity.University;
+import com.nonsoolmate.nonsoolmateServer.domain.university.entity.College;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -18,22 +18,22 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class SelectUniversity {
+public class SelectCollege {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long selectUniversityId;
+	private Long selectCollegeId;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "member_id")
 	private Member member;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "university_id")
-	private University university;
+	@JoinColumn(name = "college_id")
+	private College college;
 
 	@Builder
-	public SelectUniversity(final Member member, final University university) {
+	public SelectCollege(final Member member, final College college) {
 		this.member = member;
-		this.university = university;
+		this.college = college;
 	}
 }
