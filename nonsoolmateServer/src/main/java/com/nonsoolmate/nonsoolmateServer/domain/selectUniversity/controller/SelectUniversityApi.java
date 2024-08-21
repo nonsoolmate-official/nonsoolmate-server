@@ -9,7 +9,7 @@ import com.nonsoolmate.nonsoolmateServer.domain.member.entity.Member;
 import com.nonsoolmate.nonsoolmateServer.domain.selectUniversity.controller.dto.request.SelectUniversityRequestDTO;
 import com.nonsoolmate.nonsoolmateServer.domain.selectUniversity.controller.dto.response.SelectCollegeExamsResponseDTO;
 import com.nonsoolmate.nonsoolmateServer.domain.selectUniversity.controller.dto.response.SelectCollegeResponseDTO;
-import com.nonsoolmate.nonsoolmateServer.domain.selectUniversity.controller.dto.response.SelectUniversityUpdateResponseDTO;
+import com.nonsoolmate.nonsoolmateServer.domain.selectUniversity.controller.dto.response.SelectCollegeUpdateResponseDTO;
 import com.nonsoolmate.nonsoolmateServer.global.response.ErrorResponse;
 import com.nonsoolmate.nonsoolmateServer.global.response.SuccessResponse;
 import com.nonsoolmate.nonsoolmateServer.global.security.AuthUser;
@@ -37,6 +37,6 @@ public interface SelectUniversityApi {
 	@ApiResponses(value = {@ApiResponse(responseCode = "200", description = "목표 대학 시험 리스트 조회에 성공하였습니다."),
 		@ApiResponse(responseCode = "400", description = "유효한 목표 대학교가 아닙니다", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))})
 	@Operation(summary = "목표대학 설정: 리스트 선택", description = "내 목표 대학들 리스트를 업데이트(수정) 합니다.")
-	ResponseEntity<SuccessResponse<SelectUniversityUpdateResponseDTO>> patchSelectUniversities(@AuthUser Member member,
+	ResponseEntity<SuccessResponse<SelectCollegeUpdateResponseDTO>> patchSelectUniversities(@AuthUser Member member,
 		@RequestBody @Valid List<SelectUniversityRequestDTO> request);
 }

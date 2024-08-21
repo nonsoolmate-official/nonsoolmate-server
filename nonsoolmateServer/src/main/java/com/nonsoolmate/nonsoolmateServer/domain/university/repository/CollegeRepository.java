@@ -7,7 +7,9 @@ import org.springframework.data.jpa.repository.Query;
 
 import com.nonsoolmate.nonsoolmateServer.domain.university.entity.College;
 
-public interface CollegeRepository extends JpaRepository<CollegeRepository, Long> {
+public interface CollegeRepository extends JpaRepository<College, Long> {
 	@Query("select c from College c order by c.university.universityName asc, c.collegeName asc")
 	List<College> findAllByOrderByUniversityNameAscCollegeNameAsc();
+
+	List<College> findAllByCollegeIdIn(List<Long> collegeIds);
 }
