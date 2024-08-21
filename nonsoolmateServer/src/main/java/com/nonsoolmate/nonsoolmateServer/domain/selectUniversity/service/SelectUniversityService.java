@@ -11,10 +11,11 @@ import org.springframework.transaction.annotation.Transactional;
 import com.nonsoolmate.nonsoolmateServer.domain.examRecord.entity.ExamRecord;
 import com.nonsoolmate.nonsoolmateServer.domain.examRecord.repository.ExamRecordRepository;
 import com.nonsoolmate.nonsoolmateServer.domain.member.entity.Member;
+import com.nonsoolmate.nonsoolmateServer.domain.selectUniversity.controller.dto.response.SelectCollegeExamResponseDTO;
+import com.nonsoolmate.nonsoolmateServer.domain.selectUniversity.controller.dto.response.SelectCollegeExamsResponseDTO;
 import com.nonsoolmate.nonsoolmateServer.domain.selectUniversity.controller.dto.response.SelectCollegeResponseDTO;
-import com.nonsoolmate.nonsoolmateServer.domain.selectUniversity.controller.dto.response.SelectUniversityExamResponseDTO;
-import com.nonsoolmate.nonsoolmateServer.domain.selectUniversity.controller.dto.response.SelectUniversityExamsResponseDTO;
 import com.nonsoolmate.nonsoolmateServer.domain.selectUniversity.controller.dto.response.SelectUniversityUpdateResponseDTO;
+import com.nonsoolmate.nonsoolmateServer.domain.selectUniversity.entity.SelectCollege;
 import com.nonsoolmate.nonsoolmateServer.domain.selectUniversity.repository.SelectCollegeRepository;
 import com.nonsoolmate.nonsoolmateServer.domain.university.entity.College;
 import com.nonsoolmate.nonsoolmateServer.domain.university.entity.Exam;
@@ -51,48 +52,45 @@ public class SelectUniversityService {
 			.collect(Collectors.toList());
 	}
 
-	public List<SelectUniversityExamsResponseDTO> getSelectUniversityExams(final Member member) {
-		List<SelectUniversityExamsResponseDTO> selectUniversityExamsResponseDTOS = new ArrayList<>();
-		final List<SelectUniversity> selectUniversities = selectCollegeRepository.findAllByMemberOrderByUniversityNameAscCollegeNameAsc(
+	public List<SelectCollegeExamsResponseDTO> getSelectCollegeExams(final Member member) {
+		final List<SelectCollege> selectColleges = selectCollegeRepository.findAllByMemberOrderByUniversityNameAscCollegeNameAsc(
 			member);
 
-		for (SelectUniversity selectUniversity : selectUniversities) {
-			selectUniversityExamsResponseDTOS.add(getSelectUniversityExamsResponseDTO(selectUniversity, member));
-		}
-
-		return selectUniversityExamsResponseDTOS;
+		return selectColleges.stream()
+			.map(selectCollege -> getSelectCollegeExamsResponseDTO(selectCollege, member))
+			.collect(Collectors.toList());
 	}
 
-	private SelectUniversityExamsResponseDTO getSelectUniversityExamsResponseDTO(
-		final SelectUniversity selectUniversity,
+	private SelectCollegeExamsResponseDTO getSelectCollegeExamsResponseDTO(
+		final SelectCollege selectCollege,
 		final Member member) {
 
 		final List<Exam> exams = examRepository.findAllByCollegeOrderByExamYearDesc(
-			selectUniversity.getCollege());
+			selectCollege.getCollege());
 
-		final List<SelectUniversityExamResponseDTO> selectUniversityExamResponseDTOS = getSelectUniversityExamResponseDTOS(
+		final List<SelectCollegeExamResponseDTO> selectCollegeExamResponseDTOS = getSelectCollegeExamResponseDTOS(
 			exams, member);
 
-		return SelectUniversityExamsResponseDTO.of(selectUniversity.getCollege().getCollegeId(),
-			selectUniversity.getCollege().getUniversity().getUniversityName(),
-			selectUniversity.getCollege().getCollegeName(), selectUniversityExamResponseDTOS);
+		return SelectCollegeExamsResponseDTO.of(selectCollege.getCollege().getCollegeId(),
+			selectCollege.getCollege().getUniversity().getUniversityName(),
+			selectCollege.getCollege().getCollegeName(), selectCollegeExamResponseDTOS);
 	}
 
-	private List<SelectUniversityExamResponseDTO> getSelectUniversityExamResponseDTOS(
+	private List<SelectCollegeExamResponseDTO> getSelectCollegeExamResponseDTOS(
 		final List<Exam> exams, final Member member) {
 		ExamRecord examRecord;
-		List<SelectUniversityExamResponseDTO> selectUniversityExamResponseDTOS = new ArrayList<>();
+		List<SelectCollegeExamResponseDTO> selectCollegeExamResponseDTOS = new ArrayList<>();
 		for (Exam exam : exams) {
 			examRecord = examRecordRepository.findByExamAndMember(exam, member)
 				.orElse(null);
 			String status =
 				examRecord == null ? BEFORE_EXAM : examRecord.getExamResultStatus().getStatus();
-			selectUniversityExamResponseDTOS.add(
-				SelectUniversityExamResponseDTO.of(exam.getExamId(),
+			selectCollegeExamResponseDTOS.add(
+				SelectCollegeExamResponseDTO.of(exam.getExamId(),
 					exam.getExamListName(), exam.getExamTimeLimit(),
 					status));
 		}
-		return selectUniversityExamResponseDTOS;
+		return selectCollegeExamResponseDTOS;
 	}
 
 	@Transactional
