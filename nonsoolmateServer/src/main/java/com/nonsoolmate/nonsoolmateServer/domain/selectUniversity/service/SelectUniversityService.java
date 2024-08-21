@@ -14,12 +14,11 @@ import com.nonsoolmate.nonsoolmateServer.domain.member.entity.Member;
 import com.nonsoolmate.nonsoolmateServer.domain.selectUniversity.controller.dto.response.SelectCollegeExamResponseDTO;
 import com.nonsoolmate.nonsoolmateServer.domain.selectUniversity.controller.dto.response.SelectCollegeExamsResponseDTO;
 import com.nonsoolmate.nonsoolmateServer.domain.selectUniversity.controller.dto.response.SelectCollegeResponseDTO;
-import com.nonsoolmate.nonsoolmateServer.domain.selectUniversity.controller.dto.response.SelectUniversityUpdateResponseDTO;
+import com.nonsoolmate.nonsoolmateServer.domain.selectUniversity.controller.dto.response.SelectCollegeUpdateResponseDTO;
 import com.nonsoolmate.nonsoolmateServer.domain.selectUniversity.entity.SelectCollege;
 import com.nonsoolmate.nonsoolmateServer.domain.selectUniversity.repository.SelectCollegeRepository;
 import com.nonsoolmate.nonsoolmateServer.domain.university.entity.College;
 import com.nonsoolmate.nonsoolmateServer.domain.university.entity.Exam;
-import com.nonsoolmate.nonsoolmateServer.domain.university.entity.University;
 import com.nonsoolmate.nonsoolmateServer.domain.university.repository.CollegeRepository;
 import com.nonsoolmate.nonsoolmateServer.domain.university.repository.ExamRepository;
 import com.nonsoolmate.nonsoolmateServer.domain.university.repository.UniversityRepository;
@@ -94,19 +93,19 @@ public class SelectUniversityService {
 	}
 
 	@Transactional
-	public SelectUniversityUpdateResponseDTO patchSelectUniversities(
+	public SelectCollegeUpdateResponseDTO patchSelectColleges(
 		Member member,
-		List<Long> selectedUniversityIds) {
+		List<Long> selectedCollegeIds) {
 
-		selectUniversityRepository.deleteAllByMemberId(member.getMemberId());
+		selectCollegeRepository.deleteAllByMemberId(member.getMemberId());
 
-		List<University> universities = universityRepository.findAllByUniversityIdIn(selectedUniversityIds);
-		List<SelectUniversity> selectUniversities = universities.stream()
-			.map(university -> new SelectUniversity(member, university))
+		List<College> colleges = collegeRepository.findAllByCollegeIdIn(selectedCollegeIds);
+		List<SelectCollege> selectColleges = colleges.stream()
+			.map(university -> new SelectCollege(member, university))
 			.toList();
 
-		selectUniversityRepository.saveAll(selectUniversities);
+		selectCollegeRepository.saveAll(selectColleges);
 
-		return SelectUniversityUpdateResponseDTO.of(true);
+		return SelectCollegeUpdateResponseDTO.of(true);
 	}
 }

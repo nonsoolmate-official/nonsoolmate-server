@@ -15,7 +15,7 @@ import com.nonsoolmate.nonsoolmateServer.domain.member.entity.Member;
 import com.nonsoolmate.nonsoolmateServer.domain.selectUniversity.controller.dto.request.SelectUniversityRequestDTO;
 import com.nonsoolmate.nonsoolmateServer.domain.selectUniversity.controller.dto.response.SelectCollegeExamsResponseDTO;
 import com.nonsoolmate.nonsoolmateServer.domain.selectUniversity.controller.dto.response.SelectCollegeResponseDTO;
-import com.nonsoolmate.nonsoolmateServer.domain.selectUniversity.controller.dto.response.SelectUniversityUpdateResponseDTO;
+import com.nonsoolmate.nonsoolmateServer.domain.selectUniversity.controller.dto.response.SelectCollegeUpdateResponseDTO;
 import com.nonsoolmate.nonsoolmateServer.domain.selectUniversity.service.SelectUniversityService;
 import com.nonsoolmate.nonsoolmateServer.global.response.SuccessResponse;
 import com.nonsoolmate.nonsoolmateServer.global.security.AuthUser;
@@ -49,7 +49,7 @@ public class SelectUniversityController implements SelectUniversityApi {
 
 	@Override
 	@PatchMapping
-	public ResponseEntity<SuccessResponse<SelectUniversityUpdateResponseDTO>> patchSelectUniversities(
+	public ResponseEntity<SuccessResponse<SelectCollegeUpdateResponseDTO>> patchSelectUniversities(
 		@AuthUser Member member,
 		@RequestBody @Valid final List<SelectUniversityRequestDTO> request) {
 
@@ -58,6 +58,6 @@ public class SelectUniversityController implements SelectUniversityApi {
 			.toList();
 
 		return ResponseEntity.ok().body(SuccessResponse.of(PATCH_SELECT_UNIVERSITIES_SUCCESS,
-			selectUniversityService.patchSelectUniversities(member, selectedUniversityIds)));
+			selectUniversityService.patchSelectColleges(member, selectedUniversityIds)));
 	}
 }
