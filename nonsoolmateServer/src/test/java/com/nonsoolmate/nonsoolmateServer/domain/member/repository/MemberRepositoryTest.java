@@ -15,18 +15,21 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.context.ActiveProfiles;
 
 import com.nonsoolmate.nonsoolmateServer.domain.member.entity.Member;
 import com.nonsoolmate.nonsoolmateServer.domain.member.entity.enums.PlatformType;
 import com.nonsoolmate.nonsoolmateServer.domain.member.entity.enums.Role;
+import com.nonsoolmate.nonsoolmateServer.global.querydsl.config.QuerydslConfig;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 
 @DataJpaTest
 @ActiveProfiles("test")
+@Import(QuerydslConfig.class)
 class MemberRepositoryTest {
 	@Autowired
 	private MemberRepository memberRepository;
