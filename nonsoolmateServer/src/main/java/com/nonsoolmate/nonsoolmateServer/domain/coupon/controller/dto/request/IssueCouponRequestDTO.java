@@ -14,6 +14,9 @@ import lombok.RequiredArgsConstructor;
 public class IssueCouponRequestDTO{
 
 	@NotNull
+	private final String secretValue;
+
+	@NotNull
 	private final String couponName;
 	private final String couponDescription;
 	private final String couponImageUrl;

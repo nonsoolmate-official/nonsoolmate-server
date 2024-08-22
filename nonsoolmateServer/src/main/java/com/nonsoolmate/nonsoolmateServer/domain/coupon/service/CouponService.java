@@ -1,7 +1,10 @@
 package com.nonsoolmate.nonsoolmateServer.domain.coupon.service;
 
+import static com.nonsoolmate.nonsoolmateServer.domain.coupon.exception.CouponExceptionType.*;
+
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -10,6 +13,7 @@ import com.nonsoolmate.nonsoolmateServer.domain.coupon.controller.dto.request.Is
 import com.nonsoolmate.nonsoolmateServer.domain.coupon.controller.dto.response.GetCouponResponseDTO;
 import com.nonsoolmate.nonsoolmateServer.domain.coupon.controller.dto.response.GetCouponsResponseDTO;
 import com.nonsoolmate.nonsoolmateServer.domain.coupon.entity.Coupon;
+import com.nonsoolmate.nonsoolmateServer.domain.coupon.exception.CouponException;
 import com.nonsoolmate.nonsoolmateServer.domain.coupon.repository.CouponRepository;
 import com.nonsoolmate.nonsoolmateServer.domain.couponMember.entity.CouponMember;
 import com.nonsoolmate.nonsoolmateServer.domain.couponMember.repository.CouponMemberRepository;
@@ -27,8 +31,15 @@ public class CouponService {
 
 	private final CustomRandom customRandom;
 
+	@Value("${coupon.secret}")
+	private String couponSecretValue;
+
 	@Transactional
 	public void issueCoupon(IssueCouponRequestDTO requestDTO){
+		if(requestDTO.getSecretValue().equals(couponSecretValue)){
+			throw new CouponException(INVALID_COUPON_ISSUE);
+		}
+
 		String couponNumber = requestDTO.getCouponNumber();
 
 		if(couponNumber == null){

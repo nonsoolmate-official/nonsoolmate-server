@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public enum CouponExceptionType implements ExceptionType {
+	INVALID_COUPON_ISSUE(HttpStatus.BAD_REQUEST, "올바르지 않는 요청입니다."),
 	NOT_FOUND_COUPON(HttpStatus.NOT_FOUND, "유효한 쿠폰을 찾을 수 없습니다.");
 
 	private final HttpStatus status;
