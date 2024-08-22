@@ -22,7 +22,7 @@ public class CouponMember extends BaseTimeEntity {
 	private Long couponMemberId;
 
 	@NotNull
-	private Long memberId;
+	private String memberId;
 
 	@NotNull
 	private Long couponId;
@@ -31,7 +31,7 @@ public class CouponMember extends BaseTimeEntity {
 	private Boolean isUsed;
 
 	@Builder
-	private CouponMember(Long memberId, Long couponId, Boolean isUsed) {
+	private CouponMember(String memberId, Long couponId, Boolean isUsed) {
 		this.memberId = memberId;
 		this.couponId = couponId;
 		this.isUsed = isUsed;
