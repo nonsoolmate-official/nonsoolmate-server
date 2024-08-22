@@ -74,8 +74,8 @@ public class JwtTokenProvider {
 		return claims;
 	}
 
-	public Long getMemberIdFromClaim(Claims claims, String infoName) throws JsonProcessingException {
+	public String getMemberIdFromClaim(Claims claims, String infoName) throws JsonProcessingException {
 
-		return claims.get(infoName, Long.class);
+		return claims.get(infoName, String.class);
 	}
 }
