@@ -64,8 +64,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 		try {
 			jwtService.validateToken(authorizationAccessToken);
 
-			Long memberId = jwtService.extractMemberIdFromAccessToken(authorizationAccessToken);
-			UserDetails userDetails = memberAuthService.loadUserByUsername(String.valueOf(memberId));
+			String memberId = jwtService.extractMemberIdFromAccessToken(authorizationAccessToken);
+			UserDetails userDetails = memberAuthService.loadUserByUsername(memberId);
 
 			Authentication authentication
 				= new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());

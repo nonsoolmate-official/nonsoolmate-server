@@ -98,7 +98,7 @@ public class JwtService {
 		return MemberReissueResponseDTO.of(memberId, newAccessToken, newRefreshToken);
 	}
 
-	public Long extractMemberIdFromAccessToken(final String atk) throws JsonProcessingException {
+	public String extractMemberIdFromAccessToken(final String atk) throws JsonProcessingException {
 		Claims tokenClaims = jwtTokenProvider.getTokenClaims(atk);
 		return jwtTokenProvider.getMemberIdFromClaim(tokenClaims, AUTH_USER);
 	}
