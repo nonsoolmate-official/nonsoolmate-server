@@ -10,6 +10,6 @@ import org.springframework.stereotype.Component;
 public class RealRandom implements CustomRandom {
 	@Override
 	public String generateRandomValue() {
-		return UUID.randomUUID().toString().substring(0, 12);
+		return UUID.randomUUID().toString().substring(0, 13);
 	}
 }

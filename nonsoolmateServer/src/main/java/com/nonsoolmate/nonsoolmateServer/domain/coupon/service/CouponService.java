@@ -3,6 +3,7 @@ package com.nonsoolmate.nonsoolmateServer.domain.coupon.service;
 import static com.nonsoolmate.nonsoolmateServer.domain.coupon.exception.CouponExceptionType.*;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -35,21 +36,21 @@ public class CouponService {
 	private String couponSecretValue;
 
 	@Transactional
-	public void issueCoupon(IssueCouponRequestDTO requestDTO){
-		if(requestDTO.getSecretValue().equals(couponSecretValue)){
+	public void issueCoupon(IssueCouponRequestDTO requestDTO) {
+		boolean validRequest = requestDTO.getSecretValue().equals(couponSecretValue);
+		if (!validRequest) {
 			throw new CouponException(INVALID_COUPON_ISSUE);
 		}
 
 		String couponNumber = requestDTO.getCouponNumber();
 
-		if(couponNumber == null){
+		if (couponNumber == null) {
 			couponNumber = customRandom.generateRandomValue();
 		}
 
 		Coupon coupon = requestDTO.toEntity(couponNumber);
 		couponRepository.save(coupon);
 	}
-
 
 	public GetCouponsResponseDTO getCoupons(Member member) {
 		List<GetCouponResponseDTO> responseDTOs = couponMemberRepository.findAllByMemberIdWithCoupon(
@@ -61,6 +62,12 @@ public class CouponService {
 	@Transactional
 	public void registerCoupon(RegisterCouponRequestDTO requestDTO, Member member) {
 		Coupon coupon = couponRepository.findByCouponNumberOrThrow(requestDTO.couponNumber());
+
+		Optional<CouponMember> foundCouponMember = couponMemberRepository.findByCouponId(coupon.getCouponId());
+
+		if(foundCouponMember.isPresent()){
+			throw new CouponException(INVALID_COUPON_REGISTER);
+		}
 
 		CouponMember couponMember = createCouponMember(member, coupon);
 		couponMemberRepository.save(couponMember);
