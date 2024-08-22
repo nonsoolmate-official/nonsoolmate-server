@@ -77,3 +77,6 @@ payment:
   toss:
     api-secret-key: ${PROD_PAYMENT_API_KEY}
     widget-secret-key: ${PROD_PAYMENT_WIDGET_KEY}
+
+coupon:
+  secret: ${COUPON_SECRET}
