@@ -22,7 +22,7 @@ public class MemberService {
 	}
 
 	public TicketResponseDTO getTicket(final Member member) {
-		return TicketResponseDTO.of(member.getName(), member.getTicketCount());
+		return TicketResponseDTO.of(member.getName(), member.getReviewTicketCount());
 	}
 
 	public ProfileResponseDTO getProfile(final Member member) {

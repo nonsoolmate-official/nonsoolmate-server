@@ -1,7 +1,5 @@
 package com.nonsoolmate.nonsoolmateServer.domain.member.entity;
 
-import java.time.LocalDateTime;
-
 import org.hibernate.validator.constraints.Length;
 
 import com.nonsoolmate.nonsoolmateServer.domain.member.entity.enums.PlatformType;
@@ -62,9 +60,9 @@ public class Member {
 	@Length(max = 13)
 	private String phoneNumber;
 
-	private int ticketCount;
+	private int reviewTicketCount;
 
-	private LocalDateTime ticketPreviousPublicationTime;
+	private int reReviewTicketCount;
 
 	@Builder
 	public Member(final String email, final String name, final PlatformType platformType,
@@ -82,10 +80,10 @@ public class Member {
 		this.phoneNumber = phoneNumber;
 	}
 
-	public void decreaseTicket() {
-		if (this.ticketCount <= 0) {
+	public void decreaseReviewTicket() {
+		if (this.reviewTicketCount <= 0) {
 			throw new MemberException(MemberExceptionType.MEMBER_USE_TICKET_FAIL);
 		}
-		this.ticketCount -= 1;
+		this.reviewTicketCount -= 1;
 	}
 }
