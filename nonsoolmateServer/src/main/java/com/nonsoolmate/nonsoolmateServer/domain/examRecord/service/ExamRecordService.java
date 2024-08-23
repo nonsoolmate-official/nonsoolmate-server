@@ -107,7 +107,7 @@ public class ExamRecordService {
 
 	private void decreaseMemberTicketCount(final Member member) {
 		try {
-			member.decreaseTicket();
+			member.decreaseReviewTicket();
 			memberRepository.save(member);
 		} catch (MemberException e) {
 			throw e;
