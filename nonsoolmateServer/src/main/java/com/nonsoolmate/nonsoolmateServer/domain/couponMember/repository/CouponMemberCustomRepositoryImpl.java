@@ -22,6 +22,7 @@ public class CouponMemberCustomRepositoryImpl implements CouponMemberCustomRepos
 	public List<GetCouponResponseDTO> findAllByMemberIdWithCoupon(String memberId) {
 		return queryFactory
 			.select(new QGetCouponResponseDTO(
+				couponMember.couponMemberId,
 				coupon.couponName,
 				coupon.couponDescription,
 				coupon.couponImageUrl,
