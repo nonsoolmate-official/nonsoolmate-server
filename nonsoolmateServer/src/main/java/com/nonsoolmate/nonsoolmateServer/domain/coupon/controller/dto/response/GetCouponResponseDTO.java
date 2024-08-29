@@ -11,6 +11,8 @@ import lombok.Getter;
 @Schema(name = "GetCouponResponseDTO", description = "쿠폰 조회 DTO")
 @Getter
 public class GetCouponResponseDTO {
+	@Schema(description = "사용자가 등록한 coupon의 id", example = "1")
+	private final Long couponMemberId;
 
 	@Schema(description = "쿠폰 이름", example = "쿠폰 이름입니다.")
 	private final String couponName;
@@ -43,10 +45,11 @@ public class GetCouponResponseDTO {
 	private final Boolean isUsed;
 
 	@QueryProjection
-	public GetCouponResponseDTO(String couponName, String couponDescription, String couponImageUrl,
+	public GetCouponResponseDTO(Long couponMemberId, String couponName, String couponDescription, String couponImageUrl,
 		CouponType couponType,
 		int discountRate, int discountAmount, int ticketCount, LocalDateTime validStartDate, LocalDateTime validEndDate,
 		Boolean isUsed) {
+		this.couponMemberId = couponMemberId;
 		this.couponName = couponName;
 		this.couponDescription = couponDescription;
 		this.couponImageUrl = couponImageUrl;
