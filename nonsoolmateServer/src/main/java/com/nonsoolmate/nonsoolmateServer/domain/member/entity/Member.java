@@ -86,4 +86,11 @@ public class Member {
 		}
 		this.reviewTicketCount -= 1;
 	}
+
+	public void decreaseReReviewTicket() {
+		if (this.reReviewTicketCount <= 0) {
+			throw new MemberException(MemberExceptionType.MEMBER_USE_TICKET_FAIL);
+		}
+		this.reReviewTicketCount -= 1;
+	}
 }
