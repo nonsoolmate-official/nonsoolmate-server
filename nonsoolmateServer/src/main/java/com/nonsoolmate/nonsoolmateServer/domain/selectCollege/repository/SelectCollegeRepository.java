@@ -7,6 +7,7 @@ import java.util.Set;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.nonsoolmate.nonsoolmateServer.domain.member.entity.Member;
@@ -21,7 +22,7 @@ public interface SelectCollegeRepository extends JpaRepository<SelectCollege, Lo
 	void deleteAllByMemberId(String memberId);
 
 	@Query("select sc from SelectCollege sc where sc.member =:member order by sc.college.university.universityName asc, sc.college.collegeName asc")
-	List<SelectCollege> findAllByMemberOrderByUniversityNameAscCollegeNameAsc(Member member);
+	List<SelectCollege> findAllByMemberOrderByUniversityNameAscCollegeNameAsc(@Param("member") Member member);
 
 	Optional<SelectCollege> findByMemberAndCollege(Member member, University university);
 
