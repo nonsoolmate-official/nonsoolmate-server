@@ -13,7 +13,8 @@ public enum ExamRecordExceptionType implements ExceptionType {
 	CREATE_EXAM_RECORD_FAIL(HttpStatus.BAD_REQUEST, "대학 시험 기록 생성에 실패했습니다."),
 	INVALID_EXAM_RECORD_RESULT_FILE_NAME(HttpStatus.BAD_REQUEST, "첨삭이 완료되지 않았습니다."),
 
-	ALREADY_CREATE_EXAM_RECORD(HttpStatus.BAD_REQUEST, "이미 응시한 대학 시험입니다");
+	ALREADY_CREATE_EXAM_RECORD(HttpStatus.BAD_REQUEST, "이미 응시한 대학 시험입니다."),
+	INVALID_CREATE_REVISION_EXAM_RECORD(HttpStatus.BAD_REQUEST, "첨삭을 받지 않고 재첨삭을 요청할 수 없습니다.");
 
 	private final HttpStatus status;
 	private final String message;
