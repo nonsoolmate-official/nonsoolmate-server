@@ -75,17 +75,31 @@ public class SelectCollegeService {
 
 	private List<SelectCollegeExamResponseDTO> getSelectCollegeExamResponseDTOS(
 		final List<Exam> exams, final Member member) {
-		ExamRecord examRecord;
 		List<SelectCollegeExamResponseDTO> selectCollegeExamResponseDTOS = new ArrayList<>();
 		for (Exam exam : exams) {
-			examRecord = examRecordRepository.findByExamAndMember(exam, member)
-				.orElse(null);
-			String status =
-				examRecord == null ? BEFORE_EXAM : examRecord.getExamResultStatus().getStatus();
-			selectCollegeExamResponseDTOS.add(
-				SelectCollegeExamResponseDTO.of(exam.getExamId(),
-					exam.getExamListName(), exam.getExamTimeLimit(),
-					status));
+			List<ExamRecord> examRecords = examRecordRepository.findByExamAndMember(exam, member);
+			ExamRecord selectedExamRecord = null;
+
+			for (ExamRecord examRecord : examRecords) {
+				if (examRecord.getExamResultStatus().getStatus().equals("REVISION")) {
+					selectedExamRecord = examRecord;
+					break;
+				} else if (examRecord.getExamResultStatus().getStatus().equals("EDITING")) {
+					selectedExamRecord = examRecord;
+				}
+			}
+
+			String status = selectedExamRecord == null
+				? BEFORE_EXAM
+				: selectedExamRecord.getExamResultStatus().getStatus();
+
+			selectCollegeExamResponseDTOS.add(SelectCollegeExamResponseDTO.of(
+					exam.getExamId(),
+					exam.getExamListName(),
+					exam.getExamTimeLimit(),
+					status
+				)
+			);
 		}
 		return selectCollegeExamResponseDTOS;
 	}
