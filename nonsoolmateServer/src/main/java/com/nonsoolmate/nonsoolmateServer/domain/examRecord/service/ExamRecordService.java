@@ -19,7 +19,6 @@ import com.nonsoolmate.nonsoolmateServer.domain.examRecord.exception.ExamRecordE
 import com.nonsoolmate.nonsoolmateServer.domain.examRecord.repository.ExamRecordRepository;
 import com.nonsoolmate.nonsoolmateServer.domain.member.entity.Member;
 import com.nonsoolmate.nonsoolmateServer.domain.member.exception.MemberException;
-import com.nonsoolmate.nonsoolmateServer.domain.member.repository.MemberRepository;
 import com.nonsoolmate.nonsoolmateServer.domain.university.entity.Exam;
 import com.nonsoolmate.nonsoolmateServer.domain.university.exception.ExamException;
 import com.nonsoolmate.nonsoolmateServer.domain.university.repository.ExamRepository;
@@ -39,7 +38,6 @@ public class ExamRecordService {
 	private final ExamRepository examRepository;
 	private final CloudFrontService cloudFrontService;
 	private final S3Service s3Service;
-	private final MemberRepository memberRepository;
 
 	public ExamRecordResponseDTO getExamRecord(Long examId, Member member) {
 
@@ -93,6 +91,31 @@ public class ExamRecordService {
 		}
 	}
 
+	@Transactional
+	public ExamRecordIdResponse createRevisionExamRecord(
+		final CreateExamRecordRequestDTO request, final Member member) {
+		final Exam exam = getExam(request.examId());
+
+		validateExistEditingExamRecord(exam, member);
+		validateExam(exam, member, EditingType.REVISION);
+
+		try {
+			final ExamRecord savedExamRecord = processAndSaveExamRecord(request, member, exam, EditingType.EDITING);
+			member.decreaseReReviewTicket();
+			return ExamRecordIdResponse.of(savedExamRecord.getExamRecordId());
+		} catch (AWSClientException | MemberException e) {
+			throw e;
+		} catch (RuntimeException e) {
+			s3Service.deleteFile(EXAM_SHEET_FOLDER_NAME, request.memberSheetFileName());
+			throw new ExamRecordException(CREATE_EXAM_RECORD_FAIL);
+		}
+	}
+
+	void validateExistEditingExamRecord(final Exam exam, final Member member) {
+		examRecordRepository.findByExamAndMemberAndEditingType(exam, member,
+			EditingType.EDITING).orElseThrow(() -> new ExamRecordException(INVALID_CREATE_REVISION_EXAM_RECORD));
+	}
+
 	private ExamRecord processAndSaveExamRecord(final CreateExamRecordRequestDTO request, final Member member,
 		final Exam exam, final EditingType editingType) {
 		final String fileName = s3Service.validateURL(EXAM_SHEET_FOLDER_NAME, request.memberSheetFileName());
@@ -102,11 +125,8 @@ public class ExamRecordService {
 	}
 
 	private void validateExam(final Exam exam, final Member member, final EditingType editingType) {
-		final ExamRecord existExamRecords = examRecordRepository.findByExamAndMemberAndEditingType(exam, member,
-			editingType).orElse(null);
-		if (existExamRecords != null) {
-			throw new ExamRecordException(ALREADY_CREATE_EXAM_RECORD);
-		}
+		examRecordRepository.findByExamAndMemberAndEditingType(exam, member,
+			editingType).orElseThrow(() -> new ExamRecordException(ALREADY_CREATE_EXAM_RECORD));
 	}
 
 	private ExamRecord createExamRecord(final Exam exam, final Member member,
