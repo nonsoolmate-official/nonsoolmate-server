@@ -59,11 +59,12 @@ public class ExamRecord {
 	private String examRecordResultFileName;
 
 	@Builder
-	public ExamRecord(final Exam exam, final Member member, final EditingType editingType,
+	public ExamRecord(final Exam exam, final Member member, final ExamResultStatus examResultStatus,
+		final EditingType editingType,
 		final int timeTakeExam, final String examRecordSheetFileName) {
 		this.exam = exam;
 		this.member = member;
-		this.examResultStatus = ExamResultStatus.ONGOING;
+		this.examResultStatus = examResultStatus;
 		this.editingType = editingType;
 		this.timeTakeExam = timeTakeExam;
 		this.examRecordSheetFileName = examRecordSheetFileName;
