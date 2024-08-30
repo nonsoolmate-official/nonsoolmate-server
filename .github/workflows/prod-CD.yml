@@ -47,8 +47,8 @@ jobs:
 
     - name: docker image 빌드 및 푸시
       run: |
-        docker build --platform linux/amd64 -t nonsoolmate/nonsoolmate-server --build-arg SPRING_PROFILES_ACTIVE=prod .
-        docker push nonsoolmate/nonsoolmate-server
+        docker build --platform linux/amd64 -t nonsoolmate/nonsoolmate-prod-server --build-arg SPRING_PROFILES_ACTIVE=prod .
+        docker push nonsoolmate/nonsoolmate-prod-server
       working-directory: ${{ env.working-directory }}
 
   prod-cd:      
