@@ -1,5 +1,7 @@
 package com.nonsoolmate.nonsoolmateServer.domain.selectCollege.service;
 
+import static com.nonsoolmate.nonsoolmateServer.domain.examRecord.entity.enums.ExamResultStatus.*;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -29,7 +31,6 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class SelectCollegeService {
-	private static final String BEFORE_EXAM = "시험 응시 전";
 	private final ExamRepository examRepository;
 	private final ExamRecordRepository examRecordRepository;
 	private final SelectCollegeRepository selectCollegeRepository;
@@ -84,7 +85,7 @@ public class SelectCollegeService {
 					.orElse(null));
 
 			String status = recentExamRecord == null
-				? BEFORE_EXAM
+				? BEFORE_EXAM.getStatus()
 				: recentExamRecord.getExamResultStatus().getStatus();
 
 			selectCollegeExamResponseDTOS.add(SelectCollegeExamResponseDTO.of(
