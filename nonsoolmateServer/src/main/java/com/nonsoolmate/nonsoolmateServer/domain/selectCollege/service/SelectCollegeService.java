@@ -21,7 +21,6 @@ import com.nonsoolmate.nonsoolmateServer.domain.university.entity.College;
 import com.nonsoolmate.nonsoolmateServer.domain.university.entity.Exam;
 import com.nonsoolmate.nonsoolmateServer.domain.university.repository.CollegeRepository;
 import com.nonsoolmate.nonsoolmateServer.domain.university.repository.ExamRepository;
-import com.nonsoolmate.nonsoolmateServer.domain.university.repository.UniversityRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -30,7 +29,6 @@ import lombok.RequiredArgsConstructor;
 @Transactional(readOnly = true)
 public class SelectCollegeService {
 	private static final String BEFORE_EXAM = "시험 응시 전";
-	private final UniversityRepository universityRepository;
 	private final ExamRepository examRepository;
 	private final ExamRecordRepository examRecordRepository;
 	private final SelectCollegeRepository selectCollegeRepository;
