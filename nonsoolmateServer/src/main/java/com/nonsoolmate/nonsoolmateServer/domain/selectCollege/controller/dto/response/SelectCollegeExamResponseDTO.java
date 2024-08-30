@@ -6,7 +6,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 public record SelectCollegeExamResponseDTO(@Schema(description = "시험 id", example = "1") Long examId,
 										   @Schema(description = "시험 이름", example = "경영경제1") String examName,
 										   @Schema(description = "시험 제한 시간(초)", example = "3600") int examTimeLimit,
-										   @Schema(description = "시험 응시 상태", example = "시험 응시 전") String examStatus) {
+										   @Schema(description = "시험 응시 상태(시험 응시 전, 첨삭 진행 중, 첨삭 완료, 재첨삭 진행 중, 재첨삭 완료 중 하나)", example = "시험 응시 전") String examStatus) {
 	public static SelectCollegeExamResponseDTO of(final Long examId, final String examName, final int examTimeLimit,
 		final String examStatus) {
 		return new SelectCollegeExamResponseDTO(examId, examName, examTimeLimit, examStatus);
