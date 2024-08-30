@@ -23,7 +23,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 
-@Tag(name = "UniversityExamRecord", description = "시험 응시 기록과 관련된 API")
+@Tag(name = "CollegeExamRecord", description = "시험 응시 기록과 관련된 API")
 public interface ExamRecordApi {
 
 	@ApiResponses(
@@ -35,7 +35,7 @@ public interface ExamRecordApi {
 	)
 	@Operation(summary = "첨삭: 첨삭 PDF_해제PDF", description = "첨삭 pdf 및 해제 pdf를 조회합니다.")
 	ResponseEntity<SuccessResponse<ExamRecordResponseDTO>> getExamRecord(
-		@Parameter(description = "해당 대학교 시험 Id (examId)", required = true) @PathVariable("id") Long examId,
+		@Parameter(description = "해당 단과 대학 시험 Id (examId)", required = true) @PathVariable("id") Long examId,
 		@AuthUser Member member);
 
 	@ApiResponses(
@@ -47,7 +47,7 @@ public interface ExamRecordApi {
 	)
 	@Operation(summary = "첨삭: 첨삭 PDF 저장", description = "첨삭 pdf를 조회합니다.")
 	ResponseEntity<SuccessResponse<ExamRecordResultResponseDTO>> getExamRecordResult(
-		@Parameter(description = "해당 대학교 시험 Id (examId)", required = true) @PathVariable("id") Long examId,
+		@Parameter(description = "해당 단과 대학 시험 Id (examId)", required = true) @PathVariable("id") Long examId,
 		@AuthUser Member member);
 
 	@ApiResponses(
