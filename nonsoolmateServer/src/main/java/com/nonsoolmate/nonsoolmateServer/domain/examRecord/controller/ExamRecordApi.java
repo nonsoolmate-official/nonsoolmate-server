@@ -61,7 +61,7 @@ public interface ExamRecordApi {
 	@ApiResponses(
 		value = {
 			@ApiResponse(responseCode = "201", description = "대학 시험 기록에 성공했습니다."),
-			@ApiResponse(responseCode = "400", description = "존재하지 않는 대학 시험입니다, 이미 응시한 대학 시험입니다", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
+			@ApiResponse(responseCode = "400", description = "존재하지 않는 대학 시험입니다, 이미 응시한 대학 시험입니다, 첨삭을 받지 않고 재첨삭을 요청할 수 없습니다", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
 			@ApiResponse(responseCode = "404", description = "해당 답안지 파일 이름을 찾을 수 없습니다", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
 		}
 	)
