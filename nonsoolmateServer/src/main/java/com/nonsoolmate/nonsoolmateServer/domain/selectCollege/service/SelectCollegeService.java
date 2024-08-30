@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.nonsoolmate.nonsoolmateServer.domain.examRecord.entity.ExamRecord;
+import com.nonsoolmate.nonsoolmateServer.domain.examRecord.entity.enums.EditingType;
 import com.nonsoolmate.nonsoolmateServer.domain.examRecord.repository.ExamRecordRepository;
 import com.nonsoolmate.nonsoolmateServer.domain.member.entity.Member;
 import com.nonsoolmate.nonsoolmateServer.domain.selectCollege.controller.dto.response.SelectCollegeExamResponseDTO;
@@ -77,17 +78,10 @@ public class SelectCollegeService {
 		final List<Exam> exams, final Member member) {
 		List<SelectCollegeExamResponseDTO> selectCollegeExamResponseDTOS = new ArrayList<>();
 		for (Exam exam : exams) {
-			List<ExamRecord> examRecords = examRecordRepository.findByExamAndMember(exam, member);
-			ExamRecord recentExamRecord = null;
-
-			for (ExamRecord examRecord : examRecords) {
-				if (examRecord.getExamResultStatus().getStatus().equals("REVISION")) {
-					recentExamRecord = examRecord;
-					break;
-				} else if (examRecord.getExamResultStatus().getStatus().equals("EDITING")) {
-					recentExamRecord = examRecord;
-				}
-			}
+			ExamRecord recentExamRecord = examRecordRepository.findByExamAndMemberAndEditingType(exam, member,
+					EditingType.REVISION)
+				.orElse(examRecordRepository.findByExamAndMemberAndEditingType(exam, member, EditingType.EDITING)
+					.orElse(null));
 
 			String status = recentExamRecord == null
 				? BEFORE_EXAM
