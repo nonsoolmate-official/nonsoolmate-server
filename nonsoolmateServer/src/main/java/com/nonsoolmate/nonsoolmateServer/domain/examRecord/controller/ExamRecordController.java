@@ -16,6 +16,7 @@ import com.nonsoolmate.nonsoolmateServer.domain.examRecord.controller.dto.respon
 import com.nonsoolmate.nonsoolmateServer.domain.examRecord.controller.dto.response.ExamRecordResponseDTO;
 import com.nonsoolmate.nonsoolmateServer.domain.examRecord.controller.dto.response.ExamRecordResultResponseDTO;
 import com.nonsoolmate.nonsoolmateServer.domain.examRecord.controller.dto.response.ExamSheetPreSignedUrlResponseDTO;
+import com.nonsoolmate.nonsoolmateServer.domain.examRecord.entity.enums.EditingType;
 import com.nonsoolmate.nonsoolmateServer.domain.examRecord.exception.ExamRecordSuccessType;
 import com.nonsoolmate.nonsoolmateServer.domain.examRecord.service.ExamRecordService;
 import com.nonsoolmate.nonsoolmateServer.domain.examRecord.service.ExamRecordSheetService;
@@ -64,13 +65,18 @@ public class ExamRecordController implements ExamRecordApi {
 	@Override
 	@PostMapping("/sheet")
 	public ResponseEntity<SuccessResponse<ExamRecordIdResponse>> createExamRecord(
-		@Valid @RequestBody final CreateExamRecordRequestDTO createExamRecordRequestDTO,
+		@Valid @RequestBody final CreateExamRecordRequestDTO request,
 		@AuthUser final Member member) {
-		ExamRecordIdResponse examRecord = examRecordService.createExamRecord(
-			createExamRecordRequestDTO, member);
+		ExamRecordIdResponse response = null;
+
+		if (request.editingType() == EditingType.REVISION) {
+			response = examRecordService.createRevisionExamRecord(request, member);
+		} else if (request.editingType() == EditingType.EDITING) {
+			response = examRecordService.createEditingExamRecord(request, member);
+		}
 
 		return ResponseEntity.status(HttpStatus.CREATED).body(SuccessResponse.of(
-			ExamRecordSuccessType.CREATE_EXAM_RECORD_SUCCESS, examRecord
-			));
+			ExamRecordSuccessType.CREATE_EXAM_RECORD_SUCCESS, response
+		));
 	}
 }
