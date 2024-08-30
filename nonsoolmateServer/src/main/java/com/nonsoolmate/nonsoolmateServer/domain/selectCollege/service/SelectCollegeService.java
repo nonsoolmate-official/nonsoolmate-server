@@ -78,20 +78,20 @@ public class SelectCollegeService {
 		List<SelectCollegeExamResponseDTO> selectCollegeExamResponseDTOS = new ArrayList<>();
 		for (Exam exam : exams) {
 			List<ExamRecord> examRecords = examRecordRepository.findByExamAndMember(exam, member);
-			ExamRecord selectedExamRecord = null;
+			ExamRecord recentExamRecord = null;
 
 			for (ExamRecord examRecord : examRecords) {
 				if (examRecord.getExamResultStatus().getStatus().equals("REVISION")) {
-					selectedExamRecord = examRecord;
+					recentExamRecord = examRecord;
 					break;
 				} else if (examRecord.getExamResultStatus().getStatus().equals("EDITING")) {
-					selectedExamRecord = examRecord;
+					recentExamRecord = examRecord;
 				}
 			}
 
-			String status = selectedExamRecord == null
+			String status = recentExamRecord == null
 				? BEFORE_EXAM
-				: selectedExamRecord.getExamResultStatus().getStatus();
+				: recentExamRecord.getExamResultStatus().getStatus();
 
 			selectCollegeExamResponseDTOS.add(SelectCollegeExamResponseDTO.of(
 					exam.getExamId(),
