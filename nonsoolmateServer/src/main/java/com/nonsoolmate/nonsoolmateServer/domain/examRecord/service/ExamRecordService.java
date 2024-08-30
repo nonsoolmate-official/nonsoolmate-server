@@ -4,6 +4,8 @@ import static com.nonsoolmate.nonsoolmateServer.domain.examRecord.exception.Exam
 import static com.nonsoolmate.nonsoolmateServer.domain.university.exception.ExamExceptionType.*;
 import static com.nonsoolmate.nonsoolmateServer.external.aws.FolderName.*;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -42,14 +44,14 @@ public class ExamRecordService {
 	public ExamRecordResponseDTO getExamRecord(Long examId, Member member) {
 
 		Exam exam = getExam(examId);
-		ExamRecord examRecord = getExamByExamAndMember(exam, member);
+		List<ExamRecord> examRecord = getExamByExamAndMember(exam, member);
 
-		validateCorrection(examRecord);
+		validateCorrection(examRecord.get(0));
 
 		String answerUrl = cloudFrontService.createPreSignedGetUrl(EXAM_ANSWER_FOLDER_NAME,
 			exam.getExamAnswerFileName());
 		String resultUrl = cloudFrontService.createPreSignedGetUrl(EXAM_RESULT_FOLDER_NAME,
-			examRecord.getExamRecordResultFileName());
+			examRecord.get(0).getExamRecordResultFileName());
 
 		return ExamRecordResponseDTO.of(exam.getExamFullName(), answerUrl, resultUrl);
 	}
@@ -57,7 +59,7 @@ public class ExamRecordService {
 	public ExamRecordResultResponseDTO getExamRecordResult(Long examId, Member member) {
 
 		Exam exam = getExam(examId);
-		ExamRecord examRecord = getExamByExamAndMember(exam, member);
+		ExamRecord examRecord = getExamByExamAndMember(exam, member).get(0);
 
 		validateCorrection(examRecord);
 
@@ -98,9 +100,8 @@ public class ExamRecordService {
 	}
 
 	private void validateExam(final Exam exam, final Member member) {
-		final ExamRecord existExamRecord = examRecordRepository.findByExamAndMember(
-			exam, member).orElse(null);
-		if (existExamRecord != null) {
+		final List<ExamRecord> existExamRecords = examRecordRepository.findByExamAndMember(exam, member);
+		if (existExamRecords.isEmpty()) {
 			throw new ExamRecordException(ALREADY_CREATE_EXAM_RECORD);
 		}
 	}
@@ -130,9 +131,8 @@ public class ExamRecordService {
 			.orElseThrow(() -> new ExamException(INVALID_EXAM));
 	}
 
-	private ExamRecord getExamByExamAndMember(final Exam exam, final Member member) {
-		return examRecordRepository.findByExamAndMemberOrElseThrowException(
-			exam, member);
+	private List<ExamRecord> getExamByExamAndMember(final Exam exam, final Member member) {
+		return examRecordRepository.findByExamAndMember(exam, member);
 	}
 
 }
