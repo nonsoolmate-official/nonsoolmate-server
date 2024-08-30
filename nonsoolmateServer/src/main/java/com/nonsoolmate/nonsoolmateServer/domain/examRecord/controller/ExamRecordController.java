@@ -29,7 +29,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/university/exam-record")
+@RequestMapping("/college/exam-record")
 @RequiredArgsConstructor
 public class ExamRecordController implements ExamRecordApi {
 
