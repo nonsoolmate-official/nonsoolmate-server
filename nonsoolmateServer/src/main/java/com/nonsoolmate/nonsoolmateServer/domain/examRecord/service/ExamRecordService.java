@@ -115,8 +115,11 @@ public class ExamRecordService {
 	}
 
 	void validateExistEditingExamRecord(final Exam exam, final Member member) {
-		examRecordRepository.findByExamAndMemberAndEditingType(exam, member,
+		ExamRecord examRecord = examRecordRepository.findByExamAndMemberAndEditingType(exam, member,
 			EditingType.EDITING).orElseThrow(() -> new ExamRecordException(INVALID_CREATE_REVISION_EXAM_RECORD));
+		if (examRecord.getExamResultStatus() == ExamResultStatus.REVIEW_ONGOING) {
+			throw new ExamRecordException(INVALID_CREATE_REVISION_EXAM_RECORD);
+		}
 	}
 
 	private ExamRecord processAndSaveExamRecord(final CreateExamRecordRequestDTO request, final Member member,
