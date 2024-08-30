@@ -76,21 +76,15 @@ public class ExamRecordService {
 	}
 
 	@Transactional
-	public ExamRecordIdResponse createExamRecord(
+	public ExamRecordIdResponse createEditingExamRecord(
 		final CreateExamRecordRequestDTO request, final Member member) {
 		final Exam exam = getExam(request.examId());
-		validateExam(exam, member);
+		validateExam(exam, member, EditingType.EDITING);
+
 		try {
-			final String fileName = s3Service.validateURL(EXAM_SHEET_FOLDER_NAME, request.memberSheetFileName());
-			final ExamRecord universityexamRecord = createExamRecord(exam, member,
-				request.memberTakeTimeExam(),
-				fileName);
-			final ExamRecord saveUniversityExamRecord = examRecordRepository.save(
-				universityexamRecord);
-
-			decreaseMemberTicketCount(member);
-
-			return ExamRecordIdResponse.of(saveUniversityExamRecord.getExamRecordId());
+			final ExamRecord savedExamRecord = processAndSaveExamRecord(request, member, exam, EditingType.EDITING);
+			member.decreaseReviewTicket();
+			return ExamRecordIdResponse.of(savedExamRecord.getExamRecordId());
 		} catch (AWSClientException | MemberException e) {
 			throw e;
 		} catch (RuntimeException e) {
@@ -99,28 +93,28 @@ public class ExamRecordService {
 		}
 	}
 
-	private void validateExam(final Exam exam, final Member member) {
-		final List<ExamRecord> existExamRecords = examRecordRepository.findByExamAndMember(exam, member);
-		if (existExamRecords.isEmpty()) {
+	private ExamRecord processAndSaveExamRecord(final CreateExamRecordRequestDTO request, final Member member,
+		final Exam exam, final EditingType editingType) {
+		final String fileName = s3Service.validateURL(EXAM_SHEET_FOLDER_NAME, request.memberSheetFileName());
+		final ExamRecord examRecord = createExamRecord(exam, member, request.memberTakeTimeExam(), fileName,
+			editingType);
+		return examRecordRepository.save(examRecord);
+	}
+
+	private void validateExam(final Exam exam, final Member member, final EditingType editingType) {
+		final ExamRecord existExamRecords = examRecordRepository.findByExamAndMemberAndEditingType(exam, member,
+			editingType).orElse(null);
+		if (existExamRecords != null) {
 			throw new ExamRecordException(ALREADY_CREATE_EXAM_RECORD);
 		}
 	}
 
-	private void decreaseMemberTicketCount(final Member member) {
-		try {
-			member.decreaseReviewTicket();
-			memberRepository.save(member);
-		} catch (MemberException e) {
-			throw e;
-		}
-	}
-
 	private ExamRecord createExamRecord(final Exam exam, final Member member,
-		final int takeTimeExam, final String sheetFileName) {
+		final int takeTimeExam, final String sheetFileName, final EditingType editingType) {
 		return ExamRecord.builder()
 			.exam(exam)
 			.member(member)
-			.editingType(EditingType.EDITING)
+			.editingType(editingType)
 			.timeTakeExam(takeTimeExam)
 			.examRecordSheetFileName(sheetFileName)
 			.build();
