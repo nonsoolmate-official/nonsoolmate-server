@@ -100,7 +100,7 @@ public class ExamRecordService {
 		validateExam(exam, member, EditingType.REVISION);
 
 		try {
-			final ExamRecord savedExamRecord = processAndSaveExamRecord(request, member, exam, EditingType.EDITING);
+			final ExamRecord savedExamRecord = processAndSaveExamRecord(request, member, exam, EditingType.REVISION);
 			member.decreaseReReviewTicket();
 			return ExamRecordIdResponse.of(savedExamRecord.getExamRecordId());
 		} catch (AWSClientException | MemberException e) {
@@ -125,8 +125,11 @@ public class ExamRecordService {
 	}
 
 	private void validateExam(final Exam exam, final Member member, final EditingType editingType) {
-		examRecordRepository.findByExamAndMemberAndEditingType(exam, member,
-			editingType).orElseThrow(() -> new ExamRecordException(ALREADY_CREATE_EXAM_RECORD));
+		ExamRecord examRecord = examRecordRepository.findByExamAndMemberAndEditingType(exam, member,
+			editingType).orElse(null);
+		if (examRecord != null) {
+			throw new ExamRecordException(ALREADY_CREATE_EXAM_RECORD);
+		}
 	}
 
 	private ExamRecord createExamRecord(final Exam exam, final Member member,
