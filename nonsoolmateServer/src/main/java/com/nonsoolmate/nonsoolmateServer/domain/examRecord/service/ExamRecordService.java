@@ -15,6 +15,7 @@ import com.nonsoolmate.nonsoolmateServer.domain.examRecord.controller.dto.respon
 import com.nonsoolmate.nonsoolmateServer.domain.examRecord.controller.dto.response.ExamRecordResultResponseDTO;
 import com.nonsoolmate.nonsoolmateServer.domain.examRecord.entity.ExamRecord;
 import com.nonsoolmate.nonsoolmateServer.domain.examRecord.entity.enums.EditingType;
+import com.nonsoolmate.nonsoolmateServer.domain.examRecord.entity.enums.ExamResultStatus;
 import com.nonsoolmate.nonsoolmateServer.domain.examRecord.exception.ExamRecordException;
 import com.nonsoolmate.nonsoolmateServer.domain.examRecord.repository.ExamRecordRepository;
 import com.nonsoolmate.nonsoolmateServer.domain.member.entity.Member;
@@ -86,7 +87,9 @@ public class ExamRecordService {
 		} catch (AWSClientException | MemberException e) {
 			throw e;
 		} catch (RuntimeException e) {
-			s3Service.deleteFile(EXAM_SHEET_FOLDER_NAME, request.memberSheetFileName());
+			log.error(e.getMessage());
+			e.printStackTrace();
+			// s3Service.deleteFile(EXAM_SHEET_FOLDER_NAME, request.memberSheetFileName());
 			throw new ExamRecordException(CREATE_EXAM_RECORD_FAIL);
 		}
 	}
@@ -134,11 +137,14 @@ public class ExamRecordService {
 
 	private ExamRecord createExamRecord(final Exam exam, final Member member,
 		final int takeTimeExam, final String sheetFileName, final EditingType editingType) {
+		ExamResultStatus examResultStatus =
+			editingType == EditingType.EDITING ? ExamResultStatus.REVIEW_ONGOING : ExamResultStatus.RE_REVIEW_ONGOING;
 		return ExamRecord.builder()
 			.exam(exam)
 			.member(member)
 			.editingType(editingType)
 			.timeTakeExam(takeTimeExam)
+			.examResultStatus(examResultStatus)
 			.examRecordSheetFileName(sheetFileName)
 			.build();
 	}
