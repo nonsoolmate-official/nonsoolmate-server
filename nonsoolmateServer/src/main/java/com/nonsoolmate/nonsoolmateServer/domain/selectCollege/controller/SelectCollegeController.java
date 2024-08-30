@@ -25,7 +25,7 @@ import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/select-university")
+@RequestMapping("/select-college")
 public class SelectCollegeController implements SelectCollegeApi {
 
 	private final SelectCollegeService selectCollegeService;
@@ -49,7 +49,7 @@ public class SelectCollegeController implements SelectCollegeApi {
 
 	@Override
 	@PatchMapping
-	public ResponseEntity<SuccessResponse<SelectCollegeUpdateResponseDTO>> patchSelectUniversities(
+	public ResponseEntity<SuccessResponse<SelectCollegeUpdateResponseDTO>> patchSelectColleges(
 		@AuthUser Member member,
 		@RequestBody @Valid final List<SelectUniversityRequestDTO> request) {
 

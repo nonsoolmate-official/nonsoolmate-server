@@ -22,7 +22,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 
-@Tag(name = "SelectUniversity", description = "목표 단과 대학과 관련된 API")
+@Tag(name = "SelectCollege", description = "목표 단과 대학과 관련된 API")
 public interface SelectCollegeApi {
 
 	@ApiResponses(value = {@ApiResponse(responseCode = "200", description = "목표 단과 대학 조회에 성공하였습니다."),})
@@ -37,6 +37,6 @@ public interface SelectCollegeApi {
 	@ApiResponses(value = {@ApiResponse(responseCode = "200", description = "목표 단과 대학 수정에 성공하였습니다."),
 		@ApiResponse(responseCode = "400", description = "유효한 목표 대학교가 아닙니다", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))})
 	@Operation(summary = "목표 단과 대학 설정: 리스트 선택", description = "내 목표 대학들 리스트를 업데이트(수정) 합니다.")
-	ResponseEntity<SuccessResponse<SelectCollegeUpdateResponseDTO>> patchSelectUniversities(@AuthUser Member member,
+	ResponseEntity<SuccessResponse<SelectCollegeUpdateResponseDTO>> patchSelectColleges(@AuthUser Member member,
 		@RequestBody @Valid List<SelectUniversityRequestDTO> request);
 }
