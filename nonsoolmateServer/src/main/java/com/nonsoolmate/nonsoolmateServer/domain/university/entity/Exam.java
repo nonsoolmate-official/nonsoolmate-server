@@ -9,6 +9,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -46,5 +47,20 @@ public class Exam {
 
 	public String getExamListName() {
 		return this.getExamYear() + " " + this.getExamName();
+	}
+
+	@Builder
+	private Exam(College college, String examName, String examFileName, String examAnswerFileName, int examYear,
+		int examTimeLimit) {
+		this.college = college;
+		this.examName = examName;
+		this.examFileName = examFileName;
+		this.examAnswerFileName = examAnswerFileName;
+		this.examYear = examYear;
+		this.examTimeLimit = examTimeLimit;
+	}
+
+	public void setExamIdForTest(Long examId){
+		this.examId = examId;
 	}
 }
