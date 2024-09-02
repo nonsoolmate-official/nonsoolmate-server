@@ -19,4 +19,8 @@ public class University {
 
 	@NotNull
 	private String universityName;
+
+	public University(String universityName) {
+		this.universityName = universityName;
+	}
 }
