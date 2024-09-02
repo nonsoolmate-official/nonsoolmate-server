@@ -1,17 +1,14 @@
 package com.nonsoolmate.nonsoolmateServer.domain.selectCollege.service;
 
-import static com.nonsoolmate.nonsoolmateServer.domain.examRecord.entity.enums.ExamResultStatus.*;
-
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.nonsoolmate.nonsoolmateServer.domain.examRecord.entity.ExamRecord;
-import com.nonsoolmate.nonsoolmateServer.domain.examRecord.entity.enums.EditingType;
+import com.nonsoolmate.nonsoolmateServer.domain.examRecord.entity.ExamRecordGroups;
 import com.nonsoolmate.nonsoolmateServer.domain.examRecord.repository.ExamRecordRepository;
 import com.nonsoolmate.nonsoolmateServer.domain.member.entity.Member;
 import com.nonsoolmate.nonsoolmateServer.domain.selectCollege.controller.dto.response.SelectCollegeExamResponseDTO;
@@ -48,55 +45,53 @@ public class SelectCollegeService {
 				college.getCollegeName(),
 				selectedUniversityIds.contains(college.getCollegeId())
 			))
-			.collect(Collectors.toList());
+			.toList();
 	}
 
 	public List<SelectCollegeExamsResponseDTO> getSelectCollegeExams(final Member member) {
-		final List<SelectCollege> selectColleges = selectCollegeRepository.findAllByMemberOrderByUniversityNameAscCollegeNameAsc(
+		final List<SelectCollege> sortedSelectColleges = selectCollegeRepository.findAllByMemberOrderByUniversityNameAscCollegeNameAsc(
 			member);
+		final List<Long> sortedSelectCollegeIds = getSortedSelectCollegeIds(sortedSelectColleges);
 
-		return selectColleges.stream()
-			.map(selectCollege -> getSelectCollegeExamsResponseDTO(selectCollege, member))
-			.collect(Collectors.toList());
+		final List<Exam> exams = examRepository.findAllByCollegeIdInOrderByExamYearDesc(sortedSelectCollegeIds);
+		final List<Long> examIds = exams.stream().map(Exam::getExamId).toList();
+
+		ExamRecordGroups examRecordGroups = new ExamRecordGroups(
+			examRecordRepository.findAllByExamIdInAndMemberId(examIds, member.getMemberId()));
+
+		final Map<Long, List<SelectCollegeExamResponseDTO>> examResponseMap = getSelectCollegeExamResponseMap(exams,
+			examRecordGroups);
+
+		return getSelectCollegeExamsResponseDTOS(sortedSelectColleges, examResponseMap);
 	}
 
-	private SelectCollegeExamsResponseDTO getSelectCollegeExamsResponseDTO(
-		final SelectCollege selectCollege,
-		final Member member) {
-
-		final List<Exam> exams = examRepository.findAllByCollegeOrderByExamYearDesc(
-			selectCollege.getCollege());
-
-		final List<SelectCollegeExamResponseDTO> selectCollegeExamResponseDTOS = getSelectCollegeExamResponseDTOS(
-			exams, member);
-
-		return SelectCollegeExamsResponseDTO.of(selectCollege.getCollege().getCollegeId(),
-			selectCollege.getCollege().getUniversity().getUniversityName(),
-			selectCollege.getCollege().getCollegeName(), selectCollegeExamResponseDTOS);
+	private List<Long> getSortedSelectCollegeIds(List<SelectCollege> sortedSelectColleges) {
+		return sortedSelectColleges.stream()
+			.map(SelectCollege::getSelectCollegeId)
+			.toList();
 	}
 
-	private List<SelectCollegeExamResponseDTO> getSelectCollegeExamResponseDTOS(
-		final List<Exam> exams, final Member member) {
-		List<SelectCollegeExamResponseDTO> selectCollegeExamResponseDTOS = new ArrayList<>();
-		for (Exam exam : exams) {
-			ExamRecord recentExamRecord = examRecordRepository.findByExamAndMemberAndEditingType(exam, member,
-					EditingType.REVISION)
-				.orElse(examRecordRepository.findByExamAndMemberAndEditingType(exam, member, EditingType.EDITING)
-					.orElse(null));
+	/**
+	 * @note: key = collegeId
+	 * */
+	private Map<Long, List<SelectCollegeExamResponseDTO>> getSelectCollegeExamResponseMap(List<Exam> exams,
+		ExamRecordGroups examRecordGroups) {
+		return exams.stream()
+			.collect(
+				Collectors.groupingBy(exam -> exam.getCollege().getCollegeId(),
+					Collectors.mapping(exam -> SelectCollegeExamResponseDTO.of(exam,
+							examRecordGroups.getExamResultStatus(exam.getExamId()).getStatus()),
+						Collectors.toList()
+					)));
+	}
 
-			String status = recentExamRecord == null
-				? BEFORE_EXAM.getStatus()
-				: recentExamRecord.getExamResultStatus().getStatus();
-
-			selectCollegeExamResponseDTOS.add(SelectCollegeExamResponseDTO.of(
-					exam.getExamId(),
-					exam.getExamListName(),
-					exam.getExamTimeLimit(),
-					status
-				)
-			);
-		}
-		return selectCollegeExamResponseDTOS;
+	private List<SelectCollegeExamsResponseDTO> getSelectCollegeExamsResponseDTOS(
+		List<SelectCollege> sortedSelectColleges,
+		Map<Long, List<SelectCollegeExamResponseDTO>> examResponseMap) {
+		return sortedSelectColleges.stream()
+			.map(selectCollege -> SelectCollegeExamsResponseDTO.of(selectCollege.getCollege(),
+				examResponseMap.get(selectCollege.getCollege().getCollegeId())))
+			.toList();
 	}
 
 	@Transactional
