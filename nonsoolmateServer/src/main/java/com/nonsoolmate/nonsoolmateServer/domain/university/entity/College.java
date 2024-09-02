@@ -9,6 +9,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -26,4 +27,10 @@ public class College {
 
 	@NotNull
 	private String collegeName;
+
+	@Builder
+	private College(University university, String collegeName) {
+		this.university = university;
+		this.collegeName = collegeName;
+	}
 }
