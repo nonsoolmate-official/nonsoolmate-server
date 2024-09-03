@@ -18,7 +18,7 @@ import com.nonsoolmate.nonsoolmateServer.global.response.SuccessResponse;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/university/exam")
+@RequestMapping("/college/exam")
 @RequiredArgsConstructor
 public class ExamController implements ExamApi {
 	private final ExamService examService;
