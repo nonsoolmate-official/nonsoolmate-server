@@ -1,14 +1,9 @@
 package com.nonsoolmate.nonsoolmateServer.domain.university.controller;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import com.nonsoolmate.nonsoolmateServer.domain.university.controller.dto.response.ExamAndAnswerResponseDTO;
-import com.nonsoolmate.nonsoolmateServer.domain.university.controller.dto.response.ExamImageAndAnswerResponseDTO;
-import com.nonsoolmate.nonsoolmateServer.domain.university.controller.dto.response.ExamImageResponseDTO;
 import com.nonsoolmate.nonsoolmateServer.domain.university.controller.dto.response.ExamInfoResponseDTO;
 import com.nonsoolmate.nonsoolmateServer.domain.university.controller.dto.response.ExamUrlResponseDTO;
 import com.nonsoolmate.nonsoolmateServer.global.response.ErrorResponse;
@@ -22,7 +17,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
-@Tag(name = "UniversityExam", description = "대학 시험 정보와 관련된 API")
+@Tag(name = "CollegeExam", description = "단과 대학 시험 정보와 관련된 API")
 public interface ExamApi {
 	@ApiResponses(
 		value = {
@@ -32,7 +27,7 @@ public interface ExamApi {
 	)
 	@Operation(summary = "시험 보기: 시험 이름 & 제한 시간", description = "시험 응시 화면의 이름 및 제한 시간을 조회합니다.")
 	ResponseEntity<SuccessResponse<ExamInfoResponseDTO>> getExamInfo(
-		@Parameter(description = "해당 대학교 시험 Id (examId)", required = true) @PathVariable("id") Long examId);
+		@Parameter(description = "해당 단과 대학교 시험 Id (examId)", required = true) @PathVariable("id") Long examId);
 
 	@ApiResponses(
 		value = {
@@ -42,7 +37,7 @@ public interface ExamApi {
 	)
 	@Operation(summary = "시험 보기: 문제지 [PDF]", description = "시험 응시 화면의 문제지를 조회합니다.")
 	ResponseEntity<SuccessResponse<ExamUrlResponseDTO>> getExamFile(
-		@Parameter(description = "해당 대학교 시험 Id (examId)", required = true) @PathVariable("id") Long id);
+		@Parameter(description = "해당 단과 대학교 시험 Id (examId)", required = true) @PathVariable("id") Long id);
 
 	@ApiResponses(
 		value = {
