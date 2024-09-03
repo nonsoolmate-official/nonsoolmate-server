@@ -88,9 +88,7 @@ public class ExamRecordService {
 		} catch (AWSClientException | MemberException e) {
 			throw e;
 		} catch (RuntimeException e) {
-			log.error(e.getMessage());
-			e.printStackTrace();
-			// s3Service.deleteFile(EXAM_SHEET_FOLDER_NAME, request.memberSheetFileName());
+			s3Service.deleteFile(EXAM_SHEET_FOLDER_NAME, request.memberSheetFileName());
 			throw new ExamRecordException(CREATE_EXAM_RECORD_FAIL);
 		}
 	}
