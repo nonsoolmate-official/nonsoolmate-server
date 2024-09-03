@@ -30,7 +30,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RequestMapping("/payment")
 @RequiredArgsConstructor
-public class PaymentController {
+public class PaymentController implements PaymentApi {
 	@Value("${payment.toss.widget-secret-key}")
 	private String widgetSecretKey;
 	private final MemberService memberService;
