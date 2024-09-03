@@ -1,4 +1,4 @@
-package com.nonsoolmate.nonsoolmateServer.domain.examRecord;
+package com.nonsoolmate.nonsoolmateServer.domain.examRecord.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,7 +18,7 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequestMapping("/college/exam")
 @RequiredArgsConstructor
-public class EditingResultController {
+public class EditingResultController implements EditingResultApi {
 	private final ExamRecordService examRecordService;
 
 	@GetMapping("/{exam-id}/exam-record/result")
