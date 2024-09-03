@@ -11,20 +11,29 @@ import java.util.Base64;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.nonsoolmate.nonsoolmateServer.domain.member.entity.Member;
+import com.nonsoolmate.nonsoolmateServer.domain.member.service.MemberService;
+import com.nonsoolmate.nonsoolmateServer.domain.payment.controller.dto.response.CustomerInfoDTO;
+import com.nonsoolmate.nonsoolmateServer.global.security.AuthUser;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @Slf4j
+@RequestMapping("/payment")
+@RequiredArgsConstructor
 public class PaymentController {
 	@Value("${payment.toss.widget-secret-key}")
 	private String widgetSecretKey;
+	private final MemberService memberService;
 
 	@RequestMapping(value = "/confirm")
 	public ResponseEntity<JsonNode> confirmPayment(@RequestBody String jsonBody) throws Exception {
@@ -79,5 +88,10 @@ public class PaymentController {
 		}
 
 		return ResponseEntity.status(code).body(jsonObject);
+	}
+
+	@GetMapping("/customer/info")
+	public ResponseEntity<CustomerInfoDTO> getCustomerInfo(@AuthUser Member member) {
+		return ResponseEntity.ok().body(memberService.getCustomerInfo(member));
 	}
 }
