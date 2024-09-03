@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.nonsoolmate.nonsoolmateServer.domain.examRecord.controller.dto.request.CreateExamRecordRequestDTO;
+import com.nonsoolmate.nonsoolmateServer.domain.examRecord.controller.dto.response.EditingResultDTO;
 import com.nonsoolmate.nonsoolmateServer.domain.examRecord.controller.dto.response.ExamRecordIdResponse;
 import com.nonsoolmate.nonsoolmateServer.domain.examRecord.controller.dto.response.ExamRecordResponseDTO;
 import com.nonsoolmate.nonsoolmateServer.domain.examRecord.controller.dto.response.ExamRecordResultResponseDTO;
@@ -161,4 +162,10 @@ public class ExamRecordService {
 		return examRecordRepository.findByExamAndMember(exam, member);
 	}
 
+	public EditingResultDTO getExamRecordEditingResult(final long examId, final EditingType type, final Member member) {
+		ExamRecord examRecord = examRecordRepository.findByExamAndMemberAndEditingTypeOrThrow(examId, type,
+			member.getMemberId());
+		return EditingResultDTO.of(type, examRecord.getExamResultStatus().getStatus(),
+			examRecord.getExamRecordResultFileName());
+	}
 }
