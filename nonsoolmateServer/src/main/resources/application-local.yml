@@ -55,7 +55,7 @@ aws-property:
   aws-region: ${DEV_AWS_REGION}
   s3-bucket-name: ${DEV_AWS_BUCKET_NAME}
   distribution-domain: ${DEV_AWS_DISTRIBUTION_DOMAIN}
-  private-key-file-path: ${DEV_AWS_PRIVATE_KEY_FILE_PATH}
+  private-key-file-path: ${LOCAL_AWS_PRIVATE_KEY_FILE_PATH}
   key-pair-id: ${DEV_AWS_KEY_PAIR_ID}
 
 jwt:
