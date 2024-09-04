@@ -163,7 +163,9 @@ public class ExamRecordService {
 	public EditingResultDTO getExamRecordEditingResult(final long examId, final EditingType type, final Member member) {
 		ExamRecord examRecord = examRecordRepository.findByExamAndMemberAndEditingTypeOrThrow(examId, type,
 			member.getMemberId());
-		return EditingResultDTO.of(type, examRecord.getExamResultStatus().getStatus(),
+		String examResultFileUrl = cloudFrontService.createPreSignedGetUrl(EXAM_RESULT_FOLDER_NAME,
 			examRecord.getExamRecordResultFileName());
+		return EditingResultDTO.of(type, examRecord.getExamResultStatus().getStatus(),
+			examResultFileUrl);
 	}
 }
