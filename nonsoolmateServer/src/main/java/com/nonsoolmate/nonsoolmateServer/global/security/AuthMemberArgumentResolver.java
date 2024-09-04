@@ -23,7 +23,8 @@ public class AuthMemberArgumentResolver implements HandlerMethodArgumentResolver
 		NativeWebRequest webRequest, WebDataBinderFactory binderFactory) {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-		if (authentication == null || !authentication.isAuthenticated()) {
+		boolean isNotAuthenticatedMember = authentication == null || !authentication.isAuthenticated();
+		if (isNotAuthenticatedMember) {
 			return null;
 		}
 		return String.valueOf(authentication.getPrincipal());
