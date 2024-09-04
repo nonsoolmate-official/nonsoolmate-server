@@ -13,8 +13,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import com.nonsoolmate.nonsoolmateServer.global.security.CustomAuthUser;
-
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.log4j.Log4j2;
 
@@ -28,19 +26,18 @@ public class ExecutionLoggingAop {
 		HttpServletRequest request = ((ServletRequestAttributes)RequestContextHolder.currentRequestAttributes()).getRequest();
 		RequestMethod httpMethod = RequestMethod.valueOf(request.getMethod());
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		String userId = null;
+		String memberId = null;
 
 		boolean isNonsoolmateUser = !authentication.getPrincipal().equals("anonymousUser");
 		if (isNonsoolmateUser) {
-			CustomAuthUser customAuthUser = (CustomAuthUser)authentication.getPrincipal();
-			userId = customAuthUser.getMember().getMemberId();
+			memberId = (String) authentication.getPrincipal();
 		}
 
 		String className = pjp.getSignature().getDeclaringType().getSimpleName();
 		String methodName = pjp.getSignature().getName();
 		String task = className + "." + methodName;
 
-		log.info("[Call Method] " + httpMethod.toString() + ": " + task + " | Request userId=" + userId);
+		log.info("[Call Method] " + httpMethod + ": " + task + " | Request memberId=" + memberId);
 
 		Object[] paramArgs = pjp.getArgs();
 		String loggingMessage = "";

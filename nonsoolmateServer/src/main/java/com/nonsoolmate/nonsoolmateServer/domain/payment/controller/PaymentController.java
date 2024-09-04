@@ -21,7 +21,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nonsoolmate.nonsoolmateServer.domain.member.entity.Member;
 import com.nonsoolmate.nonsoolmateServer.domain.member.service.MemberService;
 import com.nonsoolmate.nonsoolmateServer.domain.payment.controller.dto.response.CustomerInfoDTO;
-import com.nonsoolmate.nonsoolmateServer.global.security.AuthUser;
+import com.nonsoolmate.nonsoolmateServer.global.security.AuthMember;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -91,7 +91,7 @@ public class PaymentController implements PaymentApi {
 	}
 
 	@GetMapping("/customer/info")
-	public ResponseEntity<CustomerInfoDTO> getCustomerInfo(@AuthUser Member member) {
+	public ResponseEntity<CustomerInfoDTO> getCustomerInfo(@AuthMember Member member) {
 		return ResponseEntity.ok().body(memberService.getCustomerInfo(member));
 	}
 }

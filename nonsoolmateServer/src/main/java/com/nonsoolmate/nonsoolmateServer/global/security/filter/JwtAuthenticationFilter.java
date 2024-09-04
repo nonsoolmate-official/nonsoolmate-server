@@ -17,6 +17,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.nonsoolmate.nonsoolmateServer.domain.auth.exception.AuthException;
 import com.nonsoolmate.nonsoolmateServer.global.jwt.service.JwtService;
 import com.nonsoolmate.nonsoolmateServer.global.jwt.utils.RequestUtils;
+import com.nonsoolmate.nonsoolmateServer.global.security.MemberAuthentication;
 import com.nonsoolmate.nonsoolmateServer.global.security.service.MemberAuthService;
 
 import io.jsonwebtoken.ExpiredJwtException;
@@ -65,12 +66,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 			jwtService.validateToken(authorizationAccessToken);
 
 			String memberId = jwtService.extractMemberIdFromAccessToken(authorizationAccessToken);
-			UserDetails userDetails = memberAuthService.loadUserByUsername(memberId);
+			MemberAuthentication memberAuthentication = new MemberAuthentication(memberId, null, null);
 
-			Authentication authentication
-				= new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-			log.info("Authentication Principal : {}", authentication.getPrincipal().toString());
-			SecurityContextHolder.getContext().setAuthentication(authentication);
+			log.info("Authentication Principal : {}", memberAuthentication.getPrincipal());
+
+			SecurityContextHolder.getContext().setAuthentication(memberAuthentication);
 
 		} catch (JsonProcessingException | MalformedJwtException | SignatureException e) {
 			throw new AuthException(INVALID_ACCESS_TOKEN);

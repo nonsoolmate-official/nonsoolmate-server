@@ -18,7 +18,7 @@ import com.nonsoolmate.nonsoolmateServer.domain.selectCollege.controller.dto.res
 import com.nonsoolmate.nonsoolmateServer.domain.selectCollege.controller.dto.response.SelectCollegeUpdateResponseDTO;
 import com.nonsoolmate.nonsoolmateServer.domain.selectCollege.service.SelectCollegeService;
 import com.nonsoolmate.nonsoolmateServer.global.response.SuccessResponse;
-import com.nonsoolmate.nonsoolmateServer.global.security.AuthUser;
+import com.nonsoolmate.nonsoolmateServer.global.security.AuthMember;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -33,7 +33,7 @@ public class SelectCollegeController implements SelectCollegeApi {
 	@Override
 	@GetMapping
 	public ResponseEntity<SuccessResponse<List<SelectCollegeResponseDTO>>> getSelectColleges(
-		@AuthUser Member member) {
+		@AuthMember Member member) {
 
 		return ResponseEntity.ok().body(SuccessResponse.of(GET_SELECT_COLLEGES_SUCCESS,
 			selectCollegeService.getSelectColleges(member)));
@@ -42,7 +42,7 @@ public class SelectCollegeController implements SelectCollegeApi {
 	@Override
 	@GetMapping("/exam")
 	public ResponseEntity<SuccessResponse<List<SelectCollegeExamsResponseDTO>>> getSelectCollegeExams(
-		@AuthUser final Member member) {
+		@AuthMember final Member member) {
 		return ResponseEntity.ok().body(SuccessResponse.of(GET_SELECT_COLLEGE_EXAMS_SUCCESS,
 			selectCollegeService.getSelectCollegeExams(member)));
 	}
@@ -50,7 +50,7 @@ public class SelectCollegeController implements SelectCollegeApi {
 	@Override
 	@PatchMapping
 	public ResponseEntity<SuccessResponse<SelectCollegeUpdateResponseDTO>> patchSelectColleges(
-		@AuthUser Member member,
+		@AuthMember Member member,
 		@RequestBody @Valid final List<SelectUniversityRequestDTO> request) {
 
 		List<Long> selectedUniversityIds = request.stream()
