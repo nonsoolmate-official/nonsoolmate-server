@@ -13,7 +13,9 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 public class AuthMemberArgumentResolver implements HandlerMethodArgumentResolver {
 	@Override
 	public boolean supportsParameter(MethodParameter parameter) {
-		return parameter.getParameterAnnotation(AuthMember.class) != null && parameter.getParameterType().equals(String.class);
+		boolean hasAuthMemberAnnotation = parameter.getParameterAnnotation(AuthMember.class) != null;
+		boolean isMemberIdString = parameter.getParameterType().equals(String.class);
+		return  hasAuthMemberAnnotation && isMemberIdString;
 	}
 
 	@Override
