@@ -19,5 +19,5 @@ public interface PaymentApi {
 		}
 	)
 	@Operation(summary = "결제 페이지: customer 정보 조회", description = "결제 위젯 호출을 위해 customer의 customerKey, name, email을 조회합니다.")
-	ResponseEntity<CustomerInfoDTO> getCustomerInfo(@AuthMember Member member);
+	ResponseEntity<CustomerInfoDTO> getCustomerInfo(@AuthMember String memberId);
 }

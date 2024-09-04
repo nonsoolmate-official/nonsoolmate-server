@@ -22,9 +22,9 @@ public interface SelectCollegeRepository extends JpaRepository<SelectCollege, Lo
 	@Query("select sc from SelectCollege sc "
 		+ "join fetch sc.college c "
 		+ "join fetch c.university u "
-		+ "where sc.member =:member "
+		+ "where sc.member.memberId =:memberId "
 		+ "order by u.universityName asc, c.collegeName asc")
-	List<SelectCollege> findAllByMemberOrderByUniversityNameAscCollegeNameAsc(@Param("member") Member member);
+	List<SelectCollege> findAllByMemberOrderByUniversityNameAscCollegeNameAsc(@Param("memberId") String memberId);
 
 	Set<Long> findUniversityIdsByMember(Member member);
 }

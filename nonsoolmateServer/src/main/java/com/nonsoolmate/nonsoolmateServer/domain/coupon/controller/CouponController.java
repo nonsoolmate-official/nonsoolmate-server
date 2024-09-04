@@ -34,8 +34,8 @@ public class CouponController implements CouponApi {
 
 	@Override
 	@GetMapping
-	public ResponseEntity<GetCouponsResponseDTO> getCoupons(@AuthMember Member member) {
-		GetCouponsResponseDTO responseDTO = couponService.getCoupons(member);
+	public ResponseEntity<GetCouponsResponseDTO> getCoupons(@AuthMember String memberId) {
+		GetCouponsResponseDTO responseDTO = couponService.getCoupons(memberId);
 
 		return ResponseEntity.ok().body(responseDTO);
 	}
@@ -44,8 +44,8 @@ public class CouponController implements CouponApi {
 	@PostMapping
 	public ResponseEntity<Void> registerCoupon(
 		@RequestBody @Valid RegisterCouponRequestDTO requestDTO,
-		@AuthMember Member member) {
-		couponService.registerCoupon(requestDTO, member);
+		@AuthMember String memberId) {
+		couponService.registerCoupon(requestDTO, memberId);
 
 		return ResponseEntity.status(HttpStatus.CREATED).build();
 	}

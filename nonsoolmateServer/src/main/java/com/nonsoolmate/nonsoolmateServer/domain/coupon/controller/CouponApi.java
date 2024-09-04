@@ -23,9 +23,9 @@ public interface CouponApi {
 	ResponseEntity<Void> issueCoupon(@RequestBody @Valid IssueCouponRequestDTO requestDTO);
 
 	@Operation(summary = "쿠폰 목록 조회", description = "사용자가 가지고 있는 쿠폰 목록을 조회합니다.")
-	ResponseEntity<GetCouponsResponseDTO> getCoupons(@AuthMember Member member);
+	ResponseEntity<GetCouponsResponseDTO> getCoupons(@AuthMember String memberId);
 
 	@Operation(summary = "쿠폰 등록", description = "쿠폰을 등록합니다.")
 	ResponseEntity<Void> registerCoupon(@RequestBody @Valid RegisterCouponRequestDTO requestDTO,
-		@AuthMember Member member);
+		@AuthMember String memberId);
 }

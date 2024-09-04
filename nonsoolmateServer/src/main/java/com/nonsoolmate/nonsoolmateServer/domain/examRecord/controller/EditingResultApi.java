@@ -30,5 +30,5 @@ public interface EditingResultApi {
 	ResponseEntity<EditingResultDTO> getExamRecordResult(
 		@Parameter(description = "해당 단과 대학 시험 Id (examId)", required = true) @PathVariable("exam-id") final long examId,
 		@Parameter(description = "첨삭 유형: 첨삭(EDITING), 재첨삭(REVISION)", required = true) @RequestParam("type") final EditingType type,
-		@AuthMember final Member member);
+		@AuthMember final String memberId);
 }

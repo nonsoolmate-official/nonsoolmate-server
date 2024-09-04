@@ -6,10 +6,7 @@ import static com.nonsoolmate.nonsoolmateServer.global.security.config.SecurityC
 import java.io.IOException;
 import java.util.Arrays;
 
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -18,7 +15,6 @@ import com.nonsoolmate.nonsoolmateServer.domain.auth.exception.AuthException;
 import com.nonsoolmate.nonsoolmateServer.global.jwt.service.JwtService;
 import com.nonsoolmate.nonsoolmateServer.global.jwt.utils.RequestUtils;
 import com.nonsoolmate.nonsoolmateServer.global.security.MemberAuthentication;
-import com.nonsoolmate.nonsoolmateServer.global.security.service.MemberAuthService;
 
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
@@ -36,7 +32,6 @@ import lombok.extern.slf4j.Slf4j;
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
 	private final JwtService jwtService;
-	private final MemberAuthService memberAuthService;
 
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)

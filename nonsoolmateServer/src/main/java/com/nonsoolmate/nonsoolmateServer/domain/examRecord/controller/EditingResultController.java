@@ -23,7 +23,7 @@ public class EditingResultController implements EditingResultApi {
 
 	@GetMapping("/{exam-id}/exam-record/result")
 	public ResponseEntity<EditingResultDTO> getExamRecordResult(@PathVariable("exam-id") final long examId,
-		@RequestParam("type") final EditingType type, @AuthMember final Member member) {
-		return ResponseEntity.ok().body(examRecordService.getExamRecordEditingResult(examId, type, member));
+		@RequestParam("type") final EditingType type, @AuthMember final String memberId) {
+		return ResponseEntity.ok().body(examRecordService.getExamRecordEditingResult(examId, type, memberId));
 	}
 }

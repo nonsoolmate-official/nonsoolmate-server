@@ -52,15 +52,14 @@ public class CouponService {
 		couponRepository.save(coupon);
 	}
 
-	public GetCouponsResponseDTO getCoupons(Member member) {
-		List<GetCouponResponseDTO> responseDTOs = couponMemberRepository.findAllByMemberIdWithCoupon(
-			member.getMemberId());
+	public GetCouponsResponseDTO getCoupons(String memberId) {
+		List<GetCouponResponseDTO> responseDTOs = couponMemberRepository.findAllByMemberIdWithCoupon(memberId);
 
 		return GetCouponsResponseDTO.of(responseDTOs);
 	}
 
 	@Transactional
-	public void registerCoupon(RegisterCouponRequestDTO requestDTO, Member member) {
+	public void registerCoupon(RegisterCouponRequestDTO requestDTO, String memberId) {
 		Coupon coupon = couponRepository.findByCouponNumberOrThrow(requestDTO.couponNumber());
 
 		Optional<CouponMember> foundCouponMember = couponMemberRepository.findByCouponId(coupon.getCouponId());
@@ -69,14 +68,14 @@ public class CouponService {
 			throw new CouponException(INVALID_COUPON_REGISTER);
 		}
 
-		CouponMember couponMember = createCouponMember(member, coupon);
+		CouponMember couponMember = createCouponMember(memberId, coupon);
 		couponMemberRepository.save(couponMember);
 	}
 
-	private CouponMember createCouponMember(Member member, Coupon coupon) {
+	private CouponMember createCouponMember(String memberId, Coupon coupon) {
 		return CouponMember.builder()
 			.couponId(coupon.getCouponId())
-			.memberId(member.getMemberId())
+			.memberId(memberId)
 			.isUsed(false)
 			.build();
 	}

@@ -26,24 +26,24 @@ public class MyController implements MemberApi {
 
 	@Override
 	@GetMapping("/name")
-	public ResponseEntity<SuccessResponse<NameResponseDTO>> getName(@AuthMember final Member member) {
+	public ResponseEntity<SuccessResponse<NameResponseDTO>> getName(@AuthMember final String memberId) {
 		return ResponseEntity.ok()
 			.body(SuccessResponse.of(MemberSuccessType.GET_MEMBER_NAME_SUCCESS,
-				memberService.getNickname(member)));
+				memberService.getNickname(memberId)));
 	}
 
 	@Override
 	@GetMapping("/ticket")
-	public ResponseEntity<SuccessResponse<TicketResponseDTO>> getTicket(@AuthMember final Member member) {
+	public ResponseEntity<SuccessResponse<TicketResponseDTO>> getTicket(@AuthMember final String memberId) {
 		return ResponseEntity.ok()
 			.body(SuccessResponse.of(MemberSuccessType.GET_MEMBER_TICKET_SUCCESS,
-				memberService.getTicket(member)));
+				memberService.getTicket(memberId)));
 	}
 
 	@Override
 	@GetMapping("/profile")
-	public ResponseEntity<SuccessResponse<ProfileResponseDTO>> getProfile(@AuthMember final Member member) {
-		ProfileResponseDTO responseDTO = memberService.getProfile(member);
+	public ResponseEntity<SuccessResponse<ProfileResponseDTO>> getProfile(@AuthMember final String memberId) {
+		ProfileResponseDTO responseDTO = memberService.getProfile(memberId);
 
 		return ResponseEntity.ok().body(SuccessResponse.of(GET_MEMBER_PROFILE_SUCCESS, responseDTO));
 	}
