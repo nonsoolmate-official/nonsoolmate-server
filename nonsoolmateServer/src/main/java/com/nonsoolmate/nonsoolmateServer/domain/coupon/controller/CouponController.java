@@ -13,7 +13,7 @@ import com.nonsoolmate.nonsoolmateServer.domain.coupon.controller.dto.response.G
 import com.nonsoolmate.nonsoolmateServer.domain.coupon.service.CouponService;
 import com.nonsoolmate.nonsoolmateServer.domain.examRecord.controller.dto.request.RegisterCouponRequestDTO;
 import com.nonsoolmate.nonsoolmateServer.domain.member.entity.Member;
-import com.nonsoolmate.nonsoolmateServer.global.security.AuthUser;
+import com.nonsoolmate.nonsoolmateServer.global.security.AuthMember;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -34,7 +34,7 @@ public class CouponController implements CouponApi {
 
 	@Override
 	@GetMapping
-	public ResponseEntity<GetCouponsResponseDTO> getCoupons(@AuthUser Member member) {
+	public ResponseEntity<GetCouponsResponseDTO> getCoupons(@AuthMember Member member) {
 		GetCouponsResponseDTO responseDTO = couponService.getCoupons(member);
 
 		return ResponseEntity.ok().body(responseDTO);
@@ -44,7 +44,7 @@ public class CouponController implements CouponApi {
 	@PostMapping
 	public ResponseEntity<Void> registerCoupon(
 		@RequestBody @Valid RegisterCouponRequestDTO requestDTO,
-		@AuthUser Member member) {
+		@AuthMember Member member) {
 		couponService.registerCoupon(requestDTO, member);
 
 		return ResponseEntity.status(HttpStatus.CREATED).build();

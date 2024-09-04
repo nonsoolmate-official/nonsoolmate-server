@@ -23,7 +23,7 @@ import com.nonsoolmate.nonsoolmateServer.domain.examRecord.service.ExamRecordShe
 import com.nonsoolmate.nonsoolmateServer.domain.member.entity.Member;
 import com.nonsoolmate.nonsoolmateServer.external.aws.service.vo.PreSignedUrlVO;
 import com.nonsoolmate.nonsoolmateServer.global.response.SuccessResponse;
-import com.nonsoolmate.nonsoolmateServer.global.security.AuthUser;
+import com.nonsoolmate.nonsoolmateServer.global.security.AuthMember;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -39,7 +39,7 @@ public class ExamRecordController implements ExamRecordApi {
 	@Override
 	@GetMapping("/{id}")
 	public ResponseEntity<SuccessResponse<ExamRecordResponseDTO>> getExamRecord(
-		@PathVariable("id") Long examId, @AuthUser Member member) {
+		@PathVariable("id") Long examId, @AuthMember Member member) {
 		return ResponseEntity.ok().body(SuccessResponse.of(GET_EXAM_RECORD_SUCCESS,
 			examRecordService.getExamRecord(examId, member)));
 	}
@@ -47,7 +47,7 @@ public class ExamRecordController implements ExamRecordApi {
 	@Override
 	@GetMapping("/result/{id}")
 	public ResponseEntity<SuccessResponse<ExamRecordResultResponseDTO>> getExamRecordResult(
-		@PathVariable("id") Long examId, @AuthUser Member member) {
+		@PathVariable("id") Long examId, @AuthMember Member member) {
 		return ResponseEntity.ok().body(SuccessResponse.of(GET_EXAM_RECORD_RESULT_SUCCESS,
 			examRecordService.getExamRecordResult(examId, member)));
 	}
@@ -66,7 +66,7 @@ public class ExamRecordController implements ExamRecordApi {
 	@PostMapping("/sheet")
 	public ResponseEntity<SuccessResponse<ExamRecordIdResponse>> createExamRecord(
 		@Valid @RequestBody final CreateExamRecordRequestDTO request,
-		@AuthUser final Member member) {
+		@AuthMember final Member member) {
 		ExamRecordIdResponse response = null;
 
 		if (request.editingType() == EditingType.REVISION) {

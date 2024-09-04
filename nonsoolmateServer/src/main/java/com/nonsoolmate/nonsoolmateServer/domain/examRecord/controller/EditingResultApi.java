@@ -8,7 +8,7 @@ import com.nonsoolmate.nonsoolmateServer.domain.examRecord.controller.dto.respon
 import com.nonsoolmate.nonsoolmateServer.domain.examRecord.entity.enums.EditingType;
 import com.nonsoolmate.nonsoolmateServer.domain.member.entity.Member;
 import com.nonsoolmate.nonsoolmateServer.global.response.ErrorResponse;
-import com.nonsoolmate.nonsoolmateServer.global.security.AuthUser;
+import com.nonsoolmate.nonsoolmateServer.global.security.AuthMember;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -30,5 +30,5 @@ public interface EditingResultApi {
 	ResponseEntity<EditingResultDTO> getExamRecordResult(
 		@Parameter(description = "해당 단과 대학 시험 Id (examId)", required = true) @PathVariable("exam-id") final long examId,
 		@Parameter(description = "첨삭 유형: 첨삭(EDITING), 재첨삭(REVISION)", required = true) @RequestParam("type") final EditingType type,
-		@AuthUser final Member member);
+		@AuthMember final Member member);
 }

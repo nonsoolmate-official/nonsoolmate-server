@@ -14,7 +14,7 @@ import com.nonsoolmate.nonsoolmateServer.domain.member.entity.Member;
 import com.nonsoolmate.nonsoolmateServer.domain.member.exception.MemberSuccessType;
 import com.nonsoolmate.nonsoolmateServer.domain.member.service.MemberService;
 import com.nonsoolmate.nonsoolmateServer.global.response.SuccessResponse;
-import com.nonsoolmate.nonsoolmateServer.global.security.AuthUser;
+import com.nonsoolmate.nonsoolmateServer.global.security.AuthMember;
 
 import lombok.RequiredArgsConstructor;
 
@@ -26,7 +26,7 @@ public class MyController implements MemberApi {
 
 	@Override
 	@GetMapping("/name")
-	public ResponseEntity<SuccessResponse<NameResponseDTO>> getName(@AuthUser final Member member) {
+	public ResponseEntity<SuccessResponse<NameResponseDTO>> getName(@AuthMember final Member member) {
 		return ResponseEntity.ok()
 			.body(SuccessResponse.of(MemberSuccessType.GET_MEMBER_NAME_SUCCESS,
 				memberService.getNickname(member)));
@@ -34,7 +34,7 @@ public class MyController implements MemberApi {
 
 	@Override
 	@GetMapping("/ticket")
-	public ResponseEntity<SuccessResponse<TicketResponseDTO>> getTicket(@AuthUser final Member member) {
+	public ResponseEntity<SuccessResponse<TicketResponseDTO>> getTicket(@AuthMember final Member member) {
 		return ResponseEntity.ok()
 			.body(SuccessResponse.of(MemberSuccessType.GET_MEMBER_TICKET_SUCCESS,
 				memberService.getTicket(member)));
@@ -42,7 +42,7 @@ public class MyController implements MemberApi {
 
 	@Override
 	@GetMapping("/profile")
-	public ResponseEntity<SuccessResponse<ProfileResponseDTO>> getProfile(@AuthUser final Member member) {
+	public ResponseEntity<SuccessResponse<ProfileResponseDTO>> getProfile(@AuthMember final Member member) {
 		ProfileResponseDTO responseDTO = memberService.getProfile(member);
 
 		return ResponseEntity.ok().body(SuccessResponse.of(GET_MEMBER_PROFILE_SUCCESS, responseDTO));
