@@ -33,24 +33,24 @@ public class SelectCollegeController implements SelectCollegeApi {
 	@Override
 	@GetMapping
 	public ResponseEntity<SuccessResponse<List<SelectCollegeResponseDTO>>> getSelectColleges(
-		@AuthMember Member member) {
+		@AuthMember String memberId) {
 
 		return ResponseEntity.ok().body(SuccessResponse.of(GET_SELECT_COLLEGES_SUCCESS,
-			selectCollegeService.getSelectColleges(member)));
+			selectCollegeService.getSelectColleges(memberId)));
 	}
 
 	@Override
 	@GetMapping("/exam")
 	public ResponseEntity<SuccessResponse<List<SelectCollegeExamsResponseDTO>>> getSelectCollegeExams(
-		@AuthMember final Member member) {
+		@AuthMember final String memberId) {
 		return ResponseEntity.ok().body(SuccessResponse.of(GET_SELECT_COLLEGE_EXAMS_SUCCESS,
-			selectCollegeService.getSelectCollegeExams(member)));
+			selectCollegeService.getSelectCollegeExams(memberId)));
 	}
 
 	@Override
 	@PatchMapping
 	public ResponseEntity<SuccessResponse<SelectCollegeUpdateResponseDTO>> patchSelectColleges(
-		@AuthMember Member member,
+		@AuthMember String memberId,
 		@RequestBody @Valid final List<SelectUniversityRequestDTO> request) {
 
 		List<Long> selectedUniversityIds = request.stream()
@@ -58,6 +58,6 @@ public class SelectCollegeController implements SelectCollegeApi {
 			.toList();
 
 		return ResponseEntity.ok().body(SuccessResponse.of(PATCH_SELECT_COLLEGES_SUCCESS,
-			selectCollegeService.patchSelectColleges(member, selectedUniversityIds)));
+			selectCollegeService.patchSelectColleges(memberId, selectedUniversityIds)));
 	}
 }

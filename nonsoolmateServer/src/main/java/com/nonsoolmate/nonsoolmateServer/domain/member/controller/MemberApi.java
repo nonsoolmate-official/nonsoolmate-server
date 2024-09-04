@@ -23,7 +23,7 @@ public interface MemberApi {
 	)
 	@Operation(summary = "마이페이지: 이름", description = "내 이름을 조회합니다.")
 	ResponseEntity<SuccessResponse<NameResponseDTO>> getName(
-		@AuthMember Member member);
+		@AuthMember String memberId);
 
 	@ApiResponses(
 		value = {
@@ -31,7 +31,7 @@ public interface MemberApi {
 		}
 	)
 	@Operation(summary = "내 정보 확인: 첨삭권 개수", description = "내 첨삭권 갯수를 조회합니다.")
-	ResponseEntity<SuccessResponse<TicketResponseDTO>> getTicket(@AuthMember Member member);
+	ResponseEntity<SuccessResponse<TicketResponseDTO>> getTicket(@AuthMember String memberId);
 
 	@ApiResponses(
 		value = {
@@ -39,5 +39,5 @@ public interface MemberApi {
 		}
 	)
 	@Operation(summary = "내 프로필 조회", description = "내 프로필을 조회합니다.")
-	ResponseEntity<SuccessResponse<ProfileResponseDTO>> getProfile(@AuthMember Member member);
+	ResponseEntity<SuccessResponse<ProfileResponseDTO>> getProfile(@AuthMember String memberId);
 }

@@ -21,6 +21,7 @@ import com.nonsoolmate.nonsoolmateServer.domain.examRecord.exception.ExamRecordE
 import com.nonsoolmate.nonsoolmateServer.domain.examRecord.repository.ExamRecordRepository;
 import com.nonsoolmate.nonsoolmateServer.domain.member.entity.Member;
 import com.nonsoolmate.nonsoolmateServer.domain.member.exception.MemberException;
+import com.nonsoolmate.nonsoolmateServer.domain.member.repository.MemberRepository;
 import com.nonsoolmate.nonsoolmateServer.domain.university.entity.Exam;
 import com.nonsoolmate.nonsoolmateServer.domain.university.exception.ExamException;
 import com.nonsoolmate.nonsoolmateServer.domain.university.repository.ExamRepository;
@@ -38,11 +39,13 @@ import lombok.extern.slf4j.Slf4j;
 public class ExamRecordService {
 	private final ExamRecordRepository examRecordRepository;
 	private final ExamRepository examRepository;
+	private final MemberRepository memberRepository;
+
 	private final CloudFrontService cloudFrontService;
 	private final S3Service s3Service;
 
-	public ExamRecordResponseDTO getExamRecord(Long examId, Member member) {
-
+	public ExamRecordResponseDTO getExamRecord(Long examId, String memberId) {
+		Member member = memberRepository.findByMemberIdOrThrow(memberId);
 		Exam exam = getExam(examId);
 		List<ExamRecord> examRecord = getExamByExamAndMember(exam, member);
 
@@ -56,7 +59,8 @@ public class ExamRecordService {
 		return ExamRecordResponseDTO.of(exam.getExamFullName(), answerUrl, resultUrl);
 	}
 
-	public ExamRecordResultResponseDTO getExamRecordResult(Long examId, Member member) {
+	public ExamRecordResultResponseDTO getExamRecordResult(Long examId, String memberId) {
+		Member member = memberRepository.findByMemberIdOrThrow(memberId);
 
 		Exam exam = getExam(examId);
 		ExamRecord examRecord = getExamByExamAndMember(exam, member).get(0);
@@ -77,7 +81,10 @@ public class ExamRecordService {
 
 	@Transactional
 	public ExamRecordIdResponse createEditingExamRecord(
-		final CreateExamRecordRequestDTO request, final Member member) {
+		final CreateExamRecordRequestDTO request, final String memberId) {
+
+		Member member = memberRepository.findByMemberIdOrThrow(memberId);
+
 		final Exam exam = getExam(request.examId());
 		validateExam(exam, member, EditingType.EDITING);
 
@@ -94,8 +101,11 @@ public class ExamRecordService {
 	}
 
 	@Transactional
-	public ExamRecordIdResponse createRevisionExamRecord(
-		final CreateExamRecordRequestDTO request, final Member member) {
+	public ExamRecordIdResponse createRevisionExamRecord(final CreateExamRecordRequestDTO request,
+		final String memberId) {
+
+		Member member = memberRepository.findByMemberIdOrThrow(memberId);
+
 		final Exam exam = getExam(request.examId());
 
 		validateExistEditingExamRecord(exam, member);
@@ -160,9 +170,9 @@ public class ExamRecordService {
 		return examRecordRepository.findByExamAndMember(exam, member);
 	}
 
-	public EditingResultDTO getExamRecordEditingResult(final long examId, final EditingType type, final Member member) {
-		ExamRecord examRecord = examRecordRepository.findByExamAndMemberAndEditingTypeOrThrow(examId, type,
-			member.getMemberId());
+	public EditingResultDTO getExamRecordEditingResult(final long examId, final EditingType type,
+		final String memberId) {
+		ExamRecord examRecord = examRecordRepository.findByExamAndMemberAndEditingTypeOrThrow(examId, type, memberId);
 		String examResultFileUrl = cloudFrontService.createPreSignedGetUrl(EXAM_RESULT_FOLDER_NAME,
 			examRecord.getExamRecordResultFileName());
 		return EditingResultDTO.of(type, examRecord.getExamResultStatus().getStatus(),

@@ -39,17 +39,17 @@ public class ExamRecordController implements ExamRecordApi {
 	@Override
 	@GetMapping("/{id}")
 	public ResponseEntity<SuccessResponse<ExamRecordResponseDTO>> getExamRecord(
-		@PathVariable("id") Long examId, @AuthMember Member member) {
+		@PathVariable("id") Long examId, @AuthMember String memberId) {
 		return ResponseEntity.ok().body(SuccessResponse.of(GET_EXAM_RECORD_SUCCESS,
-			examRecordService.getExamRecord(examId, member)));
+			examRecordService.getExamRecord(examId, memberId)));
 	}
 
 	@Override
 	@GetMapping("/result/{id}")
 	public ResponseEntity<SuccessResponse<ExamRecordResultResponseDTO>> getExamRecordResult(
-		@PathVariable("id") Long examId, @AuthMember Member member) {
+		@PathVariable("id") Long examId, @AuthMember String memberId) {
 		return ResponseEntity.ok().body(SuccessResponse.of(GET_EXAM_RECORD_RESULT_SUCCESS,
-			examRecordService.getExamRecordResult(examId, member)));
+			examRecordService.getExamRecordResult(examId, memberId)));
 	}
 
 	@Override
@@ -66,13 +66,13 @@ public class ExamRecordController implements ExamRecordApi {
 	@PostMapping("/sheet")
 	public ResponseEntity<SuccessResponse<ExamRecordIdResponse>> createExamRecord(
 		@Valid @RequestBody final CreateExamRecordRequestDTO request,
-		@AuthMember final Member member) {
+		@AuthMember final String memberId) {
 		ExamRecordIdResponse response = null;
 
 		if (request.editingType() == EditingType.REVISION) {
-			response = examRecordService.createRevisionExamRecord(request, member);
+			response = examRecordService.createRevisionExamRecord(request, memberId);
 		} else if (request.editingType() == EditingType.EDITING) {
-			response = examRecordService.createEditingExamRecord(request, member);
+			response = examRecordService.createEditingExamRecord(request, memberId);
 		}
 
 		return ResponseEntity.status(HttpStatus.CREATED).body(SuccessResponse.of(

@@ -36,7 +36,7 @@ public interface ExamRecordApi {
 	@Operation(summary = "첨삭: 첨삭 PDF_해제PDF", description = "첨삭 pdf 및 해제 pdf를 조회합니다.")
 	ResponseEntity<SuccessResponse<ExamRecordResponseDTO>> getExamRecord(
 		@Parameter(description = "해당 단과 대학 시험 Id (examId)", required = true) @PathVariable("id") Long examId,
-		@AuthMember Member member);
+		@AuthMember String memberId);
 
 	@ApiResponses(
 		value = {
@@ -48,7 +48,7 @@ public interface ExamRecordApi {
 	@Operation(summary = "첨삭: 첨삭 PDF 저장", description = "첨삭 pdf를 조회합니다.")
 	ResponseEntity<SuccessResponse<ExamRecordResultResponseDTO>> getExamRecordResult(
 		@Parameter(description = "해당 단과 대학 시험 Id (examId)", required = true) @PathVariable("id") Long examId,
-		@AuthMember Member member);
+		@AuthMember String memberId);
 
 	@ApiResponses(
 		value = {
@@ -68,5 +68,5 @@ public interface ExamRecordApi {
 	@Operation(summary = "시험보기: [3] 답안지 업로드 후 시험 기록 API", description = "답안지(시험응시기록) 업로드 후 서버에 기록하기 위해 호출합니다.")
 	ResponseEntity<SuccessResponse<ExamRecordIdResponse>> createExamRecord(
 		@Valid @RequestBody CreateExamRecordRequestDTO createExamRecordRequestDTO,
-		@AuthMember Member member);
+		@AuthMember String memberId);
 }

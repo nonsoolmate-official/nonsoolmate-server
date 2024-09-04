@@ -91,7 +91,7 @@ public class PaymentController implements PaymentApi {
 	}
 
 	@GetMapping("/customer/info")
-	public ResponseEntity<CustomerInfoDTO> getCustomerInfo(@AuthMember Member member) {
-		return ResponseEntity.ok().body(memberService.getCustomerInfo(member));
+	public ResponseEntity<CustomerInfoDTO> getCustomerInfo(@AuthMember String memberId) {
+		return ResponseEntity.ok().body(memberService.getCustomerInfo(memberId));
 	}
 }

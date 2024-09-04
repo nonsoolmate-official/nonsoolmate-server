@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.nonsoolmate.nonsoolmateServer.domain.examRecord.entity.ExamRecordGroups;
 import com.nonsoolmate.nonsoolmateServer.domain.examRecord.repository.ExamRecordRepository;
 import com.nonsoolmate.nonsoolmateServer.domain.member.entity.Member;
+import com.nonsoolmate.nonsoolmateServer.domain.member.repository.MemberRepository;
 import com.nonsoolmate.nonsoolmateServer.domain.selectCollege.controller.dto.response.SelectCollegeExamResponseDTO;
 import com.nonsoolmate.nonsoolmateServer.domain.selectCollege.controller.dto.response.SelectCollegeExamsResponseDTO;
 import com.nonsoolmate.nonsoolmateServer.domain.selectCollege.controller.dto.response.SelectCollegeResponseDTO;
@@ -32,8 +33,11 @@ public class SelectCollegeService {
 	private final ExamRecordRepository examRecordRepository;
 	private final SelectCollegeRepository selectCollegeRepository;
 	private final CollegeRepository collegeRepository;
+	private final MemberRepository memberRepository;
 
-	public List<SelectCollegeResponseDTO> getSelectColleges(Member member) {
+	public List<SelectCollegeResponseDTO> getSelectColleges(final String memberId) {
+		Member member = memberRepository.findByMemberIdOrThrow(memberId);
+
 		List<College> colleges = collegeRepository.findAllOrderByUniversityNameAscCollegeNameAsc();
 
 		Set<Long> selectedUniversityIds = selectCollegeRepository.findUniversityIdsByMember(member);
@@ -48,16 +52,16 @@ public class SelectCollegeService {
 			.toList();
 	}
 
-	public List<SelectCollegeExamsResponseDTO> getSelectCollegeExams(final Member member) {
+	public List<SelectCollegeExamsResponseDTO> getSelectCollegeExams(final String memberId) {
 		final List<SelectCollege> sortedSelectColleges = selectCollegeRepository.findAllByMemberOrderByUniversityNameAscCollegeNameAsc(
-			member);
+			memberId);
 		final List<Long> sortedSelectCollegeIds = getSortedSelectCollegeIds(sortedSelectColleges);
 
 		final List<Exam> exams = examRepository.findAllByCollegeIdInOrderByExamYearDesc(sortedSelectCollegeIds);
 		final List<Long> examIds = exams.stream().map(Exam::getExamId).toList();
 
 		ExamRecordGroups examRecordGroups = new ExamRecordGroups(
-			examRecordRepository.findAllByExamIdInAndMemberId(examIds, member.getMemberId()));
+			examRecordRepository.findAllByExamIdInAndMemberId(examIds, memberId));
 
 		final Map<Long, List<SelectCollegeExamResponseDTO>> examResponseMap = getSelectCollegeExamResponseMap(exams,
 			examRecordGroups);
@@ -74,8 +78,8 @@ public class SelectCollegeService {
 	/**
 	 * @note: key = collegeId
 	 * */
-	private Map<Long, List<SelectCollegeExamResponseDTO>> getSelectCollegeExamResponseMap(List<Exam> exams,
-		ExamRecordGroups examRecordGroups) {
+	private Map<Long, List<SelectCollegeExamResponseDTO>> getSelectCollegeExamResponseMap(final List<Exam> exams,
+		final ExamRecordGroups examRecordGroups) {
 		return exams.stream()
 			.collect(
 				Collectors.groupingBy(exam -> exam.getCollege().getCollegeId(),
@@ -96,10 +100,11 @@ public class SelectCollegeService {
 
 	@Transactional
 	public SelectCollegeUpdateResponseDTO patchSelectColleges(
-		Member member,
+		final String memberId,
 		List<Long> selectedCollegeIds) {
+		Member member = memberRepository.findByMemberIdOrThrow(memberId);
 
-		selectCollegeRepository.deleteAllByMemberId(member.getMemberId());
+		selectCollegeRepository.deleteAllByMemberId(memberId);
 
 		List<College> colleges = collegeRepository.findAllByCollegeIdIn(selectedCollegeIds);
 		List<SelectCollege> selectColleges = colleges.stream()
