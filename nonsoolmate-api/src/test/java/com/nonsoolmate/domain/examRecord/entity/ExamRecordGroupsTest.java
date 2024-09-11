@@ -6,14 +6,16 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import com.nonsoolmate.domain.examRecord.entity.enums.EditingType;
-import com.nonsoolmate.domain.examRecord.entity.enums.ExamResultStatus;
-import com.nonsoolmate.domain.member.entity.Member;
-import com.nonsoolmate.domain.member.entity.enums.PlatformType;
-import com.nonsoolmate.domain.member.entity.enums.Role;
-import com.nonsoolmate.domain.university.entity.College;
-import com.nonsoolmate.domain.university.entity.Exam;
-import com.nonsoolmate.domain.university.entity.University;
+import com.nonsoolmate.examRecord.entity.ExamRecord;
+import com.nonsoolmate.examRecord.entity.ExamRecordGroups;
+import com.nonsoolmate.examRecord.entity.enums.EditingType;
+import com.nonsoolmate.examRecord.entity.enums.ExamResultStatus;
+import com.nonsoolmate.member.entity.Member;
+import com.nonsoolmate.member.entity.enums.PlatformType;
+import com.nonsoolmate.member.entity.enums.Role;
+import com.nonsoolmate.university.entity.College;
+import com.nonsoolmate.university.entity.Exam;
+import com.nonsoolmate.university.entity.University;
 
 class ExamRecordGroupsTest {
 
