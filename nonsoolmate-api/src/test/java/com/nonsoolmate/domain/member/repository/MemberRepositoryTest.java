@@ -19,10 +19,11 @@ import org.springframework.context.annotation.Import;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.context.ActiveProfiles;
 
-import com.nonsoolmate.domain.member.entity.Member;
-import com.nonsoolmate.domain.member.entity.enums.PlatformType;
-import com.nonsoolmate.domain.member.entity.enums.Role;
-import com.nonsoolmate.global.querydsl.config.QuerydslConfig;
+import com.nonsoolmate.global.config.QuerydslConfig;
+import com.nonsoolmate.member.entity.Member;
+import com.nonsoolmate.member.entity.enums.PlatformType;
+import com.nonsoolmate.member.entity.enums.Role;
+import com.nonsoolmate.member.repository.MemberRepository;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
