@@ -1,14 +1,14 @@
-package com.nonsoolmate.auth;
+package com.nonsoolmate.auth.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.nonsoolmate.auth.NaverAuthProvider;
 import com.nonsoolmate.auth.controller.dto.request.MemberRequestDTO;
-import com.nonsoolmate.auth.service.AuthService;
+import com.nonsoolmate.auth.enums.AuthType;
 import com.nonsoolmate.auth.service.vo.MemberSignUpVO;
 import com.nonsoolmate.auth.vo.NaverMemberVO;
-import com.nonsoolmate.auth.vo.enums.AuthType;
 import com.nonsoolmate.member.entity.Member;
 import com.nonsoolmate.member.entity.enums.PlatformType;
 import com.nonsoolmate.member.repository.MemberRepository;
