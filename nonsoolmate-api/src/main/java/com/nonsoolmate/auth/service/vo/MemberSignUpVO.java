@@ -1,10 +1,9 @@
 package com.nonsoolmate.auth.service.vo;
 
-
+import com.nonsoolmate.auth.enums.AuthType;
 import com.nonsoolmate.member.entity.Member;
 import com.nonsoolmate.member.entity.enums.PlatformType;
 import com.nonsoolmate.member.entity.enums.Role;
-import com.nonsoolmate.auth.vo.enums.AuthType;
 
 import lombok.Builder;
 
