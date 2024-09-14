@@ -1,4 +1,4 @@
-package com.nonsoolmate.global.filter.discord;
+package com.nonsoolmate.discord;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.web.util.WebUtils;
 
+import com.nonsoolmate.discord.util.HttpRequestUtil;
 import com.nonsoolmate.discord.util.MDCUtil;
 
 import jakarta.servlet.FilterChain;

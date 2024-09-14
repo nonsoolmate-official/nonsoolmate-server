@@ -1,4 +1,4 @@
-package com.nonsoolmate.global.filter.discord;
+package com.nonsoolmate.discord.util;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -6,6 +6,8 @@ import java.util.Objects;
 
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.WebUtils;
+
+import com.nonsoolmate.discord.CachedBodyRequestWrapper;
 
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
