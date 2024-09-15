@@ -12,7 +12,7 @@ repositories {
 }
 
 dependencies {
-    implementation project(":nonsoolmate-domain")
+    implementation project(":nonsoolmate-db-core")
     implementation project(":nonsoolmate-external")
     implementation project(":nonsoolmate-common")
 
