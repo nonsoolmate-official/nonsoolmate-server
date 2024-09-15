@@ -31,4 +31,5 @@ jobs:
           ls
           chmod +x gradlew
           ./gradlew build
+        working-directory: ./nonsoolmate-server
         shell: bash
