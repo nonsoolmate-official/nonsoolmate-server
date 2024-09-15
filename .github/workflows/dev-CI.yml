@@ -28,8 +28,6 @@ jobs:
 
       - name: build
         run: |
-          ls
-          pwd
           chmod +x gradlew
           ./gradlew build
         shell: bash
