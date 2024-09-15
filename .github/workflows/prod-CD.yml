@@ -7,8 +7,6 @@ on:
 jobs:
   prod-ci:
     runs-on: ubuntu-22.04
-    env:
-      working-directory: nonsoolmate-api
 
     steps:
       - name: 체크아웃
@@ -27,8 +25,6 @@ jobs:
           mkdir -p nonsoolmate-api/src/main/resources/key
           echo "${{ secrets.CLOUDFRONT_PRIVATE_KEY }}" > nonsoolmate-api/src/main/resources/key/cloudfront-private-key.pem
 
-        working-directory: ${{ env.working-directory }}
-
       - name: 빌드
         run: |
           chmod +x gradlew
@@ -46,6 +42,7 @@ jobs:
 
       - name: docker image 빌드 및 푸시
         run: |
+          cd nonsoolmate-api
           docker build --platform linux/amd64 -t nonsoolmate/nonsoolmate-prod-server --build-arg SPRING_PROFILES_ACTIVE=prod .
           docker push nonsoolmate/nonsoolmate-prod-server
         working-directory: ${{ env.working-directory }}
