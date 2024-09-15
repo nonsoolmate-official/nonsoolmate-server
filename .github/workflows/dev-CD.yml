@@ -33,7 +33,6 @@ jobs:
         run: |
           chmod +x gradlew
           ./gradlew build
-        working-directory: ${{ env.working-directory }}
         shell: bash
 
       - name: docker build 가능하도록 환경 설정
