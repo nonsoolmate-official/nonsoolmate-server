@@ -1,6 +1,6 @@
 rootProject.name = 'nonsoolmate'
 
 include 'nonsoolmate-api'
-include 'nonsoolmate-domain'
 include 'nonsoolmate-common'
+include 'nonsoolmate-db-core'
 include 'nonsoolmate-external'

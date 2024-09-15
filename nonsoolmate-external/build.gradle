@@ -1,5 +1,5 @@
 dependencies {
-    implementation project(":nonsoolmate-domain")
+    implementation project(":nonsoolmate-db-core")
     implementation project(":nonsoolmate-common")
 
     // discord
