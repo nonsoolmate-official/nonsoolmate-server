@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.nonsoolmate.auth.controller.dto.request.MemberRequestDTO;
 import com.nonsoolmate.auth.controller.dto.response.MemberAuthResponseDTO;
 import com.nonsoolmate.auth.controller.dto.response.MemberReissueResponseDTO;
-import com.nonsoolmate.auth.enums.AuthType;
+import com.nonsoolmate.auth.controller.enums.AuthType;
 import com.nonsoolmate.auth.service.AuthServiceProvider;
 import com.nonsoolmate.auth.service.vo.MemberSignUpVO;
 import com.nonsoolmate.exception.auth.AuthSuccessType;
