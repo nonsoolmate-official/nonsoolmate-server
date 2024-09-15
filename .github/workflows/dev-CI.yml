@@ -28,7 +28,6 @@ jobs:
 
       - name: build
         run: |
-          cd ..
           ls
           pwd
           chmod +x gradlew
