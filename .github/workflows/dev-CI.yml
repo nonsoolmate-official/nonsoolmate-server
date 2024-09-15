@@ -24,9 +24,11 @@ jobs:
           echo "${{ secrets.SECRET_PROPERTIES }}" > nonsoolmate-api/src/main/resources/application-secret.properties
           mkdir -p nonsoolmate-api/src/main/resources/key
           echo "${{ secrets.CLOUDFRONT_PRIVATE_KEY }}" > nonsoolmate-api/src/main/resources/key/cloudfront-private-key.pem
+        working-directory: ./nonsoolmate-server
 
       - name: build
         run: |
           chmod +x gradlew
           ./gradlew build
+        working-directory: ./nonsoolmate-server
         shell: bash
