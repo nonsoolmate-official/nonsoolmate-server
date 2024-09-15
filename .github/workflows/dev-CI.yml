@@ -32,6 +32,5 @@ jobs:
         run: |
           chmod +x gradlew
           ./gradlew build
-        working-directory: ${{ env.working-directory }}
         shell: bash
 
