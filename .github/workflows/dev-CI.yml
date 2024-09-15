@@ -30,6 +30,7 @@ jobs:
         run: |
           cd ..
           ls
+          pwd
           chmod +x gradlew
           ./gradlew build
         shell: bash
