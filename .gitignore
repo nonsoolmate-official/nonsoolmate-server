@@ -43,4 +43,4 @@ out/
 *.yaml
 *.sql
 *.pem
-*.properties
+application-secret.properties
