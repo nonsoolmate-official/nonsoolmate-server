@@ -6,7 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.nonsoolmate.auth.NaverAuthProvider;
 import com.nonsoolmate.auth.controller.dto.request.MemberRequestDTO;
-import com.nonsoolmate.auth.enums.AuthType;
+import com.nonsoolmate.auth.controller.enums.AuthType;
 import com.nonsoolmate.auth.service.vo.MemberSignUpVO;
 import com.nonsoolmate.auth.vo.NaverMemberVO;
 import com.nonsoolmate.member.entity.Member;

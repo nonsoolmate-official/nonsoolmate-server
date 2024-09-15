@@ -5,8 +5,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
-import com.nonsoolmate.global.filter.discord.MDCFilter;
-import com.nonsoolmate.global.filter.discord.ServletWrappingFilter;
+import com.nonsoolmate.discord.filter.MDCFilter;
+import com.nonsoolmate.discord.filter.ServletWrappingFilter;
 
 @Profile("!local")
 @Configuration
