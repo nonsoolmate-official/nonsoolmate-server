@@ -1,5 +1,13 @@
 package com.nonsoolmate.member.entity;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
+import jakarta.validation.constraints.NotNull;
+
 import org.hibernate.validator.constraints.Length;
 
 import com.nonsoolmate.exception.member.MemberException;
@@ -8,13 +16,6 @@ import com.nonsoolmate.member.entity.enums.PlatformType;
 import com.nonsoolmate.member.entity.enums.Role;
 
 import io.hypersistence.utils.hibernate.id.Tsid;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import jakarta.persistence.UniqueConstraint;
-import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -22,29 +23,25 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Table(
-	uniqueConstraints = {
-		@UniqueConstraint(name = "UK_PLATFORM_TYPE_PLATFORM_ID", columnNames = {"platformType", "platformId"})
-	}
-)
+		uniqueConstraints = {
+			@UniqueConstraint(
+					name = "UK_PLATFORM_TYPE_PLATFORM_ID",
+					columnNames = {"platformType", "platformId"})
+		})
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Member {
-	@Id
-	@Tsid
-	private String memberId;
+	@Id @Tsid private String memberId;
 
-	@NotNull
-	private String email;
+	@NotNull private String email;
 
-	@NotNull
-	private String name;
+	@NotNull private String name;
 
 	@Enumerated(EnumType.STRING)
 	@NotNull
 	private PlatformType platformType;
 
-	@NotNull
-	private String platformId;
+	@NotNull private String platformId;
 
 	@Enumerated(EnumType.STRING)
 	@NotNull
@@ -65,11 +62,15 @@ public class Member {
 	private int reReviewTicketCount;
 
 	@Builder
-	public Member(final String email, final String name, final PlatformType platformType,
-		final String platformId,
-		final Role role,
-		final String birthYear,
-		final String gender, final String phoneNumber) {
+	public Member(
+			final String email,
+			final String name,
+			final PlatformType platformType,
+			final String platformId,
+			final Role role,
+			final String birthYear,
+			final String gender,
+			final String phoneNumber) {
 		this.email = email;
 		this.name = name;
 		this.platformType = platformType;

@@ -18,7 +18,6 @@ public interface MemberRepository extends JpaRepository<Member, String> {
 	Optional<Member> findByMemberId(String memberId);
 
 	default Member findByMemberIdOrThrow(String memberId) {
-		return findByMemberId(memberId).orElseThrow(
-			() -> new AuthException(NOT_FOUND_MEMBER));
+		return findByMemberId(memberId).orElseThrow(() -> new AuthException(NOT_FOUND_MEMBER));
 	}
 }

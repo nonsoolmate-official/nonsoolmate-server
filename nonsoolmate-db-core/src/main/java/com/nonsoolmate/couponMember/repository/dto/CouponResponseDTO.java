@@ -33,10 +33,18 @@ public class CouponResponseDTO {
 	private final Boolean isUsed;
 
 	@QueryProjection
-	public CouponResponseDTO(Long couponMemberId, String couponName, String couponDescription, String couponImageUrl,
-		CouponType couponType,
-		int discountRate, int discountAmount, int ticketCount, LocalDateTime validStartDate, LocalDateTime validEndDate,
-		Boolean isUsed) {
+	public CouponResponseDTO(
+			Long couponMemberId,
+			String couponName,
+			String couponDescription,
+			String couponImageUrl,
+			CouponType couponType,
+			int discountRate,
+			int discountAmount,
+			int ticketCount,
+			LocalDateTime validStartDate,
+			LocalDateTime validEndDate,
+			Boolean isUsed) {
 		this.couponMemberId = couponMemberId;
 		this.couponName = couponName;
 		this.couponDescription = couponDescription;

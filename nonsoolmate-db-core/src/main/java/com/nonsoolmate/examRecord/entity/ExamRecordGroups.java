@@ -1,7 +1,5 @@
 package com.nonsoolmate.examRecord.entity;
 
-
-
 import static com.nonsoolmate.examRecord.entity.enums.ExamResultStatus.*;
 
 import java.util.List;
@@ -17,13 +15,14 @@ public class ExamRecordGroups {
 	/**
 	 * @note: key = examId
 	 * @note: value = List<ExamRecord>, 첨삭 및 재첨삭 포함
-	 * */
+	 */
 	private final Map<Long, List<ExamRecord>> examRecordMap;
 
 	public ExamRecordGroups(List<ExamRecord> examRecords) {
 
-		this.examRecordMap = examRecords.stream()
-			.collect(Collectors.groupingBy(examRecord -> examRecord.getExam().getExamId()));
+		this.examRecordMap =
+				examRecords.stream()
+						.collect(Collectors.groupingBy(examRecord -> examRecord.getExam().getExamId()));
 	}
 
 	public ExamResultStatus getExamResultStatus(Long examId) {
@@ -42,16 +41,17 @@ public class ExamRecordGroups {
 		}
 
 		List<ExamRecord> examRecords = examRecordMap.get(examId);
-		Optional<ExamRecord> revisionExamRecord = examRecords.stream()
-			.filter(examRecord -> examRecord.getEditingType().equals(EditingType.REVISION))
-			.findFirst();
+		Optional<ExamRecord> revisionExamRecord =
+				examRecords.stream()
+						.filter(examRecord -> examRecord.getEditingType().equals(EditingType.REVISION))
+						.findFirst();
 
 		if (revisionExamRecord.isPresent()) {
 			return revisionExamRecord;
 		}
 
 		return examRecords.stream()
-			.filter(examRecord -> examRecord.getEditingType().equals(EditingType.EDITING))
-			.findFirst();
+				.filter(examRecord -> examRecord.getEditingType().equals(EditingType.EDITING))
+				.findFirst();
 	}
 }

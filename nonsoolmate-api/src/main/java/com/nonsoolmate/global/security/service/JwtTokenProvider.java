@@ -38,43 +38,41 @@ public class JwtTokenProvider {
 		Date now = new Date();
 
 		return Jwts.builder()
-			.setSubject(ACCESS_TOKEN_SUBJECT)
-			.claim(MEMBER_ID_CLAIM, memberId)
-			.claim(EMAIL_CLAIM, email)
-			.setIssuedAt(now)   //토큰 발행 시간 정보
-			.setExpiration(new Date(now.getTime() + expirationTime))  //토큰 만료 시간 설정
-			.signWith(key, SignatureAlgorithm.HS256)
-			.compact();
+				.setSubject(ACCESS_TOKEN_SUBJECT)
+				.claim(MEMBER_ID_CLAIM, memberId)
+				.claim(EMAIL_CLAIM, email)
+				.setIssuedAt(now) // 토큰 발행 시간 정보
+				.setExpiration(new Date(now.getTime() + expirationTime)) // 토큰 만료 시간 설정
+				.signWith(key, SignatureAlgorithm.HS256)
+				.compact();
 	}
 
 	public String createRefreshToken(String memberId, Long expirationTime) {
 		Date now = new Date();
 
 		return Jwts.builder()
-			.setSubject(REFRESH_TOKEN_SUBJECT)
-			.claim(MEMBER_ID_CLAIM, memberId)
-			.setIssuedAt(now)   //토큰 발행 시간 정보
-			.setExpiration(new Date(now.getTime() + expirationTime))  //토큰 만료 시간 설정
-			.signWith(key, SignatureAlgorithm.HS256)
-			.compact();
+				.setSubject(REFRESH_TOKEN_SUBJECT)
+				.claim(MEMBER_ID_CLAIM, memberId)
+				.setIssuedAt(now) // 토큰 발행 시간 정보
+				.setExpiration(new Date(now.getTime() + expirationTime)) // 토큰 만료 시간 설정
+				.signWith(key, SignatureAlgorithm.HS256)
+				.compact();
 	}
 
 	public Claims getTokenClaims(final String token) {
-		return Jwts.parserBuilder()
-			.setSigningKey(key)
-			.build()
-			.parseClaimsJws(token)
-			.getBody();
+		return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody();
 	}
 
-	public Claims makeInfoToClaim(String infoName, final Long memberId) throws JsonProcessingException {
+	public Claims makeInfoToClaim(String infoName, final Long memberId)
+			throws JsonProcessingException {
 		String claimValue = objectMapper.writeValueAsString(memberId);
 		Claims claims = Jwts.claims();
 		claims.put(infoName, claimValue);
 		return claims;
 	}
 
-	public String getMemberIdFromClaim(Claims claims, String infoName) throws JsonProcessingException {
+	public String getMemberIdFromClaim(Claims claims, String infoName)
+			throws JsonProcessingException {
 
 		return claims.get(infoName, String.class);
 	}

@@ -5,6 +5,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.validation.constraints.NotNull;
+
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,8 +18,7 @@ public class University {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long universityId;
 
-	@NotNull
-	private String universityName;
+	@NotNull private String universityName;
 
 	public University(String universityName) {
 		this.universityName = universityName;

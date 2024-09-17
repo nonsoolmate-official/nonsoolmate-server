@@ -9,9 +9,7 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public enum ExamSuccessType implements SuccessType {
-	/**
-	 * 200 OK
-	 */
+	/** 200 OK */
 	GET_EXAM_SUCCESS(HttpStatus.OK, "대학 시험 정보 조회에 성공했습니다"),
 	// TODO: 이미지 조회에서 PDF 조회로 변경되면 지워야 함
 	GET_EXAM_IMAGE_SUCCESS(HttpStatus.OK, "대학 시험 이미지 조회에 성공했습니다"),

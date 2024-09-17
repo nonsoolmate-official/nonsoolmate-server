@@ -60,7 +60,7 @@ public class StringUtil {
 							from++;
 							code = (code << 3) | (ch - '0');
 						}
-						ch = (char)code;
+						ch = (char) code;
 						break;
 					case '\n':
 						continue;
@@ -69,12 +69,11 @@ public class StringUtil {
 							from++;
 						}
 						continue;
-					default: {
-						String msg = String.format(
-							"Invalid escape sequence: \\%c \\\\u%04X",
-							ch, (int)ch);
-						throw new IllegalArgumentException(msg);
-					}
+					default:
+						{
+							String msg = String.format("Invalid escape sequence: \\%c \\\\u%04X", ch, (int) ch);
+							throw new IllegalArgumentException(msg);
+						}
 				}
 			}
 

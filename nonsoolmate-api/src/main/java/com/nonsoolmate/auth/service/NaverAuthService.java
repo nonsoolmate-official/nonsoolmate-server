@@ -26,22 +26,29 @@ public class NaverAuthService extends AuthService {
 
 	@Override
 	@Transactional
-	public MemberSignUpVO saveMemberOrLogin(final String authorizationCode, final MemberRequestDTO request) {
+	public MemberSignUpVO saveMemberOrLogin(
+			final String authorizationCode, final MemberRequestDTO request) {
 		String accessToken = naverAuthProvider.getAccessToken(authorizationCode).getAccess_token();
 		NaverMemberVO naverMemberInfo = naverAuthProvider.getNaverMemberInfo(accessToken);
-		Member foundMember = getMember(PlatformType.of(request.platformType()),
-			naverMemberInfo.getResponse().getId());
+		Member foundMember =
+				getMember(PlatformType.of(request.platformType()), naverMemberInfo.getResponse().getId());
 
 		if (foundMember != null) {
-			return MemberSignUpVO.of(foundMember, PlatformType.of(request.platformType()), AuthType.LOGIN);
+			return MemberSignUpVO.of(
+					foundMember, PlatformType.of(request.platformType()), AuthType.LOGIN);
 		}
 		PlatformType platformType = PlatformType.of(request.platformType());
-		Member savedMember = saveMember(platformType, naverMemberInfo.getResponse().getId(),
-			naverMemberInfo.getResponse().getEmail(),
-			naverMemberInfo.getResponse().getName(),
-			naverMemberInfo.getResponse().getBirthyear(), naverMemberInfo.getResponse().getGender(),
-			naverMemberInfo.getResponse().getMobile());
+		Member savedMember =
+				saveMember(
+						platformType,
+						naverMemberInfo.getResponse().getId(),
+						naverMemberInfo.getResponse().getEmail(),
+						naverMemberInfo.getResponse().getName(),
+						naverMemberInfo.getResponse().getBirthyear(),
+						naverMemberInfo.getResponse().getGender(),
+						naverMemberInfo.getResponse().getMobile());
 
-		return MemberSignUpVO.of(savedMember, PlatformType.of(request.platformType()), AuthType.SIGN_UP);
+		return MemberSignUpVO.of(
+				savedMember, PlatformType.of(request.platformType()), AuthType.SIGN_UP);
 	}
 }

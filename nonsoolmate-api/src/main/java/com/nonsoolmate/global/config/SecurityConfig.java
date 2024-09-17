@@ -26,24 +26,20 @@ import lombok.RequiredArgsConstructor;
 public class SecurityConfig {
 
 	public static final String[] AUTH_WHITELIST = {
-		"/", "/error",
-
-		"/favicon.ico",
-
-		"/actuator/health", "/check/profile"
+		"/", "/error", "/favicon.ico", "/actuator/health", "/check/profile"
 	};
 
 	public static final String[] AUTH_WHITELIST_WILDCARD = {
 		"/webjars/**",
-
 		"/swagger-resources/**",
 		"/swagger-ui/**",
 		"/v3/api-docs/**",
 		"/webjars/**",
-		"/auth/**", "/login/**",
-
-		"/css/**", "/images/**", "/js/**",
-
+		"/auth/**",
+		"/login/**",
+		"/css/**",
+		"/images/**",
+		"/js/**",
 		"/h2-console/**",
 	};
 
@@ -70,17 +66,18 @@ public class SecurityConfig {
 		return new WebMvcConfigurer() {
 			@Override
 			public void addCorsMappings(CorsRegistry registry) {
-				registry.addMapping("/**")
-					.allowedOrigins(serverOrigin, serverTestOrigin, clientOrigin, clientTestOrigin, clientLocalOrigin)
-					.allowedOriginPatterns(serverOrigin, serverTestOrigin, clientOrigin, clientTestOrigin,
-						clientLocalOrigin)
-					.allowedHeaders("*")
-					.allowedMethods(
-						HttpMethod.GET.name(),
-						HttpMethod.POST.name(),
-						HttpMethod.PUT.name(),
-						HttpMethod.PATCH.name()
-					);
+				registry
+						.addMapping("/**")
+						.allowedOrigins(
+								serverOrigin, serverTestOrigin, clientOrigin, clientTestOrigin, clientLocalOrigin)
+						.allowedOriginPatterns(
+								serverOrigin, serverTestOrigin, clientOrigin, clientTestOrigin, clientLocalOrigin)
+						.allowedHeaders("*")
+						.allowedMethods(
+								HttpMethod.GET.name(),
+								HttpMethod.POST.name(),
+								HttpMethod.PUT.name(),
+								HttpMethod.PATCH.name());
 			}
 		};
 	}
@@ -88,27 +85,25 @@ public class SecurityConfig {
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
-		http
-			.csrf(AbstractHttpConfigurer::disable)
-			.formLogin(AbstractHttpConfigurer::disable)
-			.httpBasic(AbstractHttpConfigurer::disable)
-			.sessionManagement(session -> {
-				session.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-			})
-			.headers((headerConfig) ->
-				headerConfig.frameOptions(frameOptionsConfig ->
-					frameOptionsConfig.disable()
-				)
-			)
-		;
+		http.csrf(AbstractHttpConfigurer::disable)
+				.formLogin(AbstractHttpConfigurer::disable)
+				.httpBasic(AbstractHttpConfigurer::disable)
+				.sessionManagement(
+						session -> {
+							session.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+						})
+				.headers(
+						(headerConfig) ->
+								headerConfig.frameOptions(frameOptionsConfig -> frameOptionsConfig.disable()));
 
-		http.authorizeHttpRequests(auth -> {
-				auth.requestMatchers(AUTH_WHITELIST).permitAll();
-				auth.requestMatchers(AUTH_WHITELIST_WILDCARD).permitAll();
-				auth.anyRequest().authenticated();
-			})
-			.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
-			.addFilterBefore(jwtExceptionFilter, JwtAuthenticationFilter.class);
+		http.authorizeHttpRequests(
+						auth -> {
+							auth.requestMatchers(AUTH_WHITELIST).permitAll();
+							auth.requestMatchers(AUTH_WHITELIST_WILDCARD).permitAll();
+							auth.anyRequest().authenticated();
+						})
+				.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+				.addFilterBefore(jwtExceptionFilter, JwtAuthenticationFilter.class);
 
 		return http.build();
 	}

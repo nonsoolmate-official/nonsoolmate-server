@@ -18,9 +18,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.nonsoolmate.global.security.AuthMember;
 import com.nonsoolmate.member.service.MemberService;
 import com.nonsoolmate.payment.controller.dto.response.CustomerInfoDTO;
-import com.nonsoolmate.global.security.AuthMember;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -32,6 +32,7 @@ import lombok.extern.slf4j.Slf4j;
 public class PaymentController implements PaymentApi {
 	@Value("${payment.toss.widget-secret-key}")
 	private String widgetSecretKey;
+
 	private final MemberService memberService;
 
 	@RequestMapping(value = "/confirm")
@@ -52,10 +53,12 @@ public class PaymentController implements PaymentApi {
 			throw new RuntimeException(e);
 		}
 
-		JsonNode obj = objectMapper.createObjectNode()
-			.put("orderId", orderId)
-			.put("amount", amount)
-			.put("paymentKey", paymentKey);
+		JsonNode obj =
+				objectMapper
+						.createObjectNode()
+						.put("orderId", orderId)
+						.put("amount", amount)
+						.put("paymentKey", paymentKey);
 
 		// 토스페이먼츠 API는 시크릿 키를 사용자 ID로 사용하고, 비밀번호는 사용하지 않습니다.
 		// 비밀번호가 없다는 것을 알리기 위해 시크릿 키 뒤에 콜론을 추가합니다.
@@ -66,7 +69,7 @@ public class PaymentController implements PaymentApi {
 
 		// 결제를 승인하면 결제수단에서 금액이 차감돼요.
 		URL url = new URL("https://api.tosspayments.com/v1/payments/confirm");
-		HttpURLConnection connection = (HttpURLConnection)url.openConnection();
+		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 		connection.setRequestProperty("Authorization", authorizations);
 		connection.setRequestProperty("Content-Type", "application/json");
 		connection.setRequestMethod("POST");
@@ -79,7 +82,8 @@ public class PaymentController implements PaymentApi {
 		int code = connection.getResponseCode();
 		boolean isSuccess = code == 200;
 
-		InputStream responseStream = isSuccess ? connection.getInputStream() : connection.getErrorStream();
+		InputStream responseStream =
+				isSuccess ? connection.getInputStream() : connection.getErrorStream();
 		JsonNode jsonObject;
 
 		try (Reader reader = new InputStreamReader(responseStream, StandardCharsets.UTF_8)) {

@@ -28,8 +28,7 @@ public class MDCUtil {
 	public static void setJsonValue(String key, Object value) throws JsonProcessingException {
 		try {
 			if (value != null) {
-				String json = objectMapper.writerWithDefaultPrettyPrinter()
-					.writeValueAsString(value);
+				String json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(value);
 				mdc.put(key, json);
 			} else {
 				mdc.put(key, "내용 없음");

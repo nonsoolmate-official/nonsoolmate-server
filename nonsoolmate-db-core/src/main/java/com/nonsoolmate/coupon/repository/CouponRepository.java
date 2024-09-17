@@ -12,8 +12,8 @@ import com.nonsoolmate.exception.coupon.CouponException;
 public interface CouponRepository extends JpaRepository<Coupon, Long> {
 	Optional<Coupon> findByCouponNumber(String couponNumber);
 
-	default Coupon findByCouponNumberOrThrow(String couponNumber){
+	default Coupon findByCouponNumberOrThrow(String couponNumber) {
 		return findByCouponNumber(couponNumber)
-			.orElseThrow(() -> new CouponException(NOT_FOUND_COUPON));
+				.orElseThrow(() -> new CouponException(NOT_FOUND_COUPON));
 	}
 }

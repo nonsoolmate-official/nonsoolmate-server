@@ -2,17 +2,19 @@ package com.nonsoolmate.auth.service;
 
 import java.util.concurrent.ConcurrentHashMap;
 
+import jakarta.annotation.PostConstruct;
+
 import org.springframework.stereotype.Component;
 
 import com.nonsoolmate.member.entity.enums.PlatformType;
 
-import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 
 @Component
 @RequiredArgsConstructor
 public class AuthServiceProvider {
-	private static final ConcurrentHashMap<PlatformType, AuthService> authServiceMap = new ConcurrentHashMap<>();
+	private static final ConcurrentHashMap<PlatformType, AuthService> authServiceMap =
+			new ConcurrentHashMap<>();
 
 	private final NaverAuthService naverAuthService;
 

@@ -1,10 +1,11 @@
 package com.nonsoolmate.global.security.service;
 
-
 import static com.nonsoolmate.exception.auth.AuthExceptionType.*;
 
 import java.util.Date;
 import java.util.Optional;
+
+import jakarta.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -25,7 +26,6 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.security.SignatureException;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -59,12 +59,15 @@ public class JwtService {
 
 	@Transactional
 	public MemberAuthResponseDTO issueToken(MemberSignUpVO vo) {
-		String accessToken = jwtTokenProvider.createAccessToken(vo.email(), vo.memberId(), accessTokenExpirationPeriod);
+		String accessToken =
+				jwtTokenProvider.createAccessToken(vo.email(), vo.memberId(), accessTokenExpirationPeriod);
 
 		if (vo.role().equals(Role.USER)) {
-			String refreshToken = jwtTokenProvider.createRefreshToken(vo.memberId(), refreshTokenExpirationPeriod);
+			String refreshToken =
+					jwtTokenProvider.createRefreshToken(vo.memberId(), refreshTokenExpirationPeriod);
 			updateRefreshToken(vo.memberId(), refreshToken);
-			return MemberAuthResponseDTO.of(vo.memberId(), vo.authType(), vo.name(), accessToken, refreshToken);
+			return MemberAuthResponseDTO.of(
+					vo.memberId(), vo.authType(), vo.name(), accessToken, refreshToken);
 		}
 
 		throw new AuthException(AuthExceptionType.UNAUTHORIZED_MEMBER_LOGIN);
@@ -82,17 +85,20 @@ public class JwtService {
 		}
 
 		Claims tokenClaims = jwtTokenProvider.getTokenClaims(refreshToken);
-		RefreshTokenVO foundRefreshToken = redisTokenRepository.findByMemberIdOrElseThrowException(
-			String.valueOf(tokenClaims.get(MEMBER_ID_CLAIM)));
+		RefreshTokenVO foundRefreshToken =
+				redisTokenRepository.findByMemberIdOrElseThrowException(
+						String.valueOf(tokenClaims.get(MEMBER_ID_CLAIM)));
 
 		if (!foundRefreshToken.getRefreshToken().equals(refreshToken)) {
 			throw new AuthException(INVALID_REFRESH_TOKEN);
 		}
 		String memberId = tokenClaims.get(MEMBER_ID_CLAIM).toString();
-		String email = (String)tokenClaims.get(EMAIL_CLAIM);
+		String email = (String) tokenClaims.get(EMAIL_CLAIM);
 
-		String newAccessToken = jwtTokenProvider.createAccessToken(email, memberId, accessTokenExpirationPeriod);
-		String newRefreshToken = jwtTokenProvider.createRefreshToken(memberId, refreshTokenExpirationPeriod);
+		String newAccessToken =
+				jwtTokenProvider.createAccessToken(email, memberId, accessTokenExpirationPeriod);
+		String newRefreshToken =
+				jwtTokenProvider.createRefreshToken(memberId, refreshTokenExpirationPeriod);
 
 		updateRefreshToken(memberId, newRefreshToken);
 
@@ -104,19 +110,17 @@ public class JwtService {
 		return jwtTokenProvider.getMemberIdFromClaim(tokenClaims, AUTH_USER);
 	}
 
-	public Boolean validateToken(final String atk) throws
-		ExpiredJwtException,
-		MalformedJwtException,
-		SignatureException {
+	public Boolean validateToken(final String atk)
+			throws ExpiredJwtException, MalformedJwtException, SignatureException {
 		Claims tokenClaims = jwtTokenProvider.getTokenClaims(atk);
 		return !tokenClaims.getExpiration().before(new Date());
 	}
 
 	private String extractRefreshToken(HttpServletRequest request) {
 		return Optional.ofNullable(request.getHeader(refreshHeader))
-			.filter(refreshToken -> refreshToken.startsWith(BEARER))
-			.map(refreshToken -> refreshToken.replace(BEARER, ""))
-			.orElseThrow(() -> new AuthException(INVALID_REFRESH_TOKEN));
+				.filter(refreshToken -> refreshToken.startsWith(BEARER))
+				.map(refreshToken -> refreshToken.replace(BEARER, ""))
+				.orElseThrow(() -> new AuthException(INVALID_REFRESH_TOKEN));
 	}
 
 	@Transactional
@@ -129,9 +133,10 @@ public class JwtService {
 			return;
 		}
 
-		redisTokenRepository.save(RefreshTokenVO.builder()
-			.memberId(String.valueOf(memberId))
-			.refreshToken(newRefreshToken)
-			.build());
+		redisTokenRepository.save(
+				RefreshTokenVO.builder()
+						.memberId(String.valueOf(memberId))
+						.refreshToken(newRefreshToken)
+						.build());
 	}
 }

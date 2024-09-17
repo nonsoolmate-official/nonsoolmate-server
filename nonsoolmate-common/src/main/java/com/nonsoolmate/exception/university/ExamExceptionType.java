@@ -10,9 +10,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public enum ExamExceptionType implements ExceptionType {
 
-	/**
-	 * 404 Not Found
-	 */
+	/** 404 Not Found */
 	INVALID_EXAM(HttpStatus.BAD_REQUEST, "존재하지 않는 대학 시험입니다."),
 	NOT_FOUND_EXAM_IMAGE(HttpStatus.NOT_FOUND, "존재하지 않는 대학 시험 이미지 입니다.");
 

@@ -1,6 +1,5 @@
 package com.nonsoolmate.exception.coupon;
 
-
 import org.springframework.http.HttpStatus;
 
 import com.nonsoolmate.exception.common.ExceptionType;

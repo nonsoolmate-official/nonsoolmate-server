@@ -8,6 +8,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.NotNull;
+
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -25,8 +26,7 @@ public class College {
 	@JoinColumn(name = "university_id")
 	private University university;
 
-	@NotNull
-	private String collegeName;
+	@NotNull private String collegeName;
 
 	@Builder
 	private College(University university, String collegeName) {

@@ -1,14 +1,14 @@
 package com.nonsoolmate.targetUniversity.entity;
 
-
-import com.nonsoolmate.member.entity.Member;
-import com.nonsoolmate.university.entity.University;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
+
+import com.nonsoolmate.member.entity.Member;
+import com.nonsoolmate.university.entity.University;
+
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,9 +21,7 @@ public class TargetUniversity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long targetUniversityId;
 
-	@ManyToOne
-	private University university;
+	@ManyToOne private University university;
 
-	@ManyToOne
-	private Member member;
+	@ManyToOne private Member member;
 }

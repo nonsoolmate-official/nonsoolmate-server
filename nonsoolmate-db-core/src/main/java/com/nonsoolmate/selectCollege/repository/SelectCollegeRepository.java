@@ -1,6 +1,5 @@
 package com.nonsoolmate.selectCollege.repository;
 
-
 import java.util.List;
 import java.util.Set;
 
@@ -20,12 +19,14 @@ public interface SelectCollegeRepository extends JpaRepository<SelectCollege, Lo
 	@Query("DELETE FROM SelectCollege s WHERE s.member.memberId = :memberId")
 	void deleteAllByMemberId(String memberId);
 
-	@Query("select sc from SelectCollege sc "
-		+ "join fetch sc.college c "
-		+ "join fetch c.university u "
-		+ "where sc.member.memberId =:memberId "
-		+ "order by u.universityName asc, c.collegeName asc")
-	List<SelectCollege> findAllByMemberOrderByUniversityNameAscCollegeNameAsc(@Param("memberId") String memberId);
+	@Query(
+			"select sc from SelectCollege sc "
+					+ "join fetch sc.college c "
+					+ "join fetch c.university u "
+					+ "where sc.member.memberId =:memberId "
+					+ "order by u.universityName asc, c.collegeName asc")
+	List<SelectCollege> findAllByMemberOrderByUniversityNameAscCollegeNameAsc(
+			@Param("memberId") String memberId);
 
 	Set<Long> findUniversityIdsByMember(Member member);
 }

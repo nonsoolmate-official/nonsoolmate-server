@@ -6,9 +6,9 @@ import org.springframework.transaction.annotation.Transactional;
 import com.nonsoolmate.member.controller.dto.response.NameResponseDTO;
 import com.nonsoolmate.member.controller.dto.response.ProfileResponseDTO;
 import com.nonsoolmate.member.controller.dto.response.TicketResponseDTO;
-import com.nonsoolmate.payment.controller.dto.response.CustomerInfoDTO;
 import com.nonsoolmate.member.entity.Member;
 import com.nonsoolmate.member.repository.MemberRepository;
+import com.nonsoolmate.payment.controller.dto.response.CustomerInfoDTO;
 
 import lombok.RequiredArgsConstructor;
 
@@ -33,8 +33,12 @@ public class MemberService {
 	public ProfileResponseDTO getProfile(final String memberId) {
 		Member member = memberRepository.findByMemberIdOrThrow(memberId);
 
-		return ProfileResponseDTO.of(member.getName(), member.getGender(), member.getBirthYear(),
-			member.getEmail(), member.getPhoneNumber());
+		return ProfileResponseDTO.of(
+				member.getName(),
+				member.getGender(),
+				member.getBirthYear(),
+				member.getEmail(),
+				member.getPhoneNumber());
 	}
 
 	public CustomerInfoDTO getCustomerInfo(final String memberId) {

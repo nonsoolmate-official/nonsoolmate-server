@@ -1,6 +1,5 @@
 package com.nonsoolmate.redis.repository.vo;
 
-
 import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;
 import org.springframework.data.redis.core.index.Indexed;
@@ -13,9 +12,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @RedisHash(value = "refresh", timeToLive = 604800016)
 public class RefreshTokenVO {
-	@Id
-	@Indexed
-	private String memberId;
+	@Id @Indexed private String memberId;
 
 	private String refreshToken;
 
