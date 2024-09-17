@@ -20,9 +20,10 @@ public class AWSConfig {
 	private final String secretKey;
 	private final String regionString;
 
-	public AWSConfig(@Value("${aws-property.access-key}") final String accessKey,
-		@Value("${aws-property.secret-key}") final String secretKey,
-		@Value("${aws-property.aws-region}") final String regionString) {
+	public AWSConfig(
+			@Value("${aws-property.access-key}") final String accessKey,
+			@Value("${aws-property.secret-key}") final String secretKey,
+			@Value("${aws-property.aws-region}") final String regionString) {
 		this.accessKey = accessKey;
 		this.secretKey = secretKey;
 		this.regionString = regionString;
@@ -44,16 +45,16 @@ public class AWSConfig {
 	@Bean
 	public S3Client getS3Client() {
 		return S3Client.builder()
-			.region(getRegion())
-			.credentialsProvider(systemPropertyCredentialsProvider())
-			.build();
+				.region(getRegion())
+				.credentialsProvider(systemPropertyCredentialsProvider())
+				.build();
 	}
 
 	@Bean
 	public S3Presigner getS3Presigner() {
 		return S3Presigner.builder()
-			.region(getRegion())
-			.credentialsProvider(systemPropertyCredentialsProvider())
-			.build();
+				.region(getRegion())
+				.credentialsProvider(systemPropertyCredentialsProvider())
+				.build();
 	}
 }

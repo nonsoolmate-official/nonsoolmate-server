@@ -2,6 +2,8 @@ package com.nonsoolmate.global.aop;
 
 import java.util.Objects;
 
+import jakarta.servlet.http.HttpServletRequest;
+
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -13,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.log4j.Log4j2;
 
 @Aspect
@@ -23,7 +24,8 @@ public class ExecutionLoggingAop {
 	// 모든 패키지 내의 controller package에 존재하는 클래스
 	@Around("execution(* com.nonsoolmate.domain..controller..*(..))")
 	public Object logExecutionTrace(ProceedingJoinPoint pjp) throws Throwable {
-		HttpServletRequest request = ((ServletRequestAttributes)RequestContextHolder.currentRequestAttributes()).getRequest();
+		HttpServletRequest request =
+				((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
 		RequestMethod httpMethod = RequestMethod.valueOf(request.getMethod());
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		String memberId = null;
@@ -75,5 +77,4 @@ public class ExecutionLoggingAop {
 
 		return result;
 	}
-
 }

@@ -1,7 +1,5 @@
 package com.nonsoolmate.coupon.service;
 
-
-
 import static com.nonsoolmate.exception.coupon.CouponExceptionType.*;
 
 import java.util.List;
@@ -19,7 +17,6 @@ import com.nonsoolmate.coupon.repository.CouponRepository;
 import com.nonsoolmate.couponMember.entity.CouponMember;
 import com.nonsoolmate.couponMember.repository.CouponMemberRepository;
 import com.nonsoolmate.couponMember.repository.dto.CouponResponseDTO;
-
 import com.nonsoolmate.examRecord.controller.dto.request.RegisterCouponRequestDTO;
 import com.nonsoolmate.exception.coupon.CouponException;
 
@@ -55,7 +52,8 @@ public class CouponService {
 	}
 
 	public GetCouponsResponseDTO getCoupons(String memberId) {
-		List<CouponResponseDTO> responseDTOs = couponMemberRepository.findAllByMemberIdWithCoupon(memberId);
+		List<CouponResponseDTO> responseDTOs =
+				couponMemberRepository.findAllByMemberIdWithCoupon(memberId);
 
 		return GetCouponsResponseDTO.of(responseDTOs);
 	}
@@ -64,9 +62,10 @@ public class CouponService {
 	public void registerCoupon(RegisterCouponRequestDTO requestDTO, String memberId) {
 		Coupon coupon = couponRepository.findByCouponNumberOrThrow(requestDTO.couponNumber());
 
-		Optional<CouponMember> foundCouponMember = couponMemberRepository.findByCouponId(coupon.getCouponId());
+		Optional<CouponMember> foundCouponMember =
+				couponMemberRepository.findByCouponId(coupon.getCouponId());
 
-		if(foundCouponMember.isPresent()){
+		if (foundCouponMember.isPresent()) {
 			throw new CouponException(INVALID_COUPON_REGISTER);
 		}
 
@@ -76,9 +75,9 @@ public class CouponService {
 
 	private CouponMember createCouponMember(String memberId, Coupon coupon) {
 		return CouponMember.builder()
-			.couponId(coupon.getCouponId())
-			.memberId(memberId)
-			.isUsed(false)
-			.build();
+				.couponId(coupon.getCouponId())
+				.memberId(memberId)
+				.isUsed(false)
+				.build();
 	}
 }

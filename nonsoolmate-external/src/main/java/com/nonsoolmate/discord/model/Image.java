@@ -7,5 +7,5 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class Image {
 
-    private final String url;
+	private final String url;
 }

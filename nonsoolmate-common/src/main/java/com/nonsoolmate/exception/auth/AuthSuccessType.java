@@ -24,5 +24,4 @@ public enum AuthSuccessType implements SuccessType {
 	public String message() {
 		return this.message;
 	}
-
 }

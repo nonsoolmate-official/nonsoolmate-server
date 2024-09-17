@@ -24,13 +24,26 @@ class ExamRecordGroupsTest {
 	void hasNoExamRecord() {
 		// given
 		Exam examFixture = createExamFixture();
-		Member member = new Member("email1", "홍길동", PlatformType.NAVER, "pId1", Role.USER, "2010", "M",
-			"010-1234-5678");
+		Member member =
+				new Member(
+						"email1", "홍길동", PlatformType.NAVER, "pId1", Role.USER, "2010", "M", "010-1234-5678");
 
-		ExamRecord examRecord1 = createExamRecord(examFixture, member, ExamResultStatus.REVIEW_FINISH,
-			EditingType.EDITING, 120, "examRecordSheetFileName1");
-		ExamRecord examRecord2 = createExamRecord(examFixture, member, ExamResultStatus.RE_REVIEW_ONGOING,
-			EditingType.EDITING, 75, "examRecordSheetFileName2");
+		ExamRecord examRecord1 =
+				createExamRecord(
+						examFixture,
+						member,
+						ExamResultStatus.REVIEW_FINISH,
+						EditingType.EDITING,
+						120,
+						"examRecordSheetFileName1");
+		ExamRecord examRecord2 =
+				createExamRecord(
+						examFixture,
+						member,
+						ExamResultStatus.RE_REVIEW_ONGOING,
+						EditingType.EDITING,
+						75,
+						"examRecordSheetFileName2");
 
 		List<ExamRecord> examRecordFixture = List.of(examRecord1, examRecord2);
 		ExamRecordGroups examRecordGroups = new ExamRecordGroups(examRecordFixture);
@@ -47,13 +60,26 @@ class ExamRecordGroupsTest {
 	void progressRevisionEdit() {
 		// given
 		Exam examFixture = createExamFixture();
-		Member member = new Member("email1", "홍길동", PlatformType.NAVER, "pId1", Role.USER, "2010", "M",
-			"010-1234-5678");
+		Member member =
+				new Member(
+						"email1", "홍길동", PlatformType.NAVER, "pId1", Role.USER, "2010", "M", "010-1234-5678");
 
-		ExamRecord examRecord1 = createExamRecord(examFixture, member, ExamResultStatus.REVIEW_FINISH,
-			EditingType.EDITING, 120, "examRecordSheetFileName1");
-		ExamRecord examRecord2 = createExamRecord(examFixture, member, ExamResultStatus.RE_REVIEW_ONGOING,
-			EditingType.REVISION, 75, "examRecordSheetFileName2");
+		ExamRecord examRecord1 =
+				createExamRecord(
+						examFixture,
+						member,
+						ExamResultStatus.REVIEW_FINISH,
+						EditingType.EDITING,
+						120,
+						"examRecordSheetFileName1");
+		ExamRecord examRecord2 =
+				createExamRecord(
+						examFixture,
+						member,
+						ExamResultStatus.RE_REVIEW_ONGOING,
+						EditingType.REVISION,
+						75,
+						"examRecordSheetFileName2");
 
 		List<ExamRecord> examRecordFixture = List.of(examRecord1, examRecord2);
 		ExamRecordGroups examRecordGroups = new ExamRecordGroups(examRecordFixture);
@@ -70,11 +96,18 @@ class ExamRecordGroupsTest {
 	void progressEditingEdit() {
 		// given
 		Exam examFixture = createExamFixture();
-		Member member = new Member("email1", "홍길동", PlatformType.NAVER, "pId1", Role.USER, "2010", "M",
-			"010-1234-5678");
+		Member member =
+				new Member(
+						"email1", "홍길동", PlatformType.NAVER, "pId1", Role.USER, "2010", "M", "010-1234-5678");
 
-		ExamRecord examRecord1 = createExamRecord(examFixture, member, ExamResultStatus.REVIEW_FINISH,
-			EditingType.EDITING, 120, "examRecordSheetFileName1");
+		ExamRecord examRecord1 =
+				createExamRecord(
+						examFixture,
+						member,
+						ExamResultStatus.REVIEW_FINISH,
+						EditingType.EDITING,
+						120,
+						"examRecordSheetFileName1");
 
 		List<ExamRecord> examRecordFixture = List.of(examRecord1);
 		ExamRecordGroups examRecordGroups = new ExamRecordGroups(examRecordFixture);
@@ -86,34 +119,37 @@ class ExamRecordGroupsTest {
 		Assertions.assertThat(examResultStatus).isEqualTo(ExamResultStatus.REVIEW_FINISH);
 	}
 
-	private ExamRecord createExamRecord(Exam exam, Member member, ExamResultStatus examResultStatus,
-		EditingType editingType, int timeTakeExam, String examRecordSheetFileName) {
+	private ExamRecord createExamRecord(
+			Exam exam,
+			Member member,
+			ExamResultStatus examResultStatus,
+			EditingType editingType,
+			int timeTakeExam,
+			String examRecordSheetFileName) {
 		return ExamRecord.builder()
-			.exam(exam)
-			.member(member)
-			.examResultStatus(examResultStatus)
-			.editingType(editingType)
-			.timeTakeExam(timeTakeExam)
-			.examRecordSheetFileName(examRecordSheetFileName)
-			.build();
+				.exam(exam)
+				.member(member)
+				.examResultStatus(examResultStatus)
+				.editingType(editingType)
+				.timeTakeExam(timeTakeExam)
+				.examRecordSheetFileName(examRecordSheetFileName)
+				.build();
 	}
 
 	private Exam createExamFixture() {
 		University university = new University("고려대학교");
 
-		College college = College.builder()
-			.university(university)
-			.collegeName("인문")
-			.build();
+		College college = College.builder().university(university).collegeName("인문").build();
 
-		Exam exam = Exam.builder()
-			.college(college)
-			.examName("인문1")
-			.examFileName("ExamFile1")
-			.examAnswerFileName("AnswerFile1")
-			.examYear(2022)
-			.examTimeLimit(120)
-			.build();
+		Exam exam =
+				Exam.builder()
+						.college(college)
+						.examName("인문1")
+						.examFileName("ExamFile1")
+						.examAnswerFileName("AnswerFile1")
+						.examYear(2022)
+						.examTimeLimit(120)
+						.build();
 		exam.setExamIdForTest(1L);
 
 		return exam;

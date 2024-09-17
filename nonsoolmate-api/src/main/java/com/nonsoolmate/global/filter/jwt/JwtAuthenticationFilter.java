@@ -6,6 +6,11 @@ import static com.nonsoolmate.global.config.SecurityConfig.*;
 import java.io.IOException;
 import java.util.Arrays;
 
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -19,10 +24,6 @@ import com.nonsoolmate.global.security.utils.RequestUtils;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.security.SignatureException;
-import jakarta.servlet.FilterChain;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -34,18 +35,20 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 	private final JwtService jwtService;
 
 	@Override
-	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
-		throws ServletException, IOException {
+	protected void doFilterInternal(
+			HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+			throws ServletException, IOException {
 
 		if (Arrays.stream(AUTH_WHITELIST)
-			.anyMatch(whiteUrl -> request.getRequestURI().equals(whiteUrl))) {
+				.anyMatch(whiteUrl -> request.getRequestURI().equals(whiteUrl))) {
 			filterChain.doFilter(request, response);
 			return;
 		}
 
 		if (Arrays.stream(AUTH_WHITELIST_WILDCARD)
-			.anyMatch(
-				whiteUrl -> request.getRequestURI().startsWith(whiteUrl.substring(0, whiteUrl.length() - 3)))) {
+				.anyMatch(
+						whiteUrl ->
+								request.getRequestURI().startsWith(whiteUrl.substring(0, whiteUrl.length() - 3)))) {
 			filterChain.doFilter(request, response);
 			return;
 		}
@@ -77,5 +80,4 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
 		filterChain.doFilter(request, response);
 	}
-
 }

@@ -1,7 +1,5 @@
 package com.nonsoolmate.couponMember.repository;
 
-
-
 import static com.nonsoolmate.coupon.entity.QCoupon.*;
 import static com.nonsoolmate.couponMember.entity.QCouponMember.*;
 
@@ -23,21 +21,23 @@ public class CouponMemberCustomRepositoryImpl implements CouponMemberCustomRepos
 	@Override
 	public List<CouponResponseDTO> findAllByMemberIdWithCoupon(String memberId) {
 		return queryFactory
-			.select(new QCouponResponseDTO(
-				couponMember.couponMemberId,
-				coupon.couponName,
-				coupon.couponDescription,
-				coupon.couponImageUrl,
-				coupon.couponType,
-				coupon.discountRate,
-				coupon.discountAmount,
-				coupon.ticketCount,
-				coupon.validStartDate,
-				coupon.validEndDate,
-				couponMember.isUsed))
-			.from(couponMember)
-			.where(couponMember.memberId.eq(memberId))
-			.leftJoin(coupon).on(couponMember.couponId.eq(coupon.couponId))
-			.fetch();
+				.select(
+						new QCouponResponseDTO(
+								couponMember.couponMemberId,
+								coupon.couponName,
+								coupon.couponDescription,
+								coupon.couponImageUrl,
+								coupon.couponType,
+								coupon.discountRate,
+								coupon.discountAmount,
+								coupon.ticketCount,
+								coupon.validStartDate,
+								coupon.validEndDate,
+								couponMember.isUsed))
+				.from(couponMember)
+				.where(couponMember.memberId.eq(memberId))
+				.leftJoin(coupon)
+				.on(couponMember.couponId.eq(coupon.couponId))
+				.fetch();
 	}
 }

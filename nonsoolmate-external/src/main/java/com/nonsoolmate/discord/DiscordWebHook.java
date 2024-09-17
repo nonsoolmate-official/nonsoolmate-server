@@ -1,6 +1,5 @@
 package com.nonsoolmate.discord;
 
-
 import static com.nonsoolmate.exception.discord.ErrorLogAppenderExceptionType.*;
 
 import java.awt.*;
@@ -43,10 +42,9 @@ public class DiscordWebHook {
 		}
 
 		ApiCallUtil.callDiscordAppenderPostAPI(
-			this.urlString, createDiscordEmbedObject(
-				this.embeds, initializerDiscordSendForJsonObject(new JsonObject())
-			));
-
+				this.urlString,
+				createDiscordEmbedObject(
+						this.embeds, initializerDiscordSendForJsonObject(new JsonObject())));
 	}
 
 	private JsonObject initializerDiscordSendForJsonObject(JsonObject json) {

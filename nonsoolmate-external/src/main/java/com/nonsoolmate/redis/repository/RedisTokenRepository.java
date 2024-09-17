@@ -1,7 +1,5 @@
 package com.nonsoolmate.redis.repository;
 
-
-
 import static com.nonsoolmate.exception.auth.AuthExceptionType.*;
 
 import java.util.Optional;
@@ -18,7 +16,6 @@ public interface RedisTokenRepository extends CrudRepository<RefreshTokenVO, Str
 
 	default RefreshTokenVO findByMemberIdOrElseThrowException(String memberId) {
 		return findByMemberId(memberId)
-			.orElseThrow(
-				() -> new AuthException(UNAUTHORIZED_REFRESH_TOKEN));
+				.orElseThrow(() -> new AuthException(UNAUTHORIZED_REFRESH_TOKEN));
 	}
 }

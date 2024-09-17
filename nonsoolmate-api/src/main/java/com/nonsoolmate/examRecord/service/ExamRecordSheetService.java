@@ -1,6 +1,5 @@
 package com.nonsoolmate.examRecord.service;
 
-
 import static com.nonsoolmate.aws.FolderName.*;
 
 import org.springframework.stereotype.Service;
@@ -20,5 +19,4 @@ public class ExamRecordSheetService {
 	public PreSignedUrlVO getExamRecordSheetPreSignedUrl() {
 		return cloudFrontService.createPreSignedPutUrl(EXAM_SHEET_FOLDER_NAME);
 	}
-
 }

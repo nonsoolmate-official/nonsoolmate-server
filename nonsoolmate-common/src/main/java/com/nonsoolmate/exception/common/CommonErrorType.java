@@ -9,14 +9,10 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public enum CommonErrorType implements ExceptionType {
-	/**
-	 * 404 Not Found
-	 */
+	/** 404 Not Found */
 	NOT_FOUND_PATH(HttpStatus.NOT_FOUND, "요청하신 경로를 찾을 수 없습니다"),
 
-	/**
-	 * 500 Internal Server Error
-	 */
+	/** 500 Internal Server Error */
 	INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "서버 내부 오류입니다."),
 
 	// 400 Bad Request

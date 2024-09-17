@@ -1,6 +1,5 @@
 package com.nonsoolmate.response;
 
-
 import com.nonsoolmate.exception.common.ExceptionType;
 
 import lombok.AccessLevel;
@@ -18,6 +17,7 @@ public class ErrorResponse {
 	}
 
 	public static ErrorResponse of(ExceptionType exceptionType, String addMessage) {
-		return new ErrorResponse(exceptionType.getHttpStatusCode(), exceptionType.message() + ": " + addMessage);
+		return new ErrorResponse(
+				exceptionType.getHttpStatusCode(), exceptionType.message() + ": " + addMessage);
 	}
 }

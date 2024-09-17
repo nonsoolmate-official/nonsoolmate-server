@@ -8,6 +8,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.NotNull;
+
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -25,24 +26,22 @@ public class Exam {
 	@JoinColumn(name = "college_id")
 	private College college;
 
-	@NotNull
-	private String examName;
+	@NotNull private String examName;
 
-	@NotNull
-	private String examFileName;
+	@NotNull private String examFileName;
 
-	@NotNull
-	private String examAnswerFileName;
+	@NotNull private String examAnswerFileName;
 
-	@NotNull
-	private int examYear;
+	@NotNull private int examYear;
 
-	@NotNull
-	private int examTimeLimit;
+	@NotNull private int examTimeLimit;
 
 	public String getExamFullName() {
-		return this.getCollege().getUniversity().getUniversityName() + " - " + this.getExamYear() + " "
-			+ this.getExamName();
+		return this.getCollege().getUniversity().getUniversityName()
+				+ " - "
+				+ this.getExamYear()
+				+ " "
+				+ this.getExamName();
 	}
 
 	public String getExamListName() {
@@ -50,8 +49,13 @@ public class Exam {
 	}
 
 	@Builder
-	private Exam(College college, String examName, String examFileName, String examAnswerFileName, int examYear,
-		int examTimeLimit) {
+	private Exam(
+			College college,
+			String examName,
+			String examFileName,
+			String examAnswerFileName,
+			int examYear,
+			int examTimeLimit) {
 		this.college = college;
 		this.examName = examName;
 		this.examFileName = examFileName;
@@ -60,7 +64,7 @@ public class Exam {
 		this.examTimeLimit = examTimeLimit;
 	}
 
-	public void setExamIdForTest(Long examId){
+	public void setExamIdForTest(Long examId) {
 		this.examId = examId;
 	}
 }

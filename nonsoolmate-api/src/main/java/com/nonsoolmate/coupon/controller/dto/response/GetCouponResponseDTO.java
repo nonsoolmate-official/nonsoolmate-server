@@ -47,8 +47,17 @@ public class GetCouponResponseDTO {
 	private final Boolean isUsed;
 
 	public static GetCouponResponseDTO of(CouponResponseDTO dto) {
-		return new GetCouponResponseDTO(dto.getCouponMemberId(), dto.getCouponName(), dto.getCouponDescription(),
-			dto.getCouponImageUrl(), dto.getCouponType(), dto.getDiscountRate(), dto.getDiscountAmount(),
-			dto.getTicketCount(), dto.getValidStartDate(), dto.getValidEndDate(), dto.getIsUsed());
+		return new GetCouponResponseDTO(
+				dto.getCouponMemberId(),
+				dto.getCouponName(),
+				dto.getCouponDescription(),
+				dto.getCouponImageUrl(),
+				dto.getCouponType(),
+				dto.getDiscountRate(),
+				dto.getDiscountAmount(),
+				dto.getTicketCount(),
+				dto.getValidStartDate(),
+				dto.getValidEndDate(),
+				dto.getIsUsed());
 	}
 }

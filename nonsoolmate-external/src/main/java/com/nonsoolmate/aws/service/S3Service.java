@@ -20,6 +20,7 @@ import software.amazon.awssdk.services.s3.model.S3Exception;
 @Slf4j
 public class S3Service {
 	private final AWSConfig awsConfig;
+
 	@Value("${aws-property.s3-bucket-name}")
 	private String bucketName;
 
@@ -28,10 +29,8 @@ public class S3Service {
 			String zipUrl = prefix + fileName;
 			S3Client s3Client = awsConfig.getS3Client();
 
-			HeadObjectRequest request = HeadObjectRequest.builder()
-				.bucket(bucketName)
-				.key(zipUrl)
-				.build();
+			HeadObjectRequest request =
+					HeadObjectRequest.builder().bucket(bucketName).key(zipUrl).build();
 			s3Client.headObject(request);
 			return fileName;
 		} catch (S3Exception e) {
@@ -43,11 +42,8 @@ public class S3Service {
 		String key = prefix + fileName;
 		final S3Client s3Client = awsConfig.getS3Client();
 		try {
-			s3Client.deleteObject((DeleteObjectRequest.Builder builder) ->
-				builder.bucket(bucketName)
-					.key(key)
-					.build()
-			);
+			s3Client.deleteObject(
+					(DeleteObjectRequest.Builder builder) -> builder.bucket(bucketName).key(key).build());
 		} catch (S3Exception e) {
 			throw new AWSBusinessException(AWSExceptionType.DELETE_FILE_AWS_S3_FAIL);
 		}

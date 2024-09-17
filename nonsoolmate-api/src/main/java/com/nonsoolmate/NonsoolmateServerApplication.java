@@ -11,5 +11,4 @@ public class NonsoolmateServerApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(NonsoolmateServerApplication.class, args);
 	}
-
 }

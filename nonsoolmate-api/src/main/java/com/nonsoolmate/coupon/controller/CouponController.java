@@ -1,5 +1,7 @@
 package com.nonsoolmate.coupon.controller;
 
+import jakarta.validation.Valid;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,7 +16,6 @@ import com.nonsoolmate.coupon.service.CouponService;
 import com.nonsoolmate.examRecord.controller.dto.request.RegisterCouponRequestDTO;
 import com.nonsoolmate.global.security.AuthMember;
 
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -42,8 +43,7 @@ public class CouponController implements CouponApi {
 	@Override
 	@PostMapping
 	public ResponseEntity<Void> registerCoupon(
-		@RequestBody @Valid RegisterCouponRequestDTO requestDTO,
-		@AuthMember String memberId) {
+			@RequestBody @Valid RegisterCouponRequestDTO requestDTO, @AuthMember String memberId) {
 		couponService.registerCoupon(requestDTO, memberId);
 
 		return ResponseEntity.status(HttpStatus.CREATED).build();

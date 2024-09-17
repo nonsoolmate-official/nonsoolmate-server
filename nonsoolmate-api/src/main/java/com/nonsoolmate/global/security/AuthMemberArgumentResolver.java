@@ -15,12 +15,15 @@ public class AuthMemberArgumentResolver implements HandlerMethodArgumentResolver
 	public boolean supportsParameter(MethodParameter parameter) {
 		boolean hasAuthMemberAnnotation = parameter.getParameterAnnotation(AuthMember.class) != null;
 		boolean isMemberIdString = parameter.getParameterType().equals(String.class);
-		return  hasAuthMemberAnnotation && isMemberIdString;
+		return hasAuthMemberAnnotation && isMemberIdString;
 	}
 
 	@Override
-	public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer,
-		NativeWebRequest webRequest, WebDataBinderFactory binderFactory) {
+	public Object resolveArgument(
+			MethodParameter parameter,
+			ModelAndViewContainer mavContainer,
+			NativeWebRequest webRequest,
+			WebDataBinderFactory binderFactory) {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
 		boolean isNotAuthenticatedMember = authentication == null || !authentication.isAuthenticated();

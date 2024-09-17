@@ -1,6 +1,5 @@
 package com.nonsoolmate.response;
 
-
 import com.nonsoolmate.exception.common.SuccessType;
 
 import lombok.AccessLevel;
