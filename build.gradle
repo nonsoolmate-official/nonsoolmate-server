@@ -2,6 +2,7 @@ plugins {
     id 'java'
     id 'org.springframework.boot' version '3.2.1'
     id 'io.spring.dependency-management' version '1.1.4'
+    id 'com.diffplug.spotless' version '6.23.3'
 }
 
 allprojects {
@@ -46,4 +47,32 @@ bootJar {
 }
 jar {
     enabled = true
+}
+
+ext.googleJavaFormatVersion = "1.18.1"
+
+spotless {
+    java {
+        target("**/*.java")
+        googleJavaFormat("$googleJavaFormatVersion")
+        importOrder('java', 'javax', 'jakarta', 'org', 'com')
+        indentWithTabs(2)
+        removeUnusedImports()
+        trimTrailingWhitespace()
+        endWithNewline()
+    }
+}
+
+tasks.register('updateGitHooks', Copy) {
+    from '.github/script/pre-commit'
+    into '.git/hooks'
+}
+
+tasks.register('makeGitHooksExecutable', Exec) {
+    commandLine 'chmod', '+x', '.git/hooks/pre-commit'
+    dependsOn 'updateGitHooks'
+}
+
+tasks.named('compileJava') {
+    dependsOn 'makeGitHooksExecutable'
 }
