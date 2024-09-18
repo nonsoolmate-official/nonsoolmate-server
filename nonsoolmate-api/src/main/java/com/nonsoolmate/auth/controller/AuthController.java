@@ -3,6 +3,9 @@ package com.nonsoolmate.auth.controller;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,9 +26,6 @@ import com.nonsoolmate.exception.common.CommonErrorType;
 import com.nonsoolmate.global.security.service.JwtService;
 import com.nonsoolmate.member.entity.enums.PlatformType;
 import com.nonsoolmate.response.SuccessResponse;
-
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @RequiredArgsConstructor

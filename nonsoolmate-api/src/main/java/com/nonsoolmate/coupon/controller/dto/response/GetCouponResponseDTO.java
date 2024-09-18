@@ -2,12 +2,13 @@ package com.nonsoolmate.coupon.controller.dto.response;
 
 import java.time.LocalDateTime;
 
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+
 import com.nonsoolmate.coupon.entity.enums.CouponType;
 import com.nonsoolmate.couponMember.repository.dto.CouponResponseDTO;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 
 @Schema(name = "GetCouponResponseDTO", description = "쿠폰 조회 DTO")
 @Getter

@@ -1,11 +1,11 @@
 package com.nonsoolmate.response;
 
-import com.nonsoolmate.exception.common.SuccessType;
-
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+
+import com.nonsoolmate.exception.common.SuccessType;
 
 @Getter
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)

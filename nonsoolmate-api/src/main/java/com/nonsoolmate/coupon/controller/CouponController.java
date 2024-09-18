@@ -2,6 +2,8 @@ package com.nonsoolmate.coupon.controller;
 
 import jakarta.validation.Valid;
 
+import lombok.RequiredArgsConstructor;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,8 +17,6 @@ import com.nonsoolmate.coupon.controller.dto.response.GetCouponsResponseDTO;
 import com.nonsoolmate.coupon.service.CouponService;
 import com.nonsoolmate.examRecord.controller.dto.request.RegisterCouponRequestDTO;
 import com.nonsoolmate.global.security.AuthMember;
-
-import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor

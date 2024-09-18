@@ -3,6 +3,8 @@ package com.nonsoolmate.university.service;
 import static com.nonsoolmate.aws.FolderName.*;
 import static com.nonsoolmate.exception.university.ExamExceptionType.*;
 
+import lombok.RequiredArgsConstructor;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,8 +15,6 @@ import com.nonsoolmate.university.controller.dto.response.ExamInfoResponseDTO;
 import com.nonsoolmate.university.controller.dto.response.ExamUrlResponseDTO;
 import com.nonsoolmate.university.entity.Exam;
 import com.nonsoolmate.university.repository.ExamRepository;
-
-import lombok.RequiredArgsConstructor;
 
 @Service
 @Transactional(readOnly = true)

@@ -1,10 +1,10 @@
 package com.nonsoolmate.exception.selectCollege;
 
+import lombok.RequiredArgsConstructor;
+
 import org.springframework.http.HttpStatus;
 
 import com.nonsoolmate.exception.common.SuccessType;
-
-import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 public enum SelectCollegeSuccessType implements SuccessType {

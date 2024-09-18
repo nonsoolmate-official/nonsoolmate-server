@@ -1,8 +1,8 @@
 package com.nonsoolmate.auth.vo;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import lombok.Getter;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Getter
 @JsonIgnoreProperties(ignoreUnknown = true)

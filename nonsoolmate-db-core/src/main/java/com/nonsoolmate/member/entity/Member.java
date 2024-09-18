@@ -8,6 +8,11 @@ import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 import jakarta.validation.constraints.NotNull;
 
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
 import org.hibernate.validator.constraints.Length;
 
 import com.nonsoolmate.exception.member.MemberException;
@@ -16,10 +21,6 @@ import com.nonsoolmate.member.entity.enums.PlatformType;
 import com.nonsoolmate.member.entity.enums.Role;
 
 import io.hypersistence.utils.hibernate.id.Tsid;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 @Entity
 @Table(

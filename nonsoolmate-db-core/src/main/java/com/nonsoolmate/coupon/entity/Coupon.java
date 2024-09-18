@@ -10,13 +10,13 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.validation.constraints.NotNull;
 
-import com.nonsoolmate.common.BaseTimeEntity;
-import com.nonsoolmate.coupon.entity.enums.CouponType;
-
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import com.nonsoolmate.common.BaseTimeEntity;
+import com.nonsoolmate.coupon.entity.enums.CouponType;
 
 /**
  * @note: 쿠폰 종류 : 할인율 쿠폰, 금액 쿠폰, 첨삭권 쿠폰

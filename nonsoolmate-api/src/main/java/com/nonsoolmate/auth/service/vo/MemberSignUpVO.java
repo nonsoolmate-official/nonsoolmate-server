@@ -1,11 +1,11 @@
 package com.nonsoolmate.auth.service.vo;
 
+import lombok.Builder;
+
 import com.nonsoolmate.auth.controller.enums.AuthType;
 import com.nonsoolmate.member.entity.Member;
 import com.nonsoolmate.member.entity.enums.PlatformType;
 import com.nonsoolmate.member.entity.enums.Role;
-
-import lombok.Builder;
 
 @Builder
 public record MemberSignUpVO(

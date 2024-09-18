@@ -3,6 +3,8 @@ package com.nonsoolmate.global.handler;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
+import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -18,8 +20,6 @@ import com.nonsoolmate.exception.common.BusinessException;
 import com.nonsoolmate.exception.common.ClientException;
 import com.nonsoolmate.exception.common.CommonErrorType;
 import com.nonsoolmate.response.ErrorResponse;
-
-import lombok.extern.slf4j.Slf4j;
 
 @RestControllerAdvice
 @Slf4j

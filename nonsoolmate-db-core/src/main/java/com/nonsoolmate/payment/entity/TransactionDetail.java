@@ -11,12 +11,12 @@ import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 import jakarta.validation.constraints.NotNull;
 
-import com.nonsoolmate.order.entity.OrderDetail;
-
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import com.nonsoolmate.order.entity.OrderDetail;
 
 @Entity
 @Table(

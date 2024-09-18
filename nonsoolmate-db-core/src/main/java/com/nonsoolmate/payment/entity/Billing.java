@@ -8,12 +8,12 @@ import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 import jakarta.validation.constraints.NotNull;
 
-import com.nonsoolmate.member.entity.Member;
-
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import com.nonsoolmate.member.entity.Member;
 
 @Entity
 @Table(

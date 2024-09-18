@@ -5,13 +5,13 @@ import static com.nonsoolmate.couponMember.entity.QCouponMember.*;
 
 import java.util.List;
 
+import lombok.RequiredArgsConstructor;
+
 import org.springframework.stereotype.Repository;
 
 import com.nonsoolmate.couponMember.repository.dto.CouponResponseDTO;
 import com.nonsoolmate.couponMember.repository.dto.QCouponResponseDTO;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-
-import lombok.RequiredArgsConstructor;
 
 @Repository
 @RequiredArgsConstructor

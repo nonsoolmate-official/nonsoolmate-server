@@ -1,11 +1,11 @@
 package com.nonsoolmate.exception.examRecord;
 
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+
 import org.springframework.http.HttpStatus;
 
 import com.nonsoolmate.exception.common.SuccessType;
-
-import lombok.AccessLevel;
-import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public enum ExamRecordSuccessType implements SuccessType {
