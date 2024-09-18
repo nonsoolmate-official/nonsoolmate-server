@@ -39,10 +39,15 @@ public class Billing {
 	private String lastTransactionKey;
 
 	@Builder
-	public Billing(final String billingKey, final Member customer, final String cardNumber) {
+	private Billing(
+			final String billingKey,
+			final Member customer,
+			final String cardNumber,
+			final String cardCompany) {
 		this.billingKey = billingKey;
 		this.customer = customer;
 		this.cardNumber = cardNumber;
+		this.cardCompany = cardCompany;
 	}
 
 	public void updateLastTransactionKey(final String lastTransactionKey) {
