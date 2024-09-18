@@ -2,10 +2,10 @@ package com.nonsoolmate.couponMember.repository.dto;
 
 import java.time.LocalDateTime;
 
+import lombok.Getter;
+
 import com.nonsoolmate.coupon.entity.enums.CouponType;
 import com.querydsl.core.annotations.QueryProjection;
-
-import lombok.Getter;
 
 @Getter
 public class CouponResponseDTO {

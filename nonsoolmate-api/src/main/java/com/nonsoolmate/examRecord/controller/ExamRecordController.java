@@ -4,6 +4,8 @@ import static com.nonsoolmate.exception.examRecord.ExamRecordSuccessType.*;
 
 import jakarta.validation.Valid;
 
+import lombok.RequiredArgsConstructor;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,8 +27,6 @@ import com.nonsoolmate.examRecord.service.ExamRecordSheetService;
 import com.nonsoolmate.exception.examRecord.ExamRecordSuccessType;
 import com.nonsoolmate.global.security.AuthMember;
 import com.nonsoolmate.response.SuccessResponse;
-
-import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/college/exam-record")

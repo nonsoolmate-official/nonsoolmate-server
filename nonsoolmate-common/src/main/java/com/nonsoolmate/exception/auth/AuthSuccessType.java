@@ -1,10 +1,10 @@
 package com.nonsoolmate.exception.auth;
 
+import lombok.RequiredArgsConstructor;
+
 import org.springframework.http.HttpStatus;
 
 import com.nonsoolmate.exception.common.SuccessType;
-
-import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 public enum AuthSuccessType implements SuccessType {

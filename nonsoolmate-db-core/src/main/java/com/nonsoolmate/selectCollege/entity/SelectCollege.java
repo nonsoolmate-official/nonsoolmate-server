@@ -8,13 +8,13 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 
-import com.nonsoolmate.member.entity.Member;
-import com.nonsoolmate.university.entity.College;
-
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import com.nonsoolmate.member.entity.Member;
+import com.nonsoolmate.university.entity.College;
 
 @Entity
 @Getter

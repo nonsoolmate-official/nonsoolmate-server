@@ -1,13 +1,13 @@
 package com.nonsoolmate.discord.util;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+
 import org.slf4j.MDC;
 import org.slf4j.spi.MDCAdapter;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class MDCUtil {

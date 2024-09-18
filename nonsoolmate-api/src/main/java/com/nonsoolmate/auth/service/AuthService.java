@@ -1,5 +1,7 @@
 package com.nonsoolmate.auth.service;
 
+import lombok.RequiredArgsConstructor;
+
 import org.springframework.dao.DataIntegrityViolationException;
 
 import com.nonsoolmate.auth.controller.dto.request.MemberRequestDTO;
@@ -10,8 +12,6 @@ import com.nonsoolmate.member.entity.Member;
 import com.nonsoolmate.member.entity.enums.PlatformType;
 import com.nonsoolmate.member.entity.enums.Role;
 import com.nonsoolmate.member.repository.MemberRepository;
-
-import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 public abstract class AuthService {

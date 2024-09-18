@@ -1,5 +1,7 @@
 package com.nonsoolmate.member.service;
 
+import lombok.RequiredArgsConstructor;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -9,8 +11,6 @@ import com.nonsoolmate.member.controller.dto.response.TicketResponseDTO;
 import com.nonsoolmate.member.entity.Member;
 import com.nonsoolmate.member.repository.MemberRepository;
 import com.nonsoolmate.payment.controller.dto.response.CustomerInfoDTO;
-
-import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor

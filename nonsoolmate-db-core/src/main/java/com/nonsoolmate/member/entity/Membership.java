@@ -10,13 +10,13 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToOne;
 
-import com.nonsoolmate.common.BaseTimeEntity;
-import com.nonsoolmate.member.entity.enums.MembershipStatus;
-import com.nonsoolmate.member.entity.enums.MembershipType;
-
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import com.nonsoolmate.common.BaseTimeEntity;
+import com.nonsoolmate.member.entity.enums.MembershipStatus;
+import com.nonsoolmate.member.entity.enums.MembershipType;
 
 @Entity
 @Getter

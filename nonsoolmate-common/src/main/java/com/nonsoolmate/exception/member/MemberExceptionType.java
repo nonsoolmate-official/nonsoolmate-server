@@ -1,11 +1,11 @@
 package com.nonsoolmate.exception.member;
 
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+
 import org.springframework.http.HttpStatus;
 
 import com.nonsoolmate.exception.common.ExceptionType;
-
-import lombok.AccessLevel;
-import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public enum MemberExceptionType implements ExceptionType {

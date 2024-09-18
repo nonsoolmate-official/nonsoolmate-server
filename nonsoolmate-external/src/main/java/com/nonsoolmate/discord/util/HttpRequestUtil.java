@@ -7,14 +7,14 @@ import java.util.Objects;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.WebUtils;
 
 import com.nonsoolmate.discord.CachedBodyRequestWrapper;
-
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @NoArgsConstructor(access = AccessLevel.PRIVATE)

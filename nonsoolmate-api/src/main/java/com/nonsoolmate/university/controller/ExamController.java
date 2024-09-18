@@ -2,6 +2,8 @@ package com.nonsoolmate.university.controller;
 
 import static com.nonsoolmate.exception.university.ExamSuccessType.*;
 
+import lombok.RequiredArgsConstructor;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,8 +16,6 @@ import com.nonsoolmate.university.controller.dto.response.ExamAndAnswerResponseD
 import com.nonsoolmate.university.controller.dto.response.ExamInfoResponseDTO;
 import com.nonsoolmate.university.controller.dto.response.ExamUrlResponseDTO;
 import com.nonsoolmate.university.service.ExamService;
-
-import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/college/exam")

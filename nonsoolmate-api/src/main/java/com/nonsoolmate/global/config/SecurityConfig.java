@@ -1,5 +1,7 @@
 package com.nonsoolmate.global.config;
 
+import lombok.RequiredArgsConstructor;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,7 +20,6 @@ import com.nonsoolmate.global.filter.jwt.JwtAuthenticationFilter;
 import com.nonsoolmate.global.filter.jwt.JwtExceptionFilter;
 
 import io.swagger.v3.oas.models.PathItem.HttpMethod;
-import lombok.RequiredArgsConstructor;
 
 @Configuration
 @EnableWebSecurity

@@ -5,6 +5,8 @@ import static com.nonsoolmate.exception.coupon.CouponExceptionType.*;
 import java.util.List;
 import java.util.Optional;
 
+import lombok.RequiredArgsConstructor;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,8 +21,6 @@ import com.nonsoolmate.couponMember.repository.CouponMemberRepository;
 import com.nonsoolmate.couponMember.repository.dto.CouponResponseDTO;
 import com.nonsoolmate.examRecord.controller.dto.request.RegisterCouponRequestDTO;
 import com.nonsoolmate.exception.coupon.CouponException;
-
-import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor

@@ -2,6 +2,8 @@ package com.nonsoolmate.member.controller;
 
 import static com.nonsoolmate.exception.member.MemberSuccessType.*;
 
+import lombok.RequiredArgsConstructor;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,8 +16,6 @@ import com.nonsoolmate.member.controller.dto.response.ProfileResponseDTO;
 import com.nonsoolmate.member.controller.dto.response.TicketResponseDTO;
 import com.nonsoolmate.member.service.MemberService;
 import com.nonsoolmate.response.SuccessResponse;
-
-import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/my")

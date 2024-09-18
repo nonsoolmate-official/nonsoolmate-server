@@ -8,6 +8,9 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Map;
 
+import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
+
 import com.nonsoolmate.discord.model.EmbedObject;
 import com.nonsoolmate.discord.util.MDCUtil;
 import com.nonsoolmate.discord.util.StringUtil;
@@ -18,8 +21,6 @@ import ch.qos.logback.classic.spi.IThrowableProxy;
 import ch.qos.logback.classic.spi.ThrowableProxyUtil;
 import ch.qos.logback.core.UnsynchronizedAppenderBase;
 import io.micrometer.core.instrument.util.StringEscapeUtils;
-import lombok.Setter;
-import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Setter

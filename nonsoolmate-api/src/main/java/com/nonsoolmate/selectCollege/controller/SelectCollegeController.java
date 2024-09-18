@@ -6,6 +6,8 @@ import java.util.List;
 
 import jakarta.validation.Valid;
 
+import lombok.RequiredArgsConstructor;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -20,8 +22,6 @@ import com.nonsoolmate.selectCollege.controller.dto.response.SelectCollegeExamsR
 import com.nonsoolmate.selectCollege.controller.dto.response.SelectCollegeResponseDTO;
 import com.nonsoolmate.selectCollege.controller.dto.response.SelectCollegeUpdateResponseDTO;
 import com.nonsoolmate.selectCollege.service.SelectCollegeService;
-
-import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor

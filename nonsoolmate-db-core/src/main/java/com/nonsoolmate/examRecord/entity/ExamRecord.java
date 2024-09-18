@@ -13,15 +13,15 @@ import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 import jakarta.validation.constraints.NotNull;
 
-import com.nonsoolmate.examRecord.entity.enums.EditingType;
-import com.nonsoolmate.examRecord.entity.enums.ExamResultStatus;
-import com.nonsoolmate.member.entity.Member;
-import com.nonsoolmate.university.entity.Exam;
-
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import com.nonsoolmate.examRecord.entity.enums.EditingType;
+import com.nonsoolmate.examRecord.entity.enums.ExamResultStatus;
+import com.nonsoolmate.member.entity.Member;
+import com.nonsoolmate.university.entity.Exam;
 
 @Entity
 @Getter

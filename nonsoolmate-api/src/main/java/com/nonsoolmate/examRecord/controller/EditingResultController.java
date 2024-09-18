@@ -1,5 +1,7 @@
 package com.nonsoolmate.examRecord.controller;
 
+import lombok.RequiredArgsConstructor;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,8 +13,6 @@ import com.nonsoolmate.examRecord.controller.dto.response.EditingResultDTO;
 import com.nonsoolmate.examRecord.entity.enums.EditingType;
 import com.nonsoolmate.examRecord.service.ExamRecordService;
 import com.nonsoolmate.global.security.AuthMember;
-
-import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/college/exam")

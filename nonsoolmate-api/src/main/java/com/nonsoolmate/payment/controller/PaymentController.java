@@ -9,6 +9,9 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,9 +24,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nonsoolmate.global.security.AuthMember;
 import com.nonsoolmate.member.service.MemberService;
 import com.nonsoolmate.payment.controller.dto.response.CustomerInfoDTO;
-
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @Slf4j

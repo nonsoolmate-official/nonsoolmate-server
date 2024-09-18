@@ -4,11 +4,11 @@ import java.time.LocalDateTime;
 
 import jakarta.validation.constraints.NotNull;
 
-import com.nonsoolmate.coupon.entity.Coupon;
-import com.nonsoolmate.coupon.entity.enums.CouponType;
-
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+
+import com.nonsoolmate.coupon.entity.Coupon;
+import com.nonsoolmate.coupon.entity.enums.CouponType;
 
 @RequiredArgsConstructor
 @Getter

@@ -5,6 +5,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import lombok.RequiredArgsConstructor;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,8 +24,6 @@ import com.nonsoolmate.university.entity.College;
 import com.nonsoolmate.university.entity.Exam;
 import com.nonsoolmate.university.repository.CollegeRepository;
 import com.nonsoolmate.university.repository.ExamRepository;
-
-import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor

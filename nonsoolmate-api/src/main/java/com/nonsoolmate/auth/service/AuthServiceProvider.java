@@ -4,11 +4,11 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import jakarta.annotation.PostConstruct;
 
+import lombok.RequiredArgsConstructor;
+
 import org.springframework.stereotype.Component;
 
 import com.nonsoolmate.member.entity.enums.PlatformType;
-
-import lombok.RequiredArgsConstructor;
 
 @Component
 @RequiredArgsConstructor
