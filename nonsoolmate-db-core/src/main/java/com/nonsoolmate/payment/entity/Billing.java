@@ -34,6 +34,8 @@ public class Billing {
 
 	@NotNull private String cardNumber;
 
+	@NotNull private String cardCompany;
+
 	private String lastTransactionKey;
 
 	@Builder
