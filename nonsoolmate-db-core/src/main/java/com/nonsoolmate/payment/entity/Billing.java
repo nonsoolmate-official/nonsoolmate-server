@@ -1,6 +1,8 @@
 package com.nonsoolmate.payment.entity;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
@@ -25,7 +27,11 @@ import com.nonsoolmate.member.entity.Member;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 public class Billing {
-	@Id private String billingKey;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long billingId;
+
+	@NotNull private String billingKey;
 
 	@NotNull
 	@OneToOne
