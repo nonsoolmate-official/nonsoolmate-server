@@ -2,7 +2,6 @@ package com.nonsoolmate.global.security.service;
 
 import static com.nonsoolmate.exception.auth.AuthExceptionType.*;
 
-import java.util.Date;
 import java.util.Optional;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -113,10 +112,10 @@ public class JwtService {
 		return JwtTokenValidator.getMemberIdFromClaim(tokenClaims, AUTH_USER);
 	}
 
-	public Boolean validateToken(final String atk)
+	public void validateToken(final String atk)
 			throws ExpiredJwtException, MalformedJwtException, SignatureException {
 		Claims tokenClaims = jwtTokenValidator.getTokenClaims(atk);
-		return !tokenClaims.getExpiration().before(new Date());
+		tokenClaims.getExpiration();
 	}
 
 	private String extractRefreshToken(HttpServletRequest request) {
