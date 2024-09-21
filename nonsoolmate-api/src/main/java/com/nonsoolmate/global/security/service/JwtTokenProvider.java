@@ -26,13 +26,10 @@ public class JwtTokenProvider {
 	private static final String MEMBER_ID_CLAIM = "memberId";
 
 	private final Key key;
-	private final ObjectMapper objectMapper;
 
-	public JwtTokenProvider(@Value("${jwt.secretKey}") String secretKey, ObjectMapper objectMapper) {
+	public JwtTokenProvider(@Value("${jwt.secretKey}") String secretKey) {
 		byte[] keyBytes = Decoders.BASE64.decode(secretKey);
-
 		this.key = Keys.hmacShaKeyFor(keyBytes);
-		this.objectMapper = objectMapper;
 	}
 
 	public String createAccessToken(String email, String memberId, Long expirationTime) {
@@ -58,23 +55,5 @@ public class JwtTokenProvider {
 				.setExpiration(new Date(now.getTime() + expirationTime)) // 토큰 만료 시간 설정
 				.signWith(key, SignatureAlgorithm.HS256)
 				.compact();
-	}
-
-	public Claims getTokenClaims(final String token) {
-		return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody();
-	}
-
-	public Claims makeInfoToClaim(String infoName, final Long memberId)
-			throws JsonProcessingException {
-		String claimValue = objectMapper.writeValueAsString(memberId);
-		Claims claims = Jwts.claims();
-		claims.put(infoName, claimValue);
-		return claims;
-	}
-
-	public String getMemberIdFromClaim(Claims claims, String infoName)
-			throws JsonProcessingException {
-
-		return claims.get(infoName, String.class);
 	}
 }
