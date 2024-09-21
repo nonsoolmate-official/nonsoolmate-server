@@ -26,7 +26,8 @@ class BillingServiceTest {
 
 	@InjectMocks BillingService billingService;
 
-	private static final String memberId = "testMemberId";
+	private static final String MEMBER_ID = "testMemberId";
+	private static final String NOT_REGISTERED_CARD_EXCEPTION_MESSAGE = "사용자가 카드를 등록하지 않았습니다";
 
 	@Test
 	@DisplayName("사용자가 등록한 카드를 확인하는 경우")
@@ -57,7 +58,7 @@ class BillingServiceTest {
 		given(billingRepository.findByCustomerIdOrThrow(anyString())).willReturn(expectedBilling);
 
 		// when
-		CardResponseDTO response = billingService.getCard(memberId);
+		CardResponseDTO response = billingService.getCard(MEMBER_ID);
 
 		// then
 		Assertions.assertThat(response).isEqualTo(mockResponse);
@@ -71,8 +72,8 @@ class BillingServiceTest {
 				.willThrow(new BillingException(NOT_FOUND_BILLING));
 
 		// when, then
-		Assertions.assertThatThrownBy(() -> billingService.getCard(memberId))
+		Assertions.assertThatThrownBy(() -> billingService.getCard(MEMBER_ID))
 				.isInstanceOf(BillingException.class)
-				.hasMessage("사용자가 카드를 등록하지 않았습니다");
+				.hasMessage(NOT_REGISTERED_CARD_EXCEPTION_MESSAGE);
 	}
 }
