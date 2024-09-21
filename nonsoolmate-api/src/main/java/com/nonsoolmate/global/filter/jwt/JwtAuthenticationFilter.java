@@ -22,7 +22,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.nonsoolmate.exception.auth.AuthException;
 import com.nonsoolmate.global.security.MemberAuthentication;
 import com.nonsoolmate.global.security.service.JwtService;
-import com.nonsoolmate.global.security.utils.RequestUtils;
+import com.nonsoolmate.global.security.service.JwtTokenValidator;
 
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
@@ -54,12 +54,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 			return;
 		}
 
-		if (!RequestUtils.isContainsAccessToken(request)) {
+		if (!JwtTokenValidator.isContainsAccessToken(request)) {
 			filterChain.doFilter(request, response);
 			return;
 		}
 
-		String authorizationAccessToken = RequestUtils.getAuthorizationAccessToken(request);
+		String authorizationAccessToken = JwtTokenValidator.getAuthorizationAccessToken(request);
 
 		try {
 			jwtService.validateToken(authorizationAccessToken);

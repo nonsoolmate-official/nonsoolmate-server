@@ -55,8 +55,10 @@ public class JwtService {
 	private String refreshHeader;
 
 	private final MemberRepository memberRepository;
-	private final JwtTokenProvider jwtTokenProvider;
 	private final RedisTokenRepository redisTokenRepository;
+
+	private final JwtTokenProvider jwtTokenProvider;
+	private final JwtTokenValidator jwtTokenValidator;
 
 	@Transactional
 	public MemberAuthResponseDTO issueToken(MemberSignUpVO vo) {
@@ -85,7 +87,7 @@ public class JwtService {
 			throw new AuthException(UNAUTHORIZED_REFRESH_TOKEN);
 		}
 
-		Claims tokenClaims = jwtTokenProvider.getTokenClaims(refreshToken);
+		Claims tokenClaims = jwtTokenValidator.getTokenClaims(refreshToken);
 		RefreshTokenVO foundRefreshToken =
 				redisTokenRepository.findByMemberIdOrElseThrowException(
 						String.valueOf(tokenClaims.get(MEMBER_ID_CLAIM)));
@@ -107,13 +109,13 @@ public class JwtService {
 	}
 
 	public String extractMemberIdFromAccessToken(final String atk) throws JsonProcessingException {
-		Claims tokenClaims = jwtTokenProvider.getTokenClaims(atk);
-		return jwtTokenProvider.getMemberIdFromClaim(tokenClaims, AUTH_USER);
+		Claims tokenClaims = jwtTokenValidator.getTokenClaims(atk);
+		return JwtTokenValidator.getMemberIdFromClaim(tokenClaims, AUTH_USER);
 	}
 
 	public Boolean validateToken(final String atk)
 			throws ExpiredJwtException, MalformedJwtException, SignatureException {
-		Claims tokenClaims = jwtTokenProvider.getTokenClaims(atk);
+		Claims tokenClaims = jwtTokenValidator.getTokenClaims(atk);
 		return !tokenClaims.getExpiration().before(new Date());
 	}
 
