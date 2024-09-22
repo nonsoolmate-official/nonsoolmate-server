@@ -16,7 +16,6 @@ import com.nonsoolmate.member.entity.Member;
 import com.nonsoolmate.university.entity.Exam;
 
 public interface ExamRecordRepository extends JpaRepository<ExamRecord, Long> {
-	List<ExamRecord> findByExamAndMember(Exam university, Member member);
 
 	Optional<ExamRecord> findByExamAndMemberAndEditingType(
 			Exam exam, Member member, EditingType editingType);

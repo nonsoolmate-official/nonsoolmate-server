@@ -4,8 +4,6 @@ import static com.nonsoolmate.aws.FolderName.*;
 import static com.nonsoolmate.exception.examRecord.ExamRecordExceptionType.*;
 import static com.nonsoolmate.exception.university.ExamExceptionType.*;
 
-import java.util.List;
-
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -17,8 +15,6 @@ import com.nonsoolmate.aws.service.S3Service;
 import com.nonsoolmate.examRecord.controller.dto.request.CreateExamRecordRequestDTO;
 import com.nonsoolmate.examRecord.controller.dto.response.EditingResultDTO;
 import com.nonsoolmate.examRecord.controller.dto.response.ExamRecordIdResponse;
-import com.nonsoolmate.examRecord.controller.dto.response.ExamRecordResponseDTO;
-import com.nonsoolmate.examRecord.controller.dto.response.ExamRecordResultResponseDTO;
 import com.nonsoolmate.examRecord.entity.ExamRecord;
 import com.nonsoolmate.examRecord.entity.enums.EditingType;
 import com.nonsoolmate.examRecord.entity.enums.ExamResultStatus;
@@ -44,43 +40,7 @@ public class ExamRecordService {
 	private final CloudFrontService cloudFrontService;
 	private final S3Service s3Service;
 
-	public ExamRecordResponseDTO getExamRecord(Long examId, String memberId) {
-		Member member = memberRepository.findByMemberIdOrThrow(memberId);
-		Exam exam = getExam(examId);
-		List<ExamRecord> examRecord = getExamByExamAndMember(exam, member);
-
-		validateCorrection(examRecord.get(0));
-
-		String answerUrl =
-				cloudFrontService.createPreSignedGetUrl(
-						EXAM_ANSWER_FOLDER_NAME, exam.getExamAnswerFileName());
-		String resultUrl =
-				cloudFrontService.createPreSignedGetUrl(
-						EXAM_RESULT_FOLDER_NAME, examRecord.get(0).getExamRecordResultFileName());
-
-		return ExamRecordResponseDTO.of(exam.getExamFullName(), answerUrl, resultUrl);
-	}
-
-	public ExamRecordResultResponseDTO getExamRecordResult(Long examId, String memberId) {
-		Member member = memberRepository.findByMemberIdOrThrow(memberId);
-
-		Exam exam = getExam(examId);
-		ExamRecord examRecord = getExamByExamAndMember(exam, member).get(0);
-
-		validateCorrection(examRecord);
-
-		String resultUrl =
-				cloudFrontService.createPreSignedGetUrl(
-						EXAM_RESULT_FOLDER_NAME, examRecord.getExamRecordResultFileName());
-
-		return ExamRecordResultResponseDTO.of(resultUrl);
-	}
-
-	private void validateCorrection(ExamRecord examRecord) {
-		if (examRecord.getExamRecordResultFileName() == null) {
-			throw new ExamRecordException(INVALID_EXAM_RECORD_RESULT_FILE_NAME);
-		}
-	}
+	private static final String EXAM_RECORD_RESULT_FILE_NAME_EMPTY = "";
 
 	@Transactional
 	public ExamRecordIdResponse createEditingExamRecord(
@@ -182,10 +142,6 @@ public class ExamRecordService {
 
 	private Exam getExam(final Long examId) {
 		return examRepository.findByExamId(examId).orElseThrow(() -> new ExamException(INVALID_EXAM));
-	}
-
-	private List<ExamRecord> getExamByExamAndMember(final Exam exam, final Member member) {
-		return examRecordRepository.findByExamAndMember(exam, member);
 	}
 
 	public EditingResultDTO getExamRecordEditingResult(
