@@ -9,7 +9,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,8 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.nonsoolmate.aws.service.vo.PreSignedUrlVO;
 import com.nonsoolmate.examRecord.controller.dto.request.CreateExamRecordRequestDTO;
 import com.nonsoolmate.examRecord.controller.dto.response.ExamRecordIdResponse;
-import com.nonsoolmate.examRecord.controller.dto.response.ExamRecordResponseDTO;
-import com.nonsoolmate.examRecord.controller.dto.response.ExamRecordResultResponseDTO;
 import com.nonsoolmate.examRecord.controller.dto.response.ExamSheetPreSignedUrlResponseDTO;
 import com.nonsoolmate.examRecord.entity.enums.EditingType;
 import com.nonsoolmate.examRecord.service.ExamRecordService;
@@ -35,27 +32,6 @@ public class ExamRecordController implements ExamRecordApi {
 
 	private final ExamRecordService examRecordService;
 	private final ExamRecordSheetService examRecordSheetService;
-
-	@Override
-	@GetMapping("/{id}")
-	public ResponseEntity<SuccessResponse<ExamRecordResponseDTO>> getExamRecord(
-			@PathVariable("id") Long examId, @AuthMember String memberId) {
-		return ResponseEntity.ok()
-				.body(
-						SuccessResponse.of(
-								GET_EXAM_RECORD_SUCCESS, examRecordService.getExamRecord(examId, memberId)));
-	}
-
-	@Override
-	@GetMapping("/result/{id}")
-	public ResponseEntity<SuccessResponse<ExamRecordResultResponseDTO>> getExamRecordResult(
-			@PathVariable("id") Long examId, @AuthMember String memberId) {
-		return ResponseEntity.ok()
-				.body(
-						SuccessResponse.of(
-								GET_EXAM_RECORD_RESULT_SUCCESS,
-								examRecordService.getExamRecordResult(examId, memberId)));
-	}
 
 	@Override
 	@GetMapping("/sheet/presigned")
