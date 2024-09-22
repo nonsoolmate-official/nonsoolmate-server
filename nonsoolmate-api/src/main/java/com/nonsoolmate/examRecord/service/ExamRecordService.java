@@ -145,13 +145,20 @@ public class ExamRecordService {
 	}
 
 	public EditingResultDTO getExamRecordEditingResult(
-			final long examId, final EditingType type, final String memberId) {
+			final long examId, final EditingType editingType, final String memberId) {
 		ExamRecord examRecord =
-				examRecordRepository.findByExamAndMemberAndEditingTypeOrThrow(examId, type, memberId);
-		String examResultFileUrl =
-				cloudFrontService.createPreSignedGetUrl(
-						EXAM_RESULT_FOLDER_NAME, examRecord.getExamRecordResultFileName());
+				examRecordRepository.findByExamAndMemberAndEditingTypeOrThrow(
+						examId, editingType, memberId);
+		String examResultFileUrl = getExamResultFileUrl(examRecord.getExamRecordResultFileName());
 		return EditingResultDTO.of(
-				type, examRecord.getExamResultStatus().getStatus(), examResultFileUrl);
+				editingType, examRecord.getExamResultStatus().getStatus(), examResultFileUrl);
+	}
+
+	private String getExamResultFileUrl(final String examRecordResultFileName) {
+		if (examRecordResultFileName == null) {
+			return EXAM_RECORD_RESULT_FILE_NAME_EMPTY;
+		}
+		return cloudFrontService.createPreSignedGetUrl(
+				EXAM_RESULT_FOLDER_NAME, examRecordResultFileName);
 	}
 }
