@@ -1,7 +1,5 @@
 package com.nonsoolmate.member.controller;
 
-import io.swagger.v3.oas.annotations.Hidden;
-import io.swagger.v3.oas.annotations.Parameter;
 import jakarta.validation.Valid;
 
 import org.springframework.http.ResponseEntity;
@@ -15,6 +13,7 @@ import com.nonsoolmate.member.controller.dto.response.TicketResponseDTO;
 import com.nonsoolmate.response.SuccessResponse;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -36,5 +35,6 @@ public interface MemberApi {
 	@ApiResponses(value = {@ApiResponse(responseCode = "200", description = "프로필 수정에 성공하였습니다.")})
 	@Operation(summary = "내 프로필 수정", description = "내 프로필을 수정합니다.")
 	ResponseEntity<Void> editProfile(
-			@RequestBody @Valid ProfileRequestDTO profileRequestDTO, @Parameter(hidden = true) @AuthMember String memberId);
+			@RequestBody @Valid ProfileRequestDTO profileRequestDTO,
+			@Parameter(hidden = true) @AuthMember String memberId);
 }
