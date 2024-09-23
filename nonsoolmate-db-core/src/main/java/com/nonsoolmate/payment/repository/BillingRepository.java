@@ -1,6 +1,5 @@
 package com.nonsoolmate.payment.repository;
 
-import static com.nonsoolmate.exception.examRecord.ExamRecordExceptionType.*;
 import static com.nonsoolmate.exception.payment.BillingExceptionType.*;
 
 import java.util.Optional;
