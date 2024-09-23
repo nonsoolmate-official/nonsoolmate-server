@@ -2,15 +2,16 @@ package com.nonsoolmate.member.controller;
 
 import static com.nonsoolmate.exception.member.MemberSuccessType.*;
 
+import jakarta.validation.Valid;
+
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.nonsoolmate.exception.member.MemberSuccessType;
 import com.nonsoolmate.global.security.AuthMember;
+import com.nonsoolmate.member.controller.dto.request.ProfileRequestDTO;
 import com.nonsoolmate.member.controller.dto.response.NameResponseDTO;
 import com.nonsoolmate.member.controller.dto.response.ProfileResponseDTO;
 import com.nonsoolmate.member.controller.dto.response.TicketResponseDTO;
@@ -50,5 +51,14 @@ public class MyController implements MemberApi {
 		ProfileResponseDTO responseDTO = memberService.getProfile(memberId);
 
 		return ResponseEntity.ok().body(SuccessResponse.of(GET_MEMBER_PROFILE_SUCCESS, responseDTO));
+	}
+
+	@Override
+	@PutMapping("/profile")
+	public ResponseEntity<Void> editProfile(
+			@RequestBody @Valid ProfileRequestDTO profileRequestDTO, @AuthMember String memberId) {
+		memberService.editProfile(profileRequestDTO, memberId);
+
+		return ResponseEntity.ok().build();
 	}
 }

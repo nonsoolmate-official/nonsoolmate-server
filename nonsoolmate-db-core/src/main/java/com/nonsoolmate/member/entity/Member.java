@@ -95,4 +95,13 @@ public class Member {
 		}
 		this.reReviewTicketCount -= 1;
 	}
+
+	public void updateMemberProfile(
+			String name, String gender, String birthYear, String email, String phoneNumber) {
+		this.email = email;
+		this.name = name;
+		this.gender = gender;
+		this.birthYear = birthYear;
+		this.phoneNumber = phoneNumber;
+	}
 }

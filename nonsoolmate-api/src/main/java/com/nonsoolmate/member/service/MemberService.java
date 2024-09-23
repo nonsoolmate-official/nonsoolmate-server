@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.nonsoolmate.member.controller.dto.request.ProfileRequestDTO;
 import com.nonsoolmate.member.controller.dto.response.NameResponseDTO;
 import com.nonsoolmate.member.controller.dto.response.ProfileResponseDTO;
 import com.nonsoolmate.member.controller.dto.response.TicketResponseDTO;
@@ -45,5 +46,17 @@ public class MemberService {
 		Member member = memberRepository.findByMemberIdOrThrow(memberId);
 
 		return CustomerInfoDTO.of(member.getMemberId(), member.getName(), member.getEmail());
+	}
+
+	@Transactional
+	public void editProfile(final ProfileRequestDTO profileRequestDTO, final String memberId) {
+		Member member = memberRepository.findByMemberIdOrThrow(memberId);
+
+		member.updateMemberProfile(
+				profileRequestDTO.name(),
+				profileRequestDTO.gender(),
+				profileRequestDTO.birthYear(),
+				profileRequestDTO.email(),
+				profileRequestDTO.phoneNumber());
 	}
 }
