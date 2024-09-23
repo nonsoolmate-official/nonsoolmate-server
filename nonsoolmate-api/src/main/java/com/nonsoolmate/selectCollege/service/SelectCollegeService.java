@@ -2,7 +2,6 @@ package com.nonsoolmate.selectCollege.service;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import lombok.RequiredArgsConstructor;
@@ -40,7 +39,9 @@ public class SelectCollegeService {
 
 		List<College> colleges = collegeRepository.findAllOrderByUniversityNameAscCollegeNameAsc();
 
-		Set<Long> selectedUniversityIds = selectCollegeRepository.findUniversityIdsByMember(member);
+		List<SelectCollege> selectedUniversities = selectCollegeRepository.findAllByMember(member);
+		List<Long> selectedUniversityIds =
+				selectedUniversities.stream().map(s -> s.getCollege().getCollegeId()).toList();
 
 		return colleges.stream()
 				.map(

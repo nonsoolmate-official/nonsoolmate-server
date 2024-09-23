@@ -1,7 +1,6 @@
 package com.nonsoolmate.selectCollege.repository;
 
 import java.util.List;
-import java.util.Set;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -28,5 +27,5 @@ public interface SelectCollegeRepository extends JpaRepository<SelectCollege, Lo
 	List<SelectCollege> findAllByMemberOrderByUniversityNameAscCollegeNameAsc(
 			@Param("memberId") String memberId);
 
-	Set<Long> findUniversityIdsByMember(Member member);
+	List<SelectCollege> findAllByMember(Member member);
 }
