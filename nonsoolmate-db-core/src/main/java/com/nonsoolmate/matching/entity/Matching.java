@@ -1,4 +1,4 @@
-package com.nonsoolmate.teacherMember.entity;
+package com.nonsoolmate.matching.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -13,11 +13,11 @@ import com.nonsoolmate.teacher.entity.Teacher;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class TeacherMember {
+public class Matching {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long teacherMemberId;
+	private Long matchingId;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "teacher_id")
