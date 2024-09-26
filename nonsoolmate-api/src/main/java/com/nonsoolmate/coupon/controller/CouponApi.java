@@ -11,6 +11,7 @@ import com.nonsoolmate.examRecord.controller.dto.request.RegisterCouponRequestDT
 import com.nonsoolmate.global.security.AuthMember;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 @Tag(name = "Coupon", description = "쿠폰과 관련된 API")
@@ -22,9 +23,11 @@ public interface CouponApi {
 	ResponseEntity<Void> issueCoupon(@RequestBody @Valid IssueCouponRequestDTO requestDTO);
 
 	@Operation(summary = "쿠폰 목록 조회", description = "사용자가 가지고 있는 쿠폰 목록을 조회합니다.")
-	ResponseEntity<GetCouponsResponseDTO> getCoupons(@AuthMember String memberId);
+	ResponseEntity<GetCouponsResponseDTO> getCoupons(
+			@Parameter(hidden = true) @AuthMember String memberId);
 
 	@Operation(summary = "쿠폰 등록", description = "쿠폰을 등록합니다.")
 	ResponseEntity<Void> registerCoupon(
-			@RequestBody @Valid RegisterCouponRequestDTO requestDTO, @AuthMember String memberId);
+			@RequestBody @Valid RegisterCouponRequestDTO requestDTO,
+			@Parameter(hidden = true) @AuthMember String memberId);
 }
