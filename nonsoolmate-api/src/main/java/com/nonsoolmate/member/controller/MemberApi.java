@@ -22,15 +22,18 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 public interface MemberApi {
 	@ApiResponses(value = {@ApiResponse(responseCode = "200", description = "이름 조회에 성공하였습니다.")})
 	@Operation(summary = "마이페이지: 이름", description = "내 이름을 조회합니다.")
-	ResponseEntity<SuccessResponse<NameResponseDTO>> getName(@AuthMember String memberId);
+	ResponseEntity<SuccessResponse<NameResponseDTO>> getName(
+			@Parameter(hidden = true) @AuthMember String memberId);
 
 	@ApiResponses(value = {@ApiResponse(responseCode = "200", description = "이름 조회에 성공하였습니다.")})
 	@Operation(summary = "내 정보 확인: 첨삭권 개수", description = "내 첨삭권 갯수를 조회합니다.")
-	ResponseEntity<SuccessResponse<TicketResponseDTO>> getTicket(@AuthMember String memberId);
+	ResponseEntity<SuccessResponse<TicketResponseDTO>> getTicket(
+			@Parameter(hidden = true) @AuthMember String memberId);
 
 	@ApiResponses(value = {@ApiResponse(responseCode = "200", description = "프로필 조회에 성공하였습니다.")})
 	@Operation(summary = "내 프로필 조회", description = "내 프로필을 조회합니다.")
-	ResponseEntity<SuccessResponse<ProfileResponseDTO>> getProfile(@AuthMember String memberId);
+	ResponseEntity<SuccessResponse<ProfileResponseDTO>> getProfile(
+			@Parameter(hidden = true) @AuthMember String memberId);
 
 	@ApiResponses(value = {@ApiResponse(responseCode = "200", description = "프로필 수정에 성공하였습니다.")})
 	@Operation(summary = "내 프로필 수정", description = "내 프로필을 수정합니다.")
