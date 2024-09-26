@@ -13,6 +13,7 @@ import com.nonsoolmate.response.ErrorResponse;
 import com.nonsoolmate.response.SuccessResponse;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -48,5 +49,5 @@ public interface ExamRecordApi {
 			description = "답안지(시험응시기록) 업로드 후 서버에 기록하기 위해 호출합니다.")
 	ResponseEntity<SuccessResponse<ExamRecordIdResponse>> createExamRecord(
 			@Valid @RequestBody CreateExamRecordRequestDTO createExamRecordRequestDTO,
-			@AuthMember String memberId);
+			@Parameter(hidden = true) @AuthMember String memberId);
 }
