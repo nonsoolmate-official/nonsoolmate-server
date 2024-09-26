@@ -34,5 +34,5 @@ public interface EditingResultApi {
 			@Parameter(description = "첨삭 유형: 첨삭(EDITING), 재첨삭(REVISION)", required = true)
 					@RequestParam("type")
 					final EditingType type,
-			@AuthMember final String memberId);
+			@Parameter(hidden = true) @AuthMember final String memberId);
 }
