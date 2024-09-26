@@ -1,8 +1,10 @@
 package com.nonsoolmate.payment.controller;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import com.nonsoolmate.global.security.AuthMember;
+import com.nonsoolmate.payment.controller.dto.request.CreateCardRequestDTO;
 import com.nonsoolmate.payment.controller.dto.response.CardResponseDTO;
 import com.nonsoolmate.response.ErrorResponse;
 
@@ -26,4 +28,9 @@ public interface CardApi {
 			})
 	@Operation(summary = "카드 등록 페이지: 사용자 카드 정보 조회", description = "사용자가 이전에 등록한 카드 정보를 조회합니다")
 	ResponseEntity<CardResponseDTO> getCard(@Parameter(hidden = true) @AuthMember String memberId);
+
+	@ApiResponses(value = {@ApiResponse(responseCode = "201")})
+	@Operation(summary = "카드 등록 페이지: 사용자 카드 등록", description = "사용자가 이전에 등록한 카드 정보를 조회합니다")
+	ResponseEntity<CardResponseDTO> registerCard(
+			@RequestBody CreateCardRequestDTO createCardRequestDTO);
 }
