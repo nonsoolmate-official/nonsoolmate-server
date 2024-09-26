@@ -7,6 +7,7 @@ import com.nonsoolmate.payment.controller.dto.response.CardResponseDTO;
 import com.nonsoolmate.response.ErrorResponse;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -24,5 +25,5 @@ public interface CardApi {
 						content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
 			})
 	@Operation(summary = "카드 등록 페이지: 사용자 카드 정보 조회", description = "사용자가 이전에 등록한 카드 정보를 조회합니다")
-	ResponseEntity<CardResponseDTO> getCard(@AuthMember String memberId);
+	ResponseEntity<CardResponseDTO> getCard(@Parameter(hidden = true) @AuthMember String memberId);
 }
