@@ -42,7 +42,7 @@ public class TossPaymentService {
 					tossPaymentBillingDTO.billingKey(),
 					tossPaymentBillingDTO.cardCompany(),
 					tossPaymentBillingDTO.cardNumber());
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
 			throw new BusinessException(TOSS_PAYMENT_ISSUE_BILLING);
 		}
 	}
