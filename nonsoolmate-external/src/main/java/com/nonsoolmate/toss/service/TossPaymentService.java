@@ -37,26 +37,28 @@ public class TossPaymentService {
 	}
 
 	public TossPaymentBillingVO issueBilling(final String customerKey, final String authKey) {
-		WebClient webClient = WebClient.builder().build();
 		IssueBillingDTO issueBillingDTO = IssueBillingDTO.of(authKey, customerKey);
+		TossPaymentBillingDTO tossPaymentBillingDTO = getTossPaymentBillingDTO(issueBillingDTO);
 
+		return TossPaymentBillingVO.of(
+				tossPaymentBillingDTO.customerKey(),
+				tossPaymentBillingDTO.billingKey(),
+				tossPaymentBillingDTO.cardCompany(),
+				tossPaymentBillingDTO.cardNumber());
+	}
+
+	private TossPaymentBillingDTO getTossPaymentBillingDTO(IssueBillingDTO request) {
+		WebClient webClient = WebClient.builder().build();
 		try {
-			TossPaymentBillingDTO tossPaymentBillingDTO =
-					webClient
-							.post()
-							.uri(TOSS_ISSUE_BILLING_URI)
-							.header(TOSS_AUTHORIZATION_HEADER, TOSS_AUTHORIZATION_PREFIX + secretKey)
-							.header("Content-Type", "application/json")
-							.body(Mono.just(issueBillingDTO), IssueBillingDTO.class)
-							.retrieve()
-							.bodyToMono(TossPaymentBillingDTO.class)
-							.block();
-
-			return TossPaymentBillingVO.of(
-					tossPaymentBillingDTO.customerKey(),
-					tossPaymentBillingDTO.billingKey(),
-					tossPaymentBillingDTO.cardCompany(),
-					tossPaymentBillingDTO.cardNumber());
+			return webClient
+					.post()
+					.uri(TOSS_ISSUE_BILLING_URI)
+					.header(TOSS_AUTHORIZATION_HEADER, TOSS_AUTHORIZATION_PREFIX + secretKey)
+					.header("Content-Type", "application/json")
+					.body(Mono.just(request), IssueBillingDTO.class)
+					.retrieve()
+					.bodyToMono(TossPaymentBillingDTO.class)
+					.block();
 		} catch (WebClientResponseException e) {
 			boolean isUnauthorized = e.getStatusCode().equals(HttpStatus.UNAUTHORIZED);
 			boolean isNotFound = e.getStatusCode().equals(HttpStatus.NOT_FOUND);
