@@ -69,10 +69,9 @@ management:
     health:
       enabled: true
 
-payment:
-  toss:
-    api-secret-key: ${DEV_PAYMENT_API_KEY}
-    widget-secret-key: ${DEV_PAYMENT_WIDGET_KEY}
+toss:
+  billing:
+    api-key: ${TEST_TOSS_BILLING_API_KEY}
 
 coupon:
   secret: ${COUPON_SECRET}
