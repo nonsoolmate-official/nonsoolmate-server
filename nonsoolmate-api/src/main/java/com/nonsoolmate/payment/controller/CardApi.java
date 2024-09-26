@@ -29,7 +29,14 @@ public interface CardApi {
 	@Operation(summary = "카드 등록 페이지: 사용자 카드 정보 조회", description = "사용자가 이전에 등록한 카드 정보를 조회합니다")
 	ResponseEntity<CardResponseDTO> getCard(@Parameter(hidden = true) @AuthMember String memberId);
 
-	@ApiResponses(value = {@ApiResponse(responseCode = "201")})
+	@ApiResponses(
+			value = {
+				@ApiResponse(responseCode = "201"),
+				@ApiResponse(
+						responseCode = "400",
+						description = "카드 등록에 실패했습니다 (customerKey, authKey가 잘못된 경우)",
+						content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
+			})
 	@Operation(summary = "카드 등록 페이지: 사용자 카드 등록", description = "사용자가 이전에 등록한 카드 정보를 조회합니다")
 	ResponseEntity<CardResponseDTO> registerCard(
 			@RequestBody CreateCardRequestDTO createCardRequestDTO);
