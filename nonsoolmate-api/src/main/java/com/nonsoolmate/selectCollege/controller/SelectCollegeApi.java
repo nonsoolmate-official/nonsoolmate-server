@@ -16,6 +16,7 @@ import com.nonsoolmate.selectCollege.controller.dto.response.SelectCollegeRespon
 import com.nonsoolmate.selectCollege.controller.dto.response.SelectCollegeUpdateResponseDTO;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -31,7 +32,7 @@ public interface SelectCollegeApi {
 			})
 	@Operation(summary = "목표 단과 대학 설정: 리스트 조회", description = "내 목표 단과 대학 리스트를 조회합니다.")
 	ResponseEntity<SuccessResponse<List<SelectCollegeResponseDTO>>> getSelectColleges(
-			@AuthMember String memberId);
+			@Parameter(hidden = true) @AuthMember String memberId);
 
 	@ApiResponses(
 			value = {
@@ -39,7 +40,7 @@ public interface SelectCollegeApi {
 			})
 	@Operation(summary = "마이 페이지: 단과 대학별 시험 리스트 조회", description = "내 목표 단과 대학들의 시험 리스트를 조회합니다.")
 	ResponseEntity<SuccessResponse<List<SelectCollegeExamsResponseDTO>>> getSelectCollegeExams(
-			@AuthMember String memberId);
+			@Parameter(hidden = true) @AuthMember String memberId);
 
 	@ApiResponses(
 			value = {
@@ -51,5 +52,6 @@ public interface SelectCollegeApi {
 			})
 	@Operation(summary = "목표 단과 대학 설정: 리스트 선택", description = "내 목표 대학들 리스트를 업데이트(수정) 합니다.")
 	ResponseEntity<SuccessResponse<SelectCollegeUpdateResponseDTO>> patchSelectColleges(
-			@AuthMember String memberId, @RequestBody @Valid List<SelectUniversityRequestDTO> request);
+			@Parameter(hidden = true) @AuthMember String memberId,
+			@RequestBody @Valid List<SelectUniversityRequestDTO> request);
 }
