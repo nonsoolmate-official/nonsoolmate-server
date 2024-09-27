@@ -34,18 +34,17 @@ class MembershipServiceTest {
 	void getMembershipAndTicketWhenMemberNotPaidMembership() {
 		// given
 		Member expectMember = getExpectMember();
-		MembershipAndTicketResponseDTO expectMembershipAndTicketResponseDTO =
-				getExpectMembershipAndTicketResponse(MembershipType.NONE);
+		MembershipAndTicketResponseDTO expectedResponse =
+				getExpectedMembershipAndTicketResponseDTO(MembershipType.NONE);
 
 		given(memberRepository.findByMemberIdOrThrow(anyString())).willReturn(expectMember);
 		given(membershipRepository.findMembershipTypeOrThrowNull(any(Member.class))).willReturn(null);
 
 		// when
-		MembershipAndTicketResponseDTO membershipAndTicketResponseDTO =
-				membershipService.getMembershipAndTicket(MEMBER_ID);
+		MembershipAndTicketResponseDTO response = membershipService.getMembershipAndTicket(MEMBER_ID);
 
 		// then
-		assertThat(membershipAndTicketResponseDTO).isEqualTo(expectMembershipAndTicketResponseDTO);
+		assertThat(response).isEqualTo(expectedResponse);
 	}
 
 	@Test
@@ -53,18 +52,17 @@ class MembershipServiceTest {
 	void getMembershipAndTicketWhenMemberPaidBasicMembership() {
 		// given
 		Member expectMember = getExpectMember();
-		MembershipAndTicketResponseDTO expectMembershipAndTicketResponseDTO =
-				getExpectMembershipAndTicketResponse(MembershipType.BASIC);
+		MembershipAndTicketResponseDTO expectedResponse =
+				getExpectedMembershipAndTicketResponseDTO(MembershipType.BASIC);
 		given(memberRepository.findByMemberIdOrThrow(anyString())).willReturn(expectMember);
 		given(membershipRepository.findMembershipTypeOrThrowNull(any(Member.class)))
 				.willReturn(MembershipType.BASIC);
 
 		// when
-		MembershipAndTicketResponseDTO membershipAndTicketResponseDTO =
-				membershipService.getMembershipAndTicket(MEMBER_ID);
+		MembershipAndTicketResponseDTO response = membershipService.getMembershipAndTicket(MEMBER_ID);
 
 		// then
-		assertThat(membershipAndTicketResponseDTO).isEqualTo(expectMembershipAndTicketResponseDTO);
+		assertThat(response).isEqualTo(expectedResponse);
 	}
 
 	@Test
@@ -72,18 +70,17 @@ class MembershipServiceTest {
 	void getMembershipAndTicketWhenMemberPaidPremiumMembership() {
 		// given
 		Member expectMember = getExpectMember();
-		MembershipAndTicketResponseDTO expectMembershipAndTicketResponseDTO =
-				getExpectMembershipAndTicketResponse(MembershipType.PREMIUM);
+		MembershipAndTicketResponseDTO expectedResponse =
+				getExpectedMembershipAndTicketResponseDTO(MembershipType.PREMIUM);
 		given(memberRepository.findByMemberIdOrThrow(anyString())).willReturn(expectMember);
 		given(membershipRepository.findMembershipTypeOrThrowNull(any(Member.class)))
 				.willReturn(MembershipType.PREMIUM);
 
 		// when
-		MembershipAndTicketResponseDTO membershipAndTicketResponseDTO =
-				membershipService.getMembershipAndTicket(MEMBER_ID);
+		MembershipAndTicketResponseDTO response = membershipService.getMembershipAndTicket(MEMBER_ID);
 
 		// then
-		assertThat(membershipAndTicketResponseDTO).isEqualTo(expectMembershipAndTicketResponseDTO);
+		assertThat(response).isEqualTo(expectedResponse);
 	}
 
 	private Member getExpectMember() {
@@ -97,7 +94,7 @@ class MembershipServiceTest {
 				.build();
 	}
 
-	private MembershipAndTicketResponseDTO getExpectMembershipAndTicketResponse(
+	private MembershipAndTicketResponseDTO getExpectedMembershipAndTicketResponseDTO(
 			MembershipType membershipType) {
 		return MembershipAndTicketResponseDTO.of(MEMBER_NAME, membershipType, 0, 0);
 	}
