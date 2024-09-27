@@ -51,14 +51,14 @@ class BillingServiceTest {
 		// given
 		Member expectedMember = getExpectedMember();
 		Billing expectedBilling = getExpectedBilling(expectedMember);
-		CardResponseDTO mockResponse = getMockCardResponseDTO(expectedBilling);
+		CardResponseDTO expectedResponse = getExpectedCardResponseDTO(expectedBilling);
 		given(billingRepository.findByCustomerIdOrThrow(anyString())).willReturn(expectedBilling);
 
 		// when
 		CardResponseDTO response = billingService.getCard(MEMBER_ID);
 
 		// then
-		Assertions.assertThat(response).isEqualTo(mockResponse);
+		Assertions.assertThat(response).isEqualTo(expectedResponse);
 	}
 
 	@Test
@@ -88,7 +88,7 @@ class BillingServiceTest {
 
 		Billing expectedBilling = getExpectedBilling(expectedMember);
 
-		CardResponseDTO mockResponse = getMockCardResponseDTO(expectedBilling);
+		CardResponseDTO expectedResponse = getExpectedCardResponseDTO(expectedBilling);
 
 		given(memberRepository.findByMemberIdOrThrow(anyString())).willReturn(expectedMember);
 		given(tossPaymentService.issueBilling(any(), any())).willReturn(mockTossPaymentBillingVO);
@@ -98,7 +98,7 @@ class BillingServiceTest {
 		CardResponseDTO response = billingService.registerCard(createCardRequestDTO);
 
 		// then
-		Assertions.assertThat(response).isEqualTo(mockResponse);
+		Assertions.assertThat(response).isEqualTo(expectedResponse);
 	}
 
 	@Test
@@ -167,7 +167,7 @@ class BillingServiceTest {
 				.build();
 	}
 
-	private CardResponseDTO getMockCardResponseDTO(Billing billing) {
+	private CardResponseDTO getExpectedCardResponseDTO(Billing billing) {
 		return CardResponseDTO.of(
 				billing.getBillingId(), billing.getCardCompany(), billing.getCardNumber());
 	}
