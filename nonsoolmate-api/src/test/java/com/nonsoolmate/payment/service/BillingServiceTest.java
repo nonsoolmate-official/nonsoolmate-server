@@ -116,6 +116,23 @@ class BillingServiceTest {
 				.hasMessage(NOT_FOUND_MEMBER_EXCEPTION_MESSAGE);
 	}
 
+	@Test
+	@DisplayName("사용자가 authKey를 조작하여 카드를 등록하는 경우")
+	void registerCardTestWithWrongAuthKey() {
+		// given
+		CreateCardRequestDTO createCardRequestDTO =
+				new CreateCardRequestDTO(MEMBER_ID, TEST_FAKE_AUTH_KEY);
+		Member expectedMember = getExpectedMember();
+		given(memberRepository.findByMemberIdOrThrow(anyString())).willReturn(expectedMember);
+		given(tossPaymentService.issueBilling(any(), any()))
+				.willThrow(new BillingException(TOSS_PAYMENT_ISSUE_BILLING));
+
+		// when, then
+		Assertions.assertThatThrownBy(() -> billingService.registerCard(createCardRequestDTO))
+				.isInstanceOf(BillingException.class)
+				.hasMessage(TOSS_PAYMENT_ISSUE_BILLING_EXCEPTION_MESSAGE);
+	}
+
 	private Member getExpectedMember() {
 		return Member.builder()
 				.email("testEmail")
