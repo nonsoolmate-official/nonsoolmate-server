@@ -67,6 +67,25 @@ class MembershipServiceTest {
 		assertThat(membershipAndTicketResponseDTO).isEqualTo(expectMembershipAndTicketResponseDTO);
 	}
 
+	@Test
+	@DisplayName("사용자가 PREMIUM 멤버십 결제를 한 경우에 멤버십과 첨삭권을 조회하는 경우")
+	void getMembershipAndTicketWhenMemberPaidPremiumMembership() {
+		// given
+		Member expectMember = getExpectMember();
+		MembershipAndTicketResponseDTO expectMembershipAndTicketResponseDTO =
+				getExpectMembershipAndTicketResponse(MembershipType.PREMIUM);
+		given(memberRepository.findByMemberIdOrThrow(anyString())).willReturn(expectMember);
+		given(membershipRepository.findMembershipTypeOrThrowNull(any(Member.class)))
+				.willReturn(MembershipType.PREMIUM);
+
+		// when
+		MembershipAndTicketResponseDTO membershipAndTicketResponseDTO =
+				membershipService.getMembershipAndTicket(MEMBER_ID);
+
+		// then
+		assertThat(membershipAndTicketResponseDTO).isEqualTo(expectMembershipAndTicketResponseDTO);
+	}
+
 	private Member getExpectMember() {
 		return Member.builder()
 				.email("testEmail")
