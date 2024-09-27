@@ -8,7 +8,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.nonsoolmate.member.controller.dto.request.ProfileRequestDTO;
 import com.nonsoolmate.member.controller.dto.response.NameResponseDTO;
 import com.nonsoolmate.member.controller.dto.response.ProfileResponseDTO;
-import com.nonsoolmate.member.controller.dto.response.TicketResponseDTO;
 import com.nonsoolmate.member.entity.Member;
 import com.nonsoolmate.member.repository.MemberRepository;
 import com.nonsoolmate.payment.controller.dto.response.CustomerInfoDTO;
@@ -23,12 +22,6 @@ public class MemberService {
 	public NameResponseDTO getNickname(final String memberId) {
 		Member member = memberRepository.findByMemberIdOrThrow(memberId);
 		return NameResponseDTO.of(member.getName());
-	}
-
-	public TicketResponseDTO getTicket(final String memberId) {
-		Member member = memberRepository.findByMemberIdOrThrow(memberId);
-
-		return TicketResponseDTO.of(member.getName(), member.getReviewTicketCount());
 	}
 
 	public ProfileResponseDTO getProfile(final String memberId) {

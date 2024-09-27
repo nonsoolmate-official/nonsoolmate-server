@@ -14,7 +14,6 @@ import com.nonsoolmate.global.security.AuthMember;
 import com.nonsoolmate.member.controller.dto.request.ProfileRequestDTO;
 import com.nonsoolmate.member.controller.dto.response.NameResponseDTO;
 import com.nonsoolmate.member.controller.dto.response.ProfileResponseDTO;
-import com.nonsoolmate.member.controller.dto.response.TicketResponseDTO;
 import com.nonsoolmate.member.service.MemberService;
 import com.nonsoolmate.response.SuccessResponse;
 
@@ -32,16 +31,6 @@ public class MyController implements MemberApi {
 				.body(
 						SuccessResponse.of(
 								MemberSuccessType.GET_MEMBER_NAME_SUCCESS, memberService.getNickname(memberId)));
-	}
-
-	@Override
-	@GetMapping("/ticket")
-	public ResponseEntity<SuccessResponse<TicketResponseDTO>> getTicket(
-			@AuthMember final String memberId) {
-		return ResponseEntity.ok()
-				.body(
-						SuccessResponse.of(
-								MemberSuccessType.GET_MEMBER_TICKET_SUCCESS, memberService.getTicket(memberId)));
 	}
 
 	@Override
