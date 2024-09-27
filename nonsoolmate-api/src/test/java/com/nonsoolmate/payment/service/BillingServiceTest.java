@@ -12,6 +12,7 @@ import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
+import com.nonsoolmate.exception.auth.AuthException;
 import com.nonsoolmate.exception.payment.BillingException;
 import com.nonsoolmate.member.entity.Member;
 import com.nonsoolmate.member.entity.enums.PlatformType;
@@ -98,6 +99,21 @@ class BillingServiceTest {
 
 		// then
 		Assertions.assertThat(response).isEqualTo(mockResponse);
+	}
+
+	@Test
+	@DisplayName("사용자가 customerKey를 조작하여 카드를 등록하는 경우")
+	void registerCardTestWithWrongCustomerKey() {
+		// given
+		CreateCardRequestDTO createCardRequestDTO =
+				new CreateCardRequestDTO(FAKE_MEMBER_ID, TEST_AUTH_KEY);
+		given(memberRepository.findByMemberIdOrThrow(anyString()))
+				.willThrow(new AuthException(NOT_FOUND_MEMBER));
+
+		// when, then
+		Assertions.assertThatThrownBy(() -> billingService.registerCard(createCardRequestDTO))
+				.isInstanceOf(AuthException.class)
+				.hasMessage(NOT_FOUND_MEMBER_EXCEPTION_MESSAGE);
 	}
 
 	private Member getExpectedMember() {
