@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.nonsoolmate.global.security.AuthMember;
 import com.nonsoolmate.response.SuccessResponse;
-import com.nonsoolmate.selectCollege.controller.dto.request.SelectUniversityRequestDTO;
+import com.nonsoolmate.selectCollege.controller.dto.request.SelectCollegeRequestDTO;
 import com.nonsoolmate.selectCollege.controller.dto.response.SelectCollegeExamsResponseDTO;
 import com.nonsoolmate.selectCollege.controller.dto.response.SelectCollegeResponseDTO;
 import com.nonsoolmate.selectCollege.controller.dto.response.SelectCollegeUpdateResponseDTO;
@@ -56,10 +56,10 @@ public class SelectCollegeController implements SelectCollegeApi {
 	@PatchMapping
 	public ResponseEntity<SuccessResponse<SelectCollegeUpdateResponseDTO>> patchSelectColleges(
 			@AuthMember String memberId,
-			@RequestBody @Valid final List<SelectUniversityRequestDTO> request) {
+			@RequestBody @Valid final List<SelectCollegeRequestDTO> request) {
 
 		List<Long> selectedCollegeIds =
-				request.stream().map(SelectUniversityRequestDTO::collegeId).toList();
+				request.stream().map(SelectCollegeRequestDTO::collegeId).toList();
 
 		return ResponseEntity.ok()
 				.body(

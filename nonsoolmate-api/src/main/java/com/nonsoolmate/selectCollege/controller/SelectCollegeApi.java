@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import com.nonsoolmate.global.security.AuthMember;
 import com.nonsoolmate.response.ErrorResponse;
 import com.nonsoolmate.response.SuccessResponse;
-import com.nonsoolmate.selectCollege.controller.dto.request.SelectUniversityRequestDTO;
+import com.nonsoolmate.selectCollege.controller.dto.request.SelectCollegeRequestDTO;
 import com.nonsoolmate.selectCollege.controller.dto.response.SelectCollegeExamsResponseDTO;
 import com.nonsoolmate.selectCollege.controller.dto.response.SelectCollegeResponseDTO;
 import com.nonsoolmate.selectCollege.controller.dto.response.SelectCollegeUpdateResponseDTO;
@@ -53,5 +53,5 @@ public interface SelectCollegeApi {
 	@Operation(summary = "목표 단과 대학 설정: 리스트 선택", description = "내 목표 대학들 리스트를 업데이트(수정) 합니다.")
 	ResponseEntity<SuccessResponse<SelectCollegeUpdateResponseDTO>> patchSelectColleges(
 			@Parameter(hidden = true) @AuthMember String memberId,
-			@RequestBody @Valid List<SelectUniversityRequestDTO> request);
+			@RequestBody @Valid List<SelectCollegeRequestDTO> request);
 }
