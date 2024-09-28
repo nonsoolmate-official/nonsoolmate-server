@@ -58,13 +58,13 @@ public class SelectCollegeController implements SelectCollegeApi {
 			@AuthMember String memberId,
 			@RequestBody @Valid final List<SelectUniversityRequestDTO> request) {
 
-		List<Long> selectedUniversityIds =
-				request.stream().map(SelectUniversityRequestDTO::universityId).toList();
+		List<Long> selectedCollegeIds =
+				request.stream().map(SelectUniversityRequestDTO::collegeId).toList();
 
 		return ResponseEntity.ok()
 				.body(
 						SuccessResponse.of(
 								PATCH_SELECT_COLLEGES_SUCCESS,
-								selectCollegeService.patchSelectColleges(memberId, selectedUniversityIds)));
+								selectCollegeService.patchSelectColleges(memberId, selectedCollegeIds)));
 	}
 }
