@@ -57,10 +57,9 @@ public class SelectCollegeService {
 	public List<SelectCollegeExamsResponseDTO> getSelectCollegeExams(final String memberId) {
 		final List<SelectCollege> sortedSelectColleges =
 				selectCollegeRepository.findAllByMemberOrderByUniversityNameAscCollegeNameAsc(memberId);
-		final List<Long> sortedSelectCollegeIds = getSortedSelectCollegeIds(sortedSelectColleges);
-
+		final List<Long> sortedCollegeIds = getSortedCollegeIds(sortedSelectColleges);
 		final List<Exam> exams =
-				examRepository.findAllByCollegeIdInOrderByExamYearDesc(sortedSelectCollegeIds);
+				examRepository.findAllByCollegeIdInOrderByExamYearDesc(sortedCollegeIds);
 		final List<Long> examIds = exams.stream().map(Exam::getExamId).toList();
 
 		ExamRecordGroups examRecordGroups =
@@ -72,8 +71,10 @@ public class SelectCollegeService {
 		return getSelectCollegeExamsResponseDTOS(sortedSelectColleges, examResponseMap);
 	}
 
-	private List<Long> getSortedSelectCollegeIds(List<SelectCollege> sortedSelectColleges) {
-		return sortedSelectColleges.stream().map(SelectCollege::getSelectCollegeId).toList();
+	private List<Long> getSortedCollegeIds(List<SelectCollege> sortedSelectColleges) {
+		return sortedSelectColleges.stream()
+				.map(selectCollege -> selectCollege.getCollege().getCollegeId())
+				.toList();
 	}
 
 	/**
