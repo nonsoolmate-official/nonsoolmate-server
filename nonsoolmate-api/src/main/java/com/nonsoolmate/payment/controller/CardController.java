@@ -31,15 +31,17 @@ public class CardController implements CardApi {
 
 	@PostMapping("/register")
 	public ResponseEntity<CardResponseDTO> registerCard(
-			@RequestBody @Valid CreateOrUpdateCardRequestDTO createOrUpdateCardRequestDTO) {
-		CardResponseDTO response = billingService.registerCard(createOrUpdateCardRequestDTO);
+			@RequestBody @Valid CreateOrUpdateCardRequestDTO createOrUpdateCardRequestDTO,
+			@AuthMember final String memberId) {
+		CardResponseDTO response = billingService.registerCard(createOrUpdateCardRequestDTO, memberId);
 		return ResponseEntity.ok(response);
 	}
 
 	@PutMapping("/update")
 	public ResponseEntity<CardResponseDTO> updateCard(
-			@RequestBody @Valid CreateOrUpdateCardRequestDTO createOrUpdateCardRequestDTO) {
-		CardResponseDTO response = billingService.updateCard(createOrUpdateCardRequestDTO);
+			@RequestBody @Valid CreateOrUpdateCardRequestDTO createOrUpdateCardRequestDTO,
+			@AuthMember final String memberId) {
+		CardResponseDTO response = billingService.updateCard(createOrUpdateCardRequestDTO, memberId);
 		return ResponseEntity.ok(response);
 	}
 }
