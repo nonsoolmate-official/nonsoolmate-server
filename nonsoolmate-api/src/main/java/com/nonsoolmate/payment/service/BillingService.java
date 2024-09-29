@@ -29,10 +29,10 @@ public class BillingService {
 	}
 
 	@Transactional
-	public CardResponseDTO registerCard(final CreateOrUpdateCardRequestDTO request) {
-		TossPaymentBillingVO vo =
-				tossPaymentService.issueBilling(request.customerKey(), request.authKey());
-		Member customer = memberRepository.findByMemberIdOrThrow(request.customerKey());
+	public CardResponseDTO registerCard(
+			final CreateOrUpdateCardRequestDTO request, final String memberId) {
+		TossPaymentBillingVO vo = tossPaymentService.issueBilling(memberId, request.authKey());
+		Member customer = memberRepository.findByMemberIdOrThrow(memberId);
 		Billing billing =
 				Billing.builder()
 						.customer(customer)
@@ -48,10 +48,10 @@ public class BillingService {
 	}
 
 	@Transactional
-	public CardResponseDTO updateCard(final CreateOrUpdateCardRequestDTO request) {
-		Billing billing = billingRepository.findByCustomerIdOrThrow(request.customerKey());
-		TossPaymentBillingVO vo =
-				tossPaymentService.issueBilling(request.customerKey(), request.authKey());
+	public CardResponseDTO updateCard(
+			final CreateOrUpdateCardRequestDTO request, final String memberId) {
+		Billing billing = billingRepository.findByCustomerIdOrThrow(memberId);
+		TossPaymentBillingVO vo = tossPaymentService.issueBilling(memberId, request.authKey());
 		billing.updateCardInfo(vo.billingKey(), vo.cardNumber(), vo.cardCompany());
 
 		return CardResponseDTO.of(
