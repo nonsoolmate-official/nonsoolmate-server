@@ -198,6 +198,24 @@ class BillingServiceTest {
 				.hasMessage(NOT_REGISTERED_CARD_EXCEPTION_MESSAGE);
 	}
 
+	@Test
+	@DisplayName("사용자가 authKey를 조작하여 카드 변경을 요청하는 경우")
+	void updateCardTestWithWrongAuthKey() {
+		// given
+		CreateOrUpdateCardRequestDTO createOrUpdateCardRequestDTO =
+				new CreateOrUpdateCardRequestDTO(MEMBER_ID, TEST_FAKE_AUTH_KEY);
+		Member expectedMember = getExpectedMember();
+		Billing expectedBilling = getExpectedBilling(expectedMember);
+		given(billingRepository.findByCustomerIdOrThrow(anyString())).willReturn(expectedBilling);
+		given(tossPaymentService.issueBilling(any(), any()))
+				.willThrow(new BillingException(TOSS_PAYMENT_ISSUE_BILLING));
+
+		// when, then
+		Assertions.assertThatThrownBy(() -> billingService.updateCard(createOrUpdateCardRequestDTO))
+				.isInstanceOf(BillingException.class)
+				.hasMessage(TOSS_PAYMENT_ISSUE_BILLING_EXCEPTION_MESSAGE);
+	}
+
 	private Member getExpectedMember() {
 		return Member.builder()
 				.email("testEmail")
