@@ -168,6 +168,21 @@ class BillingServiceTest {
 		Assertions.assertThat(response).isEqualTo(expectedResponse);
 	}
 
+	@Test
+	@DisplayName("사용자가 카드 등록을 하지 않고 카드 변경을 요청하는 경우")
+	void updateCardTestWhenMemberHasNotRegisteredCard() {
+		// given
+		CreateOrUpdateCardRequestDTO createOrUpdateCardRequestDTO =
+				new CreateOrUpdateCardRequestDTO(MEMBER_ID, TEST_AUTH_KEY);
+		given(billingRepository.findByCustomerIdOrThrow(anyString()))
+				.willThrow(new BillingException(NOT_FOUND_BILLING));
+
+		// when, then
+		Assertions.assertThatThrownBy(() -> billingService.updateCard(createOrUpdateCardRequestDTO))
+				.isInstanceOf(BillingException.class)
+				.hasMessage(NOT_REGISTERED_CARD_EXCEPTION_MESSAGE);
+	}
+
 	private Member getExpectedMember() {
 		return Member.builder()
 				.email("testEmail")
