@@ -5,7 +5,7 @@ import jakarta.validation.constraints.NotNull;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Schema;
 
-@Schema(name = "CreateCardRequestDTO", description = "카드 등록 요청 DTO")
-public record CreateCardRequestDTO(
+@Schema(name = "CreateOrUpdateCardRequestDTO", description = "카드 등록 또는 변경 요청 DTO")
+public record CreateOrUpdateCardRequestDTO(
 		@Parameter(description = "Toss에서 받은 customerKey", required = true) @NotNull String customerKey,
 		@Parameter(description = "Toss에서 받은 authKey", required = true) @NotNull String authKey) {}
