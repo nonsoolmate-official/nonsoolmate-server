@@ -1,5 +1,8 @@
 package com.nonsoolmate.product.entity;
 
+import java.util.Arrays;
+import java.util.List;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -23,4 +26,10 @@ public class Product {
 
 	@Min(0)
 	private long price;
+
+	@NotNull private String description;
+
+	public List<String> getDescriptions() {
+		return Arrays.asList(description.split(","));
+	}
 }
