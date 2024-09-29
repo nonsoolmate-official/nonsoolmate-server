@@ -7,12 +7,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.nonsoolmate.global.security.AuthMember;
-import com.nonsoolmate.payment.controller.dto.request.CreateCardRequestDTO;
+import com.nonsoolmate.payment.controller.dto.request.CreateOrUpdateCardRequestDTO;
 import com.nonsoolmate.payment.controller.dto.response.CardResponseDTO;
 import com.nonsoolmate.payment.service.BillingService;
 
@@ -30,8 +31,15 @@ public class CardController implements CardApi {
 
 	@PostMapping("/register")
 	public ResponseEntity<CardResponseDTO> registerCard(
-			@RequestBody @Valid CreateCardRequestDTO createCardRequestDTO) {
-		CardResponseDTO response = billingService.registerCard(createCardRequestDTO);
+			@RequestBody @Valid CreateOrUpdateCardRequestDTO createOrUpdateCardRequestDTO) {
+		CardResponseDTO response = billingService.registerCard(createOrUpdateCardRequestDTO);
+		return ResponseEntity.ok(response);
+	}
+
+	@PutMapping("/update")
+	public ResponseEntity<CardResponseDTO> updateCard(
+			@RequestBody @Valid CreateOrUpdateCardRequestDTO createOrUpdateCardRequestDTO) {
+		CardResponseDTO response = billingService.updateCard(createOrUpdateCardRequestDTO);
 		return ResponseEntity.ok(response);
 	}
 }
