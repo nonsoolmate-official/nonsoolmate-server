@@ -22,7 +22,10 @@ import com.nonsoolmate.member.entity.Member;
 		uniqueConstraints = {
 			@UniqueConstraint(
 					name = "UK_BILLING_KEY_CUSTOMER_KEY_KEY",
-					columnNames = {"billingKey", "customerKey"})
+					columnNames = {"billingKey", "customerKey"}),
+			@UniqueConstraint(
+					name = "UK_CUSTOMER_KEY",
+					columnNames = {"customerKey"})
 		})
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
@@ -58,5 +61,12 @@ public class Billing {
 
 	public void updateLastTransactionKey(final String lastTransactionKey) {
 		this.lastTransactionKey = lastTransactionKey;
+	}
+
+	public void updateCardInfo(
+			final String billingKey, final String cardNumber, final String cardCompany) {
+		this.billingKey = billingKey;
+		this.cardNumber = cardNumber;
+		this.cardCompany = cardCompany;
 	}
 }
