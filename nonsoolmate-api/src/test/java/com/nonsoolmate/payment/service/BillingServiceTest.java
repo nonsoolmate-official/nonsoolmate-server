@@ -18,7 +18,7 @@ import com.nonsoolmate.member.entity.Member;
 import com.nonsoolmate.member.entity.enums.PlatformType;
 import com.nonsoolmate.member.entity.enums.Role;
 import com.nonsoolmate.member.repository.MemberRepository;
-import com.nonsoolmate.payment.controller.dto.request.CreateCardRequestDTO;
+import com.nonsoolmate.payment.controller.dto.request.CreateOrUpdateCardRequestDTO;
 import com.nonsoolmate.payment.controller.dto.response.CardResponseDTO;
 import com.nonsoolmate.payment.entity.Billing;
 import com.nonsoolmate.payment.repository.BillingRepository;
@@ -79,15 +79,12 @@ class BillingServiceTest {
 	void registerCardTest() {
 		// given
 		Member expectedMember = getExpectedMember();
-
-		CreateCardRequestDTO createCardRequestDTO = new CreateCardRequestDTO(MEMBER_ID, TEST_AUTH_KEY);
-
+		CreateOrUpdateCardRequestDTO createOrUpdateCardRequestDTO =
+				new CreateOrUpdateCardRequestDTO(MEMBER_ID, TEST_AUTH_KEY);
 		TossPaymentBillingVO mockTossPaymentBillingVO =
 				TossPaymentBillingVO.of(
 						expectedMember.getMemberId(), TEST_BILLING_KEY, TEST_CARD_COMPANY, TEST_CARD_NUMBER);
-
 		Billing expectedBilling = getExpectedBilling(expectedMember);
-
 		CardResponseDTO expectedResponse = getExpectedCardResponseDTO(expectedBilling);
 
 		given(memberRepository.findByMemberIdOrThrow(anyString())).willReturn(expectedMember);
@@ -95,7 +92,7 @@ class BillingServiceTest {
 		given(billingRepository.save(any())).willReturn(expectedBilling);
 
 		// when
-		CardResponseDTO response = billingService.registerCard(createCardRequestDTO);
+		CardResponseDTO response = billingService.registerCard(createOrUpdateCardRequestDTO);
 
 		// then
 		Assertions.assertThat(response).isEqualTo(expectedResponse);
@@ -105,13 +102,13 @@ class BillingServiceTest {
 	@DisplayName("사용자가 customerKey를 조작하여 카드를 등록하는 경우")
 	void registerCardTestWithWrongCustomerKey() {
 		// given
-		CreateCardRequestDTO createCardRequestDTO =
-				new CreateCardRequestDTO(FAKE_MEMBER_ID, TEST_AUTH_KEY);
+		CreateOrUpdateCardRequestDTO createOrUpdateCardRequestDTO =
+				new CreateOrUpdateCardRequestDTO(FAKE_MEMBER_ID, TEST_AUTH_KEY);
 		given(memberRepository.findByMemberIdOrThrow(anyString()))
 				.willThrow(new AuthException(NOT_FOUND_MEMBER));
 
 		// when, then
-		Assertions.assertThatThrownBy(() -> billingService.registerCard(createCardRequestDTO))
+		Assertions.assertThatThrownBy(() -> billingService.registerCard(createOrUpdateCardRequestDTO))
 				.isInstanceOf(AuthException.class)
 				.hasMessage(NOT_FOUND_MEMBER_EXCEPTION_MESSAGE);
 	}
@@ -120,15 +117,15 @@ class BillingServiceTest {
 	@DisplayName("사용자가 authKey를 조작하여 카드를 등록하는 경우")
 	void registerCardTestWithWrongAuthKey() {
 		// given
-		CreateCardRequestDTO createCardRequestDTO =
-				new CreateCardRequestDTO(MEMBER_ID, TEST_FAKE_AUTH_KEY);
+		CreateOrUpdateCardRequestDTO createOrUpdateCardRequestDTO =
+				new CreateOrUpdateCardRequestDTO(MEMBER_ID, TEST_FAKE_AUTH_KEY);
 		Member expectedMember = getExpectedMember();
 		given(memberRepository.findByMemberIdOrThrow(anyString())).willReturn(expectedMember);
 		given(tossPaymentService.issueBilling(any(), any()))
 				.willThrow(new BillingException(TOSS_PAYMENT_ISSUE_BILLING));
 
 		// when, then
-		Assertions.assertThatThrownBy(() -> billingService.registerCard(createCardRequestDTO))
+		Assertions.assertThatThrownBy(() -> billingService.registerCard(createOrUpdateCardRequestDTO))
 				.isInstanceOf(BillingException.class)
 				.hasMessage(TOSS_PAYMENT_ISSUE_BILLING_EXCEPTION_MESSAGE);
 	}
@@ -136,15 +133,39 @@ class BillingServiceTest {
 	@Test
 	@DisplayName("사용자가 customerKey와 AuthKey를 조작하여 카드를 등록하는 경우")
 	void registerCardTestWithWrongCustomerKeyAndAuthKey() {
-		CreateCardRequestDTO createCardRequestDTO =
-				new CreateCardRequestDTO(FAKE_MEMBER_ID, TEST_AUTH_KEY);
+		CreateOrUpdateCardRequestDTO createOrUpdateCardRequestDTO =
+				new CreateOrUpdateCardRequestDTO(FAKE_MEMBER_ID, TEST_AUTH_KEY);
 		given(memberRepository.findByMemberIdOrThrow(anyString()))
 				.willThrow(new AuthException(NOT_FOUND_MEMBER));
 
 		// when, then
-		Assertions.assertThatThrownBy(() -> billingService.registerCard(createCardRequestDTO))
+		Assertions.assertThatThrownBy(() -> billingService.registerCard(createOrUpdateCardRequestDTO))
 				.isInstanceOf(AuthException.class)
 				.hasMessage(NOT_FOUND_MEMBER_EXCEPTION_MESSAGE);
+	}
+
+	@Test
+	@DisplayName("사용자가 카드를 변경하는 경우")
+	void updateCardTest() {
+		// given
+		Member expectedMember = getExpectedMember();
+
+		CreateOrUpdateCardRequestDTO createOrUpdateCardRequestDTO =
+				new CreateOrUpdateCardRequestDTO(MEMBER_ID, TEST_AUTH_KEY);
+		TossPaymentBillingVO mockTossPaymentBillingVO =
+				TossPaymentBillingVO.of(
+						expectedMember.getMemberId(), TEST_BILLING_KEY, TEST_CARD_COMPANY, TEST_CARD_NUMBER);
+		Billing expectedBilling = getExpectedBilling(expectedMember);
+		CardResponseDTO expectedResponse = getExpectedCardResponseDTO(expectedBilling);
+
+		given(billingRepository.findByCustomerIdOrThrow(anyString())).willReturn(expectedBilling);
+		given(tossPaymentService.issueBilling(any(), any())).willReturn(mockTossPaymentBillingVO);
+
+		// when
+		CardResponseDTO response = billingService.updateCard(createOrUpdateCardRequestDTO);
+
+		// then
+		Assertions.assertThat(response).isEqualTo(expectedResponse);
 	}
 
 	private Member getExpectedMember() {
