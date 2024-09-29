@@ -7,7 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.nonsoolmate.member.entity.Member;
 import com.nonsoolmate.member.repository.MemberRepository;
-import com.nonsoolmate.payment.controller.dto.request.CreateCardRequestDTO;
+import com.nonsoolmate.payment.controller.dto.request.CreateOrUpdateCardRequestDTO;
 import com.nonsoolmate.payment.controller.dto.response.CardResponseDTO;
 import com.nonsoolmate.payment.entity.Billing;
 import com.nonsoolmate.payment.repository.BillingRepository;
@@ -29,12 +29,10 @@ public class BillingService {
 	}
 
 	@Transactional
-	public CardResponseDTO registerCard(final CreateCardRequestDTO request) {
-
+	public CardResponseDTO registerCard(final CreateOrUpdateCardRequestDTO request) {
 		TossPaymentBillingVO vo =
 				tossPaymentService.issueBilling(request.customerKey(), request.authKey());
 		Member customer = memberRepository.findByMemberIdOrThrow(request.customerKey());
-
 		Billing billing =
 				Billing.builder()
 						.customer(customer)
@@ -44,6 +42,17 @@ public class BillingService {
 						.build();
 
 		billingRepository.save(billing);
+
+		return CardResponseDTO.of(
+				billing.getBillingId(), billing.getCardCompany(), billing.getCardNumber());
+	}
+
+	@Transactional
+	public CardResponseDTO updateCard(final CreateOrUpdateCardRequestDTO request) {
+		Billing billing = billingRepository.findByCustomerIdOrThrow(request.customerKey());
+		TossPaymentBillingVO vo =
+				tossPaymentService.issueBilling(request.customerKey(), request.authKey());
+		billing.updateCardInfo(vo.billingKey(), vo.cardNumber(), vo.cardCompany());
 
 		return CardResponseDTO.of(
 				billing.getBillingId(), billing.getCardCompany(), billing.getCardNumber());
