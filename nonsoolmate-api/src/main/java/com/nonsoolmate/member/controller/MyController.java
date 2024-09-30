@@ -2,10 +2,13 @@ package com.nonsoolmate.member.controller;
 
 import static com.nonsoolmate.exception.member.MemberSuccessType.*;
 
+import java.util.Optional;
+
 import jakarta.validation.Valid;
 
 import lombok.RequiredArgsConstructor;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,8 +17,11 @@ import com.nonsoolmate.global.security.AuthMember;
 import com.nonsoolmate.member.controller.dto.request.ProfileRequestDTO;
 import com.nonsoolmate.member.controller.dto.response.NameResponseDTO;
 import com.nonsoolmate.member.controller.dto.response.ProfileResponseDTO;
+import com.nonsoolmate.member.controller.dto.response.TeacherResponseDTO;
 import com.nonsoolmate.member.service.MemberService;
 import com.nonsoolmate.response.SuccessResponse;
+
+import io.swagger.v3.oas.annotations.Parameter;
 
 @RestController
 @RequestMapping("/my")
@@ -49,5 +55,19 @@ public class MyController implements MemberApi {
 		memberService.editProfile(profileRequestDTO, memberId);
 
 		return ResponseEntity.ok().build();
+	}
+
+	@Override
+	@GetMapping("/teacher")
+	public ResponseEntity<TeacherResponseDTO> getMyTeacher(
+			@Parameter(hidden = true) @AuthMember String memberId) {
+
+		Optional<TeacherResponseDTO> teacherResponseDTO = memberService.getMyTeacher(memberId);
+
+		if (teacherResponseDTO.isEmpty()) {
+			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+		}
+
+		return ResponseEntity.ok().body(teacherResponseDTO.get());
 	}
 }
