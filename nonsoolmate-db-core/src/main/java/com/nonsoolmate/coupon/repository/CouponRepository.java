@@ -16,4 +16,10 @@ public interface CouponRepository extends JpaRepository<Coupon, Long> {
 		return findByCouponNumber(couponNumber)
 				.orElseThrow(() -> new CouponException(NOT_FOUND_COUPON));
 	}
+
+	Optional<Coupon> findByCouponId(Long couponId);
+
+	default Coupon findByCouponIdOrThrow(Long couponId) {
+		return findByCouponId(couponId).orElseThrow(() -> new CouponException(NOT_FOUND_COUPON));
+	}
 }
