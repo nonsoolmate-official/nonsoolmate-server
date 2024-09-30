@@ -7,6 +7,7 @@ import jakarta.persistence.Id;
 import jakarta.validation.constraints.NotNull;
 
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -20,7 +21,11 @@ public class University {
 
 	@NotNull private String universityName;
 
-	public University(String universityName) {
+	@NotNull private String universityImageUrl;
+
+	@Builder
+	public University(String universityName, String universityImageUrl) {
 		this.universityName = universityName;
+		this.universityImageUrl = universityImageUrl;
 	}
 }
