@@ -9,6 +9,7 @@ import com.nonsoolmate.global.security.AuthMember;
 import com.nonsoolmate.member.controller.dto.request.ProfileRequestDTO;
 import com.nonsoolmate.member.controller.dto.response.NameResponseDTO;
 import com.nonsoolmate.member.controller.dto.response.ProfileResponseDTO;
+import com.nonsoolmate.member.controller.dto.response.TeacherResponseDTO;
 import com.nonsoolmate.response.SuccessResponse;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -33,5 +34,9 @@ public interface MemberApi {
 	@Operation(summary = "내 프로필 수정", description = "내 프로필을 수정합니다.")
 	ResponseEntity<Void> editProfile(
 			@RequestBody @Valid ProfileRequestDTO profileRequestDTO,
+			@Parameter(hidden = true) @AuthMember String memberId);
+
+	@Operation(summary = "내 첨삭 선생님 조회", description = "내 첨삭 선생님을 조회합니다.")
+	ResponseEntity<TeacherResponseDTO> getMyTeacher(
 			@Parameter(hidden = true) @AuthMember String memberId);
 }
