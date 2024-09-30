@@ -33,4 +33,10 @@ public class MembershipService {
 		boolean existMembership = membershipType != null;
 		return existMembership ? membershipType : MembershipType.NONE;
 	}
+
+	public boolean checkMembership(final String memberId) {
+		Member member = memberRepository.findByMemberIdOrThrow(memberId);
+		MembershipType membershipType = getMembershipType(member);
+		return membershipType != MembershipType.NONE;
+	}
 }
