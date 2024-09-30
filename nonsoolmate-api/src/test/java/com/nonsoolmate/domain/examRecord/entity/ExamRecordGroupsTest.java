@@ -137,7 +137,7 @@ class ExamRecordGroupsTest {
 	}
 
 	private Exam createExamFixture() {
-		University university = new University("고려대학교");
+		University university = new University("고려대학교", "url1");
 
 		College college = College.builder().university(university).collegeName("인문").build();
 
