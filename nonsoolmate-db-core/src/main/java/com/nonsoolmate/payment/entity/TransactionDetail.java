@@ -16,6 +16,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import com.nonsoolmate.common.BaseTimeEntity;
 import com.nonsoolmate.order.entity.OrderDetail;
 
 @Entity
@@ -27,7 +28,7 @@ import com.nonsoolmate.order.entity.OrderDetail;
 		})
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class TransactionDetail {
+public class TransactionDetail extends BaseTimeEntity {
 	@Id private String transactionKey;
 
 	@NotNull private String paymentKey;
