@@ -14,6 +14,7 @@ import com.nonsoolmate.response.SuccessResponse;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -36,6 +37,14 @@ public interface MemberApi {
 			@RequestBody @Valid ProfileRequestDTO profileRequestDTO,
 			@Parameter(hidden = true) @AuthMember String memberId);
 
+	@ApiResponses(
+			value = {
+				@ApiResponse(responseCode = "200", description = "첨삭 선생님 조회에 성공했습니다."),
+				@ApiResponse(
+						responseCode = "204",
+						description = "매칭된 첨삭 선생님이 존재하지 않습니다.",
+						content = @Content)
+			})
 	@Operation(summary = "내 첨삭 선생님 조회", description = "내 첨삭 선생님을 조회합니다.")
 	ResponseEntity<TeacherResponseDTO> getMyTeacher(
 			@Parameter(hidden = true) @AuthMember String memberId);
