@@ -12,17 +12,17 @@ import com.nonsoolmate.exception.coupon.CouponException;
 
 public interface CouponMemberRepository
 		extends JpaRepository<CouponMember, Long>, CouponMemberCustomRepository {
-  
+
+	Optional<CouponMember> findByCouponIdAndMemberId(Long couponId, String memberId);
+
 	@Query(
-			"SELECT cm FROM CouponMember cm WHERE cm.couponMemberId = :couponMemberId AND cm.memberId = :memberId")
-	Optional<CouponMember> findCouponIdByCouponMemberIdAndMemberId(
+			"SELECT cm.couponId FROM CouponMember cm WHERE cm.couponMemberId = :couponMemberId AND cm.memberId = :memberId")
+	Optional<Long> findCouponIdByCouponMemberIdAndMemberId(
 			final Long couponMemberId, final String memberId);
 
-	default CouponMember findByCouponMemberIdAndMemberIdThrow(
+	default Long findByCouponMemberIdAndMemberIdThrow(
 			final Long couponMemberId, final String memberId) {
 		return findCouponIdByCouponMemberIdAndMemberId(couponMemberId, memberId)
 				.orElseThrow(() -> new CouponException(INVALID_COUPON));
 	}
-
-	Optional<CouponMember> findByCouponIdAndMemberId(Long couponId, String memberId);
 }
