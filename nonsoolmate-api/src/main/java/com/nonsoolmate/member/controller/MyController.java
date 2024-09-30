@@ -64,7 +64,8 @@ public class MyController implements MemberApi {
 
 		Optional<TeacherResponseDTO> teacherResponseDTO = memberService.getMyTeacher(memberId);
 
-		if (teacherResponseDTO.isEmpty()) {
+		boolean noMatchedTeacher = teacherResponseDTO.isEmpty();
+		if (noMatchedTeacher) {
 			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 		}
 
