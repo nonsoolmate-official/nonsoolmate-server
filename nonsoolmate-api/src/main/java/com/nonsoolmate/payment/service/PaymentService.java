@@ -28,6 +28,8 @@ public class PaymentService {
 	private final BillingService billingService;
 	private final TransactionService transactionService;
 
+	private static final Long NO_COUPON_MEMBER_ID = null;
+
 	@Transactional
 	public PaymentResponseDTO createBillingPayment(
 			final CreatePaymentRequestDTO request, final String memberId) {
@@ -47,6 +49,9 @@ public class PaymentService {
 						tossPaymentTransactionVO.transactionAt());
 		TransactionDetail transaction = transactionService.createTransaction(transactionVO);
 		membershipService.createMembership(memberId, order.getProduct());
+		// create next month order
+		orderService.createOrder(request.productId(), NO_COUPON_MEMBER_ID, memberId);
+
 		return PaymentResponseDTO.of(transaction.getTransactionKey());
 	}
 
