@@ -44,7 +44,7 @@ public class Coupon extends BaseTimeEntity {
 	/**
 	 * @note: 쿠폰은 discountRate, discountAmount, ticketCount 중 하나의 깂을 가진다.
 	 */
-	private int discountRate;
+	private double discountRate;
 
 	private int discountAmount;
 
