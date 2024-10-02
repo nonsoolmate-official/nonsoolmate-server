@@ -33,6 +33,8 @@ public class TransactionDetail extends BaseTimeEntity {
 
 	@NotNull private String paymentKey;
 
+	@NotNull private String customerKey;
+
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "order_id")
 	private OrderDetail order;
