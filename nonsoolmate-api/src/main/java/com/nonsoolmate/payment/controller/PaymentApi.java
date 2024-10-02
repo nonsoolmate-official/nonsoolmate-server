@@ -39,6 +39,10 @@ public interface PaymentApi {
 				@ApiResponse(
 						responseCode = "400",
 						description = "이미 멤버십을 구독하고 있는 경우",
+						content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
+				@ApiResponse(
+						responseCode = "404",
+						description = "카드 등록을 하지 않고 결제를 시도한 경우",
 						content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
 			})
 	@Operation(summary = "결제 페이지: 멤버십 상품 결제", description = "결제 페이지: 멤버십 상품을 결제하는 경우")
