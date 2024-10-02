@@ -47,11 +47,13 @@ public class TransactionDetail extends BaseTimeEntity {
 	public TransactionDetail(
 			final String transactionKey,
 			final String paymentKey,
+			final String customerKey,
 			final OrderDetail order,
 			final String receiptUrl,
 			final LocalDateTime transactionAt) {
 		this.transactionKey = transactionKey;
 		this.paymentKey = paymentKey;
+		this.customerKey = customerKey;
 		this.order = order;
 		this.receiptUrl = receiptUrl;
 		this.transactionAt = transactionAt;
