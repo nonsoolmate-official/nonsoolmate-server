@@ -29,8 +29,8 @@ public class GetCouponResponseDTO {
 	@Schema(description = "쿠폰 타입, </br> RATE, AMOUNT, EDIT_TICKET 중에 하나입니다.", example = "RATE")
 	private final CouponType couponType;
 
-	@Schema(description = "RATE 일 경우 할인율", example = "20")
-	private final int discountRate;
+	@Schema(description = "RATE 일 경우 할인율", example = "0.2")
+	private final double discountRate;
 
 	@Schema(description = "AMOUNT 일 경우 할인금액", example = "30000")
 	private final int discountAmount;

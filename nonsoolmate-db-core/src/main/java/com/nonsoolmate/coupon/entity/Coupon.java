@@ -61,7 +61,7 @@ public class Coupon extends BaseTimeEntity {
 			String couponImageUrl,
 			String couponNumber,
 			CouponType couponType,
-			int discountRate,
+			double discountRate,
 			int discountAmount,
 			int ticketCount,
 			LocalDateTime validStartDate,
