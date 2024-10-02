@@ -47,9 +47,16 @@ public class OrderDetail extends BaseTimeEntity {
 	private long amount;
 
 	@Builder
-	public OrderDetail(final String orderName, final Member member, final long amount) {
+	private OrderDetail(
+			final String orderName,
+			final Member member,
+			final Product product,
+			final CouponMember couponMember,
+			final long amount) {
 		this.orderName = orderName;
 		this.member = member;
+		this.product = product;
+		this.couponMember = couponMember;
 		this.amount = amount;
 	}
 }
