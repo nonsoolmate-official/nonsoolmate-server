@@ -14,9 +14,13 @@ import org.springframework.web.reactive.function.client.WebClientResponseExcepti
 
 import com.nonsoolmate.exception.common.BusinessException;
 import com.nonsoolmate.exception.payment.BillingException;
+import com.nonsoolmate.order.entity.OrderDetail;
 import com.nonsoolmate.toss.service.dto.request.IssueBillingKeyDTO;
+import com.nonsoolmate.toss.service.dto.request.RequestBillingDTO;
 import com.nonsoolmate.toss.service.dto.response.TossPaymentBillingDTO;
+import com.nonsoolmate.toss.service.dto.response.TossPaymentTransactionDTO;
 import com.nonsoolmate.toss.service.vo.TossPaymentBillingKeyVO;
+import com.nonsoolmate.toss.service.vo.TossPaymentTransactionVO;
 
 import reactor.core.publisher.Mono;
 
@@ -26,6 +30,7 @@ public class TossPaymentService {
 	private static final String TOSS_AUTHORIZATION_PREFIX = "Basic ";
 	private static final String TOSS_ISSUE_BILLING_URI =
 			"https://api.tosspayments.com/v1/billing/authorizations/issue";
+	private static final String TOSS_REQUEST_BILLING_URI = "https://api.tosspayments.com/v1/billing/";
 	private final String secretKey;
 
 	public TossPaymentService(@Value("${toss.billing.api-key}") String apiKey) {
@@ -69,6 +74,35 @@ public class TossPaymentService {
 			} else {
 				throw new BusinessException(EXTERNAL_SERVER_ERROR);
 			}
+		}
+	}
+
+	public TossPaymentTransactionVO requestBilling(
+			final String billingKey, final String customerKey, final OrderDetail order) {
+		RequestBillingDTO request =
+				RequestBillingDTO.of(
+						customerKey, order.getAmount(), order.getOrderId(), order.getOrderName());
+		TossPaymentTransactionDTO tossPaymentTransactionDTO =
+				getTossPaymentTransactionDTO(billingKey, request);
+		return TossPaymentTransactionVO.fromDTO(tossPaymentTransactionDTO);
+	}
+
+	private TossPaymentTransactionDTO getTossPaymentTransactionDTO(
+			String billingKey, RequestBillingDTO request) {
+
+		WebClient webClient = WebClient.builder().build();
+		try {
+			return webClient
+					.post()
+					.uri(TOSS_REQUEST_BILLING_URI + billingKey)
+					.header(TOSS_AUTHORIZATION_HEADER, TOSS_AUTHORIZATION_PREFIX + secretKey)
+					.header("Content-Type", "application/json")
+					.body(Mono.just(request), RequestBillingDTO.class)
+					.retrieve()
+					.bodyToMono(TossPaymentTransactionDTO.class)
+					.block();
+		} catch (WebClientResponseException e) {
+			throw new BusinessException(EXTERNAL_SERVER_ERROR);
 		}
 	}
 }
