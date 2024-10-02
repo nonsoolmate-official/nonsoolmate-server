@@ -7,4 +7,8 @@ public record PaymentResponseDTO(
 		/**
 		 * @note: paymentId = Transaction_Detail.transactionKey
 		 */
-		@Schema(description = "결제 완료 이후 반환되는 paymentId", example = "edslskdkdksl") String paymentId) {}
+		@Schema(description = "결제 완료 이후 반환되는 paymentId", example = "edslskdkdksl") String paymentId) {
+	public static PaymentResponseDTO of(String paymentId) {
+		return new PaymentResponseDTO(paymentId);
+	}
+}
