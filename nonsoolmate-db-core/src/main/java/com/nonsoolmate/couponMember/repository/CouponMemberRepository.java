@@ -8,5 +8,5 @@ import com.nonsoolmate.couponMember.entity.CouponMember;
 
 public interface CouponMemberRepository
 		extends JpaRepository<CouponMember, Long>, CouponMemberCustomRepository {
-	Optional<CouponMember> findByCouponId(Long couponId);
+	Optional<CouponMember> findByCouponIdAndMemberId(Long couponId, String memberId);
 }

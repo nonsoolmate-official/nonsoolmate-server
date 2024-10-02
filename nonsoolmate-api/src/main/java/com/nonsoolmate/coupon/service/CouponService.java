@@ -63,7 +63,7 @@ public class CouponService {
 		Coupon coupon = couponRepository.findByCouponNumberOrThrow(requestDTO.couponNumber());
 
 		Optional<CouponMember> foundCouponMember =
-				couponMemberRepository.findByCouponId(coupon.getCouponId());
+				couponMemberRepository.findByCouponIdAndMemberId(coupon.getCouponId(), memberId);
 
 		if (foundCouponMember.isPresent()) {
 			throw new CouponException(INVALID_COUPON_REGISTER);
