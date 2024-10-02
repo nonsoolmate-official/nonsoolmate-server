@@ -1,12 +1,12 @@
 package com.nonsoolmate.toss.service.vo;
 
-public record TossPaymentBillingVO(
+public record TossPaymentBillingKeyVO(
 		String customerKey, String billingKey, String cardCompany, String cardNumber) {
-	public static TossPaymentBillingVO of(
+	public static TossPaymentBillingKeyVO of(
 			final String customerKey,
 			final String billingKey,
 			final String cardCompany,
 			final String cardNumber) {
-		return new TossPaymentBillingVO(customerKey, billingKey, cardCompany, cardNumber);
+		return new TossPaymentBillingKeyVO(customerKey, billingKey, cardCompany, cardNumber);
 	}
 }
