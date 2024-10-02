@@ -11,6 +11,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToOne;
 
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -37,4 +38,13 @@ public class Membership extends BaseTimeEntity {
 
 	@Enumerated(EnumType.STRING)
 	MembershipStatus status;
+
+	@Builder
+	private Membership(final Member member, final MembershipType membershipType) {
+		this.member = member;
+		this.membershipType = membershipType;
+		this.startDate = LocalDateTime.now();
+		this.endDate = LocalDateTime.now().plusDays(28);
+		this.status = MembershipStatus.IN_PROGRESS;
+	}
 }
