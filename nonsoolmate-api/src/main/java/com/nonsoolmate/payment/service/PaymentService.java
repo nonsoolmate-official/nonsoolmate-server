@@ -1,6 +1,5 @@
 package com.nonsoolmate.payment.service;
 
-import static com.nonsoolmate.exception.payment.BillingExceptionType.*;
 import static com.nonsoolmate.exception.payment.PaymentExceptionType.*;
 
 import lombok.RequiredArgsConstructor;
@@ -14,7 +13,10 @@ import com.nonsoolmate.order.entity.OrderDetail;
 import com.nonsoolmate.order.service.OrderService;
 import com.nonsoolmate.payment.controller.dto.request.CreatePaymentRequestDTO;
 import com.nonsoolmate.payment.controller.dto.response.PaymentResponseDTO;
+import com.nonsoolmate.payment.entity.TransactionDetail;
+import com.nonsoolmate.payment.service.vo.TransactionVO;
 import com.nonsoolmate.toss.service.TossPaymentService;
+import com.nonsoolmate.toss.service.vo.TossPaymentTransactionVO;
 
 @Service
 @RequiredArgsConstructor
@@ -23,19 +25,29 @@ public class PaymentService {
 	private final OrderService orderService;
 	private final MembershipService membershipService;
 	private final TossPaymentService tossPaymentService;
+	private final BillingService billingService;
+	private final TransactionService transactionService;
 
 	@Transactional
-	public PaymentResponseDTO createMembershipPayment(
+	public PaymentResponseDTO createBillingPayment(
 			final CreatePaymentRequestDTO request, final String memberId) {
-
 		validateMembership(memberId);
-
-		OrderDetail order = orderService.createOrder(request, memberId);
-		// TransactionVO transaction = tossPaymentService.requestPayment(order, memberId);
-		// TransactionService.createTransaction(transaction);
-		// // TODO Auto-generated method stub
-		// return PaymentResponseDTO.of(transaction.getTransacionKey());
-		return null;
+		OrderDetail order =
+				orderService.createOrder(request.productId(), request.couponMemberId(), memberId);
+		String billingKey = billingService.getBillingKey(memberId);
+		TossPaymentTransactionVO tossPaymentTransactionVO =
+				tossPaymentService.requestBilling(billingKey, memberId, order);
+		TransactionVO transactionVO =
+				TransactionVO.of(
+						tossPaymentTransactionVO.transactionKey(),
+						tossPaymentTransactionVO.paymentKey(),
+						memberId,
+						order,
+						tossPaymentTransactionVO.receiptUrl(),
+						tossPaymentTransactionVO.transactionAt());
+		TransactionDetail transaction = transactionService.createTransaction(transactionVO);
+		membershipService.createMembership(memberId, order.getProduct());
+		return PaymentResponseDTO.of(transaction.getTransactionKey());
 	}
 
 	private void validateMembership(final String memberId) {
