@@ -14,7 +14,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import com.nonsoolmate.common.BaseTimeEntity;
+import com.nonsoolmate.couponMember.entity.CouponMember;
 import com.nonsoolmate.member.entity.Member;
+import com.nonsoolmate.product.entity.Product;
 
 import io.hypersistence.utils.hibernate.id.Tsid;
 
@@ -30,6 +32,16 @@ public class OrderDetail extends BaseTimeEntity {
 	@NotNull
 	@JoinColumn(name = "customer_key")
 	private Member member;
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@NotNull
+	@JoinColumn(name = "product_id")
+	private Product product;
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@NotNull
+	@JoinColumn(name = "coupon_member_id")
+	private CouponMember couponMember;
 
 	@Min(0)
 	private long amount;
