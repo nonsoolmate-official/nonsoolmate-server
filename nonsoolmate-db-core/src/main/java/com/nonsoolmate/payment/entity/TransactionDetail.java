@@ -23,7 +23,7 @@ import com.nonsoolmate.order.entity.OrderDetail;
 @Table(
 		uniqueConstraints = {
 			@UniqueConstraint(
-					name = "UK_TRANSACTION_KEY_CUSTOMER_KEY_KEY",
+					name = "UK_TRANSACTION_KEY_ORDER_ID",
 					columnNames = {"transactionKey", "order_id"})
 		})
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -44,7 +44,7 @@ public class TransactionDetail extends BaseTimeEntity {
 	@NotNull LocalDateTime transactionAt;
 
 	@Builder
-	public TransactionDetail(
+	private TransactionDetail(
 			final String transactionKey,
 			final String paymentKey,
 			final String customerKey,
