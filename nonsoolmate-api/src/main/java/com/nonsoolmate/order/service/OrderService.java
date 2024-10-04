@@ -14,7 +14,6 @@ import com.nonsoolmate.member.repository.MemberRepository;
 import com.nonsoolmate.order.entity.OrderDetail;
 import com.nonsoolmate.order.repository.OrderRepository;
 import com.nonsoolmate.product.entity.Product;
-import com.nonsoolmate.product.repository.ProductRepository;
 
 @Service
 @RequiredArgsConstructor
@@ -22,24 +21,22 @@ import com.nonsoolmate.product.repository.ProductRepository;
 public class OrderService {
 	private final OrderRepository orderRepository;
 	private final MemberRepository memberRepository;
-	private final ProductRepository productRepository;
 	private final DiscountProductService discountProductService;
 	private final CouponMemberService couponMemberService;
 
 	@Transactional
 	public OrderDetail createOrder(
-			final Long productId, final Long couponMemberId, final String memberId) {
+			final Product product, final Long couponMemberId, final String memberId) {
 		boolean isCouponApplied = couponMemberId != null;
 		if (isCouponApplied) {
-			return createOrderWithCoupon(productId, couponMemberId, memberId);
+			return createOrderWithCoupon(product, couponMemberId, memberId);
 		} else {
-			return createOrderWithoutCoupon(productId, memberId);
+			return createOrderWithoutCoupon(product, memberId);
 		}
 	}
 
-	private OrderDetail createOrderWithoutCoupon(final Long productId, final String memberId) {
+	private OrderDetail createOrderWithoutCoupon(final Product product, final String memberId) {
 		Member member = memberRepository.findByMemberIdOrThrow(memberId);
-		Product product = productRepository.findByProductIdOrThrow(productId);
 		long discountedProductPrice =
 				discountProductService.getDiscountedProductPrice(product.getProductId(), memberId);
 
@@ -55,10 +52,9 @@ public class OrderService {
 	}
 
 	private OrderDetail createOrderWithCoupon(
-			final Long productId, final Long couponMemberId, final String memberId) {
+			final Product product, final Long couponMemberId, final String memberId) {
 		Member member = memberRepository.findByMemberIdOrThrow(memberId);
 		CouponMember validCouponMember = couponMemberService.validateCoupon(couponMemberId, memberId);
-		Product product = productRepository.findByProductIdOrThrow(productId);
 		long discountedProductPrice =
 				discountProductService.getDiscountedProductPrice(product.getProductId(), memberId);
 		Coupon validCoupon = couponMemberService.getCoupon(validCouponMember.getCouponId());
