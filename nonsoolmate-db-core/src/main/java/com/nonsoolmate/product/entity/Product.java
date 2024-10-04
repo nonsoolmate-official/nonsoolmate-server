@@ -1,5 +1,6 @@
 package com.nonsoolmate.product.entity;
 
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 
@@ -28,6 +29,10 @@ public class Product {
 	private long price;
 
 	@NotNull private String description;
+
+	@NotNull private LocalDateTime startDate;
+
+	private LocalDateTime endDate;
 
 	public List<String> getDescriptions() {
 		return Arrays.asList(description.split(","));
