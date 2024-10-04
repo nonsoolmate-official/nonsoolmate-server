@@ -39,7 +39,6 @@ public class OrderDetail extends BaseTimeEntity {
 	private Product product;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@NotNull
 	@JoinColumn(name = "coupon_member_id")
 	private CouponMember couponMember;
 
