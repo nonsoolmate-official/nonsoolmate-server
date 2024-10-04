@@ -23,6 +23,7 @@ public class TransactionService {
 						.paymentKey(transactionVO.paymentKey())
 						.customerKey(transactionVO.customerKey())
 						.order(transactionVO.order())
+						.receiptUrl(transactionVO.receiptUrl())
 						.transactionAt(transactionVO.transactionAt())
 						.build();
 		return transactionRepository.save(transaction);
