@@ -1,6 +1,6 @@
 package com.nonsoolmate.toss.service.dto.response;
 
 public record TossPaymentTransactionDTO(
-		String paymentKey, String approvedAt, Receipt receipt, String transactionKey) {
+		String lastTransactionKey, String paymentKey, String approvedAt, Receipt receipt) {
 	public record Receipt(String url) {}
 }
