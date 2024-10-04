@@ -18,6 +18,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import com.nonsoolmate.common.BaseTimeEntity;
 import com.nonsoolmate.examRecord.entity.enums.EditingType;
 import com.nonsoolmate.examRecord.entity.enums.ExamResultStatus;
 import com.nonsoolmate.member.entity.Member;
@@ -32,7 +33,7 @@ import com.nonsoolmate.university.entity.Exam;
 					name = "UK_EXAM_MEMBER_EDITING_TYPE",
 					columnNames = {"exam_id", "member_id", "editing_type"})
 		})
-public class ExamRecord {
+public class ExamRecord extends BaseTimeEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long examRecordId;

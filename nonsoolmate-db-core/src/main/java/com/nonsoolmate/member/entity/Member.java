@@ -15,6 +15,7 @@ import lombok.NoArgsConstructor;
 
 import org.hibernate.validator.constraints.Length;
 
+import com.nonsoolmate.common.BaseTimeEntity;
 import com.nonsoolmate.exception.member.MemberException;
 import com.nonsoolmate.exception.member.MemberExceptionType;
 import com.nonsoolmate.member.entity.enums.PlatformType;
@@ -31,7 +32,7 @@ import io.hypersistence.utils.hibernate.id.Tsid;
 		})
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Member {
+public class Member extends BaseTimeEntity {
 	@Id @Tsid private String memberId;
 
 	@NotNull private String email;

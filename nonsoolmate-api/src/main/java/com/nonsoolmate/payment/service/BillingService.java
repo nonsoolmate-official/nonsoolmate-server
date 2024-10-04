@@ -12,7 +12,7 @@ import com.nonsoolmate.payment.controller.dto.response.CardResponseDTO;
 import com.nonsoolmate.payment.entity.Billing;
 import com.nonsoolmate.payment.repository.BillingRepository;
 import com.nonsoolmate.toss.service.TossPaymentService;
-import com.nonsoolmate.toss.service.vo.TossPaymentBillingVO;
+import com.nonsoolmate.toss.service.vo.TossPaymentBillingKeyVO;
 
 @Service
 @RequiredArgsConstructor
@@ -31,7 +31,7 @@ public class BillingService {
 	@Transactional
 	public CardResponseDTO registerCard(
 			final CreateOrUpdateCardRequestDTO request, final String memberId) {
-		TossPaymentBillingVO vo = tossPaymentService.issueBilling(memberId, request.authKey());
+		TossPaymentBillingKeyVO vo = tossPaymentService.issueBillingKey(memberId, request.authKey());
 		Member customer = memberRepository.findByMemberIdOrThrow(memberId);
 		Billing billing =
 				Billing.builder()
@@ -51,10 +51,15 @@ public class BillingService {
 	public CardResponseDTO updateCard(
 			final CreateOrUpdateCardRequestDTO request, final String memberId) {
 		Billing billing = billingRepository.findByCustomerIdOrThrow(memberId);
-		TossPaymentBillingVO vo = tossPaymentService.issueBilling(memberId, request.authKey());
+		TossPaymentBillingKeyVO vo = tossPaymentService.issueBillingKey(memberId, request.authKey());
 		billing.updateCardInfo(vo.billingKey(), vo.cardNumber(), vo.cardCompany());
 
 		return CardResponseDTO.of(
 				billing.getBillingId(), billing.getCardCompany(), billing.getCardNumber());
+	}
+
+	public String getBillingKey(final String customerKey) {
+		Billing billing = billingRepository.findByCustomerIdOrThrow(customerKey);
+		return billing.getBillingKey();
 	}
 }

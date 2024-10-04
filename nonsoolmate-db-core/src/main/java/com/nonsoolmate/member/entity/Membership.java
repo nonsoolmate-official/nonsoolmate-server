@@ -11,6 +11,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToOne;
 
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -22,19 +23,30 @@ import com.nonsoolmate.member.entity.enums.MembershipType;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Membership extends BaseTimeEntity {
+	private static final int MEMBERSHIP_PERIOD = 27;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	Long membershipId;
+	private Long membershipId;
 
-	@OneToOne Member member;
-
-	@Enumerated(EnumType.STRING)
-	MembershipType membershipType;
-
-	LocalDateTime startDate;
-
-	LocalDateTime endDate;
+	@OneToOne private Member member;
 
 	@Enumerated(EnumType.STRING)
-	MembershipStatus status;
+	private MembershipType membershipType;
+
+	private LocalDateTime startDate;
+
+	private LocalDateTime endDate;
+
+	@Enumerated(EnumType.STRING)
+	private MembershipStatus status;
+
+	@Builder
+	private Membership(final Member member, final MembershipType membershipType) {
+		this.member = member;
+		this.membershipType = membershipType;
+		this.startDate = LocalDateTime.now();
+		this.endDate = LocalDateTime.now().plusDays(MEMBERSHIP_PERIOD);
+		this.status = MembershipStatus.IN_PROGRESS;
+	}
 }

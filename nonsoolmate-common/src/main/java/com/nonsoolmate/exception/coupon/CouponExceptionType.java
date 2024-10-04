@@ -11,7 +11,8 @@ import com.nonsoolmate.exception.common.ExceptionType;
 public enum CouponExceptionType implements ExceptionType {
 	INVALID_COUPON_REGISTER(HttpStatus.BAD_REQUEST, "이미 등록된 쿠폰입니다."),
 	INVALID_COUPON_ISSUE(HttpStatus.BAD_REQUEST, "올바르지 않는 요청입니다."),
-	NOT_FOUND_COUPON(HttpStatus.NOT_FOUND, "유효한 쿠폰을 찾을 수 없습니다.");
+	NOT_FOUND_COUPON(HttpStatus.NOT_FOUND, "유효한 쿠폰을 찾을 수 없습니다."),
+	INVALID_COUPON(HttpStatus.BAD_REQUEST, "유효하지 않은 쿠폰입니다.");
 
 	private final HttpStatus status;
 	private final String message;

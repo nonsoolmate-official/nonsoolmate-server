@@ -1,6 +1,5 @@
 package com.nonsoolmate.payment.service;
 
-import static com.nonsoolmate.exception.member.MemberExceptionType.*;
 import static com.nonsoolmate.exception.payment.BillingExceptionType.*;
 import static org.mockito.BDDMockito.*;
 
@@ -22,7 +21,7 @@ import com.nonsoolmate.payment.controller.dto.response.CardResponseDTO;
 import com.nonsoolmate.payment.entity.Billing;
 import com.nonsoolmate.payment.repository.BillingRepository;
 import com.nonsoolmate.toss.service.TossPaymentService;
-import com.nonsoolmate.toss.service.vo.TossPaymentBillingVO;
+import com.nonsoolmate.toss.service.vo.TossPaymentBillingKeyVO;
 
 @SpringBootTest
 @ActiveProfiles("test")
@@ -78,14 +77,14 @@ class BillingServiceTest {
 		Member expectedMember = getExpectedMember();
 		CreateOrUpdateCardRequestDTO createOrUpdateCardRequestDTO =
 				new CreateOrUpdateCardRequestDTO(TEST_AUTH_KEY);
-		TossPaymentBillingVO mockTossPaymentBillingVO =
-				TossPaymentBillingVO.of(
+		TossPaymentBillingKeyVO mockTossPaymentBillingKeyVO =
+				TossPaymentBillingKeyVO.of(
 						expectedMember.getMemberId(), TEST_BILLING_KEY, TEST_CARD_COMPANY, TEST_CARD_NUMBER);
 		Billing expectedBilling = getExpectedBilling(expectedMember);
 		CardResponseDTO expectedResponse = getExpectedCardResponseDTO(expectedBilling);
 
 		given(memberRepository.findByMemberIdOrThrow(anyString())).willReturn(expectedMember);
-		given(tossPaymentService.issueBilling(any(), any())).willReturn(mockTossPaymentBillingVO);
+		given(tossPaymentService.issueBillingKey(any(), any())).willReturn(mockTossPaymentBillingKeyVO);
 		given(billingRepository.save(any())).willReturn(expectedBilling);
 
 		// when
@@ -103,7 +102,7 @@ class BillingServiceTest {
 				new CreateOrUpdateCardRequestDTO(TEST_FAKE_AUTH_KEY);
 		Member expectedMember = getExpectedMember();
 		given(memberRepository.findByMemberIdOrThrow(anyString())).willReturn(expectedMember);
-		given(tossPaymentService.issueBilling(any(), any()))
+		given(tossPaymentService.issueBillingKey(any(), any()))
 				.willThrow(new BillingException(TOSS_PAYMENT_ISSUE_BILLING));
 
 		// when, then
@@ -121,14 +120,14 @@ class BillingServiceTest {
 
 		CreateOrUpdateCardRequestDTO createOrUpdateCardRequestDTO =
 				new CreateOrUpdateCardRequestDTO(TEST_AUTH_KEY);
-		TossPaymentBillingVO mockTossPaymentBillingVO =
-				TossPaymentBillingVO.of(
+		TossPaymentBillingKeyVO mockTossPaymentBillingKeyVO =
+				TossPaymentBillingKeyVO.of(
 						expectedMember.getMemberId(), TEST_BILLING_KEY, TEST_CARD_COMPANY, TEST_CARD_NUMBER);
 		Billing expectedBilling = getExpectedBilling(expectedMember);
 		CardResponseDTO expectedResponse = getExpectedCardResponseDTO(expectedBilling);
 
 		given(billingRepository.findByCustomerIdOrThrow(anyString())).willReturn(expectedBilling);
-		given(tossPaymentService.issueBilling(any(), any())).willReturn(mockTossPaymentBillingVO);
+		given(tossPaymentService.issueBillingKey(any(), any())).willReturn(mockTossPaymentBillingKeyVO);
 
 		// when
 		CardResponseDTO response = billingService.updateCard(createOrUpdateCardRequestDTO, MEMBER_ID);
@@ -162,7 +161,7 @@ class BillingServiceTest {
 		Member expectedMember = getExpectedMember();
 		Billing expectedBilling = getExpectedBilling(expectedMember);
 		given(billingRepository.findByCustomerIdOrThrow(anyString())).willReturn(expectedBilling);
-		given(tossPaymentService.issueBilling(any(), any()))
+		given(tossPaymentService.issueBillingKey(any(), any()))
 				.willThrow(new BillingException(TOSS_PAYMENT_ISSUE_BILLING));
 
 		// when, then

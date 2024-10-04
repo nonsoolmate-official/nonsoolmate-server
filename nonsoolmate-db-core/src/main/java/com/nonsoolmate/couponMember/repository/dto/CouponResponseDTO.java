@@ -20,7 +20,7 @@ public class CouponResponseDTO {
 
 	private final CouponType couponType;
 
-	private final int discountRate;
+	private final double discountRate;
 
 	private final int discountAmount;
 
@@ -39,7 +39,7 @@ public class CouponResponseDTO {
 			String couponDescription,
 			String couponImageUrl,
 			CouponType couponType,
-			int discountRate,
+			double discountRate,
 			int discountAmount,
 			int ticketCount,
 			LocalDateTime validStartDate,

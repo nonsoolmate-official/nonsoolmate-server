@@ -21,7 +21,7 @@ public class IssueCouponRequestDTO {
 	private final String couponImageUrl;
 	private final String couponNumber;
 	@NotNull private final CouponType couponType;
-	private final int discountRate;
+	private final double discountRate;
 	private final int discountAmount;
 	private final int ticketCount;
 	private final LocalDateTime validStartDate;
