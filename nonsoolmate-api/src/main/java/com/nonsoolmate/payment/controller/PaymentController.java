@@ -2,6 +2,8 @@ package com.nonsoolmate.payment.controller;
 
 import java.net.URI;
 
+import jakarta.validation.Valid;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -35,7 +37,7 @@ public class PaymentController implements PaymentApi {
 
 	@PostMapping("/membership")
 	public ResponseEntity<PaymentResponseDTO> createMembershipPayment(
-			@RequestBody final CreatePaymentRequestDTO paymentRequestDTO,
+			@Valid @RequestBody final CreatePaymentRequestDTO paymentRequestDTO,
 			@AuthMember final String memberId) {
 		PaymentResponseDTO response = paymentService.createBillingPayment(paymentRequestDTO, memberId);
 		URI uri = URI.create(PAYMENT_URL + response.paymentId());
