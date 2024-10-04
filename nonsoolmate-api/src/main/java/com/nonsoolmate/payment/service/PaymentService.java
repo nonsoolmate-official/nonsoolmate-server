@@ -34,11 +34,16 @@ public class PaymentService {
 	public PaymentResponseDTO createBillingPayment(
 			final CreatePaymentRequestDTO request, final String memberId) {
 		validateMembership(memberId);
-		OrderDetail order =
-				orderService.createOrder(request.productId(), request.couponMemberId(), memberId);
+		Long couponMemberId =
+				request.couponMemberId() == null ? NO_COUPON_MEMBER_ID : request.couponMemberId();
+
+		OrderDetail order = orderService.createOrder(request.productId(), couponMemberId, memberId);
+
 		String billingKey = billingService.getBillingKey(memberId);
+
 		TossPaymentTransactionVO tossPaymentTransactionVO =
 				tossPaymentService.requestBilling(billingKey, memberId, order);
+
 		TransactionVO transactionVO =
 				TransactionVO.of(
 						tossPaymentTransactionVO.transactionKey(),
@@ -47,8 +52,13 @@ public class PaymentService {
 						order,
 						tossPaymentTransactionVO.receiptUrl(),
 						tossPaymentTransactionVO.transactionAt());
+
 		TransactionDetail transaction = transactionService.createTransaction(transactionVO);
+
 		membershipService.createMembership(memberId, order.getProduct());
+		// TODO: update member review ticket count
+		// here
+
 		// create next month order
 		orderService.createOrder(request.productId(), NO_COUPON_MEMBER_ID, memberId);
 
