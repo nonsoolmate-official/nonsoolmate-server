@@ -34,10 +34,10 @@ public class Product {
 	private ProductType productType;
 
 	@Min(0)
-	private long reviewTicketCount;
+	private int reviewTicketCount;
 
 	@Min(0)
-	private long reReviewTicketCount;
+	private int reReviewTicketCount;
 
 	@Min(0)
 	private long price;
