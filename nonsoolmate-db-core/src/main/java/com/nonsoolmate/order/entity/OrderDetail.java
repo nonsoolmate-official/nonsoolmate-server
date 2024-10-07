@@ -13,6 +13,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import org.hibernate.annotations.ColumnDefault;
+
 import com.nonsoolmate.common.BaseTimeEntity;
 import com.nonsoolmate.couponMember.entity.CouponMember;
 import com.nonsoolmate.member.entity.Member;
@@ -44,6 +46,9 @@ public class OrderDetail extends BaseTimeEntity {
 
 	@Min(0)
 	private long amount;
+
+	@ColumnDefault("false")
+	private Boolean isPayment;
 
 	@Builder
 	private OrderDetail(
