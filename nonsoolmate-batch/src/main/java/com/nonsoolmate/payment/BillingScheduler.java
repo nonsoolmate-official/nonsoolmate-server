@@ -11,7 +11,10 @@ import org.springframework.transaction.annotation.Transactional;
 import com.nonsoolmate.coupon.entity.Coupon;
 import com.nonsoolmate.coupon.repository.CouponRepository;
 import com.nonsoolmate.couponMember.entity.CouponMember;
-import com.nonsoolmate.member.service.MembershipService;
+import com.nonsoolmate.member.entity.Member;
+import com.nonsoolmate.member.entity.Membership;
+import com.nonsoolmate.member.entity.enums.MembershipType;
+import com.nonsoolmate.member.repository.MembershipRepository;
 import com.nonsoolmate.order.entity.OrderDetail;
 import com.nonsoolmate.order.repository.OrderRepository;
 import com.nonsoolmate.order.service.OrderService;
@@ -26,19 +29,23 @@ public class BillingScheduler {
 
 	private final OrderRepository orderRepository;
 	private final CouponRepository couponRepository;
+	private final MembershipRepository membershipRepository;
 
 	private final BillingService billingService;
-	private final MembershipService membershipService;
 	private final OrderService orderService;
 
 	private final TossPaymentService tossPaymentService;
 
 	@Scheduled(cron = "0 0 0 * * *")
 	public void regularBillingPayment() {
-		List<OrderDetail> orders = orderRepository.findAllWithMemberAndProductAndCouponMember();
+		List<OrderDetail> orders = orderRepository.findAllByIsPaymentFalse();
 
 		orders.forEach(
 				order -> {
+					Member member = order.getMember();
+					Membership membership = membershipRepository.findByMemberOrThrow(member);
+					membership.validateMembershipStatus();
+
 					String billingKey = billingService.getBillingKey(order.getMember().getMemberId());
 					String memberId = order.getMember().getMemberId();
 
@@ -52,7 +59,11 @@ public class BillingScheduler {
 
 					tossPaymentService.requestBilling(billingKey, memberId, order);
 
-					membershipService.createMembership(memberId, order.getProduct());
+					MembershipType membershipType =
+							MembershipType.getMembershipType(order.getProduct().getProductName());
+					membership.updateMembershipType(membershipType);
+
+					// create next month order
 					orderService.createOrder(order.getProduct(), NO_COUPON_MEMBER_ID, memberId);
 				});
 	}

@@ -13,6 +13,7 @@ public interface OrderRepository extends JpaRepository<OrderDetail, Long> {
 			"SELECT o FROM OrderDetail o "
 					+ "JOIN FETCH o.member "
 					+ "JOIN FETCH o.product "
-					+ "JOIN FETCH o.couponMember")
-	List<OrderDetail> findAllWithMemberAndProductAndCouponMember();
+					+ "JOIN FETCH o.couponMember "
+					+ "WHERE o.isPayment = false")
+	List<OrderDetail> findAllByIsPaymentFalse();
 }
