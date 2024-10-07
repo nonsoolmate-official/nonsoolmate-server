@@ -77,4 +77,16 @@ public class Coupon extends BaseTimeEntity {
 		this.validStartDate = validStartDate;
 		this.validEndDate = validEndDate;
 	}
+
+	public long getCouponAppliedAmount(long curAmount) {
+		if (this.couponType.equals(CouponType.RATE)) {
+			return (long) (curAmount * (1 - discountRate / 100.0));
+		}
+
+		if (this.couponType.equals(CouponType.AMOUNT)) {
+			return curAmount - discountAmount;
+		}
+
+		return curAmount;
+	}
 }

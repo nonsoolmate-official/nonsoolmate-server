@@ -8,6 +8,9 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.nonsoolmate.coupon.entity.Coupon;
+import com.nonsoolmate.coupon.repository.CouponRepository;
+import com.nonsoolmate.couponMember.entity.CouponMember;
 import com.nonsoolmate.member.service.MembershipService;
 import com.nonsoolmate.order.entity.OrderDetail;
 import com.nonsoolmate.order.repository.OrderRepository;
@@ -22,6 +25,7 @@ public class BillingScheduler {
 	private static final Long NO_COUPON_MEMBER_ID = null;
 
 	private final OrderRepository orderRepository;
+	private final CouponRepository couponRepository;
 
 	private final BillingService billingService;
 	private final MembershipService membershipService;
@@ -37,6 +41,14 @@ public class BillingScheduler {
 				order -> {
 					String billingKey = billingService.getBillingKey(order.getMember().getMemberId());
 					String memberId = order.getMember().getMemberId();
+
+					if (order.getCouponMember() != null) {
+						CouponMember couponMember = order.getCouponMember();
+						Coupon coupon = couponRepository.findByCouponIdOrThrow(couponMember.getCouponId());
+						long couponAppliedAmount = coupon.getCouponAppliedAmount(order.getAmount());
+						order.updateAmount(couponAppliedAmount);
+						couponMember.updateIsUsed(true);
+					}
 
 					tossPaymentService.requestBilling(billingKey, memberId, order);
 
