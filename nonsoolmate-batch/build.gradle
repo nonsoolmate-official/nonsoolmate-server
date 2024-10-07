@@ -6,6 +6,11 @@ jar {
 	enabled = true
 }
 
+repositories {
+	mavenCentral()
+	maven { url 'https://jitpack.io' }
+}
+
 dependencies {
 	implementation project(":nonsoolmate-db-core")
 	implementation project(":nonsoolmate-external")
