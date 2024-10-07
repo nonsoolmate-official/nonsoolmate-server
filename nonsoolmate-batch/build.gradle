@@ -6,17 +6,12 @@ jar {
 	enabled = true
 }
 
-repositories {
-	mavenCentral()
-	maven { url 'https://jitpack.io' }
-}
-
 dependencies {
 	implementation project(":nonsoolmate-db-core")
 	implementation project(":nonsoolmate-external")
 	implementation project(":nonsoolmate-common")
+	implementation project(":nonsoolmate-api")
 
-	implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	compileOnly 'org.projectlombok:lombok'
 	runtimeOnly 'com.h2database:h2'
