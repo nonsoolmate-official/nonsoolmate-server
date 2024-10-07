@@ -20,9 +20,6 @@ public class MembershipService {
 	private final MemberRepository memberRepository;
 	private final MembershipRepository membershipRepository;
 
-	private final String BASIC_MEMBERSHIP_TYPE_NAME = "베이직 플랜";
-	private final String PREMIUM_MEMBERSHIP_TYPE_NAME = "프리미엄 플랜";
-
 	public MembershipAndTicketResponseDTO getMembershipAndTicket(final String memberId) {
 		Member member = memberRepository.findByMemberIdOrThrow(memberId);
 		MembershipType membershipType = getMembershipType(member);
@@ -47,20 +44,9 @@ public class MembershipService {
 
 	public Membership createMembership(final String memberId, final Product product) {
 		Member member = memberRepository.findByMemberIdOrThrow(memberId);
-		MembershipType membershipType = getMembershipTypeByProduct(product);
+		MembershipType membershipType = MembershipType.getMembershipType(product.getProductName());
 		Membership membership =
 				Membership.builder().member(member).membershipType(membershipType).build();
 		return membershipRepository.save(membership);
-	}
-
-	private MembershipType getMembershipTypeByProduct(final Product product) {
-		switch (product.getProductName()) {
-			case BASIC_MEMBERSHIP_TYPE_NAME:
-				return MembershipType.BASIC;
-			case PREMIUM_MEMBERSHIP_TYPE_NAME:
-				return MembershipType.PREMIUM;
-			default:
-				return MembershipType.NONE;
-		}
 	}
 }
