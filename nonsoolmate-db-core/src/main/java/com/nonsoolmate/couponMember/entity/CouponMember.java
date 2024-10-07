@@ -34,4 +34,8 @@ public class CouponMember extends BaseTimeEntity {
 		this.couponId = couponId;
 		this.isUsed = isUsed;
 	}
+
+	public void updateIsUsed(Boolean isUsed) {
+		this.isUsed = isUsed;
+	}
 }
