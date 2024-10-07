@@ -97,6 +97,11 @@ public class Member extends BaseTimeEntity {
 		this.reReviewTicketCount -= 1;
 	}
 
+	public void updateTicketCount(int reviewTicketCount, int reReviewTicketCount) {
+		this.reviewTicketCount += reviewTicketCount;
+		this.reReviewTicketCount += reReviewTicketCount;
+	}
+
 	public void updateMemberProfile(
 			String name, String gender, String birthYear, String email, String phoneNumber) {
 		this.email = email;
