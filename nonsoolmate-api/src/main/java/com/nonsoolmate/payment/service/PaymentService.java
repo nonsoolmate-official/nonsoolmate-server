@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.nonsoolmate.exception.payment.PaymentException;
 import com.nonsoolmate.member.entity.Member;
+import com.nonsoolmate.member.entity.Membership;
 import com.nonsoolmate.member.service.MembershipService;
 import com.nonsoolmate.order.entity.OrderDetail;
 import com.nonsoolmate.order.service.OrderService;
@@ -62,7 +63,8 @@ public class PaymentService {
 
 		TransactionDetail transaction = transactionService.createTransaction(transactionVO);
 
-		Member member = membershipService.createMembership(memberId, order.getProduct()).getMember();
+		Membership membership = membershipService.createMembership(memberId, product);
+		Member member = membership.getMember();
 		member.updateTicketCount(
 				order.getProduct().getReviewTicketCount(), order.getProduct().getReReviewTicketCount());
 
