@@ -7,6 +7,7 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.NotNull;
 
@@ -26,9 +27,11 @@ public class DiscountProduct {
 	private Long discountProductId;
 
 	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "product_id")
 	private Product product;
 
 	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "discount_id")
 	private Discount discount;
 
 	@NotNull LocalDateTime startDate;
