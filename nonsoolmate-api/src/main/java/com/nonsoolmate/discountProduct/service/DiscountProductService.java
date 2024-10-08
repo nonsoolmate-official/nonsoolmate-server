@@ -8,8 +8,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.nonsoolmate.discount.entity.Discount;
-import com.nonsoolmate.discountProduct.DiscountProductRepository;
 import com.nonsoolmate.discountProduct.entity.DiscountProduct;
+import com.nonsoolmate.discountProduct.repository.DiscountProductRepository;
 import com.nonsoolmate.payment.service.TransactionService;
 import com.nonsoolmate.product.entity.Product;
 import com.nonsoolmate.product.repository.ProductRepository;
@@ -22,32 +22,26 @@ public class DiscountProductService {
 	private final ProductRepository productRepository;
 	private final TransactionService transactionService;
 
-	private static final double NOT_FIRST_PURCHASE_DISCOUNT_RATE = 0.0;
-
 	public long getDiscountedProductPrice(final Long productId, final String memberId) {
 		Product product = productRepository.findByProductIdOrThrow(productId);
 		double discountedPrice = product.getPrice();
+		List<DiscountProduct> defaultDiscountProducts =
+				getDefaultDiscountProductsByProduct(product, memberId);
 
-		List<DiscountProduct> discountProducts = discountProductRepository.findAllByProductId(product);
-		boolean isFirstPurchaseMember = transactionService.isFirstPurchase(memberId);
-
-		for (DiscountProduct discountProduct : discountProducts) {
+		for (DiscountProduct discountProduct : defaultDiscountProducts) {
 			Discount discount = discountProduct.getDiscount();
-			double discountPercent = getDiscountPercent(discount, isFirstPurchaseMember);
-			discountedPrice *= (1.0 - discountPercent);
+			discountedPrice *= (1.0 - discount.getDiscountRate());
 		}
 
 		return Math.round(discountedPrice);
 	}
 
-	private double getDiscountPercent(final Discount discount, final boolean isFirstPurchaseMember) {
-		switch (discount.getDiscountType()) {
-			case FIRST_PURCHASE:
-				return isFirstPurchaseMember
-						? discount.getDiscountRate()
-						: NOT_FIRST_PURCHASE_DISCOUNT_RATE;
-			default:
-				return discount.getDiscountRate();
+	public List<DiscountProduct> getDefaultDiscountProductsByProduct(
+			final Product product, final String memberId) {
+		boolean isFirstPurchaseMember = transactionService.isFirstPurchase(memberId);
+		if (isFirstPurchaseMember) {
+			return discountProductRepository.findAllByProductId(product);
 		}
+		return discountProductRepository.findAllByProductIdAndDiscountIsContinuous(product);
 	}
 }
