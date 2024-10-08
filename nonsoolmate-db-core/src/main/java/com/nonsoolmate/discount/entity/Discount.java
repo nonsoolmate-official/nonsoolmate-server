@@ -1,6 +1,8 @@
 package com.nonsoolmate.discount.entity;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -24,6 +26,7 @@ public class Discount {
 
 	private double discountRate;
 
+	@Enumerated(EnumType.STRING)
 	private DiscountType discountType;
 
 	@NotNull private String description;
