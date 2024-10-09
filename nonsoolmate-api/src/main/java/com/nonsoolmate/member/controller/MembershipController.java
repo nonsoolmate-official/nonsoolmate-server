@@ -20,26 +20,26 @@ import com.nonsoolmate.member.service.MembershipService;
 @RequiredArgsConstructor
 public class MembershipController implements MembershipApi {
 
-	private final MembershipService membershipService;
+  private final MembershipService membershipService;
 
-	@Override
-	@GetMapping("/ticket")
-	public ResponseEntity<MembershipAndTicketResponseDTO> getMembershipAndTicket(
-			@AuthMember final String memberId) {
-		return ResponseEntity.ok().body(membershipService.getMembershipAndTicket(memberId));
-	}
+  @Override
+  @GetMapping("/ticket")
+  public ResponseEntity<MembershipAndTicketResponseDTO> getMembershipAndTicket(
+      @AuthMember final String memberId) {
+    return ResponseEntity.ok().body(membershipService.getMembershipAndTicket(memberId));
+  }
 
-	@Override
-	@GetMapping("/payment")
-	public ResponseEntity<PaymentInfoResponseDTO> getNextPaymentInfo(
-			@AuthMember final String memberId) {
-		Optional<PaymentInfoResponseDTO> nextPaymentInfo =
-				membershipService.getNextPaymentInfo(memberId);
+  @Override
+  @GetMapping("/payment")
+  public ResponseEntity<PaymentInfoResponseDTO> getNextPaymentInfo(
+      @AuthMember final String memberId) {
+    Optional<PaymentInfoResponseDTO> nextPaymentInfo =
+        membershipService.getNextPaymentInfo(memberId);
 
-		if (nextPaymentInfo.isEmpty()) {
-			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-		}
+    if (nextPaymentInfo.isEmpty()) {
+      return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
 
-		return ResponseEntity.ok().body(nextPaymentInfo.get());
-	}
+    return ResponseEntity.ok().body(nextPaymentInfo.get());
+  }
 }

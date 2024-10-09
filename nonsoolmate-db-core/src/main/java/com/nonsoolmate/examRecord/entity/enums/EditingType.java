@@ -6,8 +6,8 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Getter
 public enum EditingType {
-	EDITING("첨삭"),
-	REVISION("재첨삭");
+  EDITING("첨삭"),
+  REVISION("재첨삭");
 
-	private final String type;
+  private final String type;
 }

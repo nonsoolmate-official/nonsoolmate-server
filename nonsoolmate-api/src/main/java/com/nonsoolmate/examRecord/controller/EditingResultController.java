@@ -18,14 +18,14 @@ import com.nonsoolmate.global.security.AuthMember;
 @RequestMapping("/college/exam")
 @RequiredArgsConstructor
 public class EditingResultController implements EditingResultApi {
-	private final ExamRecordService examRecordService;
+  private final ExamRecordService examRecordService;
 
-	@GetMapping("/{exam-id}/exam-record/result")
-	public ResponseEntity<EditingResultDTO> getExamRecordResult(
-			@PathVariable("exam-id") final long examId,
-			@RequestParam("type") final EditingType type,
-			@AuthMember final String memberId) {
-		return ResponseEntity.ok()
-				.body(examRecordService.getExamRecordEditingResult(examId, type, memberId));
-	}
+  @GetMapping("/{exam-id}/exam-record/result")
+  public ResponseEntity<EditingResultDTO> getExamRecordResult(
+      @PathVariable("exam-id") final long examId,
+      @RequestParam("type") final EditingType type,
+      @AuthMember final String memberId) {
+    return ResponseEntity.ok()
+        .body(examRecordService.getExamRecordEditingResult(examId, type, memberId));
+  }
 }

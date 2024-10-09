@@ -15,16 +15,16 @@ import reactor.core.publisher.Mono;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ApiCallUtil {
 
-	public static void callDiscordAppenderPostAPI(String urlString, JsonObject json) {
-		WebClient webClient = WebClient.create();
-		webClient
-				.post()
-				.uri(urlString)
-				.contentType(MediaType.APPLICATION_JSON)
-				.header("User-Agent", "Java-DiscordWebhook-BY-Gelox_")
-				.body(Mono.just(json.toString()), String.class)
-				.retrieve()
-				.bodyToMono(Void.class)
-				.block();
-	}
+  public static void callDiscordAppenderPostAPI(String urlString, JsonObject json) {
+    WebClient webClient = WebClient.create();
+    webClient
+        .post()
+        .uri(urlString)
+        .contentType(MediaType.APPLICATION_JSON)
+        .header("User-Agent", "Java-DiscordWebhook-BY-Gelox_")
+        .body(Mono.just(json.toString()), String.class)
+        .retrieve()
+        .bodyToMono(Void.class)
+        .block();
+  }
 }

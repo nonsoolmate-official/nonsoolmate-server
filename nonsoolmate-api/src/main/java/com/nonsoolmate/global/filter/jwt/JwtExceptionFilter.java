@@ -22,20 +22,20 @@ import com.nonsoolmate.response.ErrorResponse;
 @RequiredArgsConstructor
 public class JwtExceptionFilter extends OncePerRequestFilter {
 
-	private final ObjectMapper objectMapper;
+  private final ObjectMapper objectMapper;
 
-	@Override
-	protected void doFilterInternal(
-			HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
-			throws ServletException, IOException {
-		try {
-			filterChain.doFilter(request, response);
-		} catch (AuthException e) {
-			response.setStatus(HttpStatus.UNAUTHORIZED.value());
-			response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-			response.setCharacterEncoding("UTF-8");
-			String error = objectMapper.writeValueAsString(ErrorResponse.of(e.getExceptionType()));
-			response.getWriter().write(error);
-		}
-	}
+  @Override
+  protected void doFilterInternal(
+      HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+      throws ServletException, IOException {
+    try {
+      filterChain.doFilter(request, response);
+    } catch (AuthException e) {
+      response.setStatus(HttpStatus.UNAUTHORIZED.value());
+      response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+      response.setCharacterEncoding("UTF-8");
+      String error = objectMapper.writeValueAsString(ErrorResponse.of(e.getExceptionType()));
+      response.getWriter().write(error);
+    }
+  }
 }

@@ -13,17 +13,17 @@ import com.nonsoolmate.member.entity.enums.PlatformType;
 @Component
 @RequiredArgsConstructor
 public class AuthServiceProvider {
-	private static final ConcurrentHashMap<PlatformType, AuthService> authServiceMap =
-			new ConcurrentHashMap<>();
+  private static final ConcurrentHashMap<PlatformType, AuthService> authServiceMap =
+      new ConcurrentHashMap<>();
 
-	private final NaverAuthService naverAuthService;
+  private final NaverAuthService naverAuthService;
 
-	@PostConstruct
-	void init() {
-		authServiceMap.put(PlatformType.NAVER, naverAuthService);
-	}
+  @PostConstruct
+  void init() {
+    authServiceMap.put(PlatformType.NAVER, naverAuthService);
+  }
 
-	public AuthService getAuthService(final PlatformType platformType) {
-		return authServiceMap.get(platformType);
-	}
+  public AuthService getAuthService(final PlatformType platformType) {
+    return authServiceMap.get(platformType);
+  }
 }

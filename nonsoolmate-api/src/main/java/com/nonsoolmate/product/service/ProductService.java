@@ -18,50 +18,50 @@ import com.nonsoolmate.product.repository.ProductRepository;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class ProductService {
-	private final ProductRepository productRepository;
-	private final DiscountProductService discountProductService;
+  private final ProductRepository productRepository;
+  private final DiscountProductService discountProductService;
 
-	public ProductResponseDTO getProduct(final Long productId, final String memberId) {
-		Product product = productRepository.findByProductIdOrThrow(productId);
-		List<DiscountProduct> discountProducts =
-				discountProductService.getDiscountProductsByProductAndMemberId(product, memberId);
-		List<DiscountResponseDTO> discountResponseDTOs =
-				convertToDiscountResponseDTOs(discountProducts);
-		return ProductResponseDTO.of(
-				product.getProductId(),
-				product.getProductName(),
-				product.getDescriptions(),
-				product.getPrice(),
-				discountResponseDTOs);
-	}
+  public ProductResponseDTO getProduct(final Long productId, final String memberId) {
+    Product product = productRepository.findByProductIdOrThrow(productId);
+    List<DiscountProduct> discountProducts =
+        discountProductService.getDiscountProductsByProductAndMemberId(product, memberId);
+    List<DiscountResponseDTO> discountResponseDTOs =
+        convertToDiscountResponseDTOs(discountProducts);
+    return ProductResponseDTO.of(
+        product.getProductId(),
+        product.getProductName(),
+        product.getDescriptions(),
+        product.getPrice(),
+        discountResponseDTOs);
+  }
 
-	public List<ProductResponseDTO> getProducts() {
-		List<Product> products = productRepository.findProductsByAvailable();
-		return products.stream().map(this::createProductResponseDTO).toList();
-	}
+  public List<ProductResponseDTO> getProducts() {
+    List<Product> products = productRepository.findProductsByAvailable();
+    return products.stream().map(this::createProductResponseDTO).toList();
+  }
 
-	private ProductResponseDTO createProductResponseDTO(Product product) {
-		List<DiscountProduct> discountProducts =
-				discountProductService.getDefaultDiscountProductsByProduct(product);
-		List<DiscountResponseDTO> discountResponseDTOs =
-				convertToDiscountResponseDTOs(discountProducts);
-		return ProductResponseDTO.of(
-				product.getProductId(),
-				product.getProductName(),
-				product.getDescriptions(),
-				product.getPrice(),
-				discountResponseDTOs);
-	}
+  private ProductResponseDTO createProductResponseDTO(Product product) {
+    List<DiscountProduct> discountProducts =
+        discountProductService.getDefaultDiscountProductsByProduct(product);
+    List<DiscountResponseDTO> discountResponseDTOs =
+        convertToDiscountResponseDTOs(discountProducts);
+    return ProductResponseDTO.of(
+        product.getProductId(),
+        product.getProductName(),
+        product.getDescriptions(),
+        product.getPrice(),
+        discountResponseDTOs);
+  }
 
-	private List<DiscountResponseDTO> convertToDiscountResponseDTOs(
-			List<DiscountProduct> discountProducts) {
-		return discountProducts.stream()
-				.map(
-						discountProduct ->
-								DiscountResponseDTO.of(
-										discountProduct.getDiscount().getDiscountId(),
-										discountProduct.getDiscount().getDiscountName(),
-										discountProduct.getDiscount().getDiscountRate()))
-				.toList();
-	}
+  private List<DiscountResponseDTO> convertToDiscountResponseDTOs(
+      List<DiscountProduct> discountProducts) {
+    return discountProducts.stream()
+        .map(
+            discountProduct ->
+                DiscountResponseDTO.of(
+                    discountProduct.getDiscount().getDiscountId(),
+                    discountProduct.getDiscount().getDiscountName(),
+                    discountProduct.getDiscount().getDiscountRate()))
+        .toList();
+  }
 }

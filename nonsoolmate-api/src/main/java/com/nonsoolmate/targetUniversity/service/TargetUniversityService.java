@@ -20,26 +20,26 @@ import com.nonsoolmate.university.repository.UniversityRepository;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class TargetUniversityService {
-	private final UniversityRepository universityRepository;
-	private final TargetUniversityRepository targetUniversityRepository;
-	private final MemberRepository memberRepository;
+  private final UniversityRepository universityRepository;
+  private final TargetUniversityRepository targetUniversityRepository;
+  private final MemberRepository memberRepository;
 
-	public List<TargetUniversityResponseDTO> getTargetUniversities() {
-		List<University> universities = universityRepository.findAll();
+  public List<TargetUniversityResponseDTO> getTargetUniversities() {
+    List<University> universities = universityRepository.findAll();
 
-		return universities.stream().map(TargetUniversityResponseDTO::of).toList();
-	}
+    return universities.stream().map(TargetUniversityResponseDTO::of).toList();
+  }
 
-	@Transactional
-	public void patchTargetUniversity(
-			final List<TargetUniversityRequestDTO> request, final String memberId) {
-		Member member = memberRepository.findByMemberIdOrThrow(memberId);
-		targetUniversityRepository.deleteAllByMember(member);
-		List<Long> universityIds =
-				request.stream().map(TargetUniversityRequestDTO::universityId).toList();
-		List<University> universities = universityRepository.findAllByUniversityIdIn(universityIds);
-		List<TargetUniversity> targetUniversities =
-				universities.stream().map(university -> new TargetUniversity(university, member)).toList();
-		targetUniversityRepository.saveAll(targetUniversities);
-	}
+  @Transactional
+  public void patchTargetUniversity(
+      final List<TargetUniversityRequestDTO> request, final String memberId) {
+    Member member = memberRepository.findByMemberIdOrThrow(memberId);
+    targetUniversityRepository.deleteAllByMember(member);
+    List<Long> universityIds =
+        request.stream().map(TargetUniversityRequestDTO::universityId).toList();
+    List<University> universities = universityRepository.findAllByUniversityIdIn(universityIds);
+    List<TargetUniversity> targetUniversities =
+        universities.stream().map(university -> new TargetUniversity(university, member)).toList();
+    targetUniversityRepository.saveAll(targetUniversities);
+  }
 }

@@ -32,115 +32,115 @@ import com.nonsoolmate.member.repository.MemberRepository;
 @ActiveProfiles("test")
 @Import(QuerydslConfig.class)
 class MemberRepositoryTest {
-	@Autowired private MemberRepository memberRepository;
+  @Autowired private MemberRepository memberRepository;
 
-	private Member member;
+  private Member member;
 
-	@PersistenceContext private EntityManager entityManager;
+  @PersistenceContext private EntityManager entityManager;
 
-	@BeforeEach
-	void setup() {
-		memberRepository.deleteAllInBatch();
-		member =
-				Member.builder()
-						.email("test@example.com")
-						.name("euna")
-						.platformType(PlatformType.NAVER)
-						.role(Role.USER)
-						.platformId("12345")
-						.birthYear("2001")
-						.gender("F")
-						.phoneNumber("010-1234-5678")
-						.build();
-	}
+  @BeforeEach
+  void setup() {
+    memberRepository.deleteAllInBatch();
+    member =
+        Member.builder()
+            .email("test@example.com")
+            .name("euna")
+            .platformType(PlatformType.NAVER)
+            .role(Role.USER)
+            .platformId("12345")
+            .birthYear("2001")
+            .gender("F")
+            .phoneNumber("010-1234-5678")
+            .build();
+  }
 
-	@Test
-	@DisplayName("동일한 회원에 대한 회원가입 요청이 오는 경우 무결성 에러가 발생한다")
-	void saveMemberDuplicate() {
-		// given
-		Member duplicateMember =
-				Member.builder()
-						.email("test@example.com")
-						.name("euna")
-						.platformType(PlatformType.NAVER)
-						.role(Role.USER)
-						.platformId("12345")
-						.birthYear("2001")
-						.gender("F")
-						.phoneNumber("010-1234-5678")
-						.build();
-		memberRepository.save(member);
+  @Test
+  @DisplayName("동일한 회원에 대한 회원가입 요청이 오는 경우 무결성 에러가 발생한다")
+  void saveMemberDuplicate() {
+    // given
+    Member duplicateMember =
+        Member.builder()
+            .email("test@example.com")
+            .name("euna")
+            .platformType(PlatformType.NAVER)
+            .role(Role.USER)
+            .platformId("12345")
+            .birthYear("2001")
+            .gender("F")
+            .phoneNumber("010-1234-5678")
+            .build();
+    memberRepository.save(member);
 
-		// when, then
-		assertThrows(
-				DataIntegrityViolationException.class,
-				() -> {
-					memberRepository.save(duplicateMember);
-					memberRepository.flush();
-				});
-		entityManager.clear();
+    // when, then
+    assertThrows(
+        DataIntegrityViolationException.class,
+        () -> {
+          memberRepository.save(duplicateMember);
+          memberRepository.flush();
+        });
+    entityManager.clear();
 
-		assertEquals(1, memberRepository.count());
-	}
+    assertEquals(1, memberRepository.count());
+  }
 
-	@Test
-	@DisplayName("동일한 회원에 대한 회원가입 요청이 동시에 오는 경우 무결성 에러가 발생한다")
-	void saveMemberConcurrent() throws InterruptedException {
-		// given
-		CountDownLatch latch = new CountDownLatch(2);
-		ExecutorService executor = Executors.newFixedThreadPool(2);
+  @Test
+  @DisplayName("동일한 회원에 대한 회원가입 요청이 동시에 오는 경우 무결성 에러가 발생한다")
+  void saveMemberConcurrent() throws InterruptedException {
+    // given
+    CountDownLatch latch = new CountDownLatch(2);
+    ExecutorService executor = Executors.newFixedThreadPool(2);
 
-		Callable<Void> task1 =
-				() -> {
-					try {
-						memberRepository.save(member);
-					} finally {
-						latch.countDown();
-					}
-					return null;
-				};
+    Callable<Void> task1 =
+        () -> {
+          try {
+            memberRepository.save(member);
+          } finally {
+            latch.countDown();
+          }
+          return null;
+        };
 
-		Callable<Void> task2 =
-				() -> {
-					try {
-						Member duplicateMember =
-								Member.builder()
-										.email("test@example.com")
-										.name("euna")
-										.platformType(PlatformType.NAVER)
-										.role(Role.USER)
-										.platformId("12345")
-										.birthYear("2001")
-										.gender("F")
-										.phoneNumber("010-1234-5678")
-										.build();
-						memberRepository.save(duplicateMember);
-					} finally {
-						latch.countDown();
-					}
-					return null;
-				};
+    Callable<Void> task2 =
+        () -> {
+          try {
+            Member duplicateMember =
+                Member.builder()
+                    .email("test@example.com")
+                    .name("euna")
+                    .platformType(PlatformType.NAVER)
+                    .role(Role.USER)
+                    .platformId("12345")
+                    .birthYear("2001")
+                    .gender("F")
+                    .phoneNumber("010-1234-5678")
+                    .build();
+            memberRepository.save(duplicateMember);
+          } finally {
+            latch.countDown();
+          }
+          return null;
+        };
 
-		Future<Void> future1 = executor.submit(task1);
-		Future<Void> future2 = executor.submit(task2);
+    Future<Void> future1 = executor.submit(task1);
+    Future<Void> future2 = executor.submit(task2);
 
-		// when
-		latch.await();
+    // when
+    latch.await();
 
-		executor.shutdown();
+    executor.shutdown();
 
-		// then
-		assertThatThrownBy(
-						() -> {
-							try {
-								future1.get();
-								future2.get();
-							} catch (ExecutionException e) {
-								throw e.getCause();
-							}
-						})
-				.isInstanceOf(DataIntegrityViolationException.class);
+    // then
+    assertThatThrownBy(
+            () -> {
+              try {
+                future1.get();
+                future2.get();
+              } catch (ExecutionException e) {
+                throw e.getCause();
+              }
+            })
+        .isInstanceOf(DataIntegrityViolationException.class);
 
-		assertEquals(1, memberRepository.count());
-	}
+    assertEquals(1, memberRepository.count());
+  }
 }

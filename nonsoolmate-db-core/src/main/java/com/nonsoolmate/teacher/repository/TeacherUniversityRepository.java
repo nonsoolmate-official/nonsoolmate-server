@@ -9,5 +9,5 @@ import com.nonsoolmate.teacher.entity.TeacherUniversity;
 
 public interface TeacherUniversityRepository extends JpaRepository<TeacherUniversity, Long> {
 
-	List<TeacherUniversity> findAllByTeacher(Teacher teacher);
+  List<TeacherUniversity> findAllByTeacher(Teacher teacher);
 }

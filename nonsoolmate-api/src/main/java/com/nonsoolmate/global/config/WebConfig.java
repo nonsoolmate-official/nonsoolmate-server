@@ -13,8 +13,8 @@ import com.nonsoolmate.global.security.AuthMemberArgumentResolver;
 @Configuration
 @RequiredArgsConstructor
 public class WebConfig implements WebMvcConfigurer {
-	@Override
-	public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
-		resolvers.add(new AuthMemberArgumentResolver());
-	}
+  @Override
+  public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
+    resolvers.add(new AuthMemberArgumentResolver());
+  }
 }

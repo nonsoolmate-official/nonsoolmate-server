@@ -18,16 +18,16 @@ import com.nonsoolmate.discount.entity.enums.DiscountType;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 public class Discount {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long discountId;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long discountId;
 
-	@NotNull private String discountName;
+  @NotNull private String discountName;
 
-	private double discountRate;
+  private double discountRate;
 
-	@Enumerated(EnumType.STRING)
-	private DiscountType discountType;
+  @Enumerated(EnumType.STRING)
+  private DiscountType discountType;
 
-	@NotNull private String description;
+  @NotNull private String description;
 }

@@ -18,18 +18,18 @@ import com.nonsoolmate.product.service.ProductService;
 @RequestMapping("/products")
 @RequiredArgsConstructor
 public class ProductController implements ProductApi {
-	private final ProductService productService;
+  private final ProductService productService;
 
-	@GetMapping("/{productId}")
-	public ResponseEntity<ProductResponseDTO> getProduct(
-			@PathVariable("productId") final Long productId, @AuthMember final String memberId) {
-		ProductResponseDTO response = productService.getProduct(productId, memberId);
-		return ResponseEntity.ok(response);
-	}
+  @GetMapping("/{productId}")
+  public ResponseEntity<ProductResponseDTO> getProduct(
+      @PathVariable("productId") final Long productId, @AuthMember final String memberId) {
+    ProductResponseDTO response = productService.getProduct(productId, memberId);
+    return ResponseEntity.ok(response);
+  }
 
-	@GetMapping("")
-	public ResponseEntity<List<ProductResponseDTO>> getProducts() {
-		List<ProductResponseDTO> response = productService.getProducts();
-		return ResponseEntity.ok(response);
-	}
+  @GetMapping("")
+  public ResponseEntity<List<ProductResponseDTO>> getProducts() {
+    List<ProductResponseDTO> response = productService.getProducts();
+    return ResponseEntity.ok(response);
+  }
 }

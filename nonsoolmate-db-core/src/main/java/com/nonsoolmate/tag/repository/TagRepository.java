@@ -8,5 +8,5 @@ import com.nonsoolmate.tag.entity.Tag;
 
 public interface TagRepository extends JpaRepository<Tag, Long> {
 
-	List<Tag> findAllByTeacherId(Long teacherId);
+  List<Tag> findAllByTeacherId(Long teacherId);
 }

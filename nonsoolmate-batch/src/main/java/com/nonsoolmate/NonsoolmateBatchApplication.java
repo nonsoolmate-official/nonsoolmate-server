@@ -10,7 +10,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableJpaAuditing
 public class NonsoolmateBatchApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(NonsoolmateBatchApplication.class, args);
-	}
+  public static void main(String[] args) {
+    SpringApplication.run(NonsoolmateBatchApplication.class, args);
+  }
 }

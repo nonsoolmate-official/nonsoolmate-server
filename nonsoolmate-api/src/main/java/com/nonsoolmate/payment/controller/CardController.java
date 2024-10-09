@@ -21,27 +21,27 @@ import com.nonsoolmate.payment.service.BillingService;
 @RequestMapping("/cards")
 @RequiredArgsConstructor
 public class CardController implements CardApi {
-	private final BillingService billingService;
+  private final BillingService billingService;
 
-	@GetMapping
-	public ResponseEntity<CardResponseDTO> getCard(@AuthMember final String memberId) {
-		CardResponseDTO response = billingService.getCard(memberId);
-		return ResponseEntity.ok(response);
-	}
+  @GetMapping
+  public ResponseEntity<CardResponseDTO> getCard(@AuthMember final String memberId) {
+    CardResponseDTO response = billingService.getCard(memberId);
+    return ResponseEntity.ok(response);
+  }
 
-	@PostMapping("/register")
-	public ResponseEntity<CardResponseDTO> registerCard(
-			@RequestBody @Valid CreateOrUpdateCardRequestDTO createOrUpdateCardRequestDTO,
-			@AuthMember final String memberId) {
-		CardResponseDTO response = billingService.registerCard(createOrUpdateCardRequestDTO, memberId);
-		return ResponseEntity.ok(response);
-	}
+  @PostMapping("/register")
+  public ResponseEntity<CardResponseDTO> registerCard(
+      @RequestBody @Valid CreateOrUpdateCardRequestDTO createOrUpdateCardRequestDTO,
+      @AuthMember final String memberId) {
+    CardResponseDTO response = billingService.registerCard(createOrUpdateCardRequestDTO, memberId);
+    return ResponseEntity.ok(response);
+  }
 
-	@PutMapping("/update")
-	public ResponseEntity<CardResponseDTO> updateCard(
-			@RequestBody @Valid CreateOrUpdateCardRequestDTO createOrUpdateCardRequestDTO,
-			@AuthMember final String memberId) {
-		CardResponseDTO response = billingService.updateCard(createOrUpdateCardRequestDTO, memberId);
-		return ResponseEntity.ok(response);
-	}
+  @PutMapping("/update")
+  public ResponseEntity<CardResponseDTO> updateCard(
+      @RequestBody @Valid CreateOrUpdateCardRequestDTO createOrUpdateCardRequestDTO,
+      @AuthMember final String memberId) {
+    CardResponseDTO response = billingService.updateCard(createOrUpdateCardRequestDTO, memberId);
+    return ResponseEntity.ok(response);
+  }
 }

@@ -16,7 +16,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @Getter
 public abstract class BaseTimeEntity {
 
-	@CreatedDate public LocalDateTime createdAt;
+  @CreatedDate public LocalDateTime createdAt;
 
-	@LastModifiedDate public LocalDateTime updatedAt;
+  @LastModifiedDate public LocalDateTime updatedAt;
 }

@@ -6,6 +6,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest
 class NonsoolmateBatchApplicationTests {
 
-	@Test
-	void contextLoads() {}
+  @Test
+  void contextLoads() {}
 }

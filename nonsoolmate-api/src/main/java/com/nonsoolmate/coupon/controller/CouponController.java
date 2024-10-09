@@ -22,30 +22,30 @@ import com.nonsoolmate.global.security.AuthMember;
 @RequiredArgsConstructor
 @RequestMapping("/coupon")
 public class CouponController implements CouponApi {
-	private final CouponService couponService;
+  private final CouponService couponService;
 
-	@Override
-	@PostMapping("/issue")
-	public ResponseEntity<Void> issueCoupon(@RequestBody @Valid IssueCouponRequestDTO requestDTO) {
+  @Override
+  @PostMapping("/issue")
+  public ResponseEntity<Void> issueCoupon(@RequestBody @Valid IssueCouponRequestDTO requestDTO) {
 
-		couponService.issueCoupon(requestDTO);
-		return ResponseEntity.status(HttpStatus.CREATED).build();
-	}
+    couponService.issueCoupon(requestDTO);
+    return ResponseEntity.status(HttpStatus.CREATED).build();
+  }
 
-	@Override
-	@GetMapping
-	public ResponseEntity<GetCouponsResponseDTO> getCoupons(@AuthMember String memberId) {
-		GetCouponsResponseDTO responseDTO = couponService.getCoupons(memberId);
+  @Override
+  @GetMapping
+  public ResponseEntity<GetCouponsResponseDTO> getCoupons(@AuthMember String memberId) {
+    GetCouponsResponseDTO responseDTO = couponService.getCoupons(memberId);
 
-		return ResponseEntity.ok().body(responseDTO);
-	}
+    return ResponseEntity.ok().body(responseDTO);
+  }
 
-	@Override
-	@PostMapping
-	public ResponseEntity<Void> registerCoupon(
-			@RequestBody @Valid RegisterCouponRequestDTO requestDTO, @AuthMember String memberId) {
-		couponService.registerCoupon(requestDTO, memberId);
+  @Override
+  @PostMapping
+  public ResponseEntity<Void> registerCoupon(
+      @RequestBody @Valid RegisterCouponRequestDTO requestDTO, @AuthMember String memberId) {
+    couponService.registerCoupon(requestDTO, memberId);
 
-		return ResponseEntity.status(HttpStatus.CREATED).build();
-	}
+    return ResponseEntity.status(HttpStatus.CREATED).build();
+  }
 }

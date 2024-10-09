@@ -22,18 +22,18 @@ import com.nonsoolmate.product.entity.Product;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 public class DiscountProduct {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long discountProductId;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long discountProductId;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "product_id")
-	private Product product;
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "product_id")
+  private Product product;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "discount_id")
-	private Discount discount;
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "discount_id")
+  private Discount discount;
 
-	@NotNull LocalDateTime startDate;
-	@NotNull LocalDateTime endDate;
+  @NotNull LocalDateTime startDate;
+  @NotNull LocalDateTime endDate;
 }

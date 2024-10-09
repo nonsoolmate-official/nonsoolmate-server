@@ -13,25 +13,25 @@ import org.springframework.util.StreamUtils;
 
 public class CachedBodyRequestWrapper extends HttpServletRequestWrapper {
 
-	private final byte[] cachedBody;
+  private final byte[] cachedBody;
 
-	public CachedBodyRequestWrapper(HttpServletRequest request) throws IOException {
-		super(request);
-		this.cachedBody = StreamUtils.copyToByteArray(request.getInputStream());
-	}
+  public CachedBodyRequestWrapper(HttpServletRequest request) throws IOException {
+    super(request);
+    this.cachedBody = StreamUtils.copyToByteArray(request.getInputStream());
+  }
 
-	@Override
-	public ServletInputStream getInputStream() {
-		return new CachedBodyServletInputStream(this.cachedBody);
-	}
+  @Override
+  public ServletInputStream getInputStream() {
+    return new CachedBodyServletInputStream(this.cachedBody);
+  }
 
-	@Override
-	public BufferedReader getReader() {
-		ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(this.cachedBody);
-		return new BufferedReader(new InputStreamReader(byteArrayInputStream));
-	}
+  @Override
+  public BufferedReader getReader() {
+    ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(this.cachedBody);
+    return new BufferedReader(new InputStreamReader(byteArrayInputStream));
+  }
 
-	public String getBody() {
-		return new String(cachedBody);
-	}
+  public String getBody() {
+    return new String(cachedBody);
+  }
 }

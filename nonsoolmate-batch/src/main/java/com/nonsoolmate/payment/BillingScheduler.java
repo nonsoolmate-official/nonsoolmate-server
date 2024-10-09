@@ -22,26 +22,26 @@ import com.nonsoolmate.order.repository.OrderRepository;
 @Transactional(readOnly = true)
 public class BillingScheduler {
 
-	private final OrderRepository orderRepository;
-	private final MembershipRepository membershipRepository;
+  private final OrderRepository orderRepository;
+  private final MembershipRepository membershipRepository;
 
-	private final BillingPaymentService billingPaymentService;
+  private final BillingPaymentService billingPaymentService;
 
-	@Scheduled(cron = "0 0 0 * * *")
-	@Transactional
-	public void regularBillingPayment() {
-		List<OrderDetail> orders = orderRepository.findAllByIsPaymentFalse();
-		List<Member> members = orders.stream().map(OrderDetail::getMember).toList();
-		List<Membership> memberships =
-				membershipRepository.findAllByStatusAndMemberIn(MembershipStatus.IN_PROGRESS, members);
-		Map<String, Membership> membershipMap =
-				memberships.stream()
-						.collect(
-								Collectors.toMap(
-										membership -> membership.getMember().getMemberId(), membership -> membership));
+  @Scheduled(cron = "0 0 0 * * *")
+  @Transactional
+  public void regularBillingPayment() {
+    List<OrderDetail> orders = orderRepository.findAllByIsPaymentFalse();
+    List<Member> members = orders.stream().map(OrderDetail::getMember).toList();
+    List<Membership> memberships =
+        membershipRepository.findAllByStatusAndMemberIn(MembershipStatus.IN_PROGRESS, members);
+    Map<String, Membership> membershipMap =
+        memberships.stream()
+            .collect(
+                Collectors.toMap(
+                    membership -> membership.getMember().getMemberId(), membership -> membership));
 
-		orders.stream()
-				.filter(orderDetail -> membershipMap.containsKey(orderDetail.getMember().getMemberId()))
-				.forEach(order -> billingPaymentService.processBillingPayment(membershipMap, order));
-	}
+    orders.stream()
+        .filter(orderDetail -> membershipMap.containsKey(orderDetail.getMember().getMemberId()))
+        .forEach(order -> billingPaymentService.processBillingPayment(membershipMap, order));
+  }
 }

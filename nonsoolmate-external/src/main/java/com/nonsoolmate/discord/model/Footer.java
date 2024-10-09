@@ -7,6 +7,6 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class Footer {
 
-	private final String text;
-	private final String iconUrl;
+  private final String text;
+  private final String iconUrl;
 }

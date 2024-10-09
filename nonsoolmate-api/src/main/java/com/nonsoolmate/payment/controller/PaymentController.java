@@ -26,21 +26,21 @@ import com.nonsoolmate.payment.service.PaymentService;
 @RequestMapping("/payment")
 @RequiredArgsConstructor
 public class PaymentController implements PaymentApi {
-	private static final String PAYMENT_URL = "/payment/";
-	private final MemberService memberService;
-	private final PaymentService paymentService;
+  private static final String PAYMENT_URL = "/payment/";
+  private final MemberService memberService;
+  private final PaymentService paymentService;
 
-	@GetMapping("/customer/info")
-	public ResponseEntity<CustomerInfoDTO> getCustomerInfo(@AuthMember final String memberId) {
-		return ResponseEntity.ok().body(memberService.getCustomerInfo(memberId));
-	}
+  @GetMapping("/customer/info")
+  public ResponseEntity<CustomerInfoDTO> getCustomerInfo(@AuthMember final String memberId) {
+    return ResponseEntity.ok().body(memberService.getCustomerInfo(memberId));
+  }
 
-	@PostMapping("/membership")
-	public ResponseEntity<PaymentResponseDTO> createMembershipPayment(
-			@Valid @RequestBody final CreatePaymentRequestDTO paymentRequestDTO,
-			@AuthMember final String memberId) {
-		PaymentResponseDTO response = paymentService.createBillingPayment(paymentRequestDTO, memberId);
-		URI uri = URI.create(PAYMENT_URL + response.paymentId());
-		return ResponseEntity.created(uri).body(response);
-	}
+  @PostMapping("/membership")
+  public ResponseEntity<PaymentResponseDTO> createMembershipPayment(
+      @Valid @RequestBody final CreatePaymentRequestDTO paymentRequestDTO,
+      @AuthMember final String memberId) {
+    PaymentResponseDTO response = paymentService.createBillingPayment(paymentRequestDTO, memberId);
+    URI uri = URI.create(PAYMENT_URL + response.paymentId());
+    return ResponseEntity.created(uri).body(response);
+  }
 }

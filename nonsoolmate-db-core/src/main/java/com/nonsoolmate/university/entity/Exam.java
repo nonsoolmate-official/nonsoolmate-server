@@ -18,53 +18,53 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Exam {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long examId;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long examId;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "college_id")
-	private College college;
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "college_id")
+  private College college;
 
-	@NotNull private String examName;
+  @NotNull private String examName;
 
-	@NotNull private String examFileName;
+  @NotNull private String examFileName;
 
-	@NotNull private String examAnswerFileName;
+  @NotNull private String examAnswerFileName;
 
-	@NotNull private int examYear;
+  @NotNull private int examYear;
 
-	@NotNull private int examTimeLimit;
+  @NotNull private int examTimeLimit;
 
-	public String getExamFullName() {
-		return this.getCollege().getUniversity().getUniversityName()
-				+ " - "
-				+ this.getExamYear()
-				+ " "
-				+ this.getExamName();
-	}
+  public String getExamFullName() {
+    return this.getCollege().getUniversity().getUniversityName()
+        + " - "
+        + this.getExamYear()
+        + " "
+        + this.getExamName();
+  }
 
-	public String getExamListName() {
-		return this.getExamYear() + " " + this.getExamName();
-	}
+  public String getExamListName() {
+    return this.getExamYear() + " " + this.getExamName();
+  }
 
-	@Builder
-	private Exam(
-			College college,
-			String examName,
-			String examFileName,
-			String examAnswerFileName,
-			int examYear,
-			int examTimeLimit) {
-		this.college = college;
-		this.examName = examName;
-		this.examFileName = examFileName;
-		this.examAnswerFileName = examAnswerFileName;
-		this.examYear = examYear;
-		this.examTimeLimit = examTimeLimit;
-	}
+  @Builder
+  private Exam(
+      College college,
+      String examName,
+      String examFileName,
+      String examAnswerFileName,
+      int examYear,
+      int examTimeLimit) {
+    this.college = college;
+    this.examName = examName;
+    this.examFileName = examFileName;
+    this.examAnswerFileName = examAnswerFileName;
+    this.examYear = examYear;
+    this.examTimeLimit = examTimeLimit;
+  }
 
-	public void setExamIdForTest(Long examId) {
-		this.examId = examId;
-	}
+  public void setExamIdForTest(Long examId) {
+    this.examId = examId;
+  }
 }
