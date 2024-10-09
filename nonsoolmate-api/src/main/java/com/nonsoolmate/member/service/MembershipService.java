@@ -11,7 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.nonsoolmate.coupon.entity.Coupon;
 import com.nonsoolmate.coupon.repository.CouponRepository;
-import com.nonsoolmate.couponMember.repository.CouponMemberRepository;
 import com.nonsoolmate.discount.controller.dto.DiscountResponseDTO;
 import com.nonsoolmate.discountProduct.entity.DiscountProduct;
 import com.nonsoolmate.discountProduct.repository.DiscountProductRepository;
@@ -28,7 +27,6 @@ import com.nonsoolmate.order.repository.OrderRepository;
 import com.nonsoolmate.payment.entity.Billing;
 import com.nonsoolmate.payment.repository.BillingRepository;
 import com.nonsoolmate.product.entity.Product;
-import com.nonsoolmate.product.repository.ProductRepository;
 
 @Service
 @RequiredArgsConstructor
@@ -38,8 +36,6 @@ public class MembershipService {
 	private final MembershipRepository membershipRepository;
 	private final BillingRepository billingRepository;
 	private final OrderRepository orderRepository;
-	private final CouponMemberRepository couponMemberRepository;
-	private final ProductRepository productRepository;
 	private final DiscountProductRepository discountProductRepository;
 	private final CouponRepository couponRepository;
 
