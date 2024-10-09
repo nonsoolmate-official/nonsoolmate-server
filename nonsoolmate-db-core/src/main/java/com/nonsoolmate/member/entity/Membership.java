@@ -1,5 +1,7 @@
 package com.nonsoolmate.member.entity;
 
+import static com.nonsoolmate.exception.member.MembershipExceptionType.TERMINATED_MEMBERSHIP;
+
 import java.time.LocalDateTime;
 
 import jakarta.persistence.Entity;
@@ -16,6 +18,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import com.nonsoolmate.common.BaseTimeEntity;
+import com.nonsoolmate.exception.member.MemberException;
 import com.nonsoolmate.member.entity.enums.MembershipStatus;
 import com.nonsoolmate.member.entity.enums.MembershipType;
 
@@ -48,5 +51,15 @@ public class Membership extends BaseTimeEntity {
 		this.startDate = LocalDateTime.now();
 		this.endDate = LocalDateTime.now().plusDays(MEMBERSHIP_PERIOD);
 		this.status = MembershipStatus.IN_PROGRESS;
+	}
+
+	public void updateMembershipType(MembershipType membershipType) {
+		this.membershipType = membershipType;
+	}
+
+	public void validateMembershipStatus() {
+		if (this.status.equals(MembershipStatus.TERMINATED)) {
+			throw new MemberException(TERMINATED_MEMBERSHIP);
+		}
 	}
 }

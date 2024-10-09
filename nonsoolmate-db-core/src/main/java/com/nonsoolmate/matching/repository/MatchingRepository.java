@@ -14,7 +14,7 @@ public interface MatchingRepository extends JpaRepository<Matching, Long> {
 			"SELECT m "
 					+ "FROM Matching m "
 					+ "JOIN FETCH m.member "
-					+ "JOIN FETCH m.teacher "
+					+ "LEFT JOIN FETCH m.teacher "
 					+ "WHERE m.member.memberId = :memberId")
 	Optional<Matching> findByMemberIdWithTeacherAndMember(@Param("memberId") String memberId);
 }
