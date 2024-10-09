@@ -12,5 +12,5 @@ import com.nonsoolmate.product.entity.Product;
 public interface DiscountProductRepository
 		extends JpaRepository<DiscountProduct, Long>, DiscountProductCustomRepository {
 	@Query("select dp from DiscountProduct dp where dp.product = :product")
-	List<DiscountProduct> findAllByProductId(@Param("product") final Product product);
+	List<DiscountProduct> findAllByProduct(@Param("product") final Product product);
 }
