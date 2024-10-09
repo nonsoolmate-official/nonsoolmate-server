@@ -12,6 +12,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 
 @Schema(name = "TeacherResponseDTO", description = "첨삭 선생님 조회 응답 DTO")
 public record TeacherResponseDTO(
+		@Schema(description = "매칭 여부", example = "true") Boolean isMatched,
 		@Schema(description = "첨삭 선생님 id", example = "1") Long teacherId,
 		@Schema(description = "첨삭 선생님 이름", example = "홍길동") String teacherName,
 		@Schema(description = "첨삭 선생님 프로필 사진 url", example = "[url 형식]") String teacherProfileImageUrl,
@@ -32,7 +33,11 @@ public record TeacherResponseDTO(
 	}
 
 	public static TeacherResponseDTO of(
-			Teacher teacher, List<TeacherUniversity> universities, List<Tag> tags) {
+			boolean isMatched, Teacher teacher, List<TeacherUniversity> universities, List<Tag> tags) {
+
+		if (!isMatched) {
+			return new TeacherResponseDTO(false, null, null, null, null, null, null);
+		}
 
 		List<TeacherUniversityDTO> teacherUniversityDTOs =
 				universities.stream().map(TeacherUniversityDTO::of).toList();
@@ -40,6 +45,7 @@ public record TeacherResponseDTO(
 		List<TagDTO> tagDTOs = tags.stream().map(TagDTO::of).toList();
 
 		return new TeacherResponseDTO(
+				true,
 				teacher.getTeacherId(),
 				teacher.getTeacherName(),
 				teacher.getTeacherProfileImageUrl(),

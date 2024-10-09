@@ -76,11 +76,17 @@ public class MemberService {
 			return Optional.empty();
 		}
 
-		Teacher teacher = foundMatching.get().getTeacher();
+		Matching matching = foundMatching.get();
+
+		if (matching.getTeacher() == null) {
+			return Optional.of(TeacherResponseDTO.of(false, null, null, null));
+		}
+
+		Teacher teacher = matching.getTeacher();
 		List<TeacherUniversity> teacherUniversities =
 				teacherUniversityRepository.findAllByTeacher(teacher);
 		List<Tag> tags = tagRepository.findAllByTeacherId(teacher.getTeacherId());
 
-		return Optional.of(TeacherResponseDTO.of(teacher, teacherUniversities, tags));
+		return Optional.of(TeacherResponseDTO.of(true, teacher, teacherUniversities, tags));
 	}
 }
