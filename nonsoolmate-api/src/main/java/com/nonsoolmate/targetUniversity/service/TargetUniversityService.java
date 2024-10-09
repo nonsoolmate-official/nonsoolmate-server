@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.nonsoolmate.member.entity.Member;
 import com.nonsoolmate.member.repository.MemberRepository;
-import com.nonsoolmate.targetUniversity.controller.dto.TargetUniversityResponseDto;
+import com.nonsoolmate.targetUniversity.controller.dto.response.TargetUniversityResponseDTO;
 import com.nonsoolmate.targetUniversity.entity.TargetUniversity;
 import com.nonsoolmate.targetUniversity.repository.TargetUniversityRepository;
 import com.nonsoolmate.university.entity.University;
@@ -23,10 +23,10 @@ public class TargetUniversityService {
 	private final TargetUniversityRepository targetUniversityRepository;
 	private final MemberRepository memberRepository;
 
-	public List<TargetUniversityResponseDto> getTargetUniversities() {
+	public List<TargetUniversityResponseDTO> getTargetUniversities() {
 		List<University> universities = universityRepository.findAll();
 
-		return universities.stream().map(TargetUniversityResponseDto::of).toList();
+		return universities.stream().map(TargetUniversityResponseDTO::of).toList();
 	}
 
 	@Transactional
