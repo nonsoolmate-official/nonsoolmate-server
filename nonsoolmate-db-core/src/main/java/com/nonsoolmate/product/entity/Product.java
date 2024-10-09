@@ -3,6 +3,7 @@ package com.nonsoolmate.product.entity;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -17,6 +18,8 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import com.nonsoolmate.coupon.entity.Coupon;
+import com.nonsoolmate.discountProduct.entity.DiscountProduct;
 import com.nonsoolmate.product.entity.enums.ProductType;
 
 @Entity
@@ -50,5 +53,22 @@ public class Product {
 
 	public List<String> getDescriptions() {
 		return Arrays.asList(description.split(","));
+	}
+
+	public long getDiscountAmount(
+			List<DiscountProduct> discountProduct, Optional<Coupon> usedCoupon) {
+		long productPrice = this.price;
+		long discountAmount = 0;
+
+		for (DiscountProduct discount : discountProduct) {
+			long curDiscountAmount = (long) (productPrice * discount.getDiscount().getDiscountRate());
+			discountAmount += curDiscountAmount;
+			productPrice -= curDiscountAmount;
+		}
+
+		if (usedCoupon.isPresent()) {
+			discountAmount += (long) (productPrice - productPrice * usedCoupon.get().getDiscountRate());
+		}
+		return discountAmount;
 	}
 }
