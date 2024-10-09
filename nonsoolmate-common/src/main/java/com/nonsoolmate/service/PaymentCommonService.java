@@ -7,6 +7,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.nonsoolmate.coupon.entity.Coupon;
+import com.nonsoolmate.coupon.repository.CouponRepository;
+import com.nonsoolmate.couponMember.entity.CouponMember;
 import com.nonsoolmate.discount.entity.Discount;
 import com.nonsoolmate.discountProduct.entity.DiscountProduct;
 import com.nonsoolmate.discountProduct.repository.DiscountProductRepository;
@@ -32,6 +35,7 @@ public class PaymentCommonService {
   private final DiscountProductRepository discountProductRepository;
   private final BillingRepository billingRepository;
   private final TransactionDetailRepository transactionRepository;
+  private final CouponRepository couponRepository;
 
   public String getBillingKey(final String memberId) {
     Billing billing = billingRepository.findByCustomerIdOrThrow(memberId);
@@ -39,7 +43,17 @@ public class PaymentCommonService {
   }
 
   @Transactional
-  public void createOrder(final Product product, final Long couponMemberId, final String memberId) {
+  public OrderDetail createOrder(
+      final Product product, final CouponMember couponMember, final String memberId) {
+    boolean isCouponApplied = couponMember != null;
+    if (isCouponApplied) {
+      return createOrderWithCoupon(product, couponMember, memberId);
+    } else {
+      return createOrderWithoutCoupon(product, memberId);
+    }
+  }
+
+  private OrderDetail createOrderWithoutCoupon(final Product product, final String memberId) {
     Member member = memberRepository.findByMemberIdOrThrow(memberId);
     long discountedProductPrice = getDiscountedProductPrice(product.getProductId(), memberId);
 
@@ -51,7 +65,27 @@ public class PaymentCommonService {
             .amount(discountedProductPrice)
             .build();
 
-    orderRepository.save(order);
+    return orderRepository.save(order);
+  }
+
+  private OrderDetail createOrderWithCoupon(
+      final Product product, final CouponMember couponMember, final String memberId) {
+    Member member = memberRepository.findByMemberIdOrThrow(memberId);
+    long discountedProductPrice = getDiscountedProductPrice(product.getProductId(), memberId);
+    long couponId = couponMember.getCouponId();
+    Coupon coupon = couponRepository.findByCouponIdOrThrow(couponId);
+    long couponAppliedAmount = coupon.getCouponAppliedAmount(discountedProductPrice);
+
+    OrderDetail order =
+        OrderDetail.builder()
+            .orderName(product.getProductName())
+            .member(member)
+            .product(product)
+            .couponMember(couponMember)
+            .amount(couponAppliedAmount)
+            .build();
+
+    return orderRepository.save(order);
   }
 
   private long getDiscountedProductPrice(final Long productId, final String memberId) {

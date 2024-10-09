@@ -57,9 +57,4 @@ public class BillingService {
     return CardResponseDTO.of(
         billing.getBillingId(), billing.getCardCompany(), billing.getCardNumber());
   }
-
-  public String getBillingKey(final String customerKey) {
-    Billing billing = billingRepository.findByCustomerIdOrThrow(customerKey);
-    return billing.getBillingKey();
-  }
 }
