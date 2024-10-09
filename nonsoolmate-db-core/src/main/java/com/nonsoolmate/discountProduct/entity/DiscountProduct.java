@@ -35,5 +35,5 @@ public class DiscountProduct {
 	private Discount discount;
 
 	@NotNull LocalDateTime startDate;
-	LocalDateTime endDate;
+	@NotNull LocalDateTime endDate;
 }
