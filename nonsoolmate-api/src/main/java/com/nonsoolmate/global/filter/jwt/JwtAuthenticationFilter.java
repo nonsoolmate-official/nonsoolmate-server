@@ -33,52 +33,52 @@ import io.jsonwebtoken.security.SignatureException;
 @Slf4j
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
-	private final JwtService jwtService;
+  private final JwtService jwtService;
 
-	@Override
-	protected void doFilterInternal(
-			HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
-			throws ServletException, IOException {
+  @Override
+  protected void doFilterInternal(
+      HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+      throws ServletException, IOException {
 
-		if (Arrays.stream(AUTH_WHITELIST)
-				.anyMatch(whiteUrl -> request.getRequestURI().equals(whiteUrl))) {
-			filterChain.doFilter(request, response);
-			return;
-		}
+    if (Arrays.stream(AUTH_WHITELIST)
+        .anyMatch(whiteUrl -> request.getRequestURI().equals(whiteUrl))) {
+      filterChain.doFilter(request, response);
+      return;
+    }
 
-		if (Arrays.stream(AUTH_WHITELIST_WILDCARD)
-				.anyMatch(
-						whiteUrl ->
-								request.getRequestURI().startsWith(whiteUrl.substring(0, whiteUrl.length() - 3)))) {
-			filterChain.doFilter(request, response);
-			return;
-		}
+    if (Arrays.stream(AUTH_WHITELIST_WILDCARD)
+        .anyMatch(
+            whiteUrl ->
+                request.getRequestURI().startsWith(whiteUrl.substring(0, whiteUrl.length() - 3)))) {
+      filterChain.doFilter(request, response);
+      return;
+    }
 
-		if (!JwtTokenValidator.isContainsAccessToken(request)) {
-			filterChain.doFilter(request, response);
-			return;
-		}
+    if (!JwtTokenValidator.isContainsAccessToken(request)) {
+      filterChain.doFilter(request, response);
+      return;
+    }
 
-		String authorizationAccessToken = JwtTokenValidator.getAuthorizationAccessToken(request);
+    String authorizationAccessToken = JwtTokenValidator.getAuthorizationAccessToken(request);
 
-		try {
-			jwtService.validateToken(authorizationAccessToken);
+    try {
+      jwtService.validateToken(authorizationAccessToken);
 
-			String memberId = jwtService.extractMemberIdFromAccessToken(authorizationAccessToken);
-			MemberAuthentication memberAuthentication = new MemberAuthentication(memberId, null, null);
+      String memberId = jwtService.extractMemberIdFromAccessToken(authorizationAccessToken);
+      MemberAuthentication memberAuthentication = new MemberAuthentication(memberId, null, null);
 
-			log.info("Authentication Principal : {}", memberAuthentication.getPrincipal());
+      log.info("Authentication Principal : {}", memberAuthentication.getPrincipal());
 
-			SecurityContextHolder.getContext().setAuthentication(memberAuthentication);
+      SecurityContextHolder.getContext().setAuthentication(memberAuthentication);
 
-		} catch (JsonProcessingException | MalformedJwtException | SignatureException e) {
-			throw new AuthException(INVALID_ACCESS_TOKEN);
-		} catch (ExpiredJwtException e) {
-			throw new AuthException(UNAUTHORIZED_ACCESS_TOKEN);
-		} catch (AuthException e) {
-			throw new AuthException(e.getExceptionType());
-		}
+    } catch (JsonProcessingException | MalformedJwtException | SignatureException e) {
+      throw new AuthException(INVALID_ACCESS_TOKEN);
+    } catch (ExpiredJwtException e) {
+      throw new AuthException(UNAUTHORIZED_ACCESS_TOKEN);
+    } catch (AuthException e) {
+      throw new AuthException(e.getExceptionType());
+    }
 
-		filterChain.doFilter(request, response);
-	}
+    filterChain.doFilter(request, response);
+  }
 }

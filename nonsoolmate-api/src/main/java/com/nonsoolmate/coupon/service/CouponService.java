@@ -26,58 +26,58 @@ import com.nonsoolmate.exception.coupon.CouponException;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class CouponService {
-	private final CouponRepository couponRepository;
-	private final CouponMemberRepository couponMemberRepository;
+  private final CouponRepository couponRepository;
+  private final CouponMemberRepository couponMemberRepository;
 
-	private final CustomRandom customRandom;
+  private final CustomRandom customRandom;
 
-	@Value("${coupon.secret}")
-	private String couponSecretValue;
+  @Value("${coupon.secret}")
+  private String couponSecretValue;
 
-	@Transactional
-	public void issueCoupon(IssueCouponRequestDTO requestDTO) {
-		boolean validRequest = requestDTO.getSecretValue().equals(couponSecretValue);
-		if (!validRequest) {
-			throw new CouponException(INVALID_COUPON_ISSUE);
-		}
+  @Transactional
+  public void issueCoupon(IssueCouponRequestDTO requestDTO) {
+    boolean validRequest = requestDTO.getSecretValue().equals(couponSecretValue);
+    if (!validRequest) {
+      throw new CouponException(INVALID_COUPON_ISSUE);
+    }
 
-		String couponNumber = requestDTO.getCouponNumber();
+    String couponNumber = requestDTO.getCouponNumber();
 
-		if (couponNumber == null) {
-			couponNumber = customRandom.generateRandomValue();
-		}
+    if (couponNumber == null) {
+      couponNumber = customRandom.generateRandomValue();
+    }
 
-		Coupon coupon = requestDTO.toEntity(couponNumber);
-		couponRepository.save(coupon);
-	}
+    Coupon coupon = requestDTO.toEntity(couponNumber);
+    couponRepository.save(coupon);
+  }
 
-	public GetCouponsResponseDTO getCoupons(String memberId) {
-		List<CouponResponseDTO> responseDTOs =
-				couponMemberRepository.findAllByMemberIdWithCoupon(memberId);
+  public GetCouponsResponseDTO getCoupons(String memberId) {
+    List<CouponResponseDTO> responseDTOs =
+        couponMemberRepository.findAllByMemberIdWithCoupon(memberId);
 
-		return GetCouponsResponseDTO.of(responseDTOs);
-	}
+    return GetCouponsResponseDTO.of(responseDTOs);
+  }
 
-	@Transactional
-	public void registerCoupon(RegisterCouponRequestDTO requestDTO, String memberId) {
-		Coupon coupon = couponRepository.findByCouponNumberOrThrow(requestDTO.couponNumber());
+  @Transactional
+  public void registerCoupon(RegisterCouponRequestDTO requestDTO, String memberId) {
+    Coupon coupon = couponRepository.findByCouponNumberOrThrow(requestDTO.couponNumber());
 
-		Optional<CouponMember> foundCouponMember =
-				couponMemberRepository.findByCouponIdAndMemberId(coupon.getCouponId(), memberId);
+    Optional<CouponMember> foundCouponMember =
+        couponMemberRepository.findByCouponIdAndMemberId(coupon.getCouponId(), memberId);
 
-		if (foundCouponMember.isPresent()) {
-			throw new CouponException(INVALID_COUPON_REGISTER);
-		}
+    if (foundCouponMember.isPresent()) {
+      throw new CouponException(INVALID_COUPON_REGISTER);
+    }
 
-		CouponMember couponMember = createCouponMember(memberId, coupon);
-		couponMemberRepository.save(couponMember);
-	}
+    CouponMember couponMember = createCouponMember(memberId, coupon);
+    couponMemberRepository.save(couponMember);
+  }
 
-	private CouponMember createCouponMember(String memberId, Coupon coupon) {
-		return CouponMember.builder()
-				.couponId(coupon.getCouponId())
-				.memberId(memberId)
-				.isUsed(false)
-				.build();
-	}
+  private CouponMember createCouponMember(String memberId, Coupon coupon) {
+    return CouponMember.builder()
+        .couponId(coupon.getCouponId())
+        .memberId(memberId)
+        .isUsed(false)
+        .build();
+  }
 }

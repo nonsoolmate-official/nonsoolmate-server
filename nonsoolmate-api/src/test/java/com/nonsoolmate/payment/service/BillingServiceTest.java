@@ -1,6 +1,5 @@
 package com.nonsoolmate.payment.service;
 
-import static com.nonsoolmate.exception.payment.BillingExceptionType.*;
 import static org.mockito.BDDMockito.*;
 
 import org.assertj.core.api.Assertions;

@@ -1,7 +1,5 @@
 package com.nonsoolmate.examRecord.controller;
 
-import static com.nonsoolmate.exception.examRecord.ExamRecordSuccessType.*;
-
 import jakarta.validation.Valid;
 
 import lombok.RequiredArgsConstructor;

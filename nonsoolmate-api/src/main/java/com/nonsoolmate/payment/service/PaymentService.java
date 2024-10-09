@@ -27,66 +27,66 @@ import com.nonsoolmate.toss.service.vo.TossPaymentTransactionVO;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class PaymentService {
-	private final OrderService orderService;
-	private final MembershipService membershipService;
-	private final TossPaymentService tossPaymentService;
-	private final BillingService billingService;
-	private final TransactionService transactionService;
+  private final OrderService orderService;
+  private final MembershipService membershipService;
+  private final TossPaymentService tossPaymentService;
+  private final BillingService billingService;
+  private final TransactionService transactionService;
 
-	private final ProductRepository productRepository;
+  private final ProductRepository productRepository;
 
-	private static final Long NO_COUPON_MEMBER_ID = null;
+  private static final Long NO_COUPON_MEMBER_ID = null;
 
-	@Transactional
-	public PaymentResponseDTO createBillingPayment(
-			final CreatePaymentRequestDTO request, final String memberId) {
-		validateMembership(memberId);
-		Product product = validateSubscriptionProduct(request.productId());
-		Long couponMemberId =
-				request.couponMemberId() == null ? NO_COUPON_MEMBER_ID : request.couponMemberId();
+  @Transactional
+  public PaymentResponseDTO createBillingPayment(
+      final CreatePaymentRequestDTO request, final String memberId) {
+    validateMembership(memberId);
+    Product product = validateSubscriptionProduct(request.productId());
+    Long couponMemberId =
+        request.couponMemberId() == null ? NO_COUPON_MEMBER_ID : request.couponMemberId();
 
-		OrderDetail order = orderService.createOrder(product, couponMemberId, memberId);
+    OrderDetail order = orderService.createOrder(product, couponMemberId, memberId);
 
-		String billingKey = billingService.getBillingKey(memberId);
+    String billingKey = billingService.getBillingKey(memberId);
 
-		TossPaymentTransactionVO tossPaymentTransactionVO =
-				tossPaymentService.requestBilling(billingKey, memberId, order);
+    TossPaymentTransactionVO tossPaymentTransactionVO =
+        tossPaymentService.requestBilling(billingKey, memberId, order);
 
-		TransactionVO transactionVO =
-				TransactionVO.of(
-						tossPaymentTransactionVO.transactionKey(),
-						tossPaymentTransactionVO.paymentKey(),
-						memberId,
-						order,
-						tossPaymentTransactionVO.receiptUrl(),
-						tossPaymentTransactionVO.transactionAt());
+    TransactionVO transactionVO =
+        TransactionVO.of(
+            tossPaymentTransactionVO.transactionKey(),
+            tossPaymentTransactionVO.paymentKey(),
+            memberId,
+            order,
+            tossPaymentTransactionVO.receiptUrl(),
+            tossPaymentTransactionVO.transactionAt());
 
-		TransactionDetail transaction = transactionService.createTransaction(transactionVO);
+    TransactionDetail transaction = transactionService.createTransaction(transactionVO);
 
-		Membership membership = membershipService.createMembership(memberId, product);
-		Member member = membership.getMember();
-		member.updateTicketCount(
-				order.getProduct().getReviewTicketCount(), order.getProduct().getReReviewTicketCount());
+    Membership membership = membershipService.createMembership(memberId, product);
+    Member member = membership.getMember();
+    member.updateTicketCount(
+        order.getProduct().getReviewTicketCount(), order.getProduct().getReReviewTicketCount());
 
-		// create next month order
-		orderService.createOrder(product, NO_COUPON_MEMBER_ID, memberId);
+    // create next month order
+    orderService.createOrder(product, NO_COUPON_MEMBER_ID, memberId);
 
-		return PaymentResponseDTO.of(transaction.getTransactionKey());
-	}
+    return PaymentResponseDTO.of(transaction.getTransactionKey());
+  }
 
-	private Product validateSubscriptionProduct(final Long productId) {
-		Product product = productRepository.findByProductIdOrThrow(productId);
-		boolean isNotSubscriptionProduct = product.getProductType() != ProductType.SUBSCRIPTION;
-		if (isNotSubscriptionProduct) {
-			throw new PaymentException(NOT_SUBSCRIPTION_PRODUCT);
-		}
-		return product;
-	}
+  private Product validateSubscriptionProduct(final Long productId) {
+    Product product = productRepository.findByProductIdOrThrow(productId);
+    boolean isNotSubscriptionProduct = product.getProductType() != ProductType.SUBSCRIPTION;
+    if (isNotSubscriptionProduct) {
+      throw new PaymentException(NOT_SUBSCRIPTION_PRODUCT);
+    }
+    return product;
+  }
 
-	private void validateMembership(final String memberId) {
-		boolean hasMembership = membershipService.checkMembership(memberId);
-		if (hasMembership) {
-			throw new PaymentException(ALREADY_MEMBERSHIP_BILLING);
-		}
-	}
+  private void validateMembership(final String memberId) {
+    boolean hasMembership = membershipService.checkMembership(memberId);
+    if (hasMembership) {
+      throw new PaymentException(ALREADY_MEMBERSHIP_BILLING);
+    }
+  }
 }

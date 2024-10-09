@@ -1,6 +1,7 @@
 dependencies {
     implementation project(":nonsoolmate-db-core")
     implementation project(":nonsoolmate-common")
+    implementation project(":nonsoolmate-exception")
 
     // discord
     implementation('com.github.napstr:logback-discord-appender:1.0.0')

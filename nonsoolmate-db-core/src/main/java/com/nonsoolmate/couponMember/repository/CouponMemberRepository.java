@@ -11,18 +11,18 @@ import com.nonsoolmate.couponMember.entity.CouponMember;
 import com.nonsoolmate.exception.coupon.CouponException;
 
 public interface CouponMemberRepository
-		extends JpaRepository<CouponMember, Long>, CouponMemberCustomRepository {
+    extends JpaRepository<CouponMember, Long>, CouponMemberCustomRepository {
 
-	Optional<CouponMember> findByCouponIdAndMemberId(Long couponId, String memberId);
+  Optional<CouponMember> findByCouponIdAndMemberId(Long couponId, String memberId);
 
-	@Query(
-			"SELECT cm FROM CouponMember cm WHERE cm.couponMemberId = :couponMemberId AND cm.memberId = :memberId")
-	Optional<CouponMember> findCouponIdByCouponMemberIdAndMemberId(
-			final Long couponMemberId, final String memberId);
+  @Query(
+      "SELECT cm FROM CouponMember cm WHERE cm.couponMemberId = :couponMemberId AND cm.memberId = :memberId")
+  Optional<CouponMember> findCouponIdByCouponMemberIdAndMemberId(
+      final Long couponMemberId, final String memberId);
 
-	default CouponMember findByCouponMemberIdAndMemberIdThrow(
-			final Long couponMemberId, final String memberId) {
-		return findCouponIdByCouponMemberIdAndMemberId(couponMemberId, memberId)
-				.orElseThrow(() -> new CouponException(INVALID_COUPON));
-	}
+  default CouponMember findByCouponMemberIdAndMemberIdThrow(
+      final Long couponMemberId, final String memberId) {
+    return findCouponIdByCouponMemberIdAndMemberId(couponMemberId, memberId)
+        .orElseThrow(() -> new CouponException(INVALID_COUPON));
+  }
 }
