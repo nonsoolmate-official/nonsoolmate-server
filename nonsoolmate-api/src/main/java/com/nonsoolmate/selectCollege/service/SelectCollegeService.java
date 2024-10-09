@@ -115,7 +115,7 @@ public class SelectCollegeService {
 
 		List<College> colleges = collegeRepository.findAllByCollegeIdIn(selectedCollegeIds);
 		List<SelectCollege> selectColleges =
-				colleges.stream().map(university -> new SelectCollege(member, university)).toList();
+				colleges.stream().map(college -> new SelectCollege(member, college)).toList();
 
 		selectCollegeRepository.saveAll(selectColleges);
 
