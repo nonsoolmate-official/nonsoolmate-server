@@ -24,4 +24,9 @@ public class TargetUniversity {
 	@ManyToOne private University university;
 
 	@ManyToOne private Member member;
+
+	public TargetUniversity(University university, Member member) {
+		this.university = university;
+		this.member = member;
+	}
 }
