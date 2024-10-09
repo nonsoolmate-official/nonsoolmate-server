@@ -98,7 +98,7 @@ public class BillingPaymentService {
 		Product product = productRepository.findByProductIdOrThrow(productId);
 		double discountedPrice = product.getPrice();
 
-		List<DiscountProduct> discountProducts = discountProductRepository.findAllByProductId(product);
+		List<DiscountProduct> discountProducts = discountProductRepository.findAllByProduct(product);
 		boolean isFirstPurchaseMember = isFirstPurchase(memberId);
 
 		for (DiscountProduct discountProduct : discountProducts) {
