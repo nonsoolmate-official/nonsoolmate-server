@@ -20,32 +20,32 @@ import com.nonsoolmate.university.repository.ExamRepository;
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class ExamService {
-	private final ExamRepository examRepository;
-	private final CloudFrontService cloudFrontService;
+  private final ExamRepository examRepository;
+  private final CloudFrontService cloudFrontService;
 
-	public ExamInfoResponseDTO getExamInfo(final Long examId) {
-		Exam exam = getExam(examId);
-		String examName = exam.getExamFullName();
-		return ExamInfoResponseDTO.of(exam.getExamId(), examName, exam.getExamTimeLimit());
-	}
+  public ExamInfoResponseDTO getExamInfo(final Long examId) {
+    Exam exam = getExam(examId);
+    String examName = exam.getExamFullName();
+    return ExamInfoResponseDTO.of(exam.getExamId(), examName, exam.getExamTimeLimit());
+  }
 
-	public ExamUrlResponseDTO getExamFile(final Long examId) {
-		Exam exam = getExam(examId);
-		return ExamUrlResponseDTO.of(
-				cloudFrontService.createPreSignedGetUrl(EXAM_FILE_FOLDER_NAME, exam.getExamFileName()));
-	}
+  public ExamUrlResponseDTO getExamFile(final Long examId) {
+    Exam exam = getExam(examId);
+    return ExamUrlResponseDTO.of(
+        cloudFrontService.createPreSignedGetUrl(EXAM_FILE_FOLDER_NAME, exam.getExamFileName()));
+  }
 
-	public ExamAndAnswerResponseDTO getExamAndAnswer(final Long examId) {
-		Exam exam = getExam(examId);
-		String examUrl =
-				cloudFrontService.createPreSignedGetUrl(EXAM_FILE_FOLDER_NAME, exam.getExamFileName());
-		String universityAnswerUrl =
-				cloudFrontService.createPreSignedGetUrl(
-						EXAM_ANSWER_FOLDER_NAME, exam.getExamAnswerFileName());
-		return ExamAndAnswerResponseDTO.of(exam.getExamFullName(), examUrl, universityAnswerUrl);
-	}
+  public ExamAndAnswerResponseDTO getExamAndAnswer(final Long examId) {
+    Exam exam = getExam(examId);
+    String examUrl =
+        cloudFrontService.createPreSignedGetUrl(EXAM_FILE_FOLDER_NAME, exam.getExamFileName());
+    String universityAnswerUrl =
+        cloudFrontService.createPreSignedGetUrl(
+            EXAM_ANSWER_FOLDER_NAME, exam.getExamAnswerFileName());
+    return ExamAndAnswerResponseDTO.of(exam.getExamFullName(), examUrl, universityAnswerUrl);
+  }
 
-	private Exam getExam(final Long examId) {
-		return examRepository.findByExamId(examId).orElseThrow(() -> new ExamException(INVALID_EXAM));
-	}
+  private Exam getExam(final Long examId) {
+    return examRepository.findByExamId(examId).orElseThrow(() -> new ExamException(INVALID_EXAM));
+  }
 }

@@ -28,43 +28,43 @@ import com.nonsoolmate.selectCollege.service.SelectCollegeService;
 @RequestMapping("/select-college")
 public class SelectCollegeController implements SelectCollegeApi {
 
-	private final SelectCollegeService selectCollegeService;
+  private final SelectCollegeService selectCollegeService;
 
-	@Override
-	@GetMapping
-	public ResponseEntity<SuccessResponse<List<SelectCollegeResponseDTO>>> getSelectColleges(
-			@AuthMember String memberId) {
+  @Override
+  @GetMapping
+  public ResponseEntity<SuccessResponse<List<SelectCollegeResponseDTO>>> getSelectColleges(
+      @AuthMember String memberId) {
 
-		return ResponseEntity.ok()
-				.body(
-						SuccessResponse.of(
-								GET_SELECT_COLLEGES_SUCCESS, selectCollegeService.getSelectColleges(memberId)));
-	}
+    return ResponseEntity.ok()
+        .body(
+            SuccessResponse.of(
+                GET_SELECT_COLLEGES_SUCCESS, selectCollegeService.getSelectColleges(memberId)));
+  }
 
-	@Override
-	@GetMapping("/exam")
-	public ResponseEntity<SuccessResponse<List<SelectCollegeExamsResponseDTO>>> getSelectCollegeExams(
-			@AuthMember final String memberId) {
-		return ResponseEntity.ok()
-				.body(
-						SuccessResponse.of(
-								GET_SELECT_COLLEGE_EXAMS_SUCCESS,
-								selectCollegeService.getSelectCollegeExams(memberId)));
-	}
+  @Override
+  @GetMapping("/exam")
+  public ResponseEntity<SuccessResponse<List<SelectCollegeExamsResponseDTO>>> getSelectCollegeExams(
+      @AuthMember final String memberId) {
+    return ResponseEntity.ok()
+        .body(
+            SuccessResponse.of(
+                GET_SELECT_COLLEGE_EXAMS_SUCCESS,
+                selectCollegeService.getSelectCollegeExams(memberId)));
+  }
 
-	@Override
-	@PatchMapping
-	public ResponseEntity<SuccessResponse<SelectCollegeUpdateResponseDTO>> patchSelectColleges(
-			@AuthMember String memberId,
-			@RequestBody @Valid final List<SelectCollegeRequestDTO> request) {
+  @Override
+  @PatchMapping
+  public ResponseEntity<SuccessResponse<SelectCollegeUpdateResponseDTO>> patchSelectColleges(
+      @AuthMember String memberId,
+      @RequestBody @Valid final List<SelectCollegeRequestDTO> request) {
 
-		List<Long> selectedCollegeIds =
-				request.stream().map(SelectCollegeRequestDTO::collegeId).toList();
+    List<Long> selectedCollegeIds =
+        request.stream().map(SelectCollegeRequestDTO::collegeId).toList();
 
-		return ResponseEntity.ok()
-				.body(
-						SuccessResponse.of(
-								PATCH_SELECT_COLLEGES_SUCCESS,
-								selectCollegeService.patchSelectColleges(memberId, selectedCollegeIds)));
-	}
+    return ResponseEntity.ok()
+        .body(
+            SuccessResponse.of(
+                PATCH_SELECT_COLLEGES_SUCCESS,
+                selectCollegeService.patchSelectColleges(memberId, selectedCollegeIds)));
+  }
 }

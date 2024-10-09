@@ -12,10 +12,10 @@ import com.nonsoolmate.redis.repository.vo.RefreshTokenVO;
 
 @Repository
 public interface RedisTokenRepository extends CrudRepository<RefreshTokenVO, String> {
-	Optional<RefreshTokenVO> findByMemberId(String memberId);
+  Optional<RefreshTokenVO> findByMemberId(String memberId);
 
-	default RefreshTokenVO findByMemberIdOrElseThrowException(String memberId) {
-		return findByMemberId(memberId)
-				.orElseThrow(() -> new AuthException(UNAUTHORIZED_REFRESH_TOKEN));
-	}
+  default RefreshTokenVO findByMemberIdOrElseThrowException(String memberId) {
+    return findByMemberId(memberId)
+        .orElseThrow(() -> new AuthException(UNAUTHORIZED_REFRESH_TOKEN));
+  }
 }

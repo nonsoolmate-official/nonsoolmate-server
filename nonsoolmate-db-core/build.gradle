@@ -1,5 +1,5 @@
 dependencies {
-    implementation project(":nonsoolmate-common")
+    implementation project(":nonsoolmate-exception")
 
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.hibernate.validator:hibernate-validator'

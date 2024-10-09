@@ -21,33 +21,33 @@ import com.nonsoolmate.university.service.ExamService;
 @RequestMapping("/college/exam")
 @RequiredArgsConstructor
 public class ExamController implements ExamApi {
-	private final ExamService examService;
+  private final ExamService examService;
 
-	@Override
-	@GetMapping("/{id}/info")
-	public ResponseEntity<SuccessResponse<ExamInfoResponseDTO>> getExamInfo(
-			@PathVariable("id") final Long examId) {
-		return ResponseEntity.ok()
-				.body(
-						SuccessResponse.of(ExamSuccessType.GET_EXAM_SUCCESS, examService.getExamInfo(examId)));
-	}
+  @Override
+  @GetMapping("/{id}/info")
+  public ResponseEntity<SuccessResponse<ExamInfoResponseDTO>> getExamInfo(
+      @PathVariable("id") final Long examId) {
+    return ResponseEntity.ok()
+        .body(
+            SuccessResponse.of(ExamSuccessType.GET_EXAM_SUCCESS, examService.getExamInfo(examId)));
+  }
 
-	@Override
-	@GetMapping("/{id}")
-	public ResponseEntity<SuccessResponse<ExamUrlResponseDTO>> getExamFile(
-			@PathVariable("id") final Long id) {
-		return ResponseEntity.ok()
-				.body(
-						SuccessResponse.of(ExamSuccessType.GET_EXAM_FILE_SUCCESS, examService.getExamFile(id)));
-	}
+  @Override
+  @GetMapping("/{id}")
+  public ResponseEntity<SuccessResponse<ExamUrlResponseDTO>> getExamFile(
+      @PathVariable("id") final Long id) {
+    return ResponseEntity.ok()
+        .body(
+            SuccessResponse.of(ExamSuccessType.GET_EXAM_FILE_SUCCESS, examService.getExamFile(id)));
+  }
 
-	@Override
-	@GetMapping("{id}/answer")
-	public ResponseEntity<SuccessResponse<ExamAndAnswerResponseDTO>> getExamAndAnswer(
-			@PathVariable("id") Long examId) {
-		return ResponseEntity.ok()
-				.body(
-						SuccessResponse.of(
-								GET_EXAM_IMAGE_AND_ANSWER_SUCCESS, examService.getExamAndAnswer(examId)));
-	}
+  @Override
+  @GetMapping("{id}/answer")
+  public ResponseEntity<SuccessResponse<ExamAndAnswerResponseDTO>> getExamAndAnswer(
+      @PathVariable("id") Long examId) {
+    return ResponseEntity.ok()
+        .body(
+            SuccessResponse.of(
+                GET_EXAM_IMAGE_AND_ANSWER_SUCCESS, examService.getExamAndAnswer(examId)));
+  }
 }

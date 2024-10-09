@@ -27,48 +27,48 @@ import io.swagger.v3.oas.annotations.Parameter;
 @RequestMapping("/my")
 @RequiredArgsConstructor
 public class MyController implements MemberApi {
-	private final MemberService memberService;
+  private final MemberService memberService;
 
-	@Override
-	@GetMapping("/name")
-	public ResponseEntity<SuccessResponse<NameResponseDTO>> getName(
-			@AuthMember final String memberId) {
-		return ResponseEntity.ok()
-				.body(
-						SuccessResponse.of(
-								MemberSuccessType.GET_MEMBER_NAME_SUCCESS, memberService.getNickname(memberId)));
-	}
+  @Override
+  @GetMapping("/name")
+  public ResponseEntity<SuccessResponse<NameResponseDTO>> getName(
+      @AuthMember final String memberId) {
+    return ResponseEntity.ok()
+        .body(
+            SuccessResponse.of(
+                MemberSuccessType.GET_MEMBER_NAME_SUCCESS, memberService.getNickname(memberId)));
+  }
 
-	@Override
-	@GetMapping("/profile")
-	public ResponseEntity<SuccessResponse<ProfileResponseDTO>> getProfile(
-			@AuthMember final String memberId) {
-		ProfileResponseDTO responseDTO = memberService.getProfile(memberId);
+  @Override
+  @GetMapping("/profile")
+  public ResponseEntity<SuccessResponse<ProfileResponseDTO>> getProfile(
+      @AuthMember final String memberId) {
+    ProfileResponseDTO responseDTO = memberService.getProfile(memberId);
 
-		return ResponseEntity.ok().body(SuccessResponse.of(GET_MEMBER_PROFILE_SUCCESS, responseDTO));
-	}
+    return ResponseEntity.ok().body(SuccessResponse.of(GET_MEMBER_PROFILE_SUCCESS, responseDTO));
+  }
 
-	@Override
-	@PutMapping("/profile")
-	public ResponseEntity<Void> editProfile(
-			@RequestBody @Valid ProfileRequestDTO profileRequestDTO, @AuthMember String memberId) {
-		memberService.editProfile(profileRequestDTO, memberId);
+  @Override
+  @PutMapping("/profile")
+  public ResponseEntity<Void> editProfile(
+      @RequestBody @Valid ProfileRequestDTO profileRequestDTO, @AuthMember String memberId) {
+    memberService.editProfile(profileRequestDTO, memberId);
 
-		return ResponseEntity.ok().build();
-	}
+    return ResponseEntity.ok().build();
+  }
 
-	@Override
-	@GetMapping("/teacher")
-	public ResponseEntity<TeacherResponseDTO> getMyTeacher(
-			@Parameter(hidden = true) @AuthMember String memberId) {
+  @Override
+  @GetMapping("/teacher")
+  public ResponseEntity<TeacherResponseDTO> getMyTeacher(
+      @Parameter(hidden = true) @AuthMember String memberId) {
 
-		Optional<TeacherResponseDTO> teacherResponseDTO = memberService.getMyTeacher(memberId);
+    Optional<TeacherResponseDTO> teacherResponseDTO = memberService.getMyTeacher(memberId);
 
-		boolean noMatchedTeacher = teacherResponseDTO.isEmpty();
-		if (noMatchedTeacher) {
-			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-		}
+    boolean noMatchedTeacher = teacherResponseDTO.isEmpty();
+    if (noMatchedTeacher) {
+      return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
 
-		return ResponseEntity.ok().body(teacherResponseDTO.get());
-	}
+    return ResponseEntity.ok().body(teacherResponseDTO.get());
+  }
 }

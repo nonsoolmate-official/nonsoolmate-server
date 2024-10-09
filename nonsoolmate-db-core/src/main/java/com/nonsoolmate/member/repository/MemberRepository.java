@@ -11,13 +11,13 @@ import com.nonsoolmate.member.entity.Member;
 import com.nonsoolmate.member.entity.enums.PlatformType;
 
 public interface MemberRepository extends JpaRepository<Member, String> {
-	Optional<Member> findByEmail(String email);
+  Optional<Member> findByEmail(String email);
 
-	Optional<Member> findByPlatformTypeAndPlatformId(PlatformType platformType, String platformId);
+  Optional<Member> findByPlatformTypeAndPlatformId(PlatformType platformType, String platformId);
 
-	Optional<Member> findByMemberId(String memberId);
+  Optional<Member> findByMemberId(String memberId);
 
-	default Member findByMemberIdOrThrow(String memberId) {
-		return findByMemberId(memberId).orElseThrow(() -> new AuthException(NOT_FOUND_MEMBER));
-	}
+  default Member findByMemberIdOrThrow(String memberId) {
+    return findByMemberId(memberId).orElseThrow(() -> new AuthException(NOT_FOUND_MEMBER));
+  }
 }
