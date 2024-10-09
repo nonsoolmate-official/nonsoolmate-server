@@ -46,7 +46,7 @@ public class Product {
 
 	@NotNull private LocalDateTime startDate;
 
-	private LocalDateTime endDate;
+	@NotNull private LocalDateTime endDate;
 
 	public List<String> getDescriptions() {
 		return Arrays.asList(description.split(","));
