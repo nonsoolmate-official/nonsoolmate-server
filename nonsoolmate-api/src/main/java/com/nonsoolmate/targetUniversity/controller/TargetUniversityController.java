@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.nonsoolmate.global.security.AuthMember;
-import com.nonsoolmate.targetUniversity.controller.dto.TargetUniversityResponseDto;
+import com.nonsoolmate.targetUniversity.controller.dto.response.TargetUniversityResponseDTO;
 import com.nonsoolmate.targetUniversity.service.TargetUniversityService;
 
 @RestController
@@ -21,7 +21,7 @@ public class TargetUniversityController implements TargetUniversityApi {
 
 	@Override
 	@GetMapping
-	public ResponseEntity<List<TargetUniversityResponseDto>> getTargetUniversities(
+	public ResponseEntity<List<TargetUniversityResponseDTO>> getTargetUniversities(
 			@AuthMember String memberId) {
 
 		return ResponseEntity.ok().body(targetUniversityService.getTargetUniversities());

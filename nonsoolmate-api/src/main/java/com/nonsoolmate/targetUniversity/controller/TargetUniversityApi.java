@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.http.ResponseEntity;
 
 import com.nonsoolmate.global.security.AuthMember;
-import com.nonsoolmate.targetUniversity.controller.dto.TargetUniversityResponseDto;
+import com.nonsoolmate.targetUniversity.controller.dto.response.TargetUniversityResponseDTO;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -21,6 +21,6 @@ public interface TargetUniversityApi {
 				@ApiResponse(responseCode = "200", description = "설정 가능한 목표 대학 목록 조회에 성공했습니다."),
 			})
 	@Operation(summary = "(설정 가능한) 목표 대학 목록 조회", description = "설정 가능한 목표 대학 목록 조회 합니다.")
-	ResponseEntity<List<TargetUniversityResponseDto>> getTargetUniversities(
+	ResponseEntity<List<TargetUniversityResponseDTO>> getTargetUniversities(
 			@Parameter(hidden = true) @AuthMember String memberId);
 }
