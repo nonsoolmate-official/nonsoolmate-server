@@ -27,7 +27,7 @@ import io.swagger.v3.oas.models.PathItem.HttpMethod;
 public class SecurityConfig {
 
 	public static final String[] AUTH_WHITELIST = {
-		"/", "/error", "/favicon.ico", "/actuator/health", "/check/profile"
+		"/", "/error", "/favicon.ico", "/actuator/health", "/check/profile", "/products"
 	};
 
 	public static final String[] AUTH_WHITELIST_WILDCARD = {
