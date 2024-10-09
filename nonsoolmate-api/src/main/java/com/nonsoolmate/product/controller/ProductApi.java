@@ -1,5 +1,7 @@
 package com.nonsoolmate.product.controller;
 
+import java.util.List;
+
 import org.springframework.http.ResponseEntity;
 
 import com.nonsoolmate.product.controller.dto.ProductResponseDTO;
@@ -20,4 +22,8 @@ public interface ProductApi {
 	@Operation(summary = "결제 페이지: 상품 단일 조회(가격, 할인 정보)", description = "상품 단일 정보에 대해 조회하는 경우")
 	ResponseEntity<ProductResponseDTO> getProduct(
 			@Schema(description = "상품 id") Long productId, @Schema(hidden = true) String memberId);
+
+	@ApiResponses(value = {@ApiResponse(responseCode = "200", description = "상품 리스트 조회에 성공했습니다.")})
+	@Operation(summary = "멤버십 페이지: 상품 리스트 조회", description = "상품 리스트를 조회하는 경우")
+	ResponseEntity<List<ProductResponseDTO>> getProducts();
 }
