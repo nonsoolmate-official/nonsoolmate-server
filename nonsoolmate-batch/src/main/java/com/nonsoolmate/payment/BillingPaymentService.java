@@ -52,6 +52,8 @@ public class BillingPaymentService {
     MembershipType membershipType =
         MembershipType.getMembershipType(order.getProduct().getProductName());
     membership.updateMembershipType(membershipType);
+    member.updateTicketCount(
+        order.getProduct().getReviewTicketCount(), order.getProduct().getReReviewTicketCount());
 
     // create next month order
     paymentCommonService.createOrder(order.getProduct(), NO_COUPON_MEMBER, memberId);
