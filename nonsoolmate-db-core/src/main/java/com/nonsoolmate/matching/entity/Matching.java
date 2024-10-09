@@ -22,7 +22,6 @@ public class Matching extends BaseTimeEntity {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "teacher_id")
-	@NotNull
 	private Teacher teacher;
 
 	@ManyToOne(fetch = FetchType.LAZY)
