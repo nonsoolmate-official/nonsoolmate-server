@@ -26,7 +26,7 @@ public class DiscountProductService {
 		Product product = productRepository.findByProductIdOrThrow(productId);
 		double discountedPrice = product.getPrice();
 		List<DiscountProduct> defaultDiscountProducts =
-				getDefaultDiscountProductsByProduct(product, memberId);
+				getDiscountProductsByProductAndMemberId(product, memberId);
 
 		for (DiscountProduct discountProduct : defaultDiscountProducts) {
 			Discount discount = discountProduct.getDiscount();
@@ -36,12 +36,16 @@ public class DiscountProductService {
 		return Math.round(discountedPrice);
 	}
 
-	public List<DiscountProduct> getDefaultDiscountProductsByProduct(
+	public List<DiscountProduct> getDiscountProductsByProductAndMemberId(
 			final Product product, final String memberId) {
 		boolean isFirstPurchaseMember = transactionService.isFirstPurchase(memberId);
 		if (isFirstPurchaseMember) {
-			return discountProductRepository.findAllByProductId(product);
+			return getDefaultDiscountProductsByProduct(product);
 		}
 		return discountProductRepository.findAllByProductIdAndDiscountIsContinuous(product);
+	}
+
+	public List<DiscountProduct> getDefaultDiscountProductsByProduct(final Product product) {
+		return discountProductRepository.findAllByProduct(product);
 	}
 }
