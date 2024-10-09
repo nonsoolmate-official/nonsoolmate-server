@@ -7,12 +7,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.nonsoolmate.couponMember.entity.CouponMember;
+import com.nonsoolmate.couponMember.service.CouponMemberService;
 import com.nonsoolmate.exception.payment.PaymentException;
 import com.nonsoolmate.member.entity.Member;
 import com.nonsoolmate.member.entity.Membership;
 import com.nonsoolmate.member.service.MembershipService;
 import com.nonsoolmate.order.entity.OrderDetail;
-import com.nonsoolmate.order.service.OrderService;
 import com.nonsoolmate.payment.controller.dto.request.CreatePaymentRequestDTO;
 import com.nonsoolmate.payment.controller.dto.response.PaymentResponseDTO;
 import com.nonsoolmate.payment.entity.TransactionDetail;
@@ -20,6 +21,7 @@ import com.nonsoolmate.payment.service.vo.TransactionVO;
 import com.nonsoolmate.product.entity.Product;
 import com.nonsoolmate.product.entity.enums.ProductType;
 import com.nonsoolmate.product.repository.ProductRepository;
+import com.nonsoolmate.service.PaymentCommonService;
 import com.nonsoolmate.toss.service.TossPaymentService;
 import com.nonsoolmate.toss.service.vo.TossPaymentTransactionVO;
 
@@ -27,27 +29,29 @@ import com.nonsoolmate.toss.service.vo.TossPaymentTransactionVO;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class PaymentService {
-  private final OrderService orderService;
   private final MembershipService membershipService;
   private final TossPaymentService tossPaymentService;
-  private final BillingService billingService;
   private final TransactionService transactionService;
+  private final PaymentCommonService paymentCommonService;
 
   private final ProductRepository productRepository;
 
-  private static final Long NO_COUPON_MEMBER_ID = null;
+  private static final CouponMember NO_COUPON_MEMBER = null;
+  private final CouponMemberService couponMemberService;
 
   @Transactional
   public PaymentResponseDTO createBillingPayment(
       final CreatePaymentRequestDTO request, final String memberId) {
     validateMembership(memberId);
     Product product = validateSubscriptionProduct(request.productId());
-    Long couponMemberId =
-        request.couponMemberId() == null ? NO_COUPON_MEMBER_ID : request.couponMemberId();
+    Long couponMemberId = request.couponMemberId();
 
-    OrderDetail order = orderService.createOrder(product, couponMemberId, memberId);
-
-    String billingKey = billingService.getBillingKey(memberId);
+    CouponMember couponMember =
+        request.couponMemberId() == null
+            ? NO_COUPON_MEMBER
+            : couponMemberService.validateCoupon(couponMemberId, memberId);
+    OrderDetail order = paymentCommonService.createOrder(product, couponMember, memberId);
+    String billingKey = paymentCommonService.getBillingKey(memberId);
 
     TossPaymentTransactionVO tossPaymentTransactionVO =
         tossPaymentService.requestBilling(billingKey, memberId, order);
@@ -63,13 +67,17 @@ public class PaymentService {
 
     TransactionDetail transaction = transactionService.createTransaction(transactionVO);
 
+    if (couponMember != null) {
+      couponMember.updateIsUsed(true);
+    }
+
     Membership membership = membershipService.createMembership(memberId, product);
     Member member = membership.getMember();
     member.updateTicketCount(
         order.getProduct().getReviewTicketCount(), order.getProduct().getReReviewTicketCount());
 
     // create next month order
-    orderService.createOrder(product, NO_COUPON_MEMBER_ID, memberId);
+    paymentCommonService.createOrder(product, NO_COUPON_MEMBER, memberId);
 
     return PaymentResponseDTO.of(transaction.getTransactionKey());
   }

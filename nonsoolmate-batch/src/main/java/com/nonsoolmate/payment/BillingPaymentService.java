@@ -22,7 +22,7 @@ import com.nonsoolmate.toss.service.TossPaymentService;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class BillingPaymentService {
-  private static final Long NO_COUPON_MEMBER_ID = null;
+  private static final CouponMember NO_COUPON_MEMBER = null;
 
   private final CouponRepository couponRepository;
 
@@ -54,6 +54,6 @@ public class BillingPaymentService {
     membership.updateMembershipType(membershipType);
 
     // create next month order
-    paymentCommonService.createOrder(order.getProduct(), NO_COUPON_MEMBER_ID, memberId);
+    paymentCommonService.createOrder(order.getProduct(), NO_COUPON_MEMBER, memberId);
   }
 }
