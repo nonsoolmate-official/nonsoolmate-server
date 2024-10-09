@@ -97,7 +97,7 @@ public class MembershipService {
 			usedCoupon = couponRepository.findByCouponId(couponId);
 		}
 
-		List<DiscountProduct> discountProducts = discountProductRepository.findAllByProductId(product);
+		List<DiscountProduct> discountProducts = discountProductRepository.findAllByProduct(product);
 		List<DiscountResponseDTO> discountResponseDTOs =
 				discountProducts.stream()
 						.map(
