@@ -15,17 +15,17 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class University {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long universityId;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long universityId;
 
-	@NotNull private String universityName;
+  @NotNull private String universityName;
 
-	@NotNull private String universityImageUrl;
+  @NotNull private String universityImageUrl;
 
-	@Builder
-	public University(String universityName, String universityImageUrl) {
-		this.universityName = universityName;
-		this.universityImageUrl = universityImageUrl;
-	}
+  @Builder
+  public University(String universityName, String universityImageUrl) {
+    this.universityName = universityName;
+    this.universityImageUrl = universityImageUrl;
+  }
 }

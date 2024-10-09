@@ -21,81 +21,81 @@ import com.nonsoolmate.member.repository.MembershipRepository;
 @SpringBootTest
 @ActiveProfiles("test")
 class MembershipServiceTest {
-	@InjectMocks MembershipService membershipService;
+  @InjectMocks MembershipService membershipService;
 
-	@Mock MemberRepository memberRepository;
-	@Mock MembershipRepository membershipRepository;
+  @Mock MemberRepository memberRepository;
+  @Mock MembershipRepository membershipRepository;
 
-	private static final String MEMBER_ID = "testMemberId";
-	private static final String MEMBER_NAME = "testName";
+  private static final String MEMBER_ID = "testMemberId";
+  private static final String MEMBER_NAME = "testName";
 
-	@Test
-	@DisplayName("사용자가 멤버십 결제를 하지 않은 경우에 멤버십과 첨삭권을 조회하는 경우")
-	void getMembershipAndTicketWhenMemberNotPaidMembership() {
-		// given
-		Member expectMember = getExpectMember();
-		MembershipAndTicketResponseDTO expectedResponse =
-				getExpectedMembershipAndTicketResponseDTO(MembershipType.NONE);
+  @Test
+  @DisplayName("사용자가 멤버십 결제를 하지 않은 경우에 멤버십과 첨삭권을 조회하는 경우")
+  void getMembershipAndTicketWhenMemberNotPaidMembership() {
+    // given
+    Member expectMember = getExpectMember();
+    MembershipAndTicketResponseDTO expectedResponse =
+        getExpectedMembershipAndTicketResponseDTO(MembershipType.NONE);
 
-		given(memberRepository.findByMemberIdOrThrow(anyString())).willReturn(expectMember);
-		given(membershipRepository.findMembershipTypeOrThrowNull(any(Member.class))).willReturn(null);
+    given(memberRepository.findByMemberIdOrThrow(anyString())).willReturn(expectMember);
+    given(membershipRepository.findMembershipTypeOrThrowNull(any(Member.class))).willReturn(null);
 
-		// when
-		MembershipAndTicketResponseDTO response = membershipService.getMembershipAndTicket(MEMBER_ID);
+    // when
+    MembershipAndTicketResponseDTO response = membershipService.getMembershipAndTicket(MEMBER_ID);
 
-		// then
-		assertThat(response).isEqualTo(expectedResponse);
-	}
+    // then
+    assertThat(response).isEqualTo(expectedResponse);
+  }
 
-	@Test
-	@DisplayName("사용자가 BASIC 멤버십 결제를 한 경우에 멤버십과 첨삭권을 조회하는 경우")
-	void getMembershipAndTicketWhenMemberPaidBasicMembership() {
-		// given
-		Member expectMember = getExpectMember();
-		MembershipAndTicketResponseDTO expectedResponse =
-				getExpectedMembershipAndTicketResponseDTO(MembershipType.BASIC);
-		given(memberRepository.findByMemberIdOrThrow(anyString())).willReturn(expectMember);
-		given(membershipRepository.findMembershipTypeOrThrowNull(any(Member.class)))
-				.willReturn(MembershipType.BASIC);
+  @Test
+  @DisplayName("사용자가 BASIC 멤버십 결제를 한 경우에 멤버십과 첨삭권을 조회하는 경우")
+  void getMembershipAndTicketWhenMemberPaidBasicMembership() {
+    // given
+    Member expectMember = getExpectMember();
+    MembershipAndTicketResponseDTO expectedResponse =
+        getExpectedMembershipAndTicketResponseDTO(MembershipType.BASIC);
+    given(memberRepository.findByMemberIdOrThrow(anyString())).willReturn(expectMember);
+    given(membershipRepository.findMembershipTypeOrThrowNull(any(Member.class)))
+        .willReturn(MembershipType.BASIC);
 
-		// when
-		MembershipAndTicketResponseDTO response = membershipService.getMembershipAndTicket(MEMBER_ID);
+    // when
+    MembershipAndTicketResponseDTO response = membershipService.getMembershipAndTicket(MEMBER_ID);
 
-		// then
-		assertThat(response).isEqualTo(expectedResponse);
-	}
+    // then
+    assertThat(response).isEqualTo(expectedResponse);
+  }
 
-	@Test
-	@DisplayName("사용자가 PREMIUM 멤버십 결제를 한 경우에 멤버십과 첨삭권을 조회하는 경우")
-	void getMembershipAndTicketWhenMemberPaidPremiumMembership() {
-		// given
-		Member expectMember = getExpectMember();
-		MembershipAndTicketResponseDTO expectedResponse =
-				getExpectedMembershipAndTicketResponseDTO(MembershipType.PREMIUM);
-		given(memberRepository.findByMemberIdOrThrow(anyString())).willReturn(expectMember);
-		given(membershipRepository.findMembershipTypeOrThrowNull(any(Member.class)))
-				.willReturn(MembershipType.PREMIUM);
+  @Test
+  @DisplayName("사용자가 PREMIUM 멤버십 결제를 한 경우에 멤버십과 첨삭권을 조회하는 경우")
+  void getMembershipAndTicketWhenMemberPaidPremiumMembership() {
+    // given
+    Member expectMember = getExpectMember();
+    MembershipAndTicketResponseDTO expectedResponse =
+        getExpectedMembershipAndTicketResponseDTO(MembershipType.PREMIUM);
+    given(memberRepository.findByMemberIdOrThrow(anyString())).willReturn(expectMember);
+    given(membershipRepository.findMembershipTypeOrThrowNull(any(Member.class)))
+        .willReturn(MembershipType.PREMIUM);
 
-		// when
-		MembershipAndTicketResponseDTO response = membershipService.getMembershipAndTicket(MEMBER_ID);
+    // when
+    MembershipAndTicketResponseDTO response = membershipService.getMembershipAndTicket(MEMBER_ID);
 
-		// then
-		assertThat(response).isEqualTo(expectedResponse);
-	}
+    // then
+    assertThat(response).isEqualTo(expectedResponse);
+  }
 
-	private Member getExpectMember() {
-		return Member.builder()
-				.email("testEmail")
-				.name("testName")
-				.platformType(PlatformType.NAVER)
-				.platformId("testPlatformId")
-				.role(Role.USER)
-				.birthYear("test")
-				.build();
-	}
+  private Member getExpectMember() {
+    return Member.builder()
+        .email("testEmail")
+        .name("testName")
+        .platformType(PlatformType.NAVER)
+        .platformId("testPlatformId")
+        .role(Role.USER)
+        .birthYear("test")
+        .build();
+  }
 
-	private MembershipAndTicketResponseDTO getExpectedMembershipAndTicketResponseDTO(
-			MembershipType membershipType) {
-		return MembershipAndTicketResponseDTO.of(MEMBER_NAME, membershipType, 0, 0);
-	}
+  private MembershipAndTicketResponseDTO getExpectedMembershipAndTicketResponseDTO(
+      MembershipType membershipType) {
+    return MembershipAndTicketResponseDTO.of(MEMBER_NAME, membershipType, 0, 0);
+  }
 }

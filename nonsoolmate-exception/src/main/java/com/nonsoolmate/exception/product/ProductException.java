@@ -4,7 +4,7 @@ import com.nonsoolmate.exception.common.ClientException;
 import com.nonsoolmate.exception.common.ExceptionType;
 
 public class ProductException extends ClientException {
-	public ProductException(ExceptionType exceptionType) {
-		super(exceptionType);
-	}
+  public ProductException(ExceptionType exceptionType) {
+    super(exceptionType);
+  }
 }

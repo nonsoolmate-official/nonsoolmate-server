@@ -11,13 +11,13 @@ import com.nonsoolmate.order.entity.OrderDetail;
 
 public interface OrderRepository extends JpaRepository<OrderDetail, Long> {
 
-	@Query(
-			"SELECT o FROM OrderDetail o "
-					+ "JOIN FETCH o.member "
-					+ "JOIN FETCH o.product "
-					+ "JOIN FETCH o.couponMember "
-					+ "WHERE o.isPayment = false")
-	List<OrderDetail> findAllByIsPaymentFalse();
+  @Query(
+      "SELECT o FROM OrderDetail o "
+          + "JOIN FETCH o.member "
+          + "JOIN FETCH o.product "
+          + "JOIN FETCH o.couponMember "
+          + "WHERE o.isPayment = false")
+  List<OrderDetail> findAllByIsPaymentFalse();
 
-	Optional<OrderDetail> findByMemberAndIsPaymentFalse(Member member);
+  Optional<OrderDetail> findByMemberAndIsPaymentFalse(Member member);
 }

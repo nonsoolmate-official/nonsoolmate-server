@@ -15,13 +15,13 @@ import lombok.NoArgsConstructor;
 @Getter
 public class Teacher {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long teacherId;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long teacherId;
 
-	@NotNull private String teacherName;
+  @NotNull private String teacherName;
 
-	@NotNull private String teacherProfileImageUrl;
+  @NotNull private String teacherProfileImageUrl;
 
-	@NotNull private String introduction;
+  @NotNull private String introduction;
 }

@@ -14,14 +14,14 @@ import com.nonsoolmate.couponMember.repository.CouponMemberRepository;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class CouponMemberService {
-	private final CouponMemberRepository couponMemberRepository;
-	private final CouponRepository couponRepository;
+  private final CouponMemberRepository couponMemberRepository;
+  private final CouponRepository couponRepository;
 
-	public CouponMember validateCoupon(final Long couponMemberId, final String memberId) {
-		return couponMemberRepository.findByCouponMemberIdAndMemberIdThrow(couponMemberId, memberId);
-	}
+  public CouponMember validateCoupon(final Long couponMemberId, final String memberId) {
+    return couponMemberRepository.findByCouponMemberIdAndMemberIdThrow(couponMemberId, memberId);
+  }
 
-	public Coupon getCoupon(final Long couponId) {
-		return couponRepository.findByCouponIdOrThrow(couponId);
-	}
+  public Coupon getCoupon(final Long couponId) {
+    return couponRepository.findByCouponIdOrThrow(couponId);
+  }
 }

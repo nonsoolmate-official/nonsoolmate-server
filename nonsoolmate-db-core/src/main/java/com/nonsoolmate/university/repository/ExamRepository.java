@@ -9,12 +9,12 @@ import org.springframework.data.jpa.repository.Query;
 import com.nonsoolmate.university.entity.Exam;
 
 public interface ExamRepository extends JpaRepository<Exam, Long> {
-	Optional<Exam> findByExamId(Long examId);
+  Optional<Exam> findByExamId(Long examId);
 
-	@Query(
-			"SELECT e "
-					+ "FROM Exam e "
-					+ "WHERE e.college.collegeId IN :collegeIds "
-					+ "ORDER BY e.examYear DESC ")
-	List<Exam> findAllByCollegeIdInOrderByExamYearDesc(List<Long> collegeIds);
+  @Query(
+      "SELECT e "
+          + "FROM Exam e "
+          + "WHERE e.college.collegeId IN :collegeIds "
+          + "ORDER BY e.examYear DESC ")
+  List<Exam> findAllByCollegeIdInOrderByExamYearDesc(List<Long> collegeIds);
 }

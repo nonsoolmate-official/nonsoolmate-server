@@ -13,19 +13,19 @@ import com.nonsoolmate.selectCollege.entity.SelectCollege;
 
 public interface SelectCollegeRepository extends JpaRepository<SelectCollege, Long> {
 
-	@Modifying(clearAutomatically = true)
-	@Transactional
-	@Query("DELETE FROM SelectCollege s WHERE s.member.memberId = :memberId")
-	void deleteAllByMemberId(String memberId);
+  @Modifying(clearAutomatically = true)
+  @Transactional
+  @Query("DELETE FROM SelectCollege s WHERE s.member.memberId = :memberId")
+  void deleteAllByMemberId(String memberId);
 
-	@Query(
-			"select sc from SelectCollege sc "
-					+ "join fetch sc.college c "
-					+ "join fetch c.university u "
-					+ "where sc.member.memberId =:memberId "
-					+ "order by u.universityName asc, c.collegeName asc")
-	List<SelectCollege> findAllByMemberOrderByUniversityNameAscCollegeNameAsc(
-			@Param("memberId") String memberId);
+  @Query(
+      "select sc from SelectCollege sc "
+          + "join fetch sc.college c "
+          + "join fetch c.university u "
+          + "where sc.member.memberId =:memberId "
+          + "order by u.universityName asc, c.collegeName asc")
+  List<SelectCollege> findAllByMemberOrderByUniversityNameAscCollegeNameAsc(
+      @Param("memberId") String memberId);
 
-	List<SelectCollege> findAllByMember(Member member);
+  List<SelectCollege> findAllByMember(Member member);
 }

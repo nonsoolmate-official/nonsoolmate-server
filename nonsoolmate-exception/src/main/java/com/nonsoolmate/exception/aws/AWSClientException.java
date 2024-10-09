@@ -4,7 +4,7 @@ import com.nonsoolmate.exception.common.ClientException;
 
 public class AWSClientException extends ClientException {
 
-	public AWSClientException(AWSExceptionType exceptionType) {
-		super(exceptionType);
-	}
+  public AWSClientException(AWSExceptionType exceptionType) {
+    super(exceptionType);
+  }
 }

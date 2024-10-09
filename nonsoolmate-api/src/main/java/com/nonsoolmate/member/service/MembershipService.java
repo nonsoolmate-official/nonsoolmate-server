@@ -32,88 +32,88 @@ import com.nonsoolmate.product.entity.Product;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class MembershipService {
-	private final MemberRepository memberRepository;
-	private final MembershipRepository membershipRepository;
-	private final BillingRepository billingRepository;
-	private final OrderRepository orderRepository;
-	private final DiscountProductRepository discountProductRepository;
-	private final CouponRepository couponRepository;
+  private final MemberRepository memberRepository;
+  private final MembershipRepository membershipRepository;
+  private final BillingRepository billingRepository;
+  private final OrderRepository orderRepository;
+  private final DiscountProductRepository discountProductRepository;
+  private final CouponRepository couponRepository;
 
-	public MembershipAndTicketResponseDTO getMembershipAndTicket(final String memberId) {
-		Member member = memberRepository.findByMemberIdOrThrow(memberId);
-		MembershipType membershipType = getMembershipType(member);
-		return MembershipAndTicketResponseDTO.of(
-				member.getName(),
-				membershipType,
-				member.getReviewTicketCount(),
-				member.getReReviewTicketCount());
-	}
+  public MembershipAndTicketResponseDTO getMembershipAndTicket(final String memberId) {
+    Member member = memberRepository.findByMemberIdOrThrow(memberId);
+    MembershipType membershipType = getMembershipType(member);
+    return MembershipAndTicketResponseDTO.of(
+        member.getName(),
+        membershipType,
+        member.getReviewTicketCount(),
+        member.getReReviewTicketCount());
+  }
 
-	private MembershipType getMembershipType(final Member member) {
-		MembershipType membershipType = membershipRepository.findMembershipTypeOrThrowNull(member);
-		boolean existMembership = membershipType != null;
-		return existMembership ? membershipType : MembershipType.NONE;
-	}
+  private MembershipType getMembershipType(final Member member) {
+    MembershipType membershipType = membershipRepository.findMembershipTypeOrThrowNull(member);
+    boolean existMembership = membershipType != null;
+    return existMembership ? membershipType : MembershipType.NONE;
+  }
 
-	public boolean checkMembership(final String memberId) {
-		Member member = memberRepository.findByMemberIdOrThrow(memberId);
-		MembershipType membershipType = getMembershipType(member);
-		return membershipType != MembershipType.NONE;
-	}
+  public boolean checkMembership(final String memberId) {
+    Member member = memberRepository.findByMemberIdOrThrow(memberId);
+    MembershipType membershipType = getMembershipType(member);
+    return membershipType != MembershipType.NONE;
+  }
 
-	public Membership createMembership(final String memberId, final Product product) {
-		Member member = memberRepository.findByMemberIdOrThrow(memberId);
-		MembershipType membershipType = MembershipType.getMembershipType(product.getProductName());
-		Membership membership =
-				Membership.builder().member(member).membershipType(membershipType).build();
-		return membershipRepository.save(membership);
-	}
+  public Membership createMembership(final String memberId, final Product product) {
+    Member member = memberRepository.findByMemberIdOrThrow(memberId);
+    MembershipType membershipType = MembershipType.getMembershipType(product.getProductName());
+    Membership membership =
+        Membership.builder().member(member).membershipType(membershipType).build();
+    return membershipRepository.save(membership);
+  }
 
-	public Optional<PaymentInfoResponseDTO> getNextPaymentInfo(final String memberId) {
-		Optional<Billing> billing = billingRepository.findByCustomerMemberId(memberId);
+  public Optional<PaymentInfoResponseDTO> getNextPaymentInfo(final String memberId) {
+    Optional<Billing> billing = billingRepository.findByCustomerMemberId(memberId);
 
-		if (billing.isEmpty()) {
-			return Optional.empty();
-		}
+    if (billing.isEmpty()) {
+      return Optional.empty();
+    }
 
-		Member member = memberRepository.findByMemberIdOrThrow(memberId);
-		Membership membership = membershipRepository.findByMemberOrThrow(member);
-		Optional<OrderDetail> nextOrder = orderRepository.findByMemberAndIsPaymentFalse(member);
+    Member member = memberRepository.findByMemberIdOrThrow(memberId);
+    Membership membership = membershipRepository.findByMemberOrThrow(member);
+    Optional<OrderDetail> nextOrder = orderRepository.findByMemberAndIsPaymentFalse(member);
 
-		if (nextOrder.isEmpty()) {
-			return Optional.empty();
-		}
+    if (nextOrder.isEmpty()) {
+      return Optional.empty();
+    }
 
-		LocalDateTime expectedPaymentDate = membership.getExpectedPaymentDate(nextOrder);
-		Product product = nextOrder.get().getProduct();
+    LocalDateTime expectedPaymentDate = membership.getExpectedPaymentDate(nextOrder);
+    Product product = nextOrder.get().getProduct();
 
-		Optional<Coupon> usedCoupon = Optional.empty();
-		if (nextOrder.get().getCouponMember() != null) {
-			Long couponId = nextOrder.get().getCouponMember().getCouponId();
-			usedCoupon = couponRepository.findByCouponId(couponId);
-		}
+    Optional<Coupon> usedCoupon = Optional.empty();
+    if (nextOrder.get().getCouponMember() != null) {
+      Long couponId = nextOrder.get().getCouponMember().getCouponId();
+      usedCoupon = couponRepository.findByCouponId(couponId);
+    }
 
-		List<DiscountProduct> discountProducts = discountProductRepository.findAllByProduct(product);
-		List<DiscountResponseDTO> discountResponseDTOs =
-				discountProducts.stream()
-						.map(
-								p ->
-										DiscountResponseDTO.of(
-												p.getDiscountProductId(),
-												p.getDiscount().getDiscountName(),
-												p.getDiscount().getDiscountRate()))
-						.toList();
+    List<DiscountProduct> discountProducts = discountProductRepository.findAllByProduct(product);
+    List<DiscountResponseDTO> discountResponseDTOs =
+        discountProducts.stream()
+            .map(
+                p ->
+                    DiscountResponseDTO.of(
+                        p.getDiscountProductId(),
+                        p.getDiscount().getDiscountName(),
+                        p.getDiscount().getDiscountRate()))
+            .toList();
 
-		long totalDiscountPrice = product.getDiscountAmount(discountProducts, usedCoupon);
-		long totalPrice = product.getPrice() - totalDiscountPrice;
+    long totalDiscountPrice = product.getDiscountAmount(discountProducts, usedCoupon);
+    long totalPrice = product.getPrice() - totalDiscountPrice;
 
-		return Optional.of(
-				PaymentInfoResponseDTO.of(
-						expectedPaymentDate,
-						billing.get(),
-						GetUsedCouponResponseDTO.of(usedCoupon),
-						discountResponseDTOs,
-						totalDiscountPrice,
-						totalPrice));
-	}
+    return Optional.of(
+        PaymentInfoResponseDTO.of(
+            expectedPaymentDate,
+            billing.get(),
+            GetUsedCouponResponseDTO.of(usedCoupon),
+            discountResponseDTOs,
+            totalDiscountPrice,
+            totalPrice));
+  }
 }

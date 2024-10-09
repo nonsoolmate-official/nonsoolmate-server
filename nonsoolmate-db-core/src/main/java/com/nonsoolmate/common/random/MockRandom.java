@@ -7,8 +7,8 @@ import org.springframework.stereotype.Component;
 @Profile("test")
 public class MockRandom implements CustomRandom {
 
-	@Override
-	public String generateRandomValue() {
-		return "test-random-value";
-	}
+  @Override
+  public String generateRandomValue() {
+    return "test-random-value";
+  }
 }

@@ -28,38 +28,38 @@ import com.nonsoolmate.response.SuccessResponse;
 @RequiredArgsConstructor
 public class ExamRecordController implements ExamRecordApi {
 
-	private final ExamRecordService examRecordService;
-	private final ExamRecordSheetService examRecordSheetService;
+  private final ExamRecordService examRecordService;
+  private final ExamRecordSheetService examRecordSheetService;
 
-	@Override
-	@GetMapping("/sheet/presigned")
-	public ResponseEntity<SuccessResponse<ExamSheetPreSignedUrlResponseDTO>>
-			getExamSheetPreSignedUrl() {
-		PreSignedUrlVO universityExamRecordSheetPreSignedUrlVO =
-				examRecordSheetService.getExamRecordSheetPreSignedUrl();
-		return ResponseEntity.ok()
-				.body(
-						SuccessResponse.of(
-								ExamRecordSuccessType.GET_EXAM_RECORD_SHEET_PRESIGNED_SUCCESS,
-								ExamSheetPreSignedUrlResponseDTO.of(
-										universityExamRecordSheetPreSignedUrlVO.getFileName(),
-										universityExamRecordSheetPreSignedUrlVO.getUrl())));
-	}
+  @Override
+  @GetMapping("/sheet/presigned")
+  public ResponseEntity<SuccessResponse<ExamSheetPreSignedUrlResponseDTO>>
+      getExamSheetPreSignedUrl() {
+    PreSignedUrlVO universityExamRecordSheetPreSignedUrlVO =
+        examRecordSheetService.getExamRecordSheetPreSignedUrl();
+    return ResponseEntity.ok()
+        .body(
+            SuccessResponse.of(
+                ExamRecordSuccessType.GET_EXAM_RECORD_SHEET_PRESIGNED_SUCCESS,
+                ExamSheetPreSignedUrlResponseDTO.of(
+                    universityExamRecordSheetPreSignedUrlVO.getFileName(),
+                    universityExamRecordSheetPreSignedUrlVO.getUrl())));
+  }
 
-	@Override
-	@PostMapping("/sheet")
-	public ResponseEntity<SuccessResponse<ExamRecordIdResponse>> createExamRecord(
-			@Valid @RequestBody final CreateExamRecordRequestDTO request,
-			@AuthMember final String memberId) {
-		ExamRecordIdResponse response = null;
+  @Override
+  @PostMapping("/sheet")
+  public ResponseEntity<SuccessResponse<ExamRecordIdResponse>> createExamRecord(
+      @Valid @RequestBody final CreateExamRecordRequestDTO request,
+      @AuthMember final String memberId) {
+    ExamRecordIdResponse response = null;
 
-		if (request.editingType() == EditingType.REVISION) {
-			response = examRecordService.createRevisionExamRecord(request, memberId);
-		} else if (request.editingType() == EditingType.EDITING) {
-			response = examRecordService.createEditingExamRecord(request, memberId);
-		}
+    if (request.editingType() == EditingType.REVISION) {
+      response = examRecordService.createRevisionExamRecord(request, memberId);
+    } else if (request.editingType() == EditingType.EDITING) {
+      response = examRecordService.createEditingExamRecord(request, memberId);
+    }
 
-		return ResponseEntity.status(HttpStatus.CREATED)
-				.body(SuccessResponse.of(ExamRecordSuccessType.CREATE_EXAM_RECORD_SUCCESS, response));
-	}
+    return ResponseEntity.status(HttpStatus.CREATED)
+        .body(SuccessResponse.of(ExamRecordSuccessType.CREATE_EXAM_RECORD_SUCCESS, response));
+  }
 }

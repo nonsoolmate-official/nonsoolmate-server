@@ -21,41 +21,41 @@ import com.nonsoolmate.order.entity.OrderDetail;
 
 @Entity
 @Table(
-		uniqueConstraints = {
-			@UniqueConstraint(
-					name = "UK_TRANSACTION_KEY_ORDER_ID",
-					columnNames = {"transactionKey", "order_id"})
-		})
+    uniqueConstraints = {
+      @UniqueConstraint(
+          name = "UK_TRANSACTION_KEY_ORDER_ID",
+          columnNames = {"transactionKey", "order_id"})
+    })
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 public class TransactionDetail extends BaseTimeEntity {
-	@Id private String transactionKey;
+  @Id private String transactionKey;
 
-	@NotNull private String paymentKey;
+  @NotNull private String paymentKey;
 
-	@NotNull private String customerKey;
+  @NotNull private String customerKey;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "order_id")
-	private OrderDetail order;
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "order_id")
+  private OrderDetail order;
 
-	@NotNull private String receiptUrl;
+  @NotNull private String receiptUrl;
 
-	@NotNull LocalDateTime transactionAt;
+  @NotNull LocalDateTime transactionAt;
 
-	@Builder
-	private TransactionDetail(
-			final String transactionKey,
-			final String paymentKey,
-			final String customerKey,
-			final OrderDetail order,
-			final String receiptUrl,
-			final LocalDateTime transactionAt) {
-		this.transactionKey = transactionKey;
-		this.paymentKey = paymentKey;
-		this.customerKey = customerKey;
-		this.order = order;
-		this.receiptUrl = receiptUrl;
-		this.transactionAt = transactionAt;
-	}
+  @Builder
+  private TransactionDetail(
+      final String transactionKey,
+      final String paymentKey,
+      final String customerKey,
+      final OrderDetail order,
+      final String receiptUrl,
+      final LocalDateTime transactionAt) {
+    this.transactionKey = transactionKey;
+    this.paymentKey = paymentKey;
+    this.customerKey = customerKey;
+    this.order = order;
+    this.receiptUrl = receiptUrl;
+    this.transactionAt = transactionAt;
+  }
 }

@@ -13,23 +13,23 @@ import com.nonsoolmate.payment.service.vo.TransactionVO;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class TransactionService {
-	private final TransactionDetailRepository transactionRepository;
+  private final TransactionDetailRepository transactionRepository;
 
-	@Transactional
-	public TransactionDetail createTransaction(final TransactionVO transactionVO) {
-		TransactionDetail transaction =
-				TransactionDetail.builder()
-						.transactionKey(transactionVO.transactionKey())
-						.paymentKey(transactionVO.paymentKey())
-						.customerKey(transactionVO.customerKey())
-						.order(transactionVO.order())
-						.receiptUrl(transactionVO.receiptUrl())
-						.transactionAt(transactionVO.transactionAt())
-						.build();
-		return transactionRepository.save(transaction);
-	}
+  @Transactional
+  public TransactionDetail createTransaction(final TransactionVO transactionVO) {
+    TransactionDetail transaction =
+        TransactionDetail.builder()
+            .transactionKey(transactionVO.transactionKey())
+            .paymentKey(transactionVO.paymentKey())
+            .customerKey(transactionVO.customerKey())
+            .order(transactionVO.order())
+            .receiptUrl(transactionVO.receiptUrl())
+            .transactionAt(transactionVO.transactionAt())
+            .build();
+    return transactionRepository.save(transaction);
+  }
 
-	public boolean isFirstPurchase(final String memberId) {
-		return !transactionRepository.existsByCustomerKey(memberId);
-	}
+  public boolean isFirstPurchase(final String memberId) {
+    return !transactionRepository.existsByCustomerKey(memberId);
+  }
 }

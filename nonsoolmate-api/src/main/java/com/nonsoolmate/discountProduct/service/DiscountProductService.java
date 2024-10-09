@@ -18,34 +18,34 @@ import com.nonsoolmate.product.repository.ProductRepository;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class DiscountProductService {
-	private final DiscountProductRepository discountProductRepository;
-	private final ProductRepository productRepository;
-	private final TransactionService transactionService;
+  private final DiscountProductRepository discountProductRepository;
+  private final ProductRepository productRepository;
+  private final TransactionService transactionService;
 
-	public long getDiscountedProductPrice(final Long productId, final String memberId) {
-		Product product = productRepository.findByProductIdOrThrow(productId);
-		double discountedPrice = product.getPrice();
-		List<DiscountProduct> defaultDiscountProducts =
-				getDiscountProductsByProductAndMemberId(product, memberId);
+  public long getDiscountedProductPrice(final Long productId, final String memberId) {
+    Product product = productRepository.findByProductIdOrThrow(productId);
+    double discountedPrice = product.getPrice();
+    List<DiscountProduct> defaultDiscountProducts =
+        getDiscountProductsByProductAndMemberId(product, memberId);
 
-		for (DiscountProduct discountProduct : defaultDiscountProducts) {
-			Discount discount = discountProduct.getDiscount();
-			discountedPrice *= (1.0 - discount.getDiscountRate());
-		}
+    for (DiscountProduct discountProduct : defaultDiscountProducts) {
+      Discount discount = discountProduct.getDiscount();
+      discountedPrice *= (1.0 - discount.getDiscountRate());
+    }
 
-		return Math.round(discountedPrice);
-	}
+    return Math.round(discountedPrice);
+  }
 
-	public List<DiscountProduct> getDiscountProductsByProductAndMemberId(
-			final Product product, final String memberId) {
-		boolean isFirstPurchaseMember = transactionService.isFirstPurchase(memberId);
-		if (isFirstPurchaseMember) {
-			return getDefaultDiscountProductsByProduct(product);
-		}
-		return discountProductRepository.findAllByProductIdAndDiscountIsContinuous(product);
-	}
+  public List<DiscountProduct> getDiscountProductsByProductAndMemberId(
+      final Product product, final String memberId) {
+    boolean isFirstPurchaseMember = transactionService.isFirstPurchase(memberId);
+    if (isFirstPurchaseMember) {
+      return getDefaultDiscountProductsByProduct(product);
+    }
+    return discountProductRepository.findAllByProductIdAndDiscountIsContinuous(product);
+  }
 
-	public List<DiscountProduct> getDefaultDiscountProductsByProduct(final Product product) {
-		return discountProductRepository.findAllByProduct(product);
-	}
+  public List<DiscountProduct> getDefaultDiscountProductsByProduct(final Product product) {
+    return discountProductRepository.findAllByProduct(product);
+  }
 }

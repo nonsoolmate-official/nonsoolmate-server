@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 @EnableJpaAuditing
 public class NonsoolmateServerApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(NonsoolmateServerApplication.class, args);
-	}
+  public static void main(String[] args) {
+    SpringApplication.run(NonsoolmateServerApplication.class, args);
+  }
 }

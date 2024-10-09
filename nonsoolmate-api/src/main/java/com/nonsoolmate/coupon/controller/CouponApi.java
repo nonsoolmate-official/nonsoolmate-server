@@ -16,18 +16,18 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 
 @Tag(name = "Coupon", description = "쿠폰과 관련된 API")
 public interface CouponApi {
-	/**
-	 * @breif: 쿠폰 발행 API
-	 * @note: 서버 내에서 사용하는 API 입니다.
-	 */
-	ResponseEntity<Void> issueCoupon(@RequestBody @Valid IssueCouponRequestDTO requestDTO);
+  /**
+   * @breif: 쿠폰 발행 API
+   * @note: 서버 내에서 사용하는 API 입니다.
+   */
+  ResponseEntity<Void> issueCoupon(@RequestBody @Valid IssueCouponRequestDTO requestDTO);
 
-	@Operation(summary = "쿠폰 목록 조회", description = "사용자가 가지고 있는 쿠폰 목록을 조회합니다.")
-	ResponseEntity<GetCouponsResponseDTO> getCoupons(
-			@Parameter(hidden = true) @AuthMember String memberId);
+  @Operation(summary = "쿠폰 목록 조회", description = "사용자가 가지고 있는 쿠폰 목록을 조회합니다.")
+  ResponseEntity<GetCouponsResponseDTO> getCoupons(
+      @Parameter(hidden = true) @AuthMember String memberId);
 
-	@Operation(summary = "쿠폰 등록", description = "쿠폰을 등록합니다.")
-	ResponseEntity<Void> registerCoupon(
-			@RequestBody @Valid RegisterCouponRequestDTO requestDTO,
-			@Parameter(hidden = true) @AuthMember String memberId);
+  @Operation(summary = "쿠폰 등록", description = "쿠폰을 등록합니다.")
+  ResponseEntity<Void> registerCoupon(
+      @RequestBody @Valid RegisterCouponRequestDTO requestDTO,
+      @Parameter(hidden = true) @AuthMember String memberId);
 }

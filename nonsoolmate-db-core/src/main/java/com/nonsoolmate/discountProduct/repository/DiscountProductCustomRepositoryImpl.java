@@ -16,21 +16,21 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 @Repository
 @RequiredArgsConstructor
 public class DiscountProductCustomRepositoryImpl implements DiscountProductCustomRepository {
-	private final JPAQueryFactory queryFactory;
+  private final JPAQueryFactory queryFactory;
 
-	@Override
-	public List<DiscountProduct> findAllByProductIdAndDiscountIsContinuous(final Product product) {
-		QDiscountProduct discountProduct = QDiscountProduct.discountProduct;
-		QDiscount discount = QDiscount.discount;
+  @Override
+  public List<DiscountProduct> findAllByProductIdAndDiscountIsContinuous(final Product product) {
+    QDiscountProduct discountProduct = QDiscountProduct.discountProduct;
+    QDiscount discount = QDiscount.discount;
 
-		return queryFactory
-				.selectFrom(discountProduct)
-				.join(discountProduct.discount, discount)
-				.where(
-						discountProduct
-								.product
-								.eq(product)
-								.and(discount.discountType.eq(DiscountType.CONTINUOUS)))
-				.fetch();
-	}
+    return queryFactory
+        .selectFrom(discountProduct)
+        .join(discountProduct.discount, discount)
+        .where(
+            discountProduct
+                .product
+                .eq(product)
+                .and(discount.discountType.eq(DiscountType.CONTINUOUS)))
+        .fetch();
+  }
 }

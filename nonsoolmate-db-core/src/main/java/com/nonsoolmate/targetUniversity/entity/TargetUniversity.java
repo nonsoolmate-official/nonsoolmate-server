@@ -17,16 +17,16 @@ import com.nonsoolmate.university.entity.University;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class TargetUniversity {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long targetUniversityId;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long targetUniversityId;
 
-	@ManyToOne private University university;
+  @ManyToOne private University university;
 
-	@ManyToOne private Member member;
+  @ManyToOne private Member member;
 
-	public TargetUniversity(University university, Member member) {
-		this.university = university;
-		this.member = member;
-	}
+  public TargetUniversity(University university, Member member) {
+    this.university = university;
+    this.member = member;
+  }
 }

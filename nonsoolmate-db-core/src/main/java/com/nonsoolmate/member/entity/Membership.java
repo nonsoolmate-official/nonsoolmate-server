@@ -28,49 +28,49 @@ import com.nonsoolmate.order.entity.OrderDetail;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Membership extends BaseTimeEntity {
-	private static final int MEMBERSHIP_PERIOD = 27;
-	private static final int DAY_1 = 1;
+  private static final int MEMBERSHIP_PERIOD = 27;
+  private static final int DAY_1 = 1;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long membershipId;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long membershipId;
 
-	@OneToOne private Member member;
+  @OneToOne private Member member;
 
-	@Enumerated(EnumType.STRING)
-	private MembershipType membershipType;
+  @Enumerated(EnumType.STRING)
+  private MembershipType membershipType;
 
-	private LocalDateTime startDate;
+  private LocalDateTime startDate;
 
-	private LocalDateTime endDate;
+  private LocalDateTime endDate;
 
-	@Enumerated(EnumType.STRING)
-	private MembershipStatus status;
+  @Enumerated(EnumType.STRING)
+  private MembershipStatus status;
 
-	@Builder
-	private Membership(final Member member, final MembershipType membershipType) {
-		this.member = member;
-		this.membershipType = membershipType;
-		this.startDate = LocalDateTime.now();
-		this.endDate = LocalDateTime.now().plusDays(MEMBERSHIP_PERIOD);
-		this.status = MembershipStatus.IN_PROGRESS;
-	}
+  @Builder
+  private Membership(final Member member, final MembershipType membershipType) {
+    this.member = member;
+    this.membershipType = membershipType;
+    this.startDate = LocalDateTime.now();
+    this.endDate = LocalDateTime.now().plusDays(MEMBERSHIP_PERIOD);
+    this.status = MembershipStatus.IN_PROGRESS;
+  }
 
-	public void updateMembershipType(MembershipType membershipType) {
-		this.membershipType = membershipType;
-	}
+  public void updateMembershipType(MembershipType membershipType) {
+    this.membershipType = membershipType;
+  }
 
-	public void validateMembershipStatus() {
-		if (this.status.equals(MembershipStatus.TERMINATED)) {
-			throw new MemberException(TERMINATED_MEMBERSHIP);
-		}
-	}
+  public void validateMembershipStatus() {
+    if (this.status.equals(MembershipStatus.TERMINATED)) {
+      throw new MemberException(TERMINATED_MEMBERSHIP);
+    }
+  }
 
-	public LocalDateTime getExpectedPaymentDate(Optional<OrderDetail> orderDetail) {
-		if (orderDetail.isEmpty()) {
-			return null;
-		}
+  public LocalDateTime getExpectedPaymentDate(Optional<OrderDetail> orderDetail) {
+    if (orderDetail.isEmpty()) {
+      return null;
+    }
 
-		return this.endDate.plusDays(DAY_1);
-	}
+    return this.endDate.plusDays(DAY_1);
+  }
 }

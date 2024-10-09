@@ -20,30 +20,30 @@ import com.nonsoolmate.common.BaseTimeEntity;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class CouponMember extends BaseTimeEntity {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long couponMemberId;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long couponMemberId;
 
-	@NotNull private String memberId;
+  @NotNull private String memberId;
 
-	@NotNull private Long couponId;
+  @NotNull private Long couponId;
 
-	@ColumnDefault("false")
-	@NotNull
-	private Boolean toBeUsed;
+  @ColumnDefault("false")
+  @NotNull
+  private Boolean toBeUsed;
 
-	@ColumnDefault("false")
-	@NotNull
-	private Boolean isUsed;
+  @ColumnDefault("false")
+  @NotNull
+  private Boolean isUsed;
 
-	@Builder
-	private CouponMember(String memberId, Long couponId, Boolean isUsed) {
-		this.memberId = memberId;
-		this.couponId = couponId;
-		this.isUsed = isUsed;
-	}
+  @Builder
+  private CouponMember(String memberId, Long couponId, Boolean isUsed) {
+    this.memberId = memberId;
+    this.couponId = couponId;
+    this.isUsed = isUsed;
+  }
 
-	public void updateIsUsed(Boolean isUsed) {
-		this.isUsed = isUsed;
-	}
+  public void updateIsUsed(Boolean isUsed) {
+    this.isUsed = isUsed;
+  }
 }

@@ -20,82 +20,82 @@ import com.nonsoolmate.discord.CachedBodyRequestWrapper;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class HttpRequestUtil {
 
-	public static String getRequestUri(HttpServletRequest request) {
-		return request.getRequestURI();
-	}
+  public static String getRequestUri(HttpServletRequest request) {
+    return request.getRequestURI();
+  }
 
-	public static Map<String, String> getHeaderMap(HttpServletRequest request) {
-		Map<String, String> headerMap = new HashMap<>();
-		request
-				.getHeaderNames()
-				.asIterator()
-				.forEachRemaining(
-						name -> {
-							if (!name.equals("user-agent")) {
-								headerMap.put(name, request.getHeader(name));
-							}
-						});
-		return headerMap;
-	}
+  public static Map<String, String> getHeaderMap(HttpServletRequest request) {
+    Map<String, String> headerMap = new HashMap<>();
+    request
+        .getHeaderNames()
+        .asIterator()
+        .forEachRemaining(
+            name -> {
+              if (!name.equals("user-agent")) {
+                headerMap.put(name, request.getHeader(name));
+              }
+            });
+    return headerMap;
+  }
 
-	public static Map<String, String> getParamMap(HttpServletRequest request) {
-		Map<String, String> paramMap = new HashMap<>();
-		request
-				.getParameterNames()
-				.asIterator()
-				.forEachRemaining(name -> paramMap.put(name, request.getParameter(name)));
+  public static Map<String, String> getParamMap(HttpServletRequest request) {
+    Map<String, String> paramMap = new HashMap<>();
+    request
+        .getParameterNames()
+        .asIterator()
+        .forEachRemaining(name -> paramMap.put(name, request.getParameter(name)));
 
-		return paramMap;
-	}
+    return paramMap;
+  }
 
-	public static String getBody(HttpServletRequest httpReq) {
-		CachedBodyRequestWrapper nativeRequest =
-				WebUtils.getNativeRequest(httpReq, CachedBodyRequestWrapper.class);
+  public static String getBody(HttpServletRequest httpReq) {
+    CachedBodyRequestWrapper nativeRequest =
+        WebUtils.getNativeRequest(httpReq, CachedBodyRequestWrapper.class);
 
-		if (nativeRequest != null) {
-			return nativeRequest.getBody();
-		}
-		return "requestBody 정보 없음";
-	}
+    if (nativeRequest != null) {
+      return nativeRequest.getBody();
+    }
+    return "requestBody 정보 없음";
+  }
 
-	public static String getUserIP(HttpServletRequest httpReq) {
-		String ip = httpReq.getHeader("X-Forwarded-For");
-		if (ip == null) ip = httpReq.getRemoteAddr();
+  public static String getUserIP(HttpServletRequest httpReq) {
+    String ip = httpReq.getHeader("X-Forwarded-For");
+    if (ip == null) ip = httpReq.getRemoteAddr();
 
-		return ip;
-	}
+    return ip;
+  }
 
-	public static Map<String, String> getUserLocation(HttpServletRequest request) {
-		Map<String, String> locationMap = new HashMap<>();
-		String userIP = getUserIP(request);
+  public static Map<String, String> getUserLocation(HttpServletRequest request) {
+    Map<String, String> locationMap = new HashMap<>();
+    String userIP = getUserIP(request);
 
-		String locationFindAPIUrl = "https://ipapi.co/" + userIP + "/json/";
+    String locationFindAPIUrl = "https://ipapi.co/" + userIP + "/json/";
 
-		RestTemplate restTemplate = new RestTemplate();
-		String response = restTemplate.getForObject(locationFindAPIUrl, String.class);
+    RestTemplate restTemplate = new RestTemplate();
+    String response = restTemplate.getForObject(locationFindAPIUrl, String.class);
 
-		String[] locationEntity = Objects.requireNonNull(response).split(",");
+    String[] locationEntity = Objects.requireNonNull(response).split(",");
 
-		for (String entity : locationEntity) {
-			String[] element = entity.split(":");
-			if (element.length == 2) {
-				locationMap.put(
-						element[0]
-								.replace(" ", "")
-								.replace("\n", "")
-								.replace("{", "")
-								.replace("}", "")
-								.replace("\"", ""),
-						element[1].replace(" ", "").replace("\"", ""));
-			} else {
-				locationMap.put("languages", entity);
-			}
-		}
+    for (String entity : locationEntity) {
+      String[] element = entity.split(":");
+      if (element.length == 2) {
+        locationMap.put(
+            element[0]
+                .replace(" ", "")
+                .replace("\n", "")
+                .replace("{", "")
+                .replace("}", "")
+                .replace("\"", ""),
+            element[1].replace(" ", "").replace("\"", ""));
+      } else {
+        locationMap.put("languages", entity);
+      }
+    }
 
-		return locationMap;
-	}
+    return locationMap;
+  }
 
-	public static Cookie[] getUserCookies(HttpServletRequest httpReq) {
-		return httpReq.getCookies();
-	}
+  public static Cookie[] getUserCookies(HttpServletRequest httpReq) {
+    return httpReq.getCookies();
+  }
 }

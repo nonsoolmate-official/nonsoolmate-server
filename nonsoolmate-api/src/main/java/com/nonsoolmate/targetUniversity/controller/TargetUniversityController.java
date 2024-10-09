@@ -22,22 +22,22 @@ import com.nonsoolmate.targetUniversity.service.TargetUniversityService;
 @RequiredArgsConstructor
 @RequestMapping("/target-university")
 public class TargetUniversityController implements TargetUniversityApi {
-	private final TargetUniversityService targetUniversityService;
+  private final TargetUniversityService targetUniversityService;
 
-	@Override
-	@GetMapping
-	public ResponseEntity<List<TargetUniversityResponseDTO>> getTargetUniversities(
-			@AuthMember String memberId) {
+  @Override
+  @GetMapping
+  public ResponseEntity<List<TargetUniversityResponseDTO>> getTargetUniversities(
+      @AuthMember String memberId) {
 
-		return ResponseEntity.ok().body(targetUniversityService.getTargetUniversities());
-	}
+    return ResponseEntity.ok().body(targetUniversityService.getTargetUniversities());
+  }
 
-	@Override
-	@PatchMapping
-	public ResponseEntity<Void> patchTargetUniversities(
-			@AuthMember final String memberId,
-			@Valid @RequestBody final List<TargetUniversityRequestDTO> universityIds) {
-		targetUniversityService.patchTargetUniversity(universityIds, memberId);
-		return ResponseEntity.ok().build();
-	}
+  @Override
+  @PatchMapping
+  public ResponseEntity<Void> patchTargetUniversities(
+      @AuthMember final String memberId,
+      @Valid @RequestBody final List<TargetUniversityRequestDTO> universityIds) {
+    targetUniversityService.patchTargetUniversity(universityIds, memberId);
+    return ResponseEntity.ok().build();
+  }
 }

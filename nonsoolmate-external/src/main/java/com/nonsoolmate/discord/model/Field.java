@@ -7,7 +7,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class Field {
 
-	private final String name;
-	private final String value;
-	private final boolean inline;
+  private final String name;
+  private final String value;
+  private final boolean inline;
 }

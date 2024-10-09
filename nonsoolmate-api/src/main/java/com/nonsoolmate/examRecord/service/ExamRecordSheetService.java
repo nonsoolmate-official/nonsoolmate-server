@@ -14,9 +14,9 @@ import com.nonsoolmate.aws.service.vo.PreSignedUrlVO;
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class ExamRecordSheetService {
-	private final CloudFrontService cloudFrontService;
+  private final CloudFrontService cloudFrontService;
 
-	public PreSignedUrlVO getExamRecordSheetPreSignedUrl() {
-		return cloudFrontService.createPreSignedPutUrl(EXAM_SHEET_FOLDER_NAME);
-	}
+  public PreSignedUrlVO getExamRecordSheetPreSignedUrl() {
+    return cloudFrontService.createPreSignedPutUrl(EXAM_SHEET_FOLDER_NAME);
+  }
 }

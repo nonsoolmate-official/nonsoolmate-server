@@ -25,68 +25,68 @@ import com.nonsoolmate.coupon.entity.enums.CouponType;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Coupon extends BaseTimeEntity {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long couponId;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long couponId;
 
-	@NotNull private String couponName;
+  @NotNull private String couponName;
 
-	private String couponDescription;
+  private String couponDescription;
 
-	private String couponImageUrl;
+  private String couponImageUrl;
 
-	@NotNull private String couponNumber;
+  @NotNull private String couponNumber;
 
-	@NotNull
-	@Enumerated(EnumType.STRING)
-	private CouponType couponType;
+  @NotNull
+  @Enumerated(EnumType.STRING)
+  private CouponType couponType;
 
-	/**
-	 * @note: 쿠폰은 discountRate, discountAmount, ticketCount 중 하나의 깂을 가진다.
-	 */
-	private double discountRate;
+  /**
+   * @note: 쿠폰은 discountRate, discountAmount, ticketCount 중 하나의 깂을 가진다.
+   */
+  private double discountRate;
 
-	private int discountAmount;
+  private int discountAmount;
 
-	private int ticketCount;
+  private int ticketCount;
 
-	private LocalDateTime validStartDate;
+  private LocalDateTime validStartDate;
 
-	private LocalDateTime validEndDate;
+  private LocalDateTime validEndDate;
 
-	@Builder
-	private Coupon(
-			String couponName,
-			String couponDescription,
-			String couponImageUrl,
-			String couponNumber,
-			CouponType couponType,
-			double discountRate,
-			int discountAmount,
-			int ticketCount,
-			LocalDateTime validStartDate,
-			LocalDateTime validEndDate) {
-		this.couponName = couponName;
-		this.couponDescription = couponDescription;
-		this.couponImageUrl = couponImageUrl;
-		this.couponNumber = couponNumber;
-		this.couponType = couponType;
-		this.discountRate = discountRate;
-		this.discountAmount = discountAmount;
-		this.ticketCount = ticketCount;
-		this.validStartDate = validStartDate;
-		this.validEndDate = validEndDate;
-	}
+  @Builder
+  private Coupon(
+      String couponName,
+      String couponDescription,
+      String couponImageUrl,
+      String couponNumber,
+      CouponType couponType,
+      double discountRate,
+      int discountAmount,
+      int ticketCount,
+      LocalDateTime validStartDate,
+      LocalDateTime validEndDate) {
+    this.couponName = couponName;
+    this.couponDescription = couponDescription;
+    this.couponImageUrl = couponImageUrl;
+    this.couponNumber = couponNumber;
+    this.couponType = couponType;
+    this.discountRate = discountRate;
+    this.discountAmount = discountAmount;
+    this.ticketCount = ticketCount;
+    this.validStartDate = validStartDate;
+    this.validEndDate = validEndDate;
+  }
 
-	public long getCouponAppliedAmount(long curAmount) {
-		if (this.couponType.equals(CouponType.RATE)) {
-			return (long) (curAmount * (1 - discountRate / 100.0));
-		}
+  public long getCouponAppliedAmount(long curAmount) {
+    if (this.couponType.equals(CouponType.RATE)) {
+      return (long) (curAmount * (1 - discountRate / 100.0));
+    }
 
-		if (this.couponType.equals(CouponType.AMOUNT)) {
-			return curAmount - discountAmount;
-		}
+    if (this.couponType.equals(CouponType.AMOUNT)) {
+      return curAmount - discountAmount;
+    }
 
-		return curAmount;
-	}
+    return curAmount;
+  }
 }

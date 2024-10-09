@@ -32,38 +32,38 @@ import com.nonsoolmate.response.SuccessResponse;
 @RequestMapping("/auth")
 @Slf4j
 public class AuthController implements AuthApi {
-	private final AuthServiceProvider authServiceProvider;
-	private final JwtService jwtService;
+  private final AuthServiceProvider authServiceProvider;
+  private final JwtService jwtService;
 
-	@Override
-	@PostMapping("/social/login")
-	public ResponseEntity<SuccessResponse<MemberAuthResponseDTO>> login(
-			final String authorizationCode, @RequestBody @Valid final MemberRequestDTO request) {
-		PlatformType platformType = PlatformType.of(request.platformType());
+  @Override
+  @PostMapping("/social/login")
+  public ResponseEntity<SuccessResponse<MemberAuthResponseDTO>> login(
+      final String authorizationCode, @RequestBody @Valid final MemberRequestDTO request) {
+    PlatformType platformType = PlatformType.of(request.platformType());
 
-		MemberSignUpVO vo =
-				authServiceProvider
-						.getAuthService(platformType)
-						.saveMemberOrLogin(authorizationCode, request);
-		MemberAuthResponseDTO responseDTO = jwtService.issueToken(vo);
-		if (responseDTO.authType().equals(AuthType.SIGN_UP)) {
-			return ResponseEntity.status(HttpStatus.CREATED)
-					.body(SuccessResponse.of(AuthSuccessType.SIGN_UP_SUCCESS, responseDTO));
-		}
-		return ResponseEntity.ok().body(SuccessResponse.of(AuthSuccessType.LOGIN_SUCCESS, responseDTO));
-	}
+    MemberSignUpVO vo =
+        authServiceProvider
+            .getAuthService(platformType)
+            .saveMemberOrLogin(authorizationCode, request);
+    MemberAuthResponseDTO responseDTO = jwtService.issueToken(vo);
+    if (responseDTO.authType().equals(AuthType.SIGN_UP)) {
+      return ResponseEntity.status(HttpStatus.CREATED)
+          .body(SuccessResponse.of(AuthSuccessType.SIGN_UP_SUCCESS, responseDTO));
+    }
+    return ResponseEntity.ok().body(SuccessResponse.of(AuthSuccessType.LOGIN_SUCCESS, responseDTO));
+  }
 
-	@Override
-	@PostMapping("/reissue")
-	public ResponseEntity<SuccessResponse<MemberReissueResponseDTO>> reissue(
-			HttpServletRequest request) {
-		MemberReissueResponseDTO memberReissueResponseDTO = jwtService.reissueToken(request);
-		return ResponseEntity.ok()
-				.body(SuccessResponse.of(AuthSuccessType.REISSUE_SUCCESS, memberReissueResponseDTO));
-	}
+  @Override
+  @PostMapping("/reissue")
+  public ResponseEntity<SuccessResponse<MemberReissueResponseDTO>> reissue(
+      HttpServletRequest request) {
+    MemberReissueResponseDTO memberReissueResponseDTO = jwtService.reissueToken(request);
+    return ResponseEntity.ok()
+        .body(SuccessResponse.of(AuthSuccessType.REISSUE_SUCCESS, memberReissueResponseDTO));
+  }
 
-	@GetMapping("/error")
-	public String error() {
-		throw new BusinessException(CommonErrorType.INTERNAL_SERVER_ERROR);
-	}
+  @GetMapping("/error")
+  public String error() {
+    throw new BusinessException(CommonErrorType.INTERNAL_SERVER_ERROR);
+  }
 }

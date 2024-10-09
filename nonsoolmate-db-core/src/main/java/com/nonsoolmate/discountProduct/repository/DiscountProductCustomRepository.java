@@ -6,5 +6,5 @@ import com.nonsoolmate.discountProduct.entity.DiscountProduct;
 import com.nonsoolmate.product.entity.Product;
 
 public interface DiscountProductCustomRepository {
-	List<DiscountProduct> findAllByProductIdAndDiscountIsContinuous(Product product);
+  List<DiscountProduct> findAllByProductIdAndDiscountIsContinuous(Product product);
 }

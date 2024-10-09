@@ -10,11 +10,11 @@ import com.nonsoolmate.matching.entity.Matching;
 
 public interface MatchingRepository extends JpaRepository<Matching, Long> {
 
-	@Query(
-			"SELECT m "
-					+ "FROM Matching m "
-					+ "JOIN FETCH m.member "
-					+ "LEFT JOIN FETCH m.teacher "
-					+ "WHERE m.member.memberId = :memberId")
-	Optional<Matching> findByMemberIdWithTeacherAndMember(@Param("memberId") String memberId);
+  @Query(
+      "SELECT m "
+          + "FROM Matching m "
+          + "JOIN FETCH m.member "
+          + "LEFT JOIN FETCH m.teacher "
+          + "WHERE m.member.memberId = :memberId")
+  Optional<Matching> findByMemberIdWithTeacherAndMember(@Param("memberId") String memberId);
 }

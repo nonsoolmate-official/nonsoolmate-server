@@ -14,17 +14,17 @@ import com.nonsoolmate.university.entity.University;
 @Getter
 public class TeacherUniversity {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long teacherUniversityId;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long teacherUniversityId;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "teacher_id")
-	@NotNull
-	private Teacher teacher;
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "teacher_id")
+  @NotNull
+  private Teacher teacher;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "university_id")
-	@NotNull
-	private University university;
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "university_id")
+  @NotNull
+  private University university;
 }

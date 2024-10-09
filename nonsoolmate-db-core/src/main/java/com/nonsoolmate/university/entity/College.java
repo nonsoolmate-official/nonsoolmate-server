@@ -18,19 +18,19 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 public class College {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long collegeId;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long collegeId;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "university_id")
-	private University university;
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "university_id")
+  private University university;
 
-	@NotNull private String collegeName;
+  @NotNull private String collegeName;
 
-	@Builder
-	private College(University university, String collegeName) {
-		this.university = university;
-		this.collegeName = collegeName;
-	}
+  @Builder
+  private College(University university, String collegeName) {
+    this.university = university;
+    this.collegeName = collegeName;
+  }
 }

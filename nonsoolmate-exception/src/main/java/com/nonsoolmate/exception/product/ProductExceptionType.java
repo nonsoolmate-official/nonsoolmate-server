@@ -9,18 +9,18 @@ import com.nonsoolmate.exception.common.ExceptionType;
 
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public enum ProductExceptionType implements ExceptionType {
-	INVALID_PRODUCT_ID(HttpStatus.BAD_REQUEST, "유효한 상품 id가 아닙니다");
+  INVALID_PRODUCT_ID(HttpStatus.BAD_REQUEST, "유효한 상품 id가 아닙니다");
 
-	private final HttpStatus status;
-	private final String message;
+  private final HttpStatus status;
+  private final String message;
 
-	@Override
-	public HttpStatus status() {
-		return this.status;
-	}
+  @Override
+  public HttpStatus status() {
+    return this.status;
+  }
 
-	@Override
-	public String message() {
-		return this.message;
-	}
+  @Override
+  public String message() {
+    return this.message;
+  }
 }

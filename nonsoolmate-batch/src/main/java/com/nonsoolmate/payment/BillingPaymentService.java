@@ -32,96 +32,96 @@ import com.nonsoolmate.toss.service.TossPaymentService;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class BillingPaymentService {
-	private static final Long NO_COUPON_MEMBER_ID = null;
-	private static final double NOT_FIRST_PURCHASE_DISCOUNT_RATE = 0.0;
+  private static final Long NO_COUPON_MEMBER_ID = null;
+  private static final double NOT_FIRST_PURCHASE_DISCOUNT_RATE = 0.0;
 
-	private final BillingRepository billingRepository;
-	private final MemberRepository memberRepository;
-	private final ProductRepository productRepository;
-	private final DiscountProductRepository discountProductRepository;
-	private final TransactionDetailRepository transactionRepository;
-	private final CouponRepository couponRepository;
-	private final OrderRepository orderRepository;
+  private final BillingRepository billingRepository;
+  private final MemberRepository memberRepository;
+  private final ProductRepository productRepository;
+  private final DiscountProductRepository discountProductRepository;
+  private final TransactionDetailRepository transactionRepository;
+  private final CouponRepository couponRepository;
+  private final OrderRepository orderRepository;
 
-	private final TossPaymentService tossPaymentService;
+  private final TossPaymentService tossPaymentService;
 
-	@Async
-	@Transactional
-	public void processBillingPayment(Map<String, Membership> membershipMap, OrderDetail order) {
-		Member member = order.getMember();
-		Membership membership = membershipMap.get(member.getMemberId());
-		membership.validateMembershipStatus();
+  @Async
+  @Transactional
+  public void processBillingPayment(Map<String, Membership> membershipMap, OrderDetail order) {
+    Member member = order.getMember();
+    Membership membership = membershipMap.get(member.getMemberId());
+    membership.validateMembershipStatus();
 
-		String billingKey = getBillingKey(order.getMember().getMemberId());
-		String memberId = order.getMember().getMemberId();
+    String billingKey = getBillingKey(order.getMember().getMemberId());
+    String memberId = order.getMember().getMemberId();
 
-		if (order.getCouponMember() != null) {
-			CouponMember couponMember = order.getCouponMember();
-			Coupon coupon = couponRepository.findByCouponIdOrThrow(couponMember.getCouponId());
-			long couponAppliedAmount = coupon.getCouponAppliedAmount(order.getAmount());
-			order.updateAmount(couponAppliedAmount);
-			couponMember.updateIsUsed(true);
-		}
+    if (order.getCouponMember() != null) {
+      CouponMember couponMember = order.getCouponMember();
+      Coupon coupon = couponRepository.findByCouponIdOrThrow(couponMember.getCouponId());
+      long couponAppliedAmount = coupon.getCouponAppliedAmount(order.getAmount());
+      order.updateAmount(couponAppliedAmount);
+      couponMember.updateIsUsed(true);
+    }
 
-		tossPaymentService.requestBilling(billingKey, memberId, order);
+    tossPaymentService.requestBilling(billingKey, memberId, order);
 
-		MembershipType membershipType =
-				MembershipType.getMembershipType(order.getProduct().getProductName());
-		membership.updateMembershipType(membershipType);
+    MembershipType membershipType =
+        MembershipType.getMembershipType(order.getProduct().getProductName());
+    membership.updateMembershipType(membershipType);
 
-		// create next month order
-		createOrder(order.getProduct(), NO_COUPON_MEMBER_ID, memberId);
-	}
+    // create next month order
+    createOrder(order.getProduct(), NO_COUPON_MEMBER_ID, memberId);
+  }
 
-	private String getBillingKey(final String customerKey) {
-		Billing billing = billingRepository.findByCustomerIdOrThrow(customerKey);
-		return billing.getBillingKey();
-	}
+  private String getBillingKey(final String customerKey) {
+    Billing billing = billingRepository.findByCustomerIdOrThrow(customerKey);
+    return billing.getBillingKey();
+  }
 
-	private void createOrder(
-			final Product product, final Long couponMemberId, final String memberId) {
-		Member member = memberRepository.findByMemberIdOrThrow(memberId);
-		long discountedProductPrice = getDiscountedProductPrice(product.getProductId(), memberId);
+  private void createOrder(
+      final Product product, final Long couponMemberId, final String memberId) {
+    Member member = memberRepository.findByMemberIdOrThrow(memberId);
+    long discountedProductPrice = getDiscountedProductPrice(product.getProductId(), memberId);
 
-		OrderDetail order =
-				OrderDetail.builder()
-						.orderName(product.getProductName())
-						.member(member)
-						.product(product)
-						.amount(discountedProductPrice)
-						.build();
+    OrderDetail order =
+        OrderDetail.builder()
+            .orderName(product.getProductName())
+            .member(member)
+            .product(product)
+            .amount(discountedProductPrice)
+            .build();
 
-		orderRepository.save(order);
-	}
+    orderRepository.save(order);
+  }
 
-	private long getDiscountedProductPrice(final Long productId, final String memberId) {
-		Product product = productRepository.findByProductIdOrThrow(productId);
-		double discountedPrice = product.getPrice();
+  private long getDiscountedProductPrice(final Long productId, final String memberId) {
+    Product product = productRepository.findByProductIdOrThrow(productId);
+    double discountedPrice = product.getPrice();
 
-		List<DiscountProduct> discountProducts = discountProductRepository.findAllByProduct(product);
-		boolean isFirstPurchaseMember = isFirstPurchase(memberId);
+    List<DiscountProduct> discountProducts = discountProductRepository.findAllByProduct(product);
+    boolean isFirstPurchaseMember = isFirstPurchase(memberId);
 
-		for (DiscountProduct discountProduct : discountProducts) {
-			Discount discount = discountProduct.getDiscount();
-			double discountPercent = getDiscountPercent(discount, isFirstPurchaseMember);
-			discountedPrice *= (1.0 - discountPercent);
-		}
+    for (DiscountProduct discountProduct : discountProducts) {
+      Discount discount = discountProduct.getDiscount();
+      double discountPercent = getDiscountPercent(discount, isFirstPurchaseMember);
+      discountedPrice *= (1.0 - discountPercent);
+    }
 
-		return Math.round(discountedPrice);
-	}
+    return Math.round(discountedPrice);
+  }
 
-	private boolean isFirstPurchase(final String memberId) {
-		return !transactionRepository.existsByCustomerKey(memberId);
-	}
+  private boolean isFirstPurchase(final String memberId) {
+    return !transactionRepository.existsByCustomerKey(memberId);
+  }
 
-	private double getDiscountPercent(final Discount discount, final boolean isFirstPurchaseMember) {
-		switch (discount.getDiscountType()) {
-			case FIRST_PURCHASE:
-				return isFirstPurchaseMember
-						? discount.getDiscountRate()
-						: NOT_FIRST_PURCHASE_DISCOUNT_RATE;
-			default:
-				return discount.getDiscountRate();
-		}
-	}
+  private double getDiscountPercent(final Discount discount, final boolean isFirstPurchaseMember) {
+    switch (discount.getDiscountType()) {
+      case FIRST_PURCHASE:
+        return isFirstPurchaseMember
+            ? discount.getDiscountRate()
+            : NOT_FIRST_PURCHASE_DISCOUNT_RATE;
+      default:
+        return discount.getDiscountRate();
+    }
+  }
 }

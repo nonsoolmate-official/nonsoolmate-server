@@ -28,51 +28,51 @@ import com.nonsoolmate.university.entity.Exam;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(
-		uniqueConstraints = {
-			@UniqueConstraint(
-					name = "UK_EXAM_MEMBER_EDITING_TYPE",
-					columnNames = {"exam_id", "member_id", "editing_type"})
-		})
+    uniqueConstraints = {
+      @UniqueConstraint(
+          name = "UK_EXAM_MEMBER_EDITING_TYPE",
+          columnNames = {"exam_id", "member_id", "editing_type"})
+    })
 public class ExamRecord extends BaseTimeEntity {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long examRecordId;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long examRecordId;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "exam_id")
-	private Exam exam;
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "exam_id")
+  private Exam exam;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "member_id")
-	private Member member;
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "member_id")
+  private Member member;
 
-	@Enumerated(EnumType.STRING)
-	@NotNull
-	private ExamResultStatus examResultStatus;
+  @Enumerated(EnumType.STRING)
+  @NotNull
+  private ExamResultStatus examResultStatus;
 
-	@Enumerated(EnumType.STRING)
-	@NotNull
-	private EditingType editingType;
+  @Enumerated(EnumType.STRING)
+  @NotNull
+  private EditingType editingType;
 
-	private int timeTakeExam;
+  private int timeTakeExam;
 
-	@NotNull private String examRecordSheetFileName;
+  @NotNull private String examRecordSheetFileName;
 
-	private String examRecordResultFileName;
+  private String examRecordResultFileName;
 
-	@Builder
-	public ExamRecord(
-			final Exam exam,
-			final Member member,
-			final ExamResultStatus examResultStatus,
-			final EditingType editingType,
-			final int timeTakeExam,
-			final String examRecordSheetFileName) {
-		this.exam = exam;
-		this.member = member;
-		this.examResultStatus = examResultStatus;
-		this.editingType = editingType;
-		this.timeTakeExam = timeTakeExam;
-		this.examRecordSheetFileName = examRecordSheetFileName;
-	}
+  @Builder
+  public ExamRecord(
+      final Exam exam,
+      final Member member,
+      final ExamResultStatus examResultStatus,
+      final EditingType editingType,
+      final int timeTakeExam,
+      final String examRecordSheetFileName) {
+    this.exam = exam;
+    this.member = member;
+    this.examResultStatus = examResultStatus;
+    this.editingType = editingType;
+    this.timeTakeExam = timeTakeExam;
+    this.examRecordSheetFileName = examRecordSheetFileName;
+  }
 }

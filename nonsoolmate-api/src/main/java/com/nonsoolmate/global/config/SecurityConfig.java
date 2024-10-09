@@ -26,91 +26,91 @@ import io.swagger.v3.oas.models.PathItem.HttpMethod;
 @RequiredArgsConstructor
 public class SecurityConfig {
 
-	public static final String[] AUTH_WHITELIST = {
-		"/", "/error", "/favicon.ico", "/actuator/health", "/check/profile", "/products"
-	};
+  public static final String[] AUTH_WHITELIST = {
+    "/", "/error", "/favicon.ico", "/actuator/health", "/check/profile", "/products"
+  };
 
-	public static final String[] AUTH_WHITELIST_WILDCARD = {
-		"/webjars/**",
-		"/swagger-resources/**",
-		"/swagger-ui/**",
-		"/v3/api-docs/**",
-		"/webjars/**",
-		"/auth/**",
-		"/login/**",
-		"/css/**",
-		"/images/**",
-		"/js/**",
-		"/h2-console/**",
-	};
+  public static final String[] AUTH_WHITELIST_WILDCARD = {
+    "/webjars/**",
+    "/swagger-resources/**",
+    "/swagger-ui/**",
+    "/v3/api-docs/**",
+    "/webjars/**",
+    "/auth/**",
+    "/login/**",
+    "/css/**",
+    "/images/**",
+    "/js/**",
+    "/h2-console/**",
+  };
 
-	@Value("${spring.web.origin.server}")
-	private String serverOrigin;
+  @Value("${spring.web.origin.server}")
+  private String serverOrigin;
 
-	@Value("${spring.web.origin.server-test}")
-	private String serverTestOrigin;
+  @Value("${spring.web.origin.server-test}")
+  private String serverTestOrigin;
 
-	@Value("${spring.web.origin.client}")
-	private String clientOrigin;
+  @Value("${spring.web.origin.client}")
+  private String clientOrigin;
 
-	@Value("${spring.web.origin.client-test}")
-	private String clientTestOrigin;
+  @Value("${spring.web.origin.client-test}")
+  private String clientTestOrigin;
 
-	@Value("${spring.web.origin.client-local}")
-	private String clientLocalOrigin;
+  @Value("${spring.web.origin.client-local}")
+  private String clientLocalOrigin;
 
-	private final JwtAuthenticationFilter jwtAuthenticationFilter;
-	private final JwtExceptionFilter jwtExceptionFilter;
+  private final JwtAuthenticationFilter jwtAuthenticationFilter;
+  private final JwtExceptionFilter jwtExceptionFilter;
 
-	@Bean
-	public WebMvcConfigurer corsConfigurer() {
-		return new WebMvcConfigurer() {
-			@Override
-			public void addCorsMappings(CorsRegistry registry) {
-				registry
-						.addMapping("/**")
-						.allowedOrigins(
-								serverOrigin, serverTestOrigin, clientOrigin, clientTestOrigin, clientLocalOrigin)
-						.allowedOriginPatterns(
-								serverOrigin, serverTestOrigin, clientOrigin, clientTestOrigin, clientLocalOrigin)
-						.allowedHeaders("*")
-						.allowedMethods(
-								HttpMethod.GET.name(),
-								HttpMethod.POST.name(),
-								HttpMethod.PUT.name(),
-								HttpMethod.PATCH.name());
-			}
-		};
-	}
+  @Bean
+  public WebMvcConfigurer corsConfigurer() {
+    return new WebMvcConfigurer() {
+      @Override
+      public void addCorsMappings(CorsRegistry registry) {
+        registry
+            .addMapping("/**")
+            .allowedOrigins(
+                serverOrigin, serverTestOrigin, clientOrigin, clientTestOrigin, clientLocalOrigin)
+            .allowedOriginPatterns(
+                serverOrigin, serverTestOrigin, clientOrigin, clientTestOrigin, clientLocalOrigin)
+            .allowedHeaders("*")
+            .allowedMethods(
+                HttpMethod.GET.name(),
+                HttpMethod.POST.name(),
+                HttpMethod.PUT.name(),
+                HttpMethod.PATCH.name());
+      }
+    };
+  }
 
-	@Bean
-	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+  @Bean
+  public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
-		http.csrf(AbstractHttpConfigurer::disable)
-				.formLogin(AbstractHttpConfigurer::disable)
-				.httpBasic(AbstractHttpConfigurer::disable)
-				.sessionManagement(
-						session -> {
-							session.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-						})
-				.headers(
-						(headerConfig) ->
-								headerConfig.frameOptions(frameOptionsConfig -> frameOptionsConfig.disable()));
+    http.csrf(AbstractHttpConfigurer::disable)
+        .formLogin(AbstractHttpConfigurer::disable)
+        .httpBasic(AbstractHttpConfigurer::disable)
+        .sessionManagement(
+            session -> {
+              session.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+            })
+        .headers(
+            (headerConfig) ->
+                headerConfig.frameOptions(frameOptionsConfig -> frameOptionsConfig.disable()));
 
-		http.authorizeHttpRequests(
-						auth -> {
-							auth.requestMatchers(AUTH_WHITELIST).permitAll();
-							auth.requestMatchers(AUTH_WHITELIST_WILDCARD).permitAll();
-							auth.anyRequest().authenticated();
-						})
-				.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
-				.addFilterBefore(jwtExceptionFilter, JwtAuthenticationFilter.class);
+    http.authorizeHttpRequests(
+            auth -> {
+              auth.requestMatchers(AUTH_WHITELIST).permitAll();
+              auth.requestMatchers(AUTH_WHITELIST_WILDCARD).permitAll();
+              auth.anyRequest().authenticated();
+            })
+        .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+        .addFilterBefore(jwtExceptionFilter, JwtAuthenticationFilter.class);
 
-		return http.build();
-	}
+    return http.build();
+  }
 
-	@Bean
-	public PasswordEncoder passwordEncoder() {
-		return PasswordEncoderFactories.createDelegatingPasswordEncoder();
-	}
+  @Bean
+  public PasswordEncoder passwordEncoder() {
+    return PasswordEncoderFactories.createDelegatingPasswordEncoder();
+  }
 }
