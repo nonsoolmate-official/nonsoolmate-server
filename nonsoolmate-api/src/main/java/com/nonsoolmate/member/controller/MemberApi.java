@@ -39,13 +39,22 @@ public interface MemberApi {
 
 	@ApiResponses(
 			value = {
+				@ApiResponse(responseCode = "200", description = "첨삭 선생님이 아직 매칭되지 않았습니다."),
 				@ApiResponse(responseCode = "200", description = "첨삭 선생님 조회에 성공했습니다."),
 				@ApiResponse(
 						responseCode = "204",
 						description = "매칭된 첨삭 선생님이 존재하지 않습니다.",
 						content = @Content)
 			})
-	@Operation(summary = "내 첨삭 선생님 조회", description = "내 첨삭 선생님을 조회합니다.")
+	@Operation(
+			summary = "내 첨삭 선생님 조회",
+			description =
+					"""
+				내 첨삭 선생님을 조회합니다. \n
+				1. 결제 하지 않은 경우 : 204 응답 \n
+				2. 결제는 했으나 첨삭 선생님이 매칭되지 않은 경우 : isMatched = false \n
+				3. 결제를 했고, 첨삭 선생님이 매칭된 경우 : isMatched = true \n
+				""")
 	ResponseEntity<TeacherResponseDTO> getMyTeacher(
 			@Parameter(hidden = true) @AuthMember String memberId);
 }
