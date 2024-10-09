@@ -11,6 +11,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import org.hibernate.annotations.ColumnDefault;
+
 import com.nonsoolmate.common.BaseTimeEntity;
 
 @Entity
@@ -26,7 +28,13 @@ public class CouponMember extends BaseTimeEntity {
 
 	@NotNull private Long couponId;
 
-	@NotNull private Boolean isUsed;
+	@ColumnDefault("false")
+	@NotNull
+	private Boolean toBeUsed;
+
+	@ColumnDefault("false")
+	@NotNull
+	private Boolean isUsed;
 
 	@Builder
 	private CouponMember(String memberId, Long couponId, Boolean isUsed) {
