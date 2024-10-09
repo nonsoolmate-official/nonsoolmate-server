@@ -1,5 +1,7 @@
 package com.nonsoolmate.product.controller;
 
+import java.util.List;
+
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.http.ResponseEntity;
@@ -22,6 +24,12 @@ public class ProductController implements ProductApi {
 	public ResponseEntity<ProductResponseDTO> getProduct(
 			@PathVariable("productId") final Long productId, @AuthMember final String memberId) {
 		ProductResponseDTO response = productService.getProduct(productId, memberId);
+		return ResponseEntity.ok(response);
+	}
+
+	@GetMapping("")
+	public ResponseEntity<List<ProductResponseDTO>> getProducts() {
+		List<ProductResponseDTO> response = productService.getProducts();
 		return ResponseEntity.ok(response);
 	}
 }
