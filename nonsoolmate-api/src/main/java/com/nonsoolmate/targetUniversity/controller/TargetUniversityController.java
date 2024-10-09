@@ -32,8 +32,8 @@ public class TargetUniversityController implements TargetUniversityApi {
 		return ResponseEntity.ok().body(targetUniversityService.getTargetUniversities());
 	}
 
-	@PatchMapping("/select")
 	@Override
+	@PatchMapping
 	public ResponseEntity<Void> patchTargetUniversities(
 			@AuthMember final String memberId,
 			@Valid @RequestBody final List<TargetUniversityRequestDTO> universityIds) {

@@ -2,6 +2,8 @@ package com.nonsoolmate.targetUniversity.controller;
 
 import java.util.List;
 
+import jakarta.validation.Valid;
+
 import org.springframework.http.ResponseEntity;
 
 import com.nonsoolmate.global.security.AuthMember;
@@ -31,5 +33,5 @@ public interface TargetUniversityApi {
 			})
 	@Operation(summary = "목표 대학 설정: 리스트 선택", description = "내 목표 대학들 리스트를 설정합니다.")
 	ResponseEntity<Void> patchTargetUniversities(
-			@Parameter(hidden = true) String memberId, List<TargetUniversityRequestDTO> request);
+			@Parameter(hidden = true) String memberId, @Valid List<TargetUniversityRequestDTO> request);
 }
