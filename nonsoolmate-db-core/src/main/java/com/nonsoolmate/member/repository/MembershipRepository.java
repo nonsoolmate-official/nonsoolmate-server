@@ -1,6 +1,6 @@
 package com.nonsoolmate.member.repository;
 
-import static com.nonsoolmate.exception.member.MembershipExceptionType.NOT_FOUND_MEMBERSHIP_TYPE;
+import static com.nonsoolmate.exception.member.MembershipExceptionType.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -26,7 +26,7 @@ public interface MembershipRepository extends JpaRepository<Membership, Long> {
   Optional<Membership> findByMember(final Member member);
 
   default Membership findByMemberOrThrow(Member member) {
-    return findByMember(member).orElseThrow(() -> new MemberException(NOT_FOUND_MEMBERSHIP_TYPE));
+    return findByMember(member).orElseThrow(() -> new MemberException(NOT_FOUND_MEMBERSHIP));
   }
 
   List<Membership> findAllByStatusAndMemberIn(
