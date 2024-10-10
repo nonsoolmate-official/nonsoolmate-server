@@ -1,5 +1,7 @@
 package com.nonsoolmate.payment.service;
 
+import java.util.Optional;
+
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.stereotype.Service;
@@ -23,9 +25,13 @@ public class BillingService {
   private final TossPaymentService tossPaymentService;
 
   public CardResponseDTO getCard(final String memberId) {
-    Billing billing = billingRepository.findByCustomerIdOrThrow(memberId);
-    return CardResponseDTO.of(
-        billing.getBillingId(), billing.getCardCompany(), billing.getCardNumber());
+    Billing billing = billingRepository.findByCustomerMemberId(memberId).orElse(null);
+    boolean hasCard = Optional.ofNullable(billing).isPresent();
+    if (hasCard) {
+      return CardResponseDTO.of(
+          billing.getBillingId(), billing.getCardCompany(), billing.getCardNumber());
+    }
+    return null;
   }
 
   @Transactional
