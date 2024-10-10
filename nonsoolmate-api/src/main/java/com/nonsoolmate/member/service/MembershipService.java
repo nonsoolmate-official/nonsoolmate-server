@@ -14,8 +14,10 @@ import com.nonsoolmate.coupon.repository.CouponRepository;
 import com.nonsoolmate.discount.controller.dto.DiscountResponseDTO;
 import com.nonsoolmate.discountProduct.entity.DiscountProduct;
 import com.nonsoolmate.discountProduct.repository.DiscountProductRepository;
+import com.nonsoolmate.member.controller.dto.request.MembershipStatusRequestDTO;
 import com.nonsoolmate.member.controller.dto.response.GetUsedCouponResponseDTO;
 import com.nonsoolmate.member.controller.dto.response.MembershipAndTicketResponseDTO;
+import com.nonsoolmate.member.controller.dto.response.MembershipStatusResponseDTO;
 import com.nonsoolmate.member.controller.dto.response.PaymentInfoResponseDTO;
 import com.nonsoolmate.member.entity.Member;
 import com.nonsoolmate.member.entity.Membership;
@@ -115,5 +117,17 @@ public class MembershipService {
             discountResponseDTOs,
             totalDiscountPrice,
             totalPrice));
+  }
+
+  public MembershipStatusResponseDTO changeMembershipStatus(
+      final String memberId, final MembershipStatusRequestDTO request) {
+    Member member = memberRepository.findByMemberIdOrThrow(memberId);
+    Membership membership = membershipRepository.findByMemberOrThrow(member);
+    membership.changeMembershipStatus(request.status());
+    return MembershipStatusResponseDTO.of(
+        membership.getStatus(),
+        membership.getMembershipType().getDescription(),
+        membership.getStartDate(),
+        membership.getEndDate());
   }
 }
