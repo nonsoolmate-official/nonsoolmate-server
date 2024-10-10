@@ -1,9 +1,13 @@
 package com.nonsoolmate.member.controller;
 
+import jakarta.validation.Valid;
+
 import org.springframework.http.ResponseEntity;
 
 import com.nonsoolmate.global.security.AuthMember;
+import com.nonsoolmate.member.controller.dto.request.MembershipStatusRequestDTO;
 import com.nonsoolmate.member.controller.dto.response.MembershipAndTicketResponseDTO;
+import com.nonsoolmate.member.controller.dto.response.MembershipStatusResponseDTO;
 import com.nonsoolmate.member.controller.dto.response.PaymentInfoResponseDTO;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -23,4 +27,15 @@ public interface MembershipApi {
   @Operation(summary = "다음달 결제 정보", description = "다음달 결제 정보를 조회합니다.")
   ResponseEntity<PaymentInfoResponseDTO> getNextPaymentInfo(
       @Parameter(hidden = true) @AuthMember String memberId);
+
+  @ApiResponses(
+      value = {
+        @ApiResponse(responseCode = "200", description = "멤버십 상태 변경에 성공한 경우"),
+        @ApiResponse(responseCode = "404", description = "멤버십 구매를 하지 않았는데 상태 변경을 요청하는 경우")
+      })
+  @Operation(summary = "멤버십 상태 변경", description = "멤버십 상태를 변경합니다.")
+  ResponseEntity<MembershipStatusResponseDTO> changeMembershipStatus(
+      @Parameter(hidden = true) @AuthMember String memberId,
+      @Parameter(description = "멤버십 변경 요청 dto", required = true) @Valid
+          MembershipStatusRequestDTO request);
 }
