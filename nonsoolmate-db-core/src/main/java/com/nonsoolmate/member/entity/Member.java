@@ -98,8 +98,8 @@ public class Member extends BaseTimeEntity {
   }
 
   public void updateTicketCount(int reviewTicketCount, int reReviewTicketCount) {
-    this.reviewTicketCount += reviewTicketCount;
-    this.reReviewTicketCount += reReviewTicketCount;
+    this.reviewTicketCount = reviewTicketCount;
+    this.reReviewTicketCount = reReviewTicketCount;
   }
 
   public void updateMemberProfile(
