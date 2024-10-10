@@ -20,11 +20,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 public interface CardApi {
   @ApiResponses(
       value = {
-        @ApiResponse(responseCode = "200", description = "사용자 카드 정보 조회에 성공했습니다"),
-        @ApiResponse(
-            responseCode = "404",
-            description = "사용자가 카드를 등록하지 않았습니다",
-            content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
+        @ApiResponse(responseCode = "200", description = "사용자 등록한 카드 정보 조회에 성공한 경우"),
+        @ApiResponse(responseCode = "204", description = "사용자가 카드를 등록하지 않은 경우")
       })
   @Operation(summary = "카드 등록 페이지: 사용자 카드 정보 조회", description = "사용자가 이전에 등록한 카드 정보를 조회합니다")
   ResponseEntity<CardResponseDTO> getCard(@Parameter(hidden = true) @AuthMember String memberId);
