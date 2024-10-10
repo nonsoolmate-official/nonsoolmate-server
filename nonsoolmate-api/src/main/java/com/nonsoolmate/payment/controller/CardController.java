@@ -26,7 +26,11 @@ public class CardController implements CardApi {
   @GetMapping
   public ResponseEntity<CardResponseDTO> getCard(@AuthMember final String memberId) {
     CardResponseDTO response = billingService.getCard(memberId);
-    return ResponseEntity.ok(response);
+    boolean hasCard = response != null;
+    if (hasCard) {
+      return ResponseEntity.ok(response);
+    }
+    return ResponseEntity.noContent().build();
   }
 
   @PostMapping("/register")
