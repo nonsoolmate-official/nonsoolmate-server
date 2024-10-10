@@ -73,4 +73,8 @@ public class Membership extends BaseTimeEntity {
 
     return this.endDate.plusDays(DAY_1);
   }
+
+  public void changeMembershipStatus(MembershipStatus status) {
+    this.status = status;
+  }
 }
