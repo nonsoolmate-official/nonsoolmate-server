@@ -50,7 +50,8 @@ class BillingServiceTest {
     Member expectedMember = getExpectedMember();
     Billing expectedBilling = getExpectedBilling(expectedMember);
     CardResponseDTO expectedResponse = getExpectedCardResponseDTO(expectedBilling);
-    given(billingRepository.findByCustomerIdOrThrow(anyString())).willReturn(expectedBilling);
+    given(billingRepository.findByCustomerMemberId(anyString()))
+        .willReturn(Optional.of(expectedBilling));
 
     // when
     CardResponseDTO response = billingService.getCard(MEMBER_ID);
