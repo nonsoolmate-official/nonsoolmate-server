@@ -3,6 +3,8 @@ package com.nonsoolmate.payment.service;
 import static com.nonsoolmate.exception.payment.BillingExceptionType.*;
 import static org.mockito.BDDMockito.*;
 
+import java.util.Optional;
+
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -61,13 +63,10 @@ class BillingServiceTest {
   @DisplayName("사용자가 카드를 등록하지 않은 경우")
   void getCardTestWhenMemberHasNotRegisteredCard() {
     // given
-    given(billingRepository.findByCustomerIdOrThrow(anyString()))
-        .willThrow(new BillingException(NOT_FOUND_BILLING));
+    given(billingRepository.findByCustomerMemberId(anyString())).willReturn(Optional.empty());
 
     // when, then
-    Assertions.assertThatThrownBy(() -> billingService.getCard(MEMBER_ID))
-        .isInstanceOf(BillingException.class)
-        .hasMessage(NOT_REGISTERED_CARD_EXCEPTION_MESSAGE);
+    Assertions.assertThat(billingService.getCard(MEMBER_ID)).isNull();
   }
 
   @Test
