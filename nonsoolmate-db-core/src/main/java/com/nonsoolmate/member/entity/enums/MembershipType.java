@@ -4,11 +4,13 @@ import static com.nonsoolmate.exception.member.MembershipExceptionType.*;
 
 import java.util.Arrays;
 
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 import com.nonsoolmate.exception.common.BusinessException;
 
 @RequiredArgsConstructor
+@Getter
 public enum MembershipType {
   NONE("멤버십 없음"),
   BASIC("베이직 플랜"),
