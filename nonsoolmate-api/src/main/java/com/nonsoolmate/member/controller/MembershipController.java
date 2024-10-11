@@ -58,4 +58,16 @@ public class MembershipController implements MembershipApi {
         membershipService.changeMembershipStatus(memberId, request);
     return ResponseEntity.ok().body(response);
   }
+
+  @Override
+  @GetMapping("")
+  public ResponseEntity<MembershipStatusResponseDTO> getMembership(
+      @AuthMember final String memberId) {
+    MembershipStatusResponseDTO response = membershipService.getMembership(memberId);
+    boolean isMembershipEmpty = response == null;
+    if (isMembershipEmpty) {
+      return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+    return ResponseEntity.ok().body(response);
+  }
 }
