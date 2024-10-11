@@ -5,9 +5,10 @@ import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import com.nonsoolmate.coupon.controller.dto.request.ApplyCouponRequestDTO;
 import com.nonsoolmate.coupon.controller.dto.request.IssueCouponRequestDTO;
+import com.nonsoolmate.coupon.controller.dto.request.RegisterCouponRequestDTO;
 import com.nonsoolmate.coupon.controller.dto.response.GetCouponsResponseDTO;
-import com.nonsoolmate.examRecord.controller.dto.request.RegisterCouponRequestDTO;
 import com.nonsoolmate.global.security.AuthMember;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -29,5 +30,10 @@ public interface CouponApi {
   @Operation(summary = "쿠폰 등록", description = "쿠폰을 등록합니다.")
   ResponseEntity<Void> registerCoupon(
       @RequestBody @Valid RegisterCouponRequestDTO requestDTO,
+      @Parameter(hidden = true) @AuthMember String memberId);
+
+  @Operation(summary = "쿠폰 사용", description = "쿠폰을 사용합니다.")
+  ResponseEntity<Void> applyCoupon(
+      @RequestBody @Valid ApplyCouponRequestDTO requestDTO,
       @Parameter(hidden = true) @AuthMember String memberId);
 }

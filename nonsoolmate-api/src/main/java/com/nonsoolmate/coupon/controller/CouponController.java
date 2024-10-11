@@ -12,11 +12,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.nonsoolmate.coupon.controller.dto.request.ApplyCouponRequestDTO;
 import com.nonsoolmate.coupon.controller.dto.request.IssueCouponRequestDTO;
+import com.nonsoolmate.coupon.controller.dto.request.RegisterCouponRequestDTO;
 import com.nonsoolmate.coupon.controller.dto.response.GetCouponsResponseDTO;
 import com.nonsoolmate.coupon.service.CouponService;
-import com.nonsoolmate.examRecord.controller.dto.request.RegisterCouponRequestDTO;
 import com.nonsoolmate.global.security.AuthMember;
+
+import io.swagger.v3.oas.annotations.Parameter;
 
 @RestController
 @RequiredArgsConstructor
@@ -47,5 +50,14 @@ public class CouponController implements CouponApi {
     couponService.registerCoupon(requestDTO, memberId);
 
     return ResponseEntity.status(HttpStatus.CREATED).build();
+  }
+
+  @Override
+  public ResponseEntity<Void> applyCoupon(
+      @RequestBody @Valid ApplyCouponRequestDTO requestDTO,
+      @Parameter(hidden = true) @AuthMember String memberId) {
+
+    couponService.applyCoupon(requestDTO, memberId);
+    return ResponseEntity.ok().build();
   }
 }
