@@ -15,6 +15,13 @@ public interface CouponMemberRepository
 
   Optional<CouponMember> findByCouponIdAndMemberId(Long couponId, String memberId);
 
+  Optional<CouponMember> findByCouponMemberIdAndToBeUsedFalseAndIsUsedFalse(Long couponId);
+
+  default CouponMember findByCouponMemberIdOrThrow(final Long couponMemberId) {
+    return findByCouponMemberIdAndToBeUsedFalseAndIsUsedFalse(couponMemberId)
+        .orElseThrow(() -> new CouponException(INVALID_COUPON));
+  }
+
   @Query(
       "SELECT cm FROM CouponMember cm WHERE cm.couponMemberId = :couponMemberId AND cm.memberId = :memberId")
   Optional<CouponMember> findCouponIdByCouponMemberIdAndMemberId(
