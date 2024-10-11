@@ -24,6 +24,8 @@ jobs:
           echo "${{ secrets.SECRET_PROPERTIES }}" > nonsoolmate-api/src/main/resources/application-secret.properties
           mkdir -p nonsoolmate-api/src/main/resources/key
           echo "${{ secrets.CLOUDFRONT_PRIVATE_KEY }}" > nonsoolmate-api/src/main/resources/key/cloudfront-private-key.pem
+          mkdir -p nonsoolmate-batch/src/main/resources
+          echo "${{ secrets.SECRET_PROPERTIES }}" > nonsoolmate-batch/src/main/resources/application-secret.properties
 
       - name: 빌드
         run: |
