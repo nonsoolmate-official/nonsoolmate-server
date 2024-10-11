@@ -51,6 +51,19 @@ public class MembershipService {
         member.getReReviewTicketCount());
   }
 
+  public MembershipStatusResponseDTO getMembership(final String memberId) {
+    Member member = memberRepository.findByMemberIdOrThrow(memberId);
+    Membership membership = membershipRepository.findByMember(member).orElse(null);
+    if (membership == null) {
+      return null;
+    }
+    return MembershipStatusResponseDTO.of(
+        membership.getStatus(),
+        membership.getMembershipType().getDescription(),
+        membership.getStartDate(),
+        membership.getEndDate());
+  }
+
   private MembershipType getMembershipType(final Member member) {
     MembershipType membershipType = membershipRepository.findMembershipTypeOrThrowNull(member);
     boolean existMembership = membershipType != null;
