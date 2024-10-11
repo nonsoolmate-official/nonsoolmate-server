@@ -1,4 +1,4 @@
-package com.nonsoolmate.payment;
+package com.nonsoolmate.service;
 
 import java.util.Map;
 
@@ -15,7 +15,6 @@ import com.nonsoolmate.member.entity.Member;
 import com.nonsoolmate.member.entity.Membership;
 import com.nonsoolmate.member.entity.enums.MembershipType;
 import com.nonsoolmate.order.entity.OrderDetail;
-import com.nonsoolmate.service.PaymentCommonService;
 import com.nonsoolmate.toss.service.TossPaymentService;
 
 @Service
