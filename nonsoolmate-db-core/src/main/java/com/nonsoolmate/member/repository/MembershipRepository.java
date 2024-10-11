@@ -31,4 +31,8 @@ public interface MembershipRepository extends JpaRepository<Membership, Long> {
 
   List<Membership> findAllByStatusAndMemberIn(
       MembershipStatus membershipStatus, List<Member> members);
+
+  @Query(
+      "SELECT m.membershipId FROM Membership m WHERE m.status = 'TERMINATED' AND m.endDate < CURRENT_DATE")
+  List<Long> findExpiredMembershipIds();
 }
