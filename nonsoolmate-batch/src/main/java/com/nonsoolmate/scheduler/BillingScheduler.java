@@ -1,4 +1,4 @@
-package com.nonsoolmate.payment;
+package com.nonsoolmate.scheduler;
 
 import java.util.List;
 import java.util.Map;
@@ -16,6 +16,7 @@ import com.nonsoolmate.member.entity.enums.MembershipStatus;
 import com.nonsoolmate.member.repository.MembershipRepository;
 import com.nonsoolmate.order.entity.OrderDetail;
 import com.nonsoolmate.order.repository.OrderRepository;
+import com.nonsoolmate.service.BillingPaymentService;
 
 @Service
 @RequiredArgsConstructor
