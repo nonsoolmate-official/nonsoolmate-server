@@ -1,4 +1,4 @@
-package com.nonsoolmate.examRecord.controller.dto.request;
+package com.nonsoolmate.coupon.controller.dto.request;
 
 import jakarta.validation.constraints.NotNull;
 
