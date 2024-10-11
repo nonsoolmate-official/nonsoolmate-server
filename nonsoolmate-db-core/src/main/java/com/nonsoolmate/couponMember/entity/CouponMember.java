@@ -46,4 +46,8 @@ public class CouponMember extends BaseTimeEntity {
   public void updateIsUsed(Boolean isUsed) {
     this.isUsed = isUsed;
   }
+
+  public void updateToBeUsed(Boolean toBeUsed) {
+    this.toBeUsed = toBeUsed;
+  }
 }

@@ -67,4 +67,8 @@ public class OrderDetail extends BaseTimeEntity {
   public void updateAmount(long amount) {
     this.amount = amount;
   }
+
+  public void updateCouponMember(CouponMember couponMember) {
+    this.couponMember = couponMember;
+  }
 }

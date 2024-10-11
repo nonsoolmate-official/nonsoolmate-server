@@ -12,15 +12,20 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.nonsoolmate.common.random.CustomRandom;
+import com.nonsoolmate.coupon.controller.dto.request.ApplyCouponRequestDTO;
 import com.nonsoolmate.coupon.controller.dto.request.IssueCouponRequestDTO;
+import com.nonsoolmate.coupon.controller.dto.request.RegisterCouponRequestDTO;
 import com.nonsoolmate.coupon.controller.dto.response.GetCouponsResponseDTO;
 import com.nonsoolmate.coupon.entity.Coupon;
 import com.nonsoolmate.coupon.repository.CouponRepository;
 import com.nonsoolmate.couponMember.entity.CouponMember;
 import com.nonsoolmate.couponMember.repository.CouponMemberRepository;
 import com.nonsoolmate.couponMember.repository.dto.CouponResponseDTO;
-import com.nonsoolmate.examRecord.controller.dto.request.RegisterCouponRequestDTO;
 import com.nonsoolmate.exception.coupon.CouponException;
+import com.nonsoolmate.member.entity.Member;
+import com.nonsoolmate.member.repository.MemberRepository;
+import com.nonsoolmate.order.entity.OrderDetail;
+import com.nonsoolmate.order.repository.OrderRepository;
 
 @Service
 @RequiredArgsConstructor
@@ -28,6 +33,8 @@ import com.nonsoolmate.exception.coupon.CouponException;
 public class CouponService {
   private final CouponRepository couponRepository;
   private final CouponMemberRepository couponMemberRepository;
+  private final OrderRepository orderRepository;
+  private final MemberRepository memberRepository;
 
   private final CustomRandom customRandom;
 
@@ -71,6 +78,19 @@ public class CouponService {
 
     CouponMember couponMember = createCouponMember(memberId, coupon);
     couponMemberRepository.save(couponMember);
+  }
+
+  @Transactional
+  public void applyCoupon(ApplyCouponRequestDTO requestDTO, String memberId) {
+
+    CouponMember couponMember =
+        couponMemberRepository.findByCouponMemberIdOrThrow(requestDTO.couponMemberId());
+    couponMember.updateToBeUsed(true);
+
+    Member member = memberRepository.findByMemberIdOrThrow(memberId);
+
+    OrderDetail order = orderRepository.findByMemberOrThrow(member);
+    order.updateCouponMember(couponMember);
   }
 
   private CouponMember createCouponMember(String memberId, Coupon coupon) {
