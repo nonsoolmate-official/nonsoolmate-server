@@ -1,0 +1,8 @@
+rootProject.name = 'nonsoolmate'
+
+include 'nonsoolmate-api'
+include 'nonsoolmate-common'
+include 'nonsoolmate-db-core'
+include 'nonsoolmate-external'
+include 'nonsoolmate-batch'
+include 'nonsoolmate-exception'

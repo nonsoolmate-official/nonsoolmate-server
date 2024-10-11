@@ -1,0 +1,77 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.2.1'
+    id 'io.spring.dependency-management' version '1.1.4'
+    id 'com.diffplug.spotless' version '6.23.3'
+}
+
+allprojects {
+    group = 'com.nonsoolmate'
+    version = '0.0.1-SNAPSHOT'
+    sourceCompatibility = '17'
+
+    repositories {
+        mavenCentral()
+    }
+}
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+subprojects {
+    apply plugin: 'java'
+    apply plugin: 'org.springframework.boot'
+    apply plugin: 'io.spring.dependency-management'
+
+    dependencies {
+        // lombok
+        compileOnly 'org.projectlombok:lombok'
+        annotationProcessor 'org.projectlombok:lombok'
+
+        // test
+        testImplementation 'org.springframework.boot:spring-boot-starter-test'
+        testCompileOnly 'org.projectlombok:lombok'
+        testAnnotationProcessor 'org.projectlombok:lombok'
+    }
+
+    tasks.named('test') {
+        useJUnitPlatform()
+    }
+}
+
+bootJar {
+    enabled = false
+}
+jar {
+    enabled = true
+}
+
+ext.googleJavaFormatVersion = "1.18.1"
+
+spotless {
+    java {
+        target("**/*.java")
+        googleJavaFormat("$googleJavaFormatVersion")
+        importOrder('java', 'javax', 'jakarta', 'lombok', 'org', 'com')
+        removeUnusedImports()
+        trimTrailingWhitespace()
+        endWithNewline()
+    }
+}
+
+tasks.register('updateGitHooks', Copy) {
+    from '.github/script/pre-commit'
+    into '.git/hooks'
+}
+
+tasks.register('makeGitHooksExecutable', Exec) {
+    commandLine 'chmod', '+x', '.git/hooks/pre-commit'
+    dependsOn 'updateGitHooks'
+}
+
+tasks.named('compileJava') {
+    dependsOn 'makeGitHooksExecutable'
+}

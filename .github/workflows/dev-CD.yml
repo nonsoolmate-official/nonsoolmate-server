@@ -7,8 +7,6 @@ on:
 jobs:
   dev-ci:
     runs-on: ubuntu-22.04
-    env:
-      working-directory: nonsoolmateServer
 
     steps:
       - name: 체크아웃
@@ -22,18 +20,17 @@ jobs:
 
       - name: resources 폴더 내 파일 생성
         run: |
-          mkdir -p src/main/resources
-          echo "${{ secrets.SECRET_PROPERTIES }}" > src/main/resources/application-secret.properties
-          mkdir -p src/main/resources/key
-          echo "${{ secrets.CLOUDFRONT_PRIVATE_KEY }}" > src/main/resources/key/cloudfront-private-key.pem
-          ls src/main/resources/key
-        working-directory: ${{ env.working-directory }}
+          mkdir -p nonsoolmate-api/src/main/resources
+          echo "${{ secrets.SECRET_PROPERTIES }}" > nonsoolmate-api/src/main/resources/application-secret.properties
+          mkdir -p nonsoolmate-api/src/main/resources/key
+          echo "${{ secrets.CLOUDFRONT_PRIVATE_KEY }}" > nonsoolmate-api/src/main/resources/key/cloudfront-private-key.pem
+          mkdir -p nonsoolmate-batch/src/main/resources
+          echo "${{ secrets.SECRET_PROPERTIES }}" > nonsoolmate-batch/src/main/resources/application-secret.properties
 
       - name: 빌드
         run: |
           chmod +x gradlew
           ./gradlew build
-        working-directory: ${{ env.working-directory }}
         shell: bash
 
       - name: docker build 가능하도록 환경 설정
@@ -47,9 +44,9 @@ jobs:
 
       - name: docker image 빌드 및 푸시
         run: |
+          cd nonsoolmate-api
           docker build --platform linux/amd64 -t nonsoolmate/nonsoolmate-server --build-arg SPRING_PROFILES_ACTIVE=dev .
           docker push nonsoolmate/nonsoolmate-server
-        working-directory: ${{ env.working-directory }}
 
   dev-cd:
     needs: dev-ci

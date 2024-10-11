@@ -1,0 +1,14 @@
+dependencies {
+    implementation project(":nonsoolmate-exception")
+    implementation project(":nonsoolmate-db-core")
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+}
+
+bootJar {
+    enabled = false
+}
+
+jar {
+    enabled = true
+}
