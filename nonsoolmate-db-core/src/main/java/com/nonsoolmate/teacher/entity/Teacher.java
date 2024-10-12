@@ -24,4 +24,6 @@ public class Teacher {
   @NotNull private String teacherProfileImageUrl;
 
   @NotNull private String introduction;
+
+  @NotNull private boolean isCertified;
 }
