@@ -14,19 +14,21 @@ public record MembershipStatusResponseDTO(
             example = "IN_PROGRESS")
         MembershipStatus status,
     @Schema(description = "멤버십 이름", example = "베이직 플랜") String membershipName,
-    @Schema(description = "멤버십 이용 기간", example = "2024.10.01 ~ 2024.10.28")
-        String membershipUsingDate) {
+    @Schema(description = "멤버십 시작 기간", example = "2024.10.01") String startDate,
+    @Schema(description = "멤버십 종료 기간", example = "2024.10.28") String endDate) {
   public static MembershipStatusResponseDTO of(
       final MembershipStatus status,
       final String membershipName,
       final LocalDateTime startDate,
       final LocalDateTime endDate) {
-    String membershipUsingDate = dateFormating(startDate, endDate);
-    return new MembershipStatusResponseDTO(status, membershipName, membershipUsingDate);
+    String formattedStartDate = dateFormating(startDate);
+    String formattedEndDate = dateFormating(endDate);
+    return new MembershipStatusResponseDTO(
+        status, membershipName, formattedStartDate, formattedEndDate);
   }
 
-  private static String dateFormating(LocalDateTime startDate, LocalDateTime endDate) {
+  private static String dateFormating(LocalDateTime date) {
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd");
-    return startDate.format(formatter) + " ~ " + endDate.format(formatter);
+    return date.format(formatter);
   }
 }
