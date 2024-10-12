@@ -47,6 +47,7 @@ public class MembershipService {
     return MembershipAndTicketResponseDTO.of(
         member.getName(),
         membershipType,
+        member.getGender(),
         member.getReviewTicketCount(),
         member.getReReviewTicketCount());
   }

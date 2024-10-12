@@ -8,15 +8,17 @@ import io.swagger.v3.oas.annotations.media.Schema;
 public record MembershipAndTicketResponseDTO(
     @Schema(description = "멤버 이름", example = "류가은") String memberName,
     @Schema(description = "멤버십 유형", example = "BASIC") MembershipType membershipType,
+    @Schema(description = "멤버 성별 (남자: M, 여자: F, 선택안함: null", example = "M") String gender,
     @Schema(description = "사용자 첨삭권 개수", example = "5") int reviewTicketCount,
     @Schema(description = "사용자 재첨삭권 개수", example = "5") int reReviewticketCount) {
   public static MembershipAndTicketResponseDTO of(
       final String memberName,
       final MembershipType membershipType,
+      final String gender,
       final int reviewTicketCount,
       final int reReviewticketCount) {
 
     return new MembershipAndTicketResponseDTO(
-        memberName, membershipType, reviewTicketCount, reReviewticketCount);
+        memberName, membershipType, gender, reviewTicketCount, reReviewticketCount);
   }
 }

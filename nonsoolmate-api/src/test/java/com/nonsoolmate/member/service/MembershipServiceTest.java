@@ -87,6 +87,7 @@ class MembershipServiceTest {
     return Member.builder()
         .email("testEmail")
         .name("testName")
+        .gender("M")
         .platformType(PlatformType.NAVER)
         .platformId("testPlatformId")
         .role(Role.USER)
@@ -96,6 +97,6 @@ class MembershipServiceTest {
 
   private MembershipAndTicketResponseDTO getExpectedMembershipAndTicketResponseDTO(
       MembershipType membershipType) {
-    return MembershipAndTicketResponseDTO.of(MEMBER_NAME, membershipType, 0, 0);
+    return MembershipAndTicketResponseDTO.of(MEMBER_NAME, membershipType, "M", 0, 0);
   }
 }
