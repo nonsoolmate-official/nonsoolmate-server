@@ -43,6 +43,18 @@ spring:
       host: redis
       port: 6379
 
+  mail:
+    host: smtp.naver.com
+    port: ${SMTP_PORT}
+    username: ${SMTP_USERNAME}
+    password: ${SMTP_PASSWORD}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
 aws-property:
   access-key: ${DEV_AWS_ACCESS_KEY}
   secret-key: ${DEV_AWS_SECRET_KEY}
