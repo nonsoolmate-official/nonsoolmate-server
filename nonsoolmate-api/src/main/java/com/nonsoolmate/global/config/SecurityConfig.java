@@ -101,6 +101,7 @@ public class SecurityConfig {
             auth -> {
               auth.requestMatchers(AUTH_WHITELIST).permitAll();
               auth.requestMatchers(AUTH_WHITELIST_WILDCARD).permitAll();
+              auth.requestMatchers("/college/exam-record/result").hasAuthority("ADMIN");
               auth.anyRequest().authenticated();
             })
         .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
