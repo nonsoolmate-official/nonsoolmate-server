@@ -75,4 +75,12 @@ public class ExamRecord extends BaseTimeEntity {
     this.timeTakeExam = timeTakeExam;
     this.examRecordSheetFileName = examRecordSheetFileName;
   }
+
+  public void updateExamRecordResultFileName(final String examRecordResultFileName) {
+    this.examRecordResultFileName = examRecordResultFileName;
+  }
+
+  public void updateExamResultStatus(ExamResultStatus examResultStatus) {
+    this.examResultStatus = examResultStatus;
+  }
 }
