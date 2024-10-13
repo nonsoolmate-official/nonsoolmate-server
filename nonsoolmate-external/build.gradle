@@ -18,6 +18,9 @@ dependencies {
     // webclient
     implementation 'org.springframework.boot:spring-boot-starter-webflux'
 
+    // mail
+    implementation 'org.springframework.boot:spring-boot-starter-mail'
+
     // spring
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
