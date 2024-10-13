@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.nonsoolmate.aws.service.CloudFrontService;
 import com.nonsoolmate.aws.service.S3Service;
 import com.nonsoolmate.examRecord.controller.dto.request.CreateExamRecordRequestDTO;
+import com.nonsoolmate.examRecord.controller.dto.request.UpdateExamRecordResultRequestDTO;
 import com.nonsoolmate.examRecord.controller.dto.response.EditingResultDTO;
 import com.nonsoolmate.examRecord.controller.dto.response.ExamRecordIdResponse;
 import com.nonsoolmate.examRecord.entity.ExamRecord;
@@ -86,6 +87,27 @@ public class ExamRecordService {
       s3Service.deleteFile(EXAM_SHEET_FOLDER_NAME, request.memberSheetFileName());
       throw new ExamRecordException(CREATE_EXAM_RECORD_FAIL);
     }
+  }
+
+  public EditingResultDTO updateExamRecordEditingResult(
+      final UpdateExamRecordResultRequestDTO request) {
+    ExamRecord examRecord =
+        examRecordRepository.findByExamAndMemberAndEditingTypeOrThrow(
+            request.examId(), request.editingType(), request.memberId());
+    examRecord.updateExamRecordResultFileName(request.examResultFileName());
+
+    boolean isReviewOngoing = examRecord.getExamResultStatus() == ExamResultStatus.REVIEW_ONGOING;
+
+    if (isReviewOngoing) {
+      examRecord.updateExamResultStatus(ExamResultStatus.REVIEW_FINISH);
+    } else {
+      examRecord.updateExamResultStatus(ExamResultStatus.RE_REVIEW_FINISH);
+    }
+
+    return EditingResultDTO.of(
+        request.editingType(),
+        examRecord.getExamResultStatus().getStatus(),
+        getExamResultFileUrl(examRecord.getExamRecordResultFileName()));
   }
 
   void validateExistEditingExamRecord(final Exam exam, final Member member) {
