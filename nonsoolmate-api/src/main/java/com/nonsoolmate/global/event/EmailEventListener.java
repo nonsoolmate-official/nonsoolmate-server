@@ -16,6 +16,7 @@ public class EmailEventListener {
   @Async
   @EventListener
   public void publishExamRecordStatusUpdatedEvent(ExamRecordStatusUpdatedEvent event) {
-    emailService.sendMessage(event.email());
+    emailService.sendMessageAboutExamRecordStatus(
+        event.email(), event.editingType(), event.examFullName());
   }
 }

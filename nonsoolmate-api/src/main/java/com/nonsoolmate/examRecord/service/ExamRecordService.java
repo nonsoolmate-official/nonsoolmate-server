@@ -109,11 +109,11 @@ public class ExamRecordService {
     }
 
     String email = examRecord.getMember().getEmail();
-    String status = examRecord.getExamResultStatus().getStatus();
+    String editingType = examRecord.getEditingType().getType();
     String examFullName = examRecord.getExam().getExamFullName();
 
     emailEventListener.publishExamRecordStatusUpdatedEvent(
-        ExamRecordStatusUpdatedEvent.of(email, status, examFullName));
+        ExamRecordStatusUpdatedEvent.of(email, editingType, examFullName));
 
     return EditingResultDTO.of(
         request.editingType(),
