@@ -24,6 +24,8 @@ import com.nonsoolmate.exception.aws.AWSClientException;
 import com.nonsoolmate.exception.examRecord.ExamRecordException;
 import com.nonsoolmate.exception.member.MemberException;
 import com.nonsoolmate.exception.university.ExamException;
+import com.nonsoolmate.global.event.EmailEventListener;
+import com.nonsoolmate.global.event.ExamRecordStatusUpdatedEvent;
 import com.nonsoolmate.member.entity.Member;
 import com.nonsoolmate.member.repository.MemberRepository;
 import com.nonsoolmate.university.entity.Exam;
@@ -40,6 +42,7 @@ public class ExamRecordService {
 
   private final CloudFrontService cloudFrontService;
   private final S3Service s3Service;
+  private final EmailEventListener emailEventListener;
 
   private static final String EXAM_RECORD_RESULT_FILE_NAME_EMPTY = "";
 
@@ -89,6 +92,7 @@ public class ExamRecordService {
     }
   }
 
+  @Transactional
   public EditingResultDTO updateExamRecordEditingResult(
       final UpdateExamRecordResultRequestDTO request) {
     ExamRecord examRecord =
@@ -103,6 +107,13 @@ public class ExamRecordService {
     } else {
       examRecord.updateExamResultStatus(ExamResultStatus.RE_REVIEW_FINISH);
     }
+
+    String email = examRecord.getMember().getEmail();
+    String status = examRecord.getExamResultStatus().getStatus();
+    String examFullName = examRecord.getExam().getExamFullName();
+
+    emailEventListener.publishExamRecordStatusUpdatedEvent(
+        ExamRecordStatusUpdatedEvent.of(email, status, examFullName));
 
     return EditingResultDTO.of(
         request.editingType(),
