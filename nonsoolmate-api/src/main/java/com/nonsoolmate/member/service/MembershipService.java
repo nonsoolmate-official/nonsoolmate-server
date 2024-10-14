@@ -133,6 +133,7 @@ public class MembershipService {
             totalPrice));
   }
 
+  @Transactional
   public MembershipStatusResponseDTO changeMembershipStatus(
       final String memberId, final MembershipStatusRequestDTO request) {
     Member member = memberRepository.findByMemberIdOrThrow(memberId);
