@@ -62,6 +62,7 @@ public class OrderDetail extends BaseTimeEntity {
     this.product = product;
     this.couponMember = couponMember;
     this.amount = amount;
+    this.isPayment = false;
   }
 
   public void updateAmount(long amount) {
