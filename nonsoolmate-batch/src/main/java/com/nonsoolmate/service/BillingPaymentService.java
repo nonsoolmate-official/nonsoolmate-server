@@ -48,6 +48,8 @@ public class BillingPaymentService {
 
     tossPaymentService.requestBilling(billingKey, memberId, order);
 
+    order.markAsPaid();
+
     MembershipType membershipType =
         MembershipType.getMembershipType(order.getProduct().getProductName());
     membership.updateMembershipType(membershipType);
