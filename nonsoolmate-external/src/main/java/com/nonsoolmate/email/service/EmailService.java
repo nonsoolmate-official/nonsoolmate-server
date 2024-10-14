@@ -7,21 +7,23 @@ import jakarta.mail.internet.MimeMessage;
 
 import lombok.RequiredArgsConstructor;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.spring6.SpringTemplateEngine;
 
-import com.nonsoolmate.email.config.EmailConfig;
 import com.nonsoolmate.exception.common.BusinessException;
 
 @Service
 @RequiredArgsConstructor
 public class EmailService {
   private final JavaMailSender mailSender;
-  private final EmailConfig emailConfig;
   private final SpringTemplateEngine templateEngine;
+
+  @Value("${spring.mail.username}")
+  private String fromEmail;
 
   private static final String SUBJECT_STRING_TEMPLATE = "☑️ %s %s이 완료되었습니다.";
 
@@ -33,7 +35,7 @@ public class EmailService {
       MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage, false, "UTF-8");
 
       messageHelper.setTo(email);
-      messageHelper.setFrom(emailConfig.getMailServerUsername());
+      messageHelper.setFrom(fromEmail);
 
       String subject = SUBJECT_STRING_TEMPLATE.formatted(examFullName, editingType);
       messageHelper.setSubject(subject);
