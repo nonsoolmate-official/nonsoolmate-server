@@ -71,6 +71,8 @@ public class PaymentService {
       couponMember.updateIsUsed(true);
     }
 
+    order.markAsPaid();
+
     Membership membership = membershipService.createMembership(memberId, product);
     Member member = membership.getMember();
     member.updateTicketCount(
