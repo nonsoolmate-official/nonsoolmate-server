@@ -1,5 +1,8 @@
 package com.nonsoolmate.email.service;
 
+import static com.nonsoolmate.exception.common.CommonErrorType.*;
+
+import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 
 import lombok.RequiredArgsConstructor;
@@ -7,14 +10,20 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
+import org.thymeleaf.context.Context;
+import org.thymeleaf.spring6.SpringTemplateEngine;
 
 import com.nonsoolmate.email.config.EmailConfig;
+import com.nonsoolmate.exception.common.BusinessException;
 
 @Service
 @RequiredArgsConstructor
 public class EmailService {
   private final JavaMailSender mailSender;
   private final EmailConfig emailConfig;
+  private final SpringTemplateEngine templateEngine;
+
+  private static final String SUBJECT_STRING_TEMPLATE = "☑️ %s %s이 완료되었습니다.";
 
   public void sendMessageAboutExamRecordStatus(
       String email, String editingType, String examFullName) {
@@ -26,38 +35,25 @@ public class EmailService {
       messageHelper.setTo(email);
       messageHelper.setFrom(emailConfig.getMailServerUsername());
 
-      // 메일의 제목 설정
-      String subject = "[논술메이트] " + examFullName + " " + editingType + "이 완료되었습니다.";
+      String subject = SUBJECT_STRING_TEMPLATE.formatted(examFullName, editingType);
       messageHelper.setSubject(subject);
 
-      // html 문법 적용한 메일의 내용
-      String content =
-          """
-                    <!DOCTYPE html>
-                    <html xmlns:th="http://www.thymeleaf.org">
-
-                    <body>
-                    <div style="margin:100px;">
-                        <h1> 테스트 메일 </h1>
-                        <br>
-
-
-                        <div align="center" style="border:1px solid black;">
-                            <h3> 테스트 메일 내용 </h3>
-                        </div>
-                        <br/>
-                    </div>
-
-                    </body>
-                    </html>
-                    """;
+      String content = buildEmailContent(editingType, examFullName);
 
       messageHelper.setText(content, true);
 
       mailSender.send(mimeMessage);
 
-    } catch (Exception e) {
-      throw new RuntimeException(e);
+    } catch (RuntimeException | MessagingException e) {
+      throw new BusinessException(EXTERNAL_SERVER_ERROR);
     }
+  }
+
+  public String buildEmailContent(String universityName, String examName) {
+    Context context = new Context();
+    context.setVariable("editingType", universityName);
+    context.setVariable("examFullName", examName);
+
+    return templateEngine.process("examRecordStatusTemplate", context);
   }
 }
