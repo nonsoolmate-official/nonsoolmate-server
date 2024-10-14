@@ -73,7 +73,7 @@ public class OrderDetail extends BaseTimeEntity {
     this.couponMember = couponMember;
   }
 
-  public void markAsPaid() {
-    this.isPayment = true;
+  public void updateIsPayment(boolean isPayment) {
+    this.isPayment = isPayment;
   }
 }
