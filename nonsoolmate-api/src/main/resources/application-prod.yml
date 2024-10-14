@@ -44,7 +44,7 @@ spring:
 
   mail:
     host: smtp.naver.com
-    port: ${SMTP_PORT }
+    port: ${SMTP_PORT}
     username: ${SMTP_USERNAME}
     password: ${SMTP_PASSWORD}
     properties:
