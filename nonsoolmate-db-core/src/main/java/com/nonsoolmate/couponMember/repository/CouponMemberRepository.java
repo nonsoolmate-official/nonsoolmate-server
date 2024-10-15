@@ -32,4 +32,6 @@ public interface CouponMemberRepository
     return findCouponIdByCouponMemberIdAndMemberId(couponMemberId, memberId)
         .orElseThrow(() -> new CouponException(INVALID_COUPON));
   }
+
+  Optional<CouponMember> findByMemberId(String memberId);
 }

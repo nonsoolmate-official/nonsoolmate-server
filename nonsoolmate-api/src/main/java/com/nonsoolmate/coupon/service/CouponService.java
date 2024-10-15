@@ -83,6 +83,12 @@ public class CouponService {
   @Transactional
   public void applyCoupon(ApplyCouponRequestDTO requestDTO, String memberId) {
 
+    Optional<CouponMember> registeredCouponMember = couponMemberRepository.findByMemberId(memberId);
+    if (registeredCouponMember.isPresent()) {
+      CouponMember couponMember = registeredCouponMember.get();
+      couponMember.updateToBeUsed(false);
+    }
+
     CouponMember couponMember =
         couponMemberRepository.findByCouponMemberIdOrThrow(requestDTO.couponMemberId());
     couponMember.updateToBeUsed(true);
