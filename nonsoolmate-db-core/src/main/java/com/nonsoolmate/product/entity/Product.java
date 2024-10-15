@@ -67,7 +67,7 @@ public class Product {
     }
 
     if (usedCoupon.isPresent()) {
-      discountAmount += (long) (productPrice - productPrice * usedCoupon.get().getDiscountRate());
+      discountAmount += (long) (productPrice * usedCoupon.get().getDiscountRate());
     }
     return discountAmount;
   }
