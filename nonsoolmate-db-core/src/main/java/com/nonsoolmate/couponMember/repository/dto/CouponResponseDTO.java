@@ -30,7 +30,7 @@ public class CouponResponseDTO {
 
   private final LocalDateTime validEndDate;
 
-  private final Boolean isUsed;
+  private final Boolean toBeUsed;
 
   @QueryProjection
   public CouponResponseDTO(
@@ -44,7 +44,7 @@ public class CouponResponseDTO {
       int ticketCount,
       LocalDateTime validStartDate,
       LocalDateTime validEndDate,
-      Boolean isUsed) {
+      Boolean toBeUsed) {
     this.couponMemberId = couponMemberId;
     this.couponName = couponName;
     this.couponDescription = couponDescription;
@@ -55,6 +55,6 @@ public class CouponResponseDTO {
     this.ticketCount = ticketCount;
     this.validStartDate = validStartDate;
     this.validEndDate = validEndDate;
-    this.isUsed = isUsed;
+    this.toBeUsed = toBeUsed;
   }
 }

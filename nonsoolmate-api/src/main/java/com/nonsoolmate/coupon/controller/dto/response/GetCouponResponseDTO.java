@@ -44,8 +44,8 @@ public class GetCouponResponseDTO {
   @Schema(description = "쿠폰 유효 종료기간", example = "2024-11-13T05:16:44.051Z")
   private final LocalDateTime validEndDate;
 
-  @Schema(description = "쿠폰 사용여부", example = "true")
-  private final Boolean isUsed;
+  @Schema(description = "쿠폰 사용여부 (실제 사용 X, 사용 예정)", example = "true")
+  private final Boolean toBeUsed;
 
   public static GetCouponResponseDTO of(CouponResponseDTO dto) {
     return new GetCouponResponseDTO(
@@ -59,6 +59,6 @@ public class GetCouponResponseDTO {
         dto.getTicketCount(),
         dto.getValidStartDate(),
         dto.getValidEndDate(),
-        dto.getIsUsed());
+        dto.getToBeUsed());
   }
 }
