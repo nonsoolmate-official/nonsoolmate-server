@@ -25,7 +25,7 @@ public class EmailService {
   @Value("${spring.mail.username}")
   private String fromEmail;
 
-  private static final String SUBJECT_STRING_TEMPLATE = "☑️ %s %s이 완료되었습니다.";
+  private static final String SUBJECT_STRING_TEMPLATE = "🔔 %s %s이 완료되었습니다.";
 
   public void sendMessageAboutExamRecordStatus(
       String email, String editingType, String examFullName) {
