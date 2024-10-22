@@ -77,4 +77,12 @@ public class Membership extends BaseTimeEntity {
   public void changeMembershipStatus(MembershipStatus status) {
     this.status = status;
   }
+
+  public boolean isExpiredMemberShip() {
+    if (this.endDate.isAfter(LocalDateTime.now())) {
+      return true;
+    }
+
+    return false;
+  }
 }

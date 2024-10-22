@@ -2,6 +2,7 @@ package com.nonsoolmate.member.repository;
 
 import static com.nonsoolmate.exception.member.MembershipExceptionType.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -35,4 +36,7 @@ public interface MembershipRepository extends JpaRepository<Membership, Long> {
   @Query(
       "SELECT m.membershipId FROM Membership m WHERE m.status = 'TERMINATED' AND m.endDate < CURRENT_DATE")
   List<Long> findExpiredMembershipIds();
+
+  List<Membership> findAllByEndDateAfterAndStatus(
+      LocalDateTime now, MembershipStatus membershipStatus);
 }
