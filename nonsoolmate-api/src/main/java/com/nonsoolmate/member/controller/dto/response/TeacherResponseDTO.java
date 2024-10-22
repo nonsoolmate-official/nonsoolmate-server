@@ -35,7 +35,11 @@ public record TeacherResponseDTO(
   }
 
   public static TeacherResponseDTO of(
-      boolean isMatched, Teacher teacher, List<TeacherUniversity> universities, List<Tag> tags) {
+      boolean isMatched,
+      String qnaLink,
+      Teacher teacher,
+      List<TeacherUniversity> universities,
+      List<Tag> tags) {
 
     if (!isMatched) {
       return new TeacherResponseDTO(false, null, null, null, null, null, null, null, null);
@@ -53,7 +57,7 @@ public record TeacherResponseDTO(
         teacher.getTeacherProfileImageUrl(),
         teacher.getIntroduction(),
         teacher.isCertified(),
-        teacher.getQnaLink(),
+        qnaLink,
         teacherUniversityDTOs,
         tagDTOs);
   }

@@ -15,7 +15,9 @@ import com.nonsoolmate.member.controller.dto.response.NameResponseDTO;
 import com.nonsoolmate.member.controller.dto.response.ProfileResponseDTO;
 import com.nonsoolmate.member.controller.dto.response.TeacherResponseDTO;
 import com.nonsoolmate.member.entity.Member;
+import com.nonsoolmate.member.entity.enums.MembershipType;
 import com.nonsoolmate.member.repository.MemberRepository;
+import com.nonsoolmate.member.repository.MembershipRepository;
 import com.nonsoolmate.payment.controller.dto.response.CustomerInfoDTO;
 import com.nonsoolmate.tag.entity.Tag;
 import com.nonsoolmate.tag.repository.TagRepository;
@@ -32,6 +34,7 @@ public class MemberService {
   private final MatchingRepository matchingRepository;
   private final TagRepository tagRepository;
   private final TeacherUniversityRepository teacherUniversityRepository;
+  private final MembershipRepository membershipRepository;
 
   public NameResponseDTO getNickname(final String memberId) {
     Member member = memberRepository.findByMemberIdOrThrow(memberId);
@@ -79,7 +82,7 @@ public class MemberService {
     Matching matching = foundMatching.get();
 
     if (matching.getTeacher() == null) {
-      return Optional.of(TeacherResponseDTO.of(false, null, null, null));
+      return Optional.of(TeacherResponseDTO.of(false, null, null, null, null));
     }
 
     Teacher teacher = matching.getTeacher();
@@ -87,6 +90,10 @@ public class MemberService {
         teacherUniversityRepository.findAllByTeacher(teacher);
     List<Tag> tags = tagRepository.findAllByTeacherId(teacher.getTeacherId());
 
-    return Optional.of(TeacherResponseDTO.of(true, teacher, teacherUniversities, tags));
+    Member member = memberRepository.findByMemberIdOrThrow(memberId);
+    MembershipType membershipType = membershipRepository.findMembershipTypeOrThrowNull(member);
+    String qnaLink = membershipType.equals(MembershipType.PREMIUM) ? teacher.getQnaLink() : null;
+
+    return Optional.of(TeacherResponseDTO.of(true, qnaLink, teacher, teacherUniversities, tags));
   }
 }
