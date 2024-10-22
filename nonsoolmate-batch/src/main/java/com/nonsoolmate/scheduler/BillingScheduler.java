@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -21,6 +22,7 @@ import com.nonsoolmate.service.BillingPaymentService;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
+@Slf4j
 public class BillingScheduler {
 
   private final OrderRepository orderRepository;
@@ -48,6 +50,10 @@ public class BillingScheduler {
 
     orders.stream()
         .filter(orderDetail -> membershipMap.containsKey(orderDetail.getMember().getMemberId()))
-        .forEach(order -> billingPaymentService.processBillingPayment(membershipMap, order));
+        .forEach(
+            order -> {
+              billingPaymentService.processBillingPayment(membershipMap, order);
+              log.info("memberId: {} payment complete", order.getMember().getMemberId());
+            });
   }
 }
