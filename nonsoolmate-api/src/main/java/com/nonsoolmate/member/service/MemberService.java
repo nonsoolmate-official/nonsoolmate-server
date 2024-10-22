@@ -91,8 +91,12 @@ public class MemberService {
     List<Tag> tags = tagRepository.findAllByTeacherId(teacher.getTeacherId());
 
     Member member = memberRepository.findByMemberIdOrThrow(memberId);
-    MembershipType membershipType = membershipRepository.findMembershipTypeOrThrowNull(member);
-    String qnaLink = membershipType.equals(MembershipType.PREMIUM) ? teacher.getQnaLink() : null;
+    Optional<MembershipType> membershipType =
+        membershipRepository.findMembershipTypeByMember(member);
+    String qnaLink =
+        membershipType.isPresent() && membershipType.get().equals(MembershipType.PREMIUM)
+            ? teacher.getQnaLink()
+            : null;
 
     return Optional.of(TeacherResponseDTO.of(true, qnaLink, teacher, teacherUniversities, tags));
   }
