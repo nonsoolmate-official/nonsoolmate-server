@@ -79,7 +79,7 @@ public class Membership extends BaseTimeEntity {
   }
 
   public boolean isExpiredMemberShip() {
-    if (this.endDate.isAfter(LocalDateTime.now())) {
+    if (this.endDate.isBefore(LocalDateTime.now())) {
       return true;
     }
 
