@@ -5,7 +5,6 @@ import java.util.List;
 import com.nonsoolmate.global.dto.TagDTO;
 import com.nonsoolmate.tag.entity.Tag;
 import com.nonsoolmate.teacher.entity.Teacher;
-import com.nonsoolmate.teacher.entity.TeacherUniversity;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 
@@ -20,25 +19,15 @@ public record TeacherResponseDTO(
     @Schema(description = "첨삭 전문 대학교", example = "") List<TeacherUniversityDTO> teacherUniversities,
     @Schema(description = "첨삭 전문 대학교", example = "") List<TagDTO> tags) {
 
-  @Schema(name = "TeacherUniversityDTO", description = "첨삭 전문 대학교 조회 응답 DTO")
-  public record TeacherUniversityDTO(
-      @Schema(description = "대학 이름", example = "논메대학교") String universityName,
-      @Schema(description = "대학 사진 url", example = "https://image.png") String universityImageUrl) {
-
-    public static TeacherUniversityDTO of(String universityName, String universityImageUrl) {
-      return new TeacherUniversityDTO(universityName, universityImageUrl);
-    }
-  }
-
   public static TeacherResponseDTO of(
-      boolean isMatched, Teacher teacher, List<TeacherUniversity> universities, List<Tag> tags) {
+      boolean isMatched,
+      Teacher teacher,
+      List<TeacherUniversityDTO> universityDTOs,
+      List<Tag> tags) {
 
     if (!isMatched) {
       return new TeacherResponseDTO(false, null, null, null, null, null, null, null);
     }
-
-    List<TeacherUniversityDTO> teacherUniversityDTOs =
-        universities.stream().map(TeacherUniversityDTO::of).toList();
 
     List<TagDTO> tagDTOs = tags.stream().map(TagDTO::of).toList();
 
@@ -49,7 +38,7 @@ public record TeacherResponseDTO(
         teacher.getTeacherProfileImageUrl(),
         teacher.getIntroduction(),
         teacher.isCertified(),
-        teacherUniversityDTOs,
+        universityDTOs,
         tagDTOs);
   }
 }
