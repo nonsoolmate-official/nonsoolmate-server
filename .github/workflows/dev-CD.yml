@@ -53,7 +53,7 @@ jobs:
         run: |
           cd nonsoolmate-batch
           docker build --platform linux/amd64 -t nonsoolmate/nonsoolmate-dev-batch --build-arg SPRING_PROFILES_ACTIVE=dev .
-          docker push nonsoolmate/nonsoolmate-batch
+          docker push nonsoolmate/nonsoolmate-dev-batch
           cd ..
 
   dev-cd:
