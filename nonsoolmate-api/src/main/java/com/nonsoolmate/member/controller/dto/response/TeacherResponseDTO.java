@@ -6,7 +6,6 @@ import com.nonsoolmate.global.dto.TagDTO;
 import com.nonsoolmate.tag.entity.Tag;
 import com.nonsoolmate.teacher.entity.Teacher;
 import com.nonsoolmate.teacher.entity.TeacherUniversity;
-import com.nonsoolmate.university.entity.University;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 
@@ -23,13 +22,11 @@ public record TeacherResponseDTO(
 
   @Schema(name = "TeacherUniversityDTO", description = "첨삭 전문 대학교 조회 응답 DTO")
   public record TeacherUniversityDTO(
-      @Schema(description = "대학 이름", example = "1") String universityName,
-      @Schema(description = "대학 사진 url", example = "1") String universityImageUrl) {
+      @Schema(description = "대학 이름", example = "논메대학교") String universityName,
+      @Schema(description = "대학 사진 url", example = "https://image.png") String universityImageUrl) {
 
-    public static TeacherUniversityDTO of(TeacherUniversity teacherUniversity) {
-      University university = teacherUniversity.getUniversity();
-      return new TeacherUniversityDTO(
-          university.getUniversityName(), university.getUniversityImageUrl());
+    public static TeacherUniversityDTO of(String universityName, String universityImageUrl) {
+      return new TeacherUniversityDTO(universityName, universityImageUrl);
     }
   }
 
