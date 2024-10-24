@@ -47,7 +47,14 @@ jobs:
           cd nonsoolmate-api
           docker build --platform linux/amd64 -t nonsoolmate/nonsoolmate-prod-server --build-arg SPRING_PROFILES_ACTIVE=prod .
           docker push nonsoolmate/nonsoolmate-prod-server
-        working-directory: ${{ env.working-directory }}
+          cd ..
+
+      - name: docker image 빌드 및 푸시 (Batch)
+        run: |
+          cd nonsoolmate-batch
+          docker build --platform linux/amd64 -t nonsoolmate/nonsoolmate-prod-batch --build-arg SPRING_PROFILES_ACTIVE=prod .
+          docker push nonsoolmate/nonsoolmate-prod-batch
+          cd ..
 
   prod-cd:
     needs: prod-ci

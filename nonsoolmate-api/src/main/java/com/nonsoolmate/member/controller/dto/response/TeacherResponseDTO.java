@@ -16,17 +16,19 @@ public record TeacherResponseDTO(
     @Schema(description = "첨삭 선생님 프로필 사진 url", example = "[url 형식]") String teacherProfileImageUrl,
     @Schema(description = "첨삭 선생님 한줄 소개", example = "안녕하세요 홍길동입니다.") String introduction,
     @Schema(description = "인증 여부", example = "true") Boolean isCertified,
+    @Schema(description = "Q&A 링크", example = "https://www.naver.com") String qnaLink,
     @Schema(description = "첨삭 전문 대학교", example = "") List<TeacherUniversityDTO> teacherUniversities,
     @Schema(description = "첨삭 전문 대학교", example = "") List<TagDTO> tags) {
 
   public static TeacherResponseDTO of(
       boolean isMatched,
       Teacher teacher,
+      String qnaLink,
       List<TeacherUniversityDTO> universityDTOs,
       List<Tag> tags) {
 
     if (!isMatched) {
-      return new TeacherResponseDTO(false, null, null, null, null, null, null, null);
+      return new TeacherResponseDTO(false, null, null, null, null, null, null, null, null);
     }
 
     List<TagDTO> tagDTOs = tags.stream().map(TagDTO::of).toList();
@@ -38,6 +40,7 @@ public record TeacherResponseDTO(
         teacher.getTeacherProfileImageUrl(),
         teacher.getIntroduction(),
         teacher.isCertified(),
+        qnaLink,
         universityDTOs,
         tagDTOs);
   }
