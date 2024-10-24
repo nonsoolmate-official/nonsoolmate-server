@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+<div class="email-container" style="max-width: 600px; margin: 0 auto; background-color: #fff;">
+    <div class="header" style="text-align: center; width: 600px; margin:0; padding: 0;">
+        <img style="height: auto; width: 100%;" src="https://res.cloudinary.com/dm8aymuzr/image/upload/v1728838004/crmjkzoouhyexsqgapzu.png" alt="nonsoolmate">
+    </div>
+    <div class="content" style="display: flex; align-items: flex-start; flex-direction: column; padding: 0 16px;">
+        <div class="content-text" style="margin-top: 48px; width: 100%; padding: 0;">
+            <h1 style="color: #000000; font-size: 15px;">🔔 <span th:text="${editingType}"></span>이 완료되었습니다</h1>
+            <hr style="border: 1px solid #E2E4E8; width: 100%;">
+            <p style="color: #000000; font-size: 16px; line-height: 1.5;">
+                <span style="margin:0; padding: 0" th:text="${examFullName}"></span>
+                시험 답안지의 <span style="margin:0; padding: 0" th:text="${editingType}"></span>이 완료되었습니다.<br><br>
+                첨삭 내용을 확인하고 다시쓰기를 통해 답안에 꼭 반영해 보세요.<br>
+                다음으로 미루지 말고, 지금 바로 확인하러 가볼까요? 👀
+            </p>
+            <a href='https://www.nonsoolmate.com/home/test' style="text-decoration: none; display: inline-block; margin-top: 24px; margin-bottom: 48px; padding: 12px 24px; background: #6478FF; border-radius: 8px; text-align: left; color: #ffffff; border: 0; outline: 0;">논술메이트 바로가기</a>
+        </div>
+    </div>
+    <div style="background-color: #F3F4F6; color : #9196A7; padding: 16px; margin: 0; font-weight: 500; font-size: 12px; line-height: 150%;">
+        <p style="margin: 0; padding: 0;">논술메이트<br>nonsoolmate@gmail.com</p>
+    </div>
+</div>
+</body>
+</html>

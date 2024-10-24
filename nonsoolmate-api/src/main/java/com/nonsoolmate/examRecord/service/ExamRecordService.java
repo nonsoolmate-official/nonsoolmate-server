@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.nonsoolmate.aws.service.CloudFrontService;
 import com.nonsoolmate.aws.service.S3Service;
 import com.nonsoolmate.examRecord.controller.dto.request.CreateExamRecordRequestDTO;
+import com.nonsoolmate.examRecord.controller.dto.request.UpdateExamRecordResultRequestDTO;
 import com.nonsoolmate.examRecord.controller.dto.response.EditingResultDTO;
 import com.nonsoolmate.examRecord.controller.dto.response.ExamRecordIdResponse;
 import com.nonsoolmate.examRecord.entity.ExamRecord;
@@ -23,6 +24,8 @@ import com.nonsoolmate.exception.aws.AWSClientException;
 import com.nonsoolmate.exception.examRecord.ExamRecordException;
 import com.nonsoolmate.exception.member.MemberException;
 import com.nonsoolmate.exception.university.ExamException;
+import com.nonsoolmate.global.event.EmailEventListener;
+import com.nonsoolmate.global.event.ExamRecordStatusUpdatedEvent;
 import com.nonsoolmate.member.entity.Member;
 import com.nonsoolmate.member.repository.MemberRepository;
 import com.nonsoolmate.university.entity.Exam;
@@ -39,6 +42,7 @@ public class ExamRecordService {
 
   private final CloudFrontService cloudFrontService;
   private final S3Service s3Service;
+  private final EmailEventListener emailEventListener;
 
   private static final String EXAM_RECORD_RESULT_FILE_NAME_EMPTY = "";
 
@@ -86,6 +90,35 @@ public class ExamRecordService {
       s3Service.deleteFile(EXAM_SHEET_FOLDER_NAME, request.memberSheetFileName());
       throw new ExamRecordException(CREATE_EXAM_RECORD_FAIL);
     }
+  }
+
+  @Transactional
+  public EditingResultDTO updateExamRecordEditingResult(
+      final UpdateExamRecordResultRequestDTO request) {
+    ExamRecord examRecord =
+        examRecordRepository.findByExamAndMemberAndEditingTypeOrThrow(
+            request.examId(), request.editingType(), request.memberId());
+    examRecord.updateExamRecordResultFileName(request.examResultFileName());
+
+    boolean isReviewOngoing = examRecord.getExamResultStatus() == ExamResultStatus.REVIEW_ONGOING;
+
+    if (isReviewOngoing) {
+      examRecord.updateExamResultStatus(ExamResultStatus.REVIEW_FINISH);
+    } else {
+      examRecord.updateExamResultStatus(ExamResultStatus.RE_REVIEW_FINISH);
+    }
+
+    String email = examRecord.getMember().getEmail();
+    String editingType = examRecord.getEditingType().getType();
+    String examFullName = examRecord.getExam().getExamFullName();
+
+    emailEventListener.publishExamRecordStatusUpdatedEvent(
+        ExamRecordStatusUpdatedEvent.of(email, editingType, examFullName));
+
+    return EditingResultDTO.of(
+        request.editingType(),
+        examRecord.getExamResultStatus().getStatus(),
+        getExamResultFileUrl(examRecord.getExamRecordResultFileName()));
   }
 
   void validateExistEditingExamRecord(final Exam exam, final Member member) {

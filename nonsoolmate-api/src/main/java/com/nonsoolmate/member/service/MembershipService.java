@@ -47,6 +47,7 @@ public class MembershipService {
     return MembershipAndTicketResponseDTO.of(
         member.getName(),
         membershipType,
+        member.getGender(),
         member.getReviewTicketCount(),
         member.getReReviewTicketCount());
   }
@@ -132,6 +133,7 @@ public class MembershipService {
             totalPrice));
   }
 
+  @Transactional
   public MembershipStatusResponseDTO changeMembershipStatus(
       final String memberId, final MembershipStatusRequestDTO request) {
     Member member = memberRepository.findByMemberIdOrThrow(memberId);

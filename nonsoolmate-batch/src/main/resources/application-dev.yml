@@ -2,16 +2,6 @@ spring:
   config:
     import: application-secret.properties
 
-  web:
-    origin:
-      server: ${SERVER_ORIGIN}
-      server-test: ${SERVER_TEST_ORIGIN}
-      client: ${CLIENT_ORIGIN}
-      client-test: ${CLIENT_TEST_ORIGIN}
-      client-local: ${CLIENT_LOCAL_ORIGIN}
-    resources:
-      add-mappings: false
-
   security:
     oauth2:
       client:
@@ -26,30 +16,22 @@ spring:
             path: ${OAUTH2_NAVER_TOKEN_URI_PATH}
 
   datasource:
-    driver-class-name: org.h2.Driver
-    url: jdbc:h2:mem:nonsoolmate-local-db;DATABASE_TO_UPPER=FALSE;mode=mysql  # H2 접속 정보 (전부 소문자로 지정)
-    username: sa
-    password:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: ${DEV_DB_URL}
+    username: ${DEV_DB_HOST}
+    password: ${DEV_DB_PASSWORD}
   jpa:
+    show-sql: true
     hibernate:
-      ddl-auto: create
+      ddl-auto: validate
     properties:
       hibernate:
         format_sql: true
-        show_sql: true
     open-in-view: false
-  sql:
-    init:
-      mode: never
   data:
     redis:
-      host: localhost
+      host: redis
       port: 6379
-
-  h2:
-    console:
-      enabled: true
-      path: /h2-console
 
   mail:
     host: smtp.naver.com
@@ -71,15 +53,6 @@ aws-property:
   distribution-domain: ${DEV_AWS_DISTRIBUTION_DOMAIN}
   private-key-file-path: ${DEV_AWS_PRIVATE_KEY_FILE_PATH}
   key-pair-id: ${DEV_AWS_KEY_PAIR_ID}
-
-jwt:
-  secretKey: ${DEV_JWT_SECRET_KEY}
-  access:
-    expiration: ${JWT_ACCESS_TOKEN_EXPIRE_TIME}
-    header: ${JWT_ACCESS_TOKEN_HEADER}
-  refresh:
-    expiration: ${JWT_REFRESH_TOKEN_EXPIRE_TIME}
-    header: ${JWT_REFRESH_TOKEN_HEADER}
 
 management:
   endpoints:

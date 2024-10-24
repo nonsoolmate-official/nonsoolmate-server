@@ -32,10 +32,12 @@ public class CouponMemberCustomRepositoryImpl implements CouponMemberCustomRepos
                 coupon.discountAmount,
                 coupon.ticketCount,
                 coupon.validStartDate,
-                coupon.validEndDate,
-                couponMember.isUsed))
+                coupon.validEndDate))
         .from(couponMember)
-        .where(couponMember.memberId.eq(memberId))
+        .where(
+            couponMember.memberId.eq(memberId),
+            couponMember.isUsed.eq(false),
+            couponMember.toBeUsed.eq(false))
         .leftJoin(coupon)
         .on(couponMember.couponId.eq(coupon.couponId))
         .fetch();

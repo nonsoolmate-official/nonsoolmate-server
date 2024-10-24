@@ -47,6 +47,14 @@ jobs:
           cd nonsoolmate-api
           docker build --platform linux/amd64 -t nonsoolmate/nonsoolmate-server --build-arg SPRING_PROFILES_ACTIVE=dev .
           docker push nonsoolmate/nonsoolmate-server
+          cd ..
+
+      - name: docker image 빌드 및 푸시 (Batch)
+        run: |
+          cd nonsoolmate-batch
+          docker build --platform linux/amd64 -t nonsoolmate/nonsoolmate-dev-batch --build-arg SPRING_PROFILES_ACTIVE=dev .
+          docker push nonsoolmate/nonsoolmate-dev-batch
+          cd ..
 
   dev-cd:
     needs: dev-ci

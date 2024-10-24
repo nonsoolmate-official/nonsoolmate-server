@@ -2,6 +2,18 @@ spring:
   config:
     import: application-secret.properties
 
+  security:
+    oauth2:
+      client:
+        naver:
+          client-id: ${PROD_OAUTH2_NAVER_ID}
+          client-secret: ${PROD_OAUTH2_NAVER_SECRET}
+          redirect-uri: ${OAUTH2_NAVER_REDIRECT_URL}
+          state: ${OAUTH2_NAVER_STATE}
+          user-info-uri: ${OAUTH2_NAVER_USER_INFO_URL}
+          token-uri:
+            host: ${OAUTH2_NAVER_TOKEN_URI_HOST}
+            path: ${OAUTH2_NAVER_TOKEN_URI_PATH}
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: ${PROD_DB_URL}
@@ -19,18 +31,18 @@ spring:
     redis:
       host: redis
       port: 6379
-  security:
-    oauth2:
-      client:
-        naver:
-          client-id: ${PROD_OAUTH2_NAVER_ID}
-          client-secret: ${PROD_OAUTH2_NAVER_SECRET}
-          redirect-uri: ${OAUTH2_NAVER_REDIRECT_URL}
-          state: ${OAUTH2_NAVER_STATE}
-          user-info-uri: ${OAUTH2_NAVER_USER_INFO_URL}
-          token-uri:
-            host: ${OAUTH2_NAVER_TOKEN_URI_HOST}
-            path: ${OAUTH2_NAVER_TOKEN_URI_PATH}
+
+  mail:
+    host: smtp.naver.com
+    port: ${SMTP_PORT}
+    username: ${SMTP_USERNAME}
+    password: ${SMTP_PASSWORD}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
 
 aws-property:
   access-key: ${PROD_AWS_ACCESS_KEY}
@@ -47,10 +59,6 @@ management:
   endpoint:
     health:
       enabled: true
-
-logging:
-  discord:
-    webhook-uri: ${PROD_DISCORD_WEB_HOOK_URL}
 
 toss:
   billing:

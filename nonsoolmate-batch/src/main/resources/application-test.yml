@@ -2,16 +2,6 @@ spring:
   config:
     import: application-secret.properties
 
-  web:
-    origin:
-      server: ${SERVER_ORIGIN}
-      server-test: ${SERVER_TEST_ORIGIN}
-      client: ${CLIENT_ORIGIN}
-      client-test: ${CLIENT_TEST_ORIGIN}
-      client-local: ${CLIENT_LOCAL_ORIGIN}
-    resources:
-      add-mappings: false
-
   security:
     oauth2:
       client:
@@ -71,15 +61,6 @@ aws-property:
   distribution-domain: ${DEV_AWS_DISTRIBUTION_DOMAIN}
   private-key-file-path: ${DEV_AWS_PRIVATE_KEY_FILE_PATH}
   key-pair-id: ${DEV_AWS_KEY_PAIR_ID}
-
-jwt:
-  secretKey: ${DEV_JWT_SECRET_KEY}
-  access:
-    expiration: ${JWT_ACCESS_TOKEN_EXPIRE_TIME}
-    header: ${JWT_ACCESS_TOKEN_HEADER}
-  refresh:
-    expiration: ${JWT_REFRESH_TOKEN_EXPIRE_TIME}
-    header: ${JWT_REFRESH_TOKEN_HEADER}
 
 management:
   endpoints:

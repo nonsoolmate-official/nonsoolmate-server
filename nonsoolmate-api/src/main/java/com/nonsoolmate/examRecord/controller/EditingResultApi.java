@@ -1,9 +1,12 @@
 package com.nonsoolmate.examRecord.controller;
 
+import jakarta.validation.Valid;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.nonsoolmate.examRecord.controller.dto.request.UpdateExamRecordResultRequestDTO;
 import com.nonsoolmate.examRecord.controller.dto.response.EditingResultDTO;
 import com.nonsoolmate.examRecord.entity.enums.EditingType;
 import com.nonsoolmate.global.security.AuthMember;
@@ -35,4 +38,16 @@ public interface EditingResultApi {
           @RequestParam("type")
           final EditingType type,
       @Parameter(hidden = true) @AuthMember final String memberId);
+
+  @ApiResponses(
+      value = {
+        @ApiResponse(responseCode = "200"),
+        @ApiResponse(
+            responseCode = "404",
+            description = "존재하지 않는 시험 응시 기록입니다",
+            content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
+      })
+  ResponseEntity<EditingResultDTO> updateExamRecordResult(
+      @Parameter(description = "첨삭 결과 등록 request") @Valid
+          final UpdateExamRecordResultRequestDTO request);
 }

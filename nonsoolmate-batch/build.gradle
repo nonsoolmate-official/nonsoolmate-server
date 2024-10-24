@@ -1,8 +1,8 @@
-bootJar {
+jar {
 	enabled = false
 }
 
-jar {
+bootJar {
 	enabled = true
 }
 
