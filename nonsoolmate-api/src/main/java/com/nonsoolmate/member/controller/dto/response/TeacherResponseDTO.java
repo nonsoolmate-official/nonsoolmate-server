@@ -18,7 +18,7 @@ public record TeacherResponseDTO(
     @Schema(description = "인증 여부", example = "true") Boolean isCertified,
     @Schema(description = "Q&A 링크", example = "https://www.naver.com") String qnaLink,
     @Schema(description = "첨삭 전문 대학교", example = "") List<TeacherUniversityDTO> teacherUniversities,
-    @Schema(description = "첨삭 전문 대학교", example = "") List<TagDTO> tags) {
+    @Schema(description = "선생님 관련 태그", example = "") List<TagDTO> tags) {
 
   public static TeacherResponseDTO of(
       boolean isMatched,
