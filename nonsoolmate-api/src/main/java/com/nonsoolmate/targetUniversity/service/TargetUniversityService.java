@@ -1,5 +1,7 @@
 package com.nonsoolmate.targetUniversity.service;
 
+import static com.nonsoolmate.aws.FolderName.UNIVERSITY_IMAGE_FOLDER_NAME;
+
 import java.util.List;
 
 import lombok.RequiredArgsConstructor;
@@ -7,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.nonsoolmate.aws.service.CloudFrontService;
 import com.nonsoolmate.member.entity.Member;
 import com.nonsoolmate.member.repository.MemberRepository;
 import com.nonsoolmate.targetUniversity.controller.dto.request.TargetUniversityRequestDTO;
@@ -23,11 +26,22 @@ public class TargetUniversityService {
   private final UniversityRepository universityRepository;
   private final TargetUniversityRepository targetUniversityRepository;
   private final MemberRepository memberRepository;
+  private final CloudFrontService cloudFrontService;
 
   public List<TargetUniversityResponseDTO> getTargetUniversities() {
     List<University> universities = universityRepository.findAll();
 
-    return universities.stream().map(TargetUniversityResponseDTO::of).toList();
+    return universities.stream()
+        .map(
+            university -> {
+              String universityName = university.getUniversityName();
+              String preSignedUrl =
+                  cloudFrontService.createPreSignedGetUrl(
+                      UNIVERSITY_IMAGE_FOLDER_NAME, university.getUniversityImageUrl());
+              return TargetUniversityResponseDTO.of(
+                  university.getUniversityId(), universityName, preSignedUrl);
+            })
+        .toList();
   }
 
   @Transactional
